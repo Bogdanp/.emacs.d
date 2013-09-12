@@ -106,6 +106,10 @@
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 
+;;; Undo
+;;; ~~~~
+(setq undo-tree-auto-save-history t)
+
 ;;; Line editing
 ;;; ~~~~~~~~~~~~
 (setq evil-default-cursor t)
