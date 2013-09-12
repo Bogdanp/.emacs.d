@@ -112,6 +112,8 @@
 
 ;;; Line editing
 ;;; ~~~~~~~~~~~~
+(blink-cursor-mode 1)
+
 (setq evil-default-cursor t)
 
 ;;; Highlight current line.
