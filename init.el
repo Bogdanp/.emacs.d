@@ -25,6 +25,7 @@
        rainbow-mode
        scala-mode2
        smex
+       starter-kit
        twilight-theme
        undo-tree))
 
