@@ -9,8 +9,7 @@
 
 ;;; Set-up and load packages.
 (setq my-packages
-     '(coffee-mode
-       dired+
+     '(dired+
        evil
        flymake-easy
        goto-last-change
