@@ -17,6 +17,7 @@
        goto-last-change
        ido-ubiquitous
        jedi
+       jinja2-mode
        linum-relative
        magit
        markdown-mode
