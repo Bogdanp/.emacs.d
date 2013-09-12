@@ -103,10 +103,6 @@
 ;;; Make sure the cursor is white.
 (set-cursor-color "#ffffff")
 
-;;; Parentheses
-;;; ~~~~~~~~~~~
-(show-paren-mode 1)
-
 ;;; Backups
 ;;; ~~~~~~~
 (setq make-backup-files nil)
