@@ -108,6 +108,10 @@
 ;;; Make sure the cursor is white.
 (set-cursor-color "#ffffff")
 
+;;; Parantheses
+;;; ~~~~~~~~~~~
+(global-rainbow-delimiters-mode t)
+
 ;;; Backups
 ;;; ~~~~~~~
 (setq make-backup-files nil)
