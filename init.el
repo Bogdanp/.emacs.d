@@ -16,18 +16,14 @@
        flymake-easy
        git-gutter
        goto-last-change
-       ido-ubiquitous
        jedi
        jinja2-mode
        linum-relative
-       magit
        markdown-mode
        monky
-       paredit
        rainbow-delimiters
        rainbow-mode
        scala-mode2
-       smex
        starter-kit
        twilight-theme
        undo-tree))
