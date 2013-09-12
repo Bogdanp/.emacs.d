@@ -28,6 +28,9 @@
        twilight-theme
        undo-tree))
 
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
 (mapc
  (lambda (package)
    (or (package-installed-p package)
