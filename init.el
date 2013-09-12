@@ -12,6 +12,7 @@
      '(auto-complete
        dired+
        evil
+       flymake-cursor
        flymake-easy
        git-gutter
        goto-last-change
