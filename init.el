@@ -26,7 +26,8 @@
        scala-mode2
        starter-kit
        twilight-theme
-       undo-tree))
+       undo-tree
+       yaml-mode))
 
 (when (not package-archive-contents)
   (package-refresh-contents))
