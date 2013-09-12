@@ -84,6 +84,7 @@
 ;;; Auto completion
 ;;; ~~~~~~~~~~~~~~~
 (global-auto-complete-mode t)
+
 (setq ac-auto-start nil)
 
 (ac-set-trigger-key "TAB")
