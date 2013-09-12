@@ -9,7 +9,8 @@
 
 ;;; Set-up and load packages.
 (setq my-packages
-     '(dired+
+     '(auto-complete
+       dired+
        evil
        flymake-easy
        goto-last-change
