@@ -60,6 +60,8 @@
 
 ;;; Flymake
 ;;; ~~~~~~~
+(add-hook 'find-file-hook 'flymake-find-file-hook)
+
 ;;; Load pycheckers.
 (when (load "flymake" t)
   (defun flymake-pylint-init ()
