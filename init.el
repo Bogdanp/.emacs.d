@@ -13,6 +13,7 @@
        dired+
        evil
        flymake-easy
+       git-gutter
        goto-last-change
        ido-ubiquitous
        jedi
@@ -54,6 +55,10 @@
 
 ;;; Add C-w shortcut.
 (global-set-key (kbd "C-w") 'backward-kill-word)
+
+;;; Git
+;;; ~~~
+(global-git-gutter-mode t)
 
 ;;; Scala mode
 ;;; ~~~~~~~~~~
