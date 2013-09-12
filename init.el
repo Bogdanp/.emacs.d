@@ -16,6 +16,7 @@
        goto-last-change
        ido-ubiquitous
        jedi
+       linum-relative
        magit
        markdown-mode
        monky
