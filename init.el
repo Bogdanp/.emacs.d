@@ -103,7 +103,10 @@ vice-versa).
   (interactive)
   (let* ((fp (buffer-file-name))
          (np (scala-test-toggle-path fp)))
-    (if np (find-file np)
+    (if np
+        (progn
+          (mkdir (file-name-directory fp) t)
+          (find-file np))
       (message "Could not determine correct path"))))
 
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
