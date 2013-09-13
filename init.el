@@ -69,8 +69,6 @@
 
 ;; Flymake
 ;; ~~~~~~~
-(add-hook 'find-file-hook 'flymake-find-file-hook)
-
 ;; Load pycheckers.
 (when (load "flymake" t)
   (defun flymake-pylint-init ()
@@ -82,6 +80,12 @@
 
   (add-to-list 'flymake-allowed-file-name-masks
                '("\\.py\\'" flymake-pylint-init)))
+
+(add-hook 'python-mode-hook
+          (lambda ()
+            (unless (eq buffer-file-name nil) (flymake-mode 1))
+            (local-set-key (kbd "M-p") 'flymake-goto-prev-error)
+            (local-set-key (kbd "M-n") 'flymake-goto-next-error)))
 
 ;; Fonts
 ;; ~~~~~
