@@ -61,7 +61,44 @@
 ;; ~~~~~
 (require 'ensime)
 
+(defun scala-test-toggle-path (fp)
+  (flet ((m (s) (string-match-p s fp))
+         (rs (s r) (replace-regexp-in-string
+                    "Spec\.scala$" ".scala"
+                    (replace-regexp-in-string s r fp)))
+         (rt (s r) (replace-regexp-in-string
+                    "\.scala$" "Spec.scala"
+                    (replace-regexp-in-string s r fp)))
+
+         (mvn-source-p  () (m "/src/main/scala/.*.scala"))
+         (mvn-test-p    () (m "/src/test/scala/.*.scala"))
+
+         (play-source-p () (m "/app/.*.scala"))
+         (play-test-p   () (m "/test/.*.scala"))
+
+         (mvn-test-to-source  () (rs "/src/test/" "/src/main/"))
+         (mvn-source-to-test  () (rt "/src/main/" "/src/test/"))
+
+         (play-test-to-source () (rs "/test/" "/app/"))
+         (play-source-to-test () (rt "/app/" "/test/")))
+
+    (cond ((mvn-source-p) (mvn-source-to-test))
+          ((mvn-test-p) (mvn-test-to-source))
+          ((play-source-p) (play-source-to-test))
+          ((play-test-p) (play-test-to-source))
+          (t nil))))
+
+(defun scala-toggle-test ()
+  (interactive)
+  (let* ((fp (buffer-file-name))
+         (np (scala-test-toggle-path fp)))
+    (if np (find-file np)
+      (message "Could not determine correct path"))))
+
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+(add-hook 'scala-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c t") 'scala-toggle-test)))
 
 ;; Haskell
 ;; ~~~~~~~
