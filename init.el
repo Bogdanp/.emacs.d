@@ -62,13 +62,23 @@
 (require 'ensime)
 
 (defun scala-test-toggle-path (fp)
+  "Test whether FP is one of '(mvn-source mvn-test play-source
+play-test) and transform it into its pair (source to test and
+vice-versa).
+
+  (scala-test-toggle-path
+    \"/home/Users/bogdan/sandbox/foo/src/main/scala/Main.scala\")
+    => \"/home/Users/bogdan/sandbox/foo/src/test/scala/MainSpec.scala\"
+
+  (scala-test-toggle-path
+    \"/home/Users/bogdan/sandbox/foo/src/test/scala/MainSpec.scala\")
+    => \"/home/Users/bogdan/sandbox/foo/src/main/scala/Main.scala\""
+
   (flet ((m (s) (string-match-p s fp))
-         (rs (s r) (replace-regexp-in-string
-                    "Spec\.scala$" ".scala"
-                    (replace-regexp-in-string s r fp)))
-         (rt (s r) (replace-regexp-in-string
-                    "\.scala$" "Spec.scala"
-                    (replace-regexp-in-string s r fp)))
+
+         (rg (s r) (replace-regexp-in-string s r fp))
+         (rs (s r) (replace-regexp-in-string "Spec\.scala$" ".scala" (rg s r)))
+         (rt (s r) (replace-regexp-in-string "\.scala$" "Spec.scala" (rg s r)))
 
          (mvn-source-p  () (m "/src/main/scala/.*.scala"))
          (mvn-test-p    () (m "/src/test/scala/.*.scala"))
@@ -89,6 +99,7 @@
           (t nil))))
 
 (defun scala-toggle-test ()
+  "Toggle between a Scala spec file and its implementation."
   (interactive)
   (let* ((fp (buffer-file-name))
          (np (scala-test-toggle-path fp)))
@@ -165,7 +176,6 @@
 
 ;; Parentheses
 ;; ~~~~~~~~~~~
-(paredit-mode t)
 (global-rainbow-delimiters-mode t)
 
 ;; Backups
