@@ -14,8 +14,10 @@
        evil
        flymake-cursor
        flymake-easy
+       ghc
        git-gutter
        goto-last-change
+       haskell-mode
        jedi
        jinja2-mode
        linum-relative
@@ -71,6 +73,11 @@
 ;;; ~~~~~~~~~~
 (require 'ensime)
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
+
+;;; Haskell
+;;; ~~~~~~~
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
 ;;; Flymake
 ;;; ~~~~~~~
