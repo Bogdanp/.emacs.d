@@ -9,10 +9,10 @@
 
 ;; Set-up and load packages.
 (setq my-packages
-     '(auto-complete dired+ evil expand-region flymake-cursor
-       flymake-easy ghc git-gutter goto-last-change haskell-mode jedi
-       jinja2-mode linum-relative markdown-mode monky
-       rainbow-delimiters rainbow-mode scala-mode2 starter-kit
+     '(ace-jump-mode auto-complete dired+ evil expand-region
+       flymake-cursor flymake-easy ghc git-gutter goto-last-change
+       haskell-mode jedi jinja2-mode linum-relative markdown-mode
+       monky rainbow-delimiters rainbow-mode scala-mode2 starter-kit
        twilight-theme undo-tree yaml-mode))
 
 ;; Refresh packages on first run.
@@ -147,6 +147,7 @@
 
 ;; EVIL bindings
 ;; ~~~~~~~~~~~~~
+(define-key evil-normal-state-map ",," 'ace-jump-mode)
 (define-key evil-normal-state-map ",r" 'er/expand-region)
 (define-key evil-normal-state-map ",p" 'flymake-goto-prev-error)
 (define-key evil-normal-state-map ",n" 'flymake-goto-next-error)
