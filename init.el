@@ -126,8 +126,9 @@
 ;; Make sure the cursor is white.
 (set-cursor-color "#ffffff")
 
-;; Parantheses
+;; Parentheses
 ;; ~~~~~~~~~~~
+(paredit-mode t)
 (global-rainbow-delimiters-mode t)
 
 ;; Backups
