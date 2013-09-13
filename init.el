@@ -1,5 +1,5 @@
-;;; Package archives
-;;; ~~~~~~~~~~~~~~~~
+;; Package archives
+;; ~~~~~~~~~~~~~~~~
 (require 'package)
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/") t)
@@ -7,7 +7,7 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
-;;; Set-up and load packages.
+;; Set-up and load packages.
 (setq my-packages
      '(auto-complete
        dired+
@@ -31,59 +31,63 @@
        undo-tree
        yaml-mode))
 
+;; Refresh packages on first run.
 (when (not package-archive-contents)
   (package-refresh-contents))
 
+;; Install all packages that aren't already installed.
 (mapc
  (lambda (package)
    (or (package-installed-p package)
        (package-install package)))
   my-packages)
 
+;; `require` all packages.
 (mapc
  (lambda (package)
    (require package))
   my-packages)
 
-;;; Load ENSIME package.
+;; Load ENSIME package.
 (add-to-list 'load-path "~/.emacs.d/packages/ensime/elisp/")
 
-;;; Jedi
-;;; ~~~~
+;; Jedi
+;; ~~~~
 (add-hook 'python-mode-hook 'jedi:setup)
 
 (setq jedi:complete-on-dot t)
 (setq jedi:tooltip-method nil)
 
-;;; VIM emulation
-;;; ~~~~~~~~~~~~~
+;; VIM emulation
+;; ~~~~~~~~~~~~~
 (evil-mode 1)
 
-;;; Add C-w shortcut.
+;; Add C-w shortcut.
 (global-set-key (kbd "C-w") 'backward-kill-word)
 
-;;; Git
-;;; ~~~
+;; Git
+;; ~~~
 (global-git-gutter-mode t)
 
-;;; Hide gutter if there are no changes.
+;; Hide gutter if there are no changes.
 (setq git-gutter:hide-gutter t)
 
-;;; Scala mode
-;;; ~~~~~~~~~~
+;; Scala
+;; ~~~~~
 (require 'ensime)
+
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 
-;;; Haskell
-;;; ~~~~~~~
+;; Haskell
+;; ~~~~~~~
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
-;;; Flymake
-;;; ~~~~~~~
+;; Flymake
+;; ~~~~~~~
 (add-hook 'find-file-hook 'flymake-find-file-hook)
 
-;;; Load pycheckers.
+;; Load pycheckers.
 (when (load "flymake" t)
   (defun flymake-pylint-init ()
     (let* ((temp-file (flymake-init-create-temp-buffer-copy
@@ -95,16 +99,16 @@
   (add-to-list 'flymake-allowed-file-name-masks
                '("\\.py\\'" flymake-pylint-init)))
 
-;;; Fonts
-;;; ~~~~~
+;; Fonts
+;; ~~~~~
 (set-default-font "Inconsolata-15")
 
-;;; Themes
-;;; ~~~~~~
+;; Themes
+;; ~~~~~~
 (load-theme 'twilight t)
 
-;;; Auto completion
-;;; ~~~~~~~~~~~~~~~
+;; Auto completion
+;; ~~~~~~~~~~~~~~~
 (global-auto-complete-mode t)
 
 (setq ac-auto-start nil)
@@ -114,33 +118,33 @@
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
 
-;;; Undo
-;;; ~~~~
+;; Undo
+;; ~~~~
 (setq undo-tree-auto-save-history t)
 
-;;; Line editing
-;;; ~~~~~~~~~~~~
+;; Line editing
+;; ~~~~~~~~~~~~
 (blink-cursor-mode 1)
 
 (setq evil-default-cursor t)
 
-;;; Highlight current line.
+;; Highlight current line.
 (global-hl-line-mode t)
 
-;;; Don't wrap long lines.
+;; Don't wrap long lines.
 (setq-default truncate-lines t)
 
-;;; Make sure the cursor is white.
+;; Make sure the cursor is white.
 (set-cursor-color "#ffffff")
 
-;;; Parantheses
-;;; ~~~~~~~~~~~
+;; Parantheses
+;; ~~~~~~~~~~~
 (global-rainbow-delimiters-mode t)
 
-;;; Backups
-;;; ~~~~~~~
+;; Backups
+;; ~~~~~~~
 (setq make-backup-files nil)
 
-;;; Misc
-;;; ~~~~
+;; Misc
+;; ~~~~
 (setq exec-path (append exec-path (list "/usr/local/bin")))
