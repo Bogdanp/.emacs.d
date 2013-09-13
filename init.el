@@ -140,6 +140,7 @@
 ;; Bindings
 ;; ~~~~~~~~
 (global-set-key (kbd "C-c m") 'magit-status)
+(global-set-key (kbd "C-c M") 'monky-status)
 (global-set-key (kbd "C-c g") 'multi-occur-in-matching-buffers)
 (global-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
 (global-set-key (kbd "C-c f n") 'flymake-goto-next-error)
