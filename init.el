@@ -140,7 +140,8 @@
 (global-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
 (global-set-key (kbd "C-c f n") 'flymake-goto-next-error)
 
-;; EVIL bindings.
+;; EVIL bindings
+;; ~~~~~~~~~~~~~
 (define-key evil-normal-state-map ",p" 'flymake-goto-prev-error)
 (define-key evil-normal-state-map ",n" 'flymake-goto-next-error)
 
