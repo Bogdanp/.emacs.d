@@ -7,6 +7,10 @@
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
+;; Refresh packages on first run.
+(when (not package-archive-contents)
+  (package-refresh-contents))
+
 ;; Set-up and load packages.
 (defconst my-packages
   '(ace-jump-mode auto-complete dired+ evil expand-region
@@ -15,10 +19,6 @@
     rainbow-delimiters rainbow-mode scala-mode2 starter-kit
     twilight-theme undo-tree yaml-mode)
   "A list of packages that must be installed and loaded.")
-
-;; Refresh packages on first run.
-(when (not package-archive-contents)
-  (package-refresh-contents))
 
 ;; Install all packages that aren't already installed.
 (mapc
@@ -47,9 +47,6 @@
 ;; ~~~~~~~~~~~~~
 (evil-mode 1)
 
-;; Add C-w shortcut.
-(global-set-key (kbd "C-w") 'backward-kill-word)
-
 ;; Git
 ;; ~~~
 (global-git-gutter-mode t)
@@ -61,16 +58,16 @@
 ;; ~~~~~
 (require 'ensime)
 
-(defun scala-test-toggle-path (fp)
+(defun scala:test-toggle-path (fp)
   "Test whether FP is one of '(mvn-source mvn-test play-source
 play-test) and transform it into its pair (source to test and
 vice-versa).
 
-  (scala-test-toggle-path
+  (scala:test-toggle-path
     \"/home/Users/bogdan/sandbox/foo/src/main/scala/Main.scala\")
     => \"/home/Users/bogdan/sandbox/foo/src/test/scala/MainSpec.scala\"
 
-  (scala-test-toggle-path
+  (scala:test-toggle-path
     \"/home/Users/bogdan/sandbox/foo/src/test/scala/MainSpec.scala\")
     => \"/home/Users/bogdan/sandbox/foo/src/main/scala/Main.scala\""
 
@@ -98,11 +95,11 @@ vice-versa).
           ((play-test-p) (play-test-to-source))
           (t nil))))
 
-(defun scala-toggle-test ()
+(defun scala:toggle-test ()
   "Toggle between a Scala spec file and its implementation."
   (interactive)
   (let* ((fp (buffer-file-name))
-         (np (scala-test-toggle-path fp)))
+         (np (scala:test-toggle-path fp)))
     (if np
         (progn
           (mkdir (file-name-directory fp) t)
@@ -112,7 +109,7 @@ vice-versa).
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 (add-hook 'scala-mode-hook
           (lambda ()
-            (local-set-key (kbd "C-c t") 'scala-toggle-test)))
+            (local-set-key (kbd "C-c t") 'scala:toggle-test)))
 
 ;; Haskell
 ;; ~~~~~~~
@@ -151,12 +148,11 @@ vice-versa).
 ;; ~~~~~~~~~~~~~~~
 (global-auto-complete-mode t)
 
+;; Don't start automatically (causes SERIOUS performance issues on
+;; large Python files (> 1k LOC)).
 (setq ac-auto-start nil)
 
 (ac-set-trigger-key "TAB")
-
-(define-key ac-complete-mode-map "\C-n" 'ac-next)
-(define-key ac-complete-mode-map "\C-p" 'ac-previous)
 
 ;; Undo
 ;; ~~~~
@@ -166,16 +162,17 @@ vice-versa).
 ;; ~~~~~~~~~~~~
 (blink-cursor-mode 1)
 
+;; Make the cursor customizable again.
 (setq evil-default-cursor t)
 
 ;; Highlight current line.
 (global-hl-line-mode t)
 
-;; Don't wrap long lines.
-(setq-default truncate-lines t)
-
 ;; Make sure the cursor is white.
 (set-cursor-color "#ffffff")
+
+;; Don't wrap long lines.
+(setq-default truncate-lines t)
 
 ;; Parentheses
 ;; ~~~~~~~~~~~
@@ -191,11 +188,17 @@ vice-versa).
 
 ;; Bindings
 ;; ~~~~~~~~
+(global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c M") 'monky-status)
 (global-set-key (kbd "C-c g") 'multi-occur-in-matching-buffers)
 (global-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
 (global-set-key (kbd "C-c f n") 'flymake-goto-next-error)
+
+;; Auto completion bindings
+;; ~~~~~~~~~~~~~~~~~~~~~~~~
+(define-key ac-complete-mode-map "\C-n" 'ac-next)
+(define-key ac-complete-mode-map "\C-p" 'ac-previous)
 
 ;; EVIL bindings
 ;; ~~~~~~~~~~~~~
