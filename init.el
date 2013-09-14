@@ -126,16 +126,29 @@ vice-versa).
     (forward-char)
     (thing-at-point 'word)))
 
+(defun html:do-insert-closing-tag (&optional nl)
+  "Closes the current HTML tag after the point."
+  (let ((tag (html:current-tag)))
+    (save-excursion
+      (if nl (newline-and-indent))
+      (insert (format "</%s>" tag))
+      (if nl (indent-according-to-mode)))))
+
 (defun html:insert-closing-tag ()
   "Closes the current HTML tag after the point."
   (interactive)
-  (let ((tag (html:current-tag)))
-    (save-excursion
-      (insert (format "</%s>" tag)))))
+  (html:do-insert-closing-tag))
+
+(defun html:insert-closing-tag-nl ()
+  "Closes the current HTML tag after the point. Adds a newline before
+the closing tag."
+  (interactive)
+  (html:do-insert-closing-tag t))
 
 (add-hook 'html-mode-hook
           (lambda ()
-            (define-key evil-insert-state-map "\C-t" 'html:insert-closing-tag)))
+            (local-set-key (kbd "C-c t n") 'html:insert-closing-tag-nl)
+            (local-set-key (kbd "C-c t l") 'html:insert-closing-tag)))
 
 ;; Python
 ;; ~~~~~~
