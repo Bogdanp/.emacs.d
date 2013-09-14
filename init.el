@@ -117,8 +117,28 @@ vice-versa).
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
-;; Flymake
-;; ~~~~~~~
+;; HTML
+;; ~~~~
+(defun html:current-tag ()
+  "Finds the current HTML tag."
+  (save-excursion
+    (search-backward-regexp "<[a-zA-Z]+")
+    (forward-char)
+    (thing-at-point 'word)))
+
+(defun html:insert-closing-tag ()
+  "Closes the current HTML tag after the point."
+  (interactive)
+  (let ((tag (html:current-tag)))
+    (save-excursion
+      (insert (format "</%s>" tag)))))
+
+(add-hook 'html-mode-hook
+          (lambda ()
+            (define-key evil-insert-state-map "\C-t" 'html:insert-closing-tag)))
+
+;; Python
+;; ~~~~~~
 ;; Load pycheckers.
 (when (load "flymake" t)
   (defun flymake-pylint-init ()
