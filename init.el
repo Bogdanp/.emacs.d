@@ -18,7 +18,12 @@
     haskell-mode jedi jinja2-mode linum-relative markdown-mode monky
     rainbow-delimiters rainbow-mode scala-mode2 starter-kit
     starter-kit-lisp twilight-theme undo-tree yaml-mode)
-  "A list of packages that must be installed and loaded.")
+  "A list of packages that must be installed.")
+
+(defconst my-required-packages
+  (append my-packages
+          '(auto-complete-config))
+  "A list of packages that must be loaded.")
 
 ;; Install all packages that aren't already installed.
 (mapc
@@ -27,7 +32,7 @@
        (package-install package)))
   my-packages)
 
-(mapc 'require my-packages)
+(mapc 'require my-required-packages)
 
 ;; Load ENSIME package.
 (add-to-list 'load-path "~/.emacs.d/packages/ensime/elisp/")
@@ -143,6 +148,9 @@ vice-versa).
 ;; Auto completion
 ;; ~~~~~~~~~~~~~~~
 (global-auto-complete-mode t)
+
+;; Use default config.
+(ac-config-default)
 
 ;; Don't start automatically (causes SERIOUS performance issues on
 ;; large Python files (> 1k LOC)).
