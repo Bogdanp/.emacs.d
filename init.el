@@ -17,7 +17,7 @@
     flymake-cursor flymake-easy ghc git-gutter goto-last-change
     haskell-mode jedi jinja2-mode linum-relative markdown-mode monky
     rainbow-delimiters rainbow-mode scala-mode2 starter-kit
-    twilight-theme undo-tree yaml-mode)
+    starter-kit-lisp twilight-theme undo-tree yaml-mode)
   "A list of packages that must be installed and loaded.")
 
 ;; Install all packages that aren't already installed.
@@ -27,11 +27,7 @@
        (package-install package)))
   my-packages)
 
-;; `require` all packages.
-(mapc
- (lambda (package)
-   (require package))
-  my-packages)
+(mapc 'require my-packages)
 
 ;; Load ENSIME package.
 (add-to-list 'load-path "~/.emacs.d/packages/ensime/elisp/")
