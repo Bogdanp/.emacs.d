@@ -13,7 +13,7 @@
 
 ;; Set-up and load packages.
 (defconst my-packages
-  '(ace-jump-mode auto-complete dired+ evil expand-region
+  '(ace-jump-mode auto-complete clojure-mode dired+ evil expand-region
     flymake-cursor flymake-easy ghc git-gutter goto-last-change
     haskell-mode jedi jinja2-mode linum-relative markdown-mode monky
     rainbow-delimiters rainbow-mode scala-mode2 starter-kit
