@@ -13,11 +13,12 @@
 
 ;; Set-up and load packages.
 (defconst my-packages
-  '(ace-jump-mode auto-complete clojure-mode dired+ evil expand-region
-    flymake-cursor flymake-easy ghc git-gutter goto-last-change
-    haskell-mode jedi jinja2-mode linum-relative markdown-mode monky
-    rainbow-delimiters rainbow-mode scala-mode2 starter-kit
-    starter-kit-lisp twilight-theme undo-tree yaml-mode yasnippet)
+  '(ace-jump-mode auto-complete clojure-mode clojure-test-mode dired+
+    evil expand-region flymake-cursor flymake-easy ghc git-gutter
+    goto-last-change haskell-mode jedi jinja2-mode linum-relative
+    markdown-mode monky nrepl rainbow-delimiters rainbow-mode
+    scala-mode2 starter-kit starter-kit-lisp twilight-theme undo-tree
+    yaml-mode yasnippet)
   "A list of packages that must be installed.")
 
 (defconst my-required-packages
@@ -197,6 +198,7 @@ the closing tag."
 
 ;; Undo
 ;; ~~~~
+(global-undo-tree-mode)
 (setq undo-tree-auto-save-history t)
 
 ;; Line editing
