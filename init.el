@@ -14,12 +14,11 @@
 ;; Set-up and load packages.
 (defconst my-packages
   '(ace-jump-mode auto-complete clojure-mode clojure-test-mode dired+
-    evil expand-region find-file-in-repository flymake-cursor
-    flymake-easy ghc git-gutter goto-last-change haskell-mode jedi
-    jinja2-mode less-css-mode linum-relative markdown-mode monky nrepl
-    rainbow-delimiters rainbow-mode roy-mode scala-mode2 starter-kit
-    starter-kit-lisp twilight-theme undo-tree web-mode yaml-mode
-    yasnippet)
+    evil expand-region flymake-cursor flymake-easy ghc git-gutter
+    goto-last-change haskell-mode jedi jinja2-mode less-css-mode
+    linum-relative markdown-mode monky nrepl rainbow-delimiters
+    rainbow-mode roy-mode scala-mode2 starter-kit starter-kit-lisp
+    twilight-theme undo-tree web-mode yaml-mode yasnippet)
   "A list of packages that must be installed.")
 
 (defconst my-required-packages
@@ -38,9 +37,6 @@
 
 ;; Load ENSIME package.
 (add-to-list 'load-path "~/.emacs.d/packages/ensime/elisp/")
-
-;; find-file-in-repository
-(global-set-key (kbd "C-x f") 'find-file-in-repository)
 
 ;; yasnippet
 ;; ~~~~~~~~~
