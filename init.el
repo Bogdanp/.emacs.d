@@ -40,10 +40,14 @@
 (add-to-list 'load-path "~/.emacs.d/packages/ensime/elisp/")
 
 ;; helm, helm-cmd-t
+;; ~~~~~~~~~~~~~~~~
 (require 'helm-config)
 (require 'helm-cmd-t)
 
 (global-set-key (kbd "M-t") 'helm-cmd-t)
+
+;; Show full file paths.
+(setq helm-ff-transformer-show-only-basename nil)
 
 ;; yasnippet
 ;; ~~~~~~~~~
