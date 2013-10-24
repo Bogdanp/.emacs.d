@@ -39,8 +39,8 @@
 ;; Load ENSIME package.
 (add-to-list 'load-path "~/.emacs.d/packages/ensime/elisp/")
 
-;; Start up in ~/Work.
-(setq default-directory "~/Work")
+;; Start up in ~/.
+(setq default-directory "~/")
 
 ;; helm, helm-cmd-t
 ;; ~~~~~~~~~~~~~~~~
