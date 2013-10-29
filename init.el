@@ -136,38 +136,21 @@ vice-versa).
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
-;; HTML
-;; ~~~~
-(defun html:current-tag ()
-  "Finds the current HTML tag."
-  (save-excursion
-    (search-backward-regexp "<[a-zA-Z]+")
-    (forward-char)
-    (thing-at-point 'word)))
+;; web-mode
+;; ~~~~~~~~
+(require 'web-mode)
 
-(defun html:do-insert-closing-tag (&optional nl)
-  "Closes the current HTML tag after the point."
-  (let ((tag (html:current-tag)))
-    (save-excursion
-      (if nl (newline-and-indent))
-      (insert (format "</%s>" tag))
-      (if nl (indent-according-to-mode)))))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
 
-(defun html:insert-closing-tag ()
-  "Closes the current HTML tag after the point."
-  (interactive)
-  (html:do-insert-closing-tag))
+(setq web-mode-engines-alist
+      '(("php"    . "\\.php\\'")
+        ("jinja2" . "\\.html\\.")))
 
-(defun html:insert-closing-tag-nl ()
-  "Closes the current HTML tag after the point. Adds a newline before
-the closing tag."
-  (interactive)
-  (html:do-insert-closing-tag t))
-
-(add-hook 'html-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c t n") 'html:insert-closing-tag-nl)
-            (local-set-key (kbd "C-c t l") 'html:insert-closing-tag)))
+(setq web-mode-style-padding 4)
+(setq web-mode-script-padding 4)
+(setq web-mode-code-indent-offset 4)
+(setq web-mode-enable-current-element-highlight t)
 
 ;; Python
 ;; ~~~~~~
