@@ -14,12 +14,12 @@
 ;; Set-up and load packages.
 (defconst my-packages
   '(ace-jump-mode auto-complete clojure-mode clojure-test-mode dired+
-    evil expand-region flymake-cursor flymake-easy ghc git-gutter
-    goto-last-change haskell-mode helm helm-cmd-t jedi jinja2-mode
-    less-css-mode linum-relative markdown-mode monky nrepl
-    rainbow-delimiters rainbow-mode roy-mode scala-mode2 starter-kit
-    starter-kit-lisp twilight-theme undo-tree web-mode yaml-mode
-    yasnippet)
+    evil expand-region flymake-cursor flymake-easy
+    flymake-haskell-multi ghc git-gutter goto-last-change haskell-mode
+    helm helm-cmd-t jedi jinja2-mode less-css-mode linum-relative
+    markdown-mode monky nrepl rainbow-delimiters rainbow-mode roy-mode
+    scala-mode2 starter-kit starter-kit-lisp twilight-theme undo-tree
+    web-mode yaml-mode yasnippet)
   "A list of packages that must be installed.")
 
 (defconst my-required-packages
@@ -133,6 +133,8 @@ vice-versa).
 
 ;; Haskell
 ;; ~~~~~~~
+(autoload 'ghc-init "ghc" nil t)
+(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
