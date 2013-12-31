@@ -13,13 +13,30 @@
 
 ;; Set-up and load packages.
 (defconst my-packages
-  '(ace-jump-mode auto-complete clojure-mode clojure-test-mode dired+
-    evil expand-region flymake-cursor flymake-easy
-    flymake-haskell-multi ghc git-gutter goto-last-change haskell-mode
-    helm helm-cmd-t jedi jinja2-mode less-css-mode linum-relative
-    markdown-mode monky nrepl rainbow-delimiters rainbow-mode roy-mode
-    scala-mode2 starter-kit starter-kit-lisp twilight-theme undo-tree
-    web-mode yaml-mode yasnippet)
+  '(;; Misc
+    dired+ flymake-cursor flymake-easy
+
+    ;; VIM
+    auto-complete evil goto-last-change undo-tree
+
+    ;; Git
+    git-gutter magit
+
+    ;; Misc languages
+    less-css-mode markdown-mode roy-mode scala-mode2 web-mode
+    yaml-mode
+
+    ;; Haskell
+    haskell-mode flymake-haskell-multi ghc
+
+    ;; Lisp
+    rainbow-delimiters rainbow-mode starter-kit starter-kit-lisp
+
+    ;; Python
+    jedi 
+
+    ;; Themes
+    twilight-theme)
   "A list of packages that must be installed.")
 
 (defconst my-required-packages
@@ -61,20 +78,6 @@
 (setq web-mode-markup-indent-offset 4)
 (setq web-mode-code-indent-offset 4)
 (setq web-mode-enable-current-element-highlight t)
-
-;; helm, helm-cmd-t
-;; ~~~~~~~~~~~~~~~~
-(require 'helm-config)
-(require 'helm-cmd-t)
-
-(global-set-key (kbd "M-t") 'helm-cmd-t)
-
-;; Show full file paths.
-(setq helm-ff-transformer-show-only-basename nil)
-
-;; yasnippet
-;; ~~~~~~~~~
-(yas-global-mode t)
 
 ;; Jedi
 ;; ~~~~
