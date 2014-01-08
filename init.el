@@ -275,17 +275,19 @@ vice-versa).
           (lambda ()
             (local-set-key (kbd "C-w") 'backward-kill-word)))
 
-;; Make C-w work in the search buffer.
-(define-key evil-ex-search-keymap "\C-w" 'backward-kill-word)
-
-(define-key evil-normal-state-map "\/" 'evil-ex-search-forward)
-(define-key evil-visual-state-map "\/" 'evil-ex-search-forward)
-(define-key evil-normal-state-map "\?" 'evil-ex-search-backward)
-(define-key evil-visual-state-map "\?" 'evil-ex-search-backward)
-
 ;; Fixes the copy-on-motion bullshit.
 (defadvice evil-visual-update-x-selection (around clobber-x-select-text activate)
   (fset 'old-x-select-text (symbol-function 'x-select-text))
   (fmakunbound 'x-select-text)
   ad-do-it
   (fset 'x-select-text (symbol-function 'old-x-select-text)))
+
+;; Make C-w work in the search buffer.
+(define-key evil-ex-search-keymap "\C-w" 'backward-kill-word)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(evil-search-module (quote evil-search)))
