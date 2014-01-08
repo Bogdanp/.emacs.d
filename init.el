@@ -269,3 +269,16 @@ vice-versa).
 (define-key evil-normal-state-map "\C-n" 'evil-next-line)
 (define-key evil-insert-state-map "\C-n" 'evil-next-line)
 (define-key evil-visual-state-map "\C-n" 'evil-next-line)
+
+;; Make C-w work in the minibuffer (most of the time).
+(add-hook 'minibuffer-setup-hook
+          (lambda ()
+            (local-set-key (kbd "C-w") 'backward-kill-word)))
+
+
+;; Fixes the copy-on-motion bullshit.
+(defadvice evil-visual-update-x-selection (around clobber-x-select-text activate)
+  (fset 'old-x-select-text (symbol-function 'x-select-text))
+  (fmakunbound 'x-select-text)
+  ad-do-it
+  (fset 'x-select-text (symbol-function 'old-x-select-text)))
