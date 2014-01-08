@@ -275,6 +275,13 @@ vice-versa).
           (lambda ()
             (local-set-key (kbd "C-w") 'backward-kill-word)))
 
+;; Make C-w work in the search buffer.
+(define-key evil-ex-search-keymap "\C-w" 'backward-kill-word)
+
+(define-key evil-normal-state-map "\/" 'evil-ex-search-forward)
+(define-key evil-visual-state-map "\/" 'evil-ex-search-forward)
+(define-key evil-normal-state-map "\?" 'evil-ex-search-backward)
+(define-key evil-visual-state-map "\?" 'evil-ex-search-backward)
 
 ;; Fixes the copy-on-motion bullshit.
 (defadvice evil-visual-update-x-selection (around clobber-x-select-text activate)
