@@ -17,7 +17,8 @@
     dired+ flymake-cursor flymake-easy
 
     ;; VIM
-    auto-complete evil goto-last-change undo-tree
+    ;; evil commented out b/c I have my own fork
+    auto-complete goto-last-change undo-tree
 
     ;; Git
     git-gutter magit
@@ -88,6 +89,8 @@
 
 ;; VIM emulation
 ;; ~~~~~~~~~~~~~
+(add-to-list 'load-path "~/sandbox/evil/")
+(require 'evil)
 (evil-mode 1)
 
 ;; Git
@@ -270,7 +273,7 @@ vice-versa).
 (define-key evil-insert-state-map "\C-n" 'evil-next-line)
 (define-key evil-visual-state-map "\C-n" 'evil-next-line)
 
-;; Make C-w work in the minibuffer (most of the time).
+;; Make C-w work in the minibuffer.
 (add-hook 'minibuffer-setup-hook
           (lambda ()
             (local-set-key (kbd "C-w") 'backward-kill-word)))
@@ -281,13 +284,3 @@ vice-versa).
   (fmakunbound 'x-select-text)
   ad-do-it
   (fset 'x-select-text (symbol-function 'old-x-select-text)))
-
-;; Make C-w work in the search buffer.
-(define-key evil-ex-search-keymap "\C-w" 'backward-kill-word)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(evil-search-module (quote evil-search)))
