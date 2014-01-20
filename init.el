@@ -239,7 +239,8 @@ vice-versa).
 
 ;; Misc
 ;; ~~~~
-(setq exec-path (append exec-path (list "/usr/local/bin")))
+(setq exec-path (append exec-path (list "/usr/local/bin"
+                                        "/Applications/Racket v5.3.6/bin/")))
 
 ;; Bindings
 ;; ~~~~~~~~
