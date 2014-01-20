@@ -36,6 +36,9 @@
     ;; Python
     jedi 
 
+    ;; Racket
+    quack geiser ac-geiser
+
     ;; Themes
     twilight-theme)
   "A list of packages that must be installed.")
