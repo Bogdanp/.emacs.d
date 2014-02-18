@@ -1,0 +1,4 @@
+[submodule "el-get-haskell"]
+	path = el-get-haskell
+	url = git://github.com/dysinger/el-get
+	branch = haskell
