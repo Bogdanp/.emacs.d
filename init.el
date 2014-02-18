@@ -233,6 +233,11 @@ vice-versa).
 
 (ac-set-trigger-key "TAB")
 
+;; Junk
+;; ~~~~
+(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+      backup-directory-alist `((".*" . ,temporary-file-directory)))
+
 ;; Undo
 ;; ~~~~
 (global-undo-tree-mode)
