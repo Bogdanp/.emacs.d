@@ -25,7 +25,7 @@
 
     ;; Misc languages
     less-css-mode markdown-mode roy-mode scala-mode2 web-mode
-    yaml-mode
+    yaml-mode fsharp-mode
 
     ;; Haskell
     haskell-mode flymake-haskell-multi ghc
@@ -240,7 +240,7 @@ vice-versa).
 ;; Misc
 ;; ~~~~
 (setq exec-path (append exec-path (list "/usr/local/bin"
-                                        "/Applications/Racket v5.3.6/bin/")))
+                                        "/Applications/Racket v6.0.0.1/bin/")))
 
 ;; Bindings
 ;; ~~~~~~~~
