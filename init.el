@@ -187,10 +187,12 @@ vice-versa).
 
 ;; Haskell
 ;; ~~~~~~~
-(autoload 'ghc-init "ghc" nil t)
-(add-hook 'haskell-mode-hook (lambda () (ghc-init)))
-(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+;; (autoload 'ghc-init "ghc" nil t)
+;; (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
+;; (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+(setq ghc-ghc-options '("-fno-warn-hi-shadowing"
+                        "-fno-warn-name-shadowing"))
 
 ;; Python
 ;; ~~~~~~
