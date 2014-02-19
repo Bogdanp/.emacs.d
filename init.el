@@ -187,11 +187,12 @@ vice-versa).
 
 ;; Haskell
 ;; ~~~~~~~
-;; (autoload 'ghc-init "ghc" nil t)
-;; (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
-;; (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
-(add-hook 'haskell-mode-hook (lambda () (setq ac-auto-start t)))
+;; The TAB trigger for ac doesn't work in haskell-mode so we need
+;; this (+ it's a lot nicer than having to TAB manually).
+(add-hook 'haskell-mode-hook (lambda ()
+                               (setq ac-auto-start t)))
+
+;; Don't warn about name shadowing.
 (setq ghc-ghc-options '("-fno-warn-hi-shadowing"
                         "-fno-warn-name-shadowing"))
 
@@ -226,6 +227,12 @@ vice-versa).
 ;; Themes
 ;; ~~~~~~
 (load-theme 'twilight t)
+
+;; GUI
+;; ~~~
+(when (window-system)
+  (set-frame-position (selected-frame) 205 32)
+  (set-frame-size (selected-frame) 185 65))
 
 ;; Auto completion
 ;; ~~~~~~~~~~~~~~~
