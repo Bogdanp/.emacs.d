@@ -191,6 +191,7 @@ vice-versa).
 ;; (add-hook 'haskell-mode-hook (lambda () (ghc-init)))
 ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+(add-hook 'haskell-mode-hook (lambda () (setq ac-auto-start t)))
 (setq ghc-ghc-options '("-fno-warn-hi-shadowing"
                         "-fno-warn-name-shadowing"))
 
@@ -210,6 +211,10 @@ vice-versa).
 
 (add-hook 'python-mode-hook
           (lambda ()
+            ;; Don't start automatically (causes SERIOUS performance issues on
+            ;; large Python files (> 1k LOC)).
+            (setq ac-auto-start nil)
+
             (unless (eq buffer-file-name nil) (flymake-mode 1))
             (local-set-key (kbd "M-p") 'flymake-goto-prev-error)
             (local-set-key (kbd "M-n") 'flymake-goto-next-error)))
@@ -228,11 +233,6 @@ vice-versa).
 
 ;; Use default config.
 (ac-config-default)
-
-;; Don't start automatically (causes SERIOUS performance issues on
-;; large Python files (> 1k LOC)).
-(setq ac-auto-start nil)
-
 (ac-set-trigger-key "TAB")
 
 ;; Junk
@@ -271,8 +271,8 @@ vice-versa).
 
 ;; Misc
 ;; ~~~~
-(setq exec-path (append exec-path (list "/usr/local/bin"
-                                        "/Users/bogdan/.cabal/bin"
+(setq exec-path (append exec-path (list "/usr/local/bin/"
+                                        "/Users/bogdan/.cabal/bin/"
                                         "/Applications/Racket v6.0.0.1/bin/")))
 
 ;; Bindings
