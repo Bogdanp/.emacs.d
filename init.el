@@ -18,7 +18,7 @@
 
     ;; VIM
     ;; evil commented out b/c I have my own fork
-    auto-complete auto-complete-clang goto-last-change undo-tree
+    auto-complete auto-complete-clang goto-last-change undo-tree yasnippet
 
     ;; Git
     git-gutter magit
@@ -46,7 +46,7 @@
 
 (defconst my-required-packages
   (append my-packages
-          '(auto-complete-config))
+          '(auto-complete-config cc-mode))
   "A list of packages that must be loaded.")
 
 ;; Install all packages that aren't already installed.
@@ -127,6 +127,15 @@
 
 ;; Hide gutter if there are no changes.
 (setq git-gutter:hide-gutter t)
+
+;; C
+;; ~
+(setq c-default-style "bsd")
+(setq c-basic-offset 4)
+
+(defun c-indent-setup ()
+  (c-set-offset 'arglist-intro '+))
+(add-hook 'c-mode-hook 'c-indent-setup)
 
 ;; Scala
 ;; ~~~~~
