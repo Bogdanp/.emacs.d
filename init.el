@@ -18,7 +18,7 @@
 
     ;; VIM
     ;; evil commented out b/c I have my own fork
-    auto-complete goto-last-change undo-tree
+    auto-complete auto-complete-clang goto-last-change undo-tree
 
     ;; Git
     git-gutter magit
@@ -241,6 +241,11 @@ vice-versa).
 ;; Use default config.
 (ac-config-default)
 (ac-set-trigger-key "TAB")
+
+;; C auto completion.
+(defun ac-cc-mode-setup ()
+  (setq ac-sources (append '(ac-source-clang) ac-sources)))
+(add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
 
 ;; Junk
 ;; ~~~~
