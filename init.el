@@ -22,21 +22,13 @@
     git-gutter magit
 
     ;; Misc languages
-    less-css-mode markdown-mode roy-mode scala-mode2 web-mode
-    yaml-mode fsharp-mode
-
-    ;; Haskell
-    ;; Handled below in el-get.
-    ;; haskell-mode flymake-haskell-multi ghc
+    less-css-mode markdown-mode scala-mode2 web-mode yaml-mode
 
     ;; Lisp
     rainbow-delimiters rainbow-mode starter-kit starter-kit-lisp
 
     ;; Python
     jedi 
-
-    ;; Racket
-    quack geiser ac-geiser
 
     ;; Themes
     twilight-theme)
@@ -331,9 +323,10 @@ vice-versa).
 (add-hook 'minibuffer-setup-hook
           (lambda () (local-set-key (kbd "C-w") 'backward-kill-word)))
 
-;; Fixes evil-mode clipboard.
-(setq interprogram-cut-function nil
-      interprogram-paste-function nil)
+;; Fixes clipboard dirtying.
+(add-hook 'evil-local-mode-hook (lambda ()
+                                  (setq-local interprogram-cut-function nil)
+                                  (setq-local interprogram-paste-function nil)))
 
 ;; Fixes the copy-on-motion bullshit.
 (defadvice evil-visual-update-x-selection (around clobber-x-select-text activate)
