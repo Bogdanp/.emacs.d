@@ -85,7 +85,8 @@
 ;; Disable flycheck on elisp.
 (eval-after-load 'flycheck
   '(setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)
-                 flycheck-python-flake8-executable "pycheckers"))
+                 ;; flycheck-python-flake8-executable "pycheckers"
+                 ))
 
 ;; web-mode
 ;; ~~~~~~~~
@@ -119,6 +120,26 @@
 (add-to-list 'load-path "~/sandbox/evil/")
 (require 'evil)
 (evil-mode 1)
+
+;; Make C-w work in the minibuffer.
+(add-hook 'minibuffer-setup-hook
+          (lambda () (local-set-key (kbd "C-w") 'backward-kill-word)))
+
+;; Fixes to standard EMACS behavior
+;; ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+;; Fixes clipboard dirtying.
+(add-hook 'evil-local-mode-hook
+          (lambda ()
+            (setq-local interprogram-cut-function nil)
+            (setq-local interprogram-paste-function nil)))
+
+;; Fixes the copy-on-motion bullshit.
+(defadvice evil-visual-update-x-selection (around clobber-x-select-text activate)
+  (fset 'old-x-select-text (symbol-function 'x-select-text))
+  (fmakunbound 'x-select-text)
+  ad-do-it
+  (fset 'x-select-text (symbol-function 'old-x-select-text)))
 
 ;; Git
 ;; ~~~
@@ -232,9 +253,9 @@ vice-versa).
 (setq ac-auto-start t)
 
 ;; C auto completion.
-(defun ac-cc-mode-setup ()
-  (setq ac-sources (append '(ac-source-clang) ac-sources)))
-(add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (setq ac-sources (append '(ac-source-clang) ac-sources))))
 
 ;; Junk
 ;; ~~~~
@@ -272,8 +293,8 @@ vice-versa).
 
 ;; Misc
 ;; ~~~~
-(setq exec-path (append exec-path (list "/usr/local/bin/"
-                                        "/Users/bogdan/.cabal/bin/")))
+(setq exec-path (append exec-path '("/usr/local/bin/"
+                                    "/Users/bogdan/.cabal/bin/")))
 
 ;; Bindings
 ;; ~~~~~~~~
@@ -301,19 +322,3 @@ vice-versa).
 (define-key evil-normal-state-map "\C-n" 'evil-next-line)
 (define-key evil-insert-state-map "\C-n" 'evil-next-line)
 (define-key evil-visual-state-map "\C-n" 'evil-next-line)
-
-;; Make C-w work in the minibuffer.
-(add-hook 'minibuffer-setup-hook
-          (lambda () (local-set-key (kbd "C-w") 'backward-kill-word)))
-
-;; Fixes clipboard dirtying.
-(add-hook 'evil-local-mode-hook (lambda ()
-                                  (setq-local interprogram-cut-function nil)
-                                  (setq-local interprogram-paste-function nil)))
-
-;; Fixes the copy-on-motion bullshit.
-(defadvice evil-visual-update-x-selection (around clobber-x-select-text activate)
-  (fset 'old-x-select-text (symbol-function 'x-select-text))
-  (fmakunbound 'x-select-text)
-  ad-do-it
-  (fset 'x-select-text (symbol-function 'old-x-select-text)))
