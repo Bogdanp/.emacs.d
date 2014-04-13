@@ -12,7 +12,7 @@
 ;; Set-up and load packages.
 (defconst my-packages
   '(;; Misc
-    dired+ flymake-cursor flymake-easy
+    dired+ flycheck
 
     ;; VIM
     ;; evil commented out b/c I have my own fork
@@ -77,6 +77,15 @@
 
 ;; Start up in ~/.
 (setq default-directory "~/")
+
+;; flycheck
+;; ~~~~~~~~
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; Disable flycheck on elisp.
+(eval-after-load 'flycheck
+  '(setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)
+                 flycheck-python-flake8-executable "pycheckers"))
 
 ;; web-mode
 ;; ~~~~~~~~
@@ -186,37 +195,17 @@ vice-versa).
 
 ;; Haskell
 ;; ~~~~~~~
-;; The TAB trigger for ac doesn't work in haskell-mode so we need
-;; this (+ it's a lot nicer than having to TAB manually).
-(add-hook 'haskell-mode-hook (lambda () (setq ac-auto-start t)))
-
 ;; Don't warn about name shadowing.
 (setq ghc-ghc-options '("-fno-warn-hi-shadowing"
                         "-fno-warn-name-shadowing"))
 
 ;; Python
 ;; ~~~~~~
-;; Load pycheckers.
-(when (load "flymake" t)
-  (defun flymake-pylint-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-           (local-file (file-relative-name temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "pycheckers" (list local-file))))
-
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pylint-init)))
-
 (add-hook 'python-mode-hook
           (lambda ()
             ;; Don't start automatically (causes SERIOUS performance issues on
             ;; large Python files (> 1k LOC)).
-            (setq ac-auto-start nil)
-
-            (unless (eq buffer-file-name nil) (flymake-mode 1))
-            (local-set-key (kbd "M-p") 'flymake-goto-prev-error)
-            (local-set-key (kbd "M-n") 'flymake-goto-next-error)))
+            (setq-local ac-auto-start nil)))
 
 ;; Fonts
 ;; ~~~~~
@@ -239,6 +228,8 @@ vice-versa).
 ;; Use default config.
 (ac-config-default)
 (ac-set-trigger-key "TAB")
+
+(setq ac-auto-start t)
 
 ;; C auto completion.
 (defun ac-cc-mode-setup ()
@@ -282,16 +273,13 @@ vice-versa).
 ;; Misc
 ;; ~~~~
 (setq exec-path (append exec-path (list "/usr/local/bin/"
-                                        "/Users/bogdan/.cabal/bin/"
-                                        "/Applications/Racket v6.0.0.1/bin/")))
+                                        "/Users/bogdan/.cabal/bin/")))
 
 ;; Bindings
 ;; ~~~~~~~~
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c g") 'multi-occur-in-matching-buffers)
-(global-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
-(global-set-key (kbd "C-c f n") 'flymake-goto-next-error)
 
 ;; Auto completion bindings
 ;; ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -300,11 +288,6 @@ vice-versa).
 
 ;; EVIL bindings
 ;; ~~~~~~~~~~~~~
-(define-key evil-normal-state-map ",," 'ace-jump-mode)
-(define-key evil-normal-state-map ",r" 'er/expand-region)
-(define-key evil-normal-state-map ",p" 'flymake-goto-prev-error)
-(define-key evil-normal-state-map ",n" 'flymake-goto-next-error)
-
 ;; Useful emacs bindings in all modes.
 (define-key evil-normal-state-map "\C-a" 'evil-beginning-of-line)
 (define-key evil-insert-state-map "\C-a" 'beginning-of-line)
