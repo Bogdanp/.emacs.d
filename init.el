@@ -1,10 +1,8 @@
 ;; Package archives
 ;; ~~~~~~~~~~~~~~~~
 (require 'package)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("melpa"     . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
 ;; Refresh packages on first run.
@@ -198,8 +196,7 @@ vice-versa).
 ;; ~~~~~~~
 ;; The TAB trigger for ac doesn't work in haskell-mode so we need
 ;; this (+ it's a lot nicer than having to TAB manually).
-(add-hook 'haskell-mode-hook (lambda ()
-                               (setq ac-auto-start t)))
+(add-hook 'haskell-mode-hook (lambda () (setq ac-auto-start t)))
 
 ;; Don't warn about name shadowing.
 (setq ghc-ghc-options '("-fno-warn-hi-shadowing"
@@ -300,7 +297,6 @@ vice-versa).
 ;; ~~~~~~~~
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-c m") 'magit-status)
-(global-set-key (kbd "C-c M") 'monky-status)
 (global-set-key (kbd "C-c g") 'multi-occur-in-matching-buffers)
 (global-set-key (kbd "C-c f p") 'flymake-goto-prev-error)
 (global-set-key (kbd "C-c f n") 'flymake-goto-next-error)
@@ -333,8 +329,11 @@ vice-versa).
 
 ;; Make C-w work in the minibuffer.
 (add-hook 'minibuffer-setup-hook
-          (lambda ()
-            (local-set-key (kbd "C-w") 'backward-kill-word)))
+          (lambda () (local-set-key (kbd "C-w") 'backward-kill-word)))
+
+;; Fixes evil-mode clipboard.
+(setq interprogram-cut-function nil
+      interprogram-paste-function nil)
 
 ;; Fixes the copy-on-motion bullshit.
 (defadvice evil-visual-update-x-selection (around clobber-x-select-text activate)
