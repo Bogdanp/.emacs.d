@@ -12,6 +12,7 @@
 ;; EVIL bindings
 ;; ~~~~~~~~~~~~~
 ;; Useful emacs bindings in all modes.
+(define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode)
 (define-key evil-normal-state-map "\C-a" 'evil-beginning-of-line)
 (define-key evil-insert-state-map "\C-a" 'beginning-of-line)
 (define-key evil-visual-state-map "\C-a" 'evil-beginning-of-line)

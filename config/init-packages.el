@@ -12,10 +12,14 @@
   '(;; Misc
     dired+ flycheck
 
-    ;; VIM
-    ;; evil commented out b/c I have my own fork
+    ;; Auto completion
     auto-complete
     auto-complete-clang
+
+    ;; Editing
+    ace-jump-mode
+
+    ;; VIM emulation
     goto-chg
     undo-tree
 
