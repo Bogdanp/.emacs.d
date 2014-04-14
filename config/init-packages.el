@@ -7,14 +7,17 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-;; Set-up and load packages.
+;; Install missing packages.
 (defconst my-packages
   '(;; Misc
     dired+ flycheck
 
     ;; VIM
     ;; evil commented out b/c I have my own fork
-    auto-complete auto-complete-clang goto-last-change undo-tree yasnippet
+    auto-complete
+    auto-complete-clang
+    goto-chg
+    undo-tree
 
     ;; Git
     git-gutter magit
@@ -32,17 +35,17 @@
     twilight-theme)
   "A list of packages that must be installed.")
 
-(defconst my-required-packages
-  (append my-packages
-          '(auto-complete-config cc-mode))
-  "A list of packages that must be loaded.")
-
-;; Install all packages that aren't already installed.
 (mapc
  (lambda (package)
    (or (package-installed-p package)
        (package-install package)))
   my-packages)
+
+;; Require packages.
+(defconst my-required-packages
+  (append my-packages
+          '(auto-complete-config cc-mode))
+  "A list of packages that must be loaded.")
 
 (mapc 'require my-required-packages)
 
