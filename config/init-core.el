@@ -3,8 +3,8 @@
 (setq default-directory "~/")
 (setq exec-path
       (append exec-path
-              `("/usr/local/bin/"
-                ,(expand-file-name "~/.cabal/bin/"))))
+              `("/usr/local/bin"
+                ,(expand-file-name "~/.cabal/bin"))))
 
 ;; UI
 ;; ~~

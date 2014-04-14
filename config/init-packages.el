@@ -26,6 +26,9 @@
     ;; Git
     git-gutter magit
 
+    ;; System
+    prodigy
+
     ;; Misc languages
     less-css-mode markdown-mode scala-mode2 web-mode yaml-mode
 

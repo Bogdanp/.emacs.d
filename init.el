@@ -17,6 +17,7 @@
 
     ;; Tools
     init-git
+    init-prodigy
 
     ;; Languages
     init-lang-c
