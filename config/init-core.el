@@ -6,6 +6,7 @@
               `("/usr/local/bin"
                 ,(expand-file-name "~/.cabal/bin"))))
 
+
 ;; UI
 ;; ~~
 (set-cursor-color "#FFFFFF")
@@ -17,8 +18,6 @@
   (set-frame-position (selected-frame) 205 32)
   (set-frame-size (selected-frame) 185 65))
 
-(provide 'init-core)
-
 
 ;; Editing
 ;; ~~~~~~~
@@ -29,3 +28,6 @@
 (setq-default truncate-lines t)
 
 (global-rainbow-delimiters-mode t)
+
+
+(provide 'init-core)
