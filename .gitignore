@@ -1,5 +1,6 @@
 *~undo-tree~
 \#*
+/.python-environments/
 /ac-comphist.dat
 /backups/
 /elpa/
