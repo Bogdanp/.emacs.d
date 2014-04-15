@@ -4,10 +4,12 @@
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c g") 'multi-occur-in-matching-buffers)
 
+
 ;; Auto completion bindings
 ;; ~~~~~~~~~~~~~~~~~~~~~~~~
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
 (define-key ac-complete-mode-map "\C-p" 'ac-previous)
+
 
 ;; EVIL bindings
 ;; ~~~~~~~~~~~~~
@@ -27,5 +29,6 @@
 (define-key evil-normal-state-map "\C-n" 'evil-next-line)
 (define-key evil-insert-state-map "\C-n" 'evil-next-line)
 (define-key evil-visual-state-map "\C-n" 'evil-next-line)
+
 
 (provide 'init-bindings)

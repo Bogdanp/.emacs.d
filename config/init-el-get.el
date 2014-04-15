@@ -20,4 +20,5 @@
 (el-get-sync-recipes "el-get-haskell")
 (el-get-sync-recipes "el-get-user")
 
+
 (provide 'init-el-get)

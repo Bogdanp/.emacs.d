@@ -22,4 +22,5 @@
   ad-do-it
   (fset 'x-select-text (symbol-function 'old-x-select-text)))
 
+
 (provide 'init-evil)
