@@ -1,8 +1,8 @@
 (add-hook 'web-mode-hook
           (lambda ()
-            (remove-hook 'prog-mode-hook 'esk-pretty-lambdas)
-            (remove-hook 'prog-mode-hook 'esk-add-watchwords)
-            (remove-hook 'prog-mode-hook 'idle-highlight-mode)))
+            (remove-hook 'prog-mode-hook 'esk-pretty-lambdas t)
+            (remove-hook 'prog-mode-hook 'esk-add-watchwords t)
+            (remove-hook 'prog-mode-hook 'idle-highlight-mode t)))
 
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'"   . web-mode))
