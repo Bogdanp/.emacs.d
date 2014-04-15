@@ -35,6 +35,9 @@
     ;; Lisp
     rainbow-delimiters rainbow-mode starter-kit starter-kit-lisp
 
+    ;; Elisp
+    litable
+
     ;; Python
     jedi 
 
