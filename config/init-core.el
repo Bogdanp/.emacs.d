@@ -9,8 +9,9 @@
 
 ;; UI
 ;; ~~
-;; Audible bell only.
+;; No bell of any kind.
 (setq visible-bell nil)
+(setq ring-bell-function (lambda ()))
 
 (set-cursor-color "#FFFFFF")
 (set-default-font "Inconsolata-15")
