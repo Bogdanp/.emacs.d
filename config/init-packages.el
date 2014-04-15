@@ -42,7 +42,8 @@
     jedi 
 
     ;; Themes
-    twilight-theme)
+    twilight-theme
+    twilight-anti-bright-theme)
   "A list of packages that must be installed.")
 
 (mapc

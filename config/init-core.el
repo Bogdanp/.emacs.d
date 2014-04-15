@@ -12,7 +12,7 @@
 (set-cursor-color "#FFFFFF")
 (set-default-font "Inconsolata-15")
 
-(load-theme 'twilight t)
+(load-theme 'twilight-anti-bright t)
 
 (when (window-system)
   (set-frame-position (selected-frame) 205 32)
