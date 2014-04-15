@@ -9,5 +9,6 @@
 /url/cookies
 /.org-id-locations
 /.smex-items
+/.litable-lists.el
 /auto-save-list
 /el-get
