@@ -10,6 +10,7 @@
     init-backup
     init-auto-completion
     init-term
+    init-yas
 
     ;; Plugins
     init-flycheck

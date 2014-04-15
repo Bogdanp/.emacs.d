@@ -18,6 +18,7 @@
 
     ;; Editing
     ace-jump-mode
+    yasnippet
 
     ;; VIM emulation
     goto-chg
