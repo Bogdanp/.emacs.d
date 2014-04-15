@@ -8,16 +8,16 @@
     init-core
     init-evil
     init-backup
-    init-auto-completion
     init-term
-    init-yas
 
     ;; Plugins
+    init-auto-completion
     init-flycheck
     init-jedi
     init-web-mode
+    init-yas
 
-    ;; Tools
+    ;; System
     init-git
     init-prodigy
 
@@ -27,6 +27,7 @@
     init-lang-python
     init-lang-scala
 
+    ;; Bindings
     init-bindings))
 
 (mapc 'require my-modules)
