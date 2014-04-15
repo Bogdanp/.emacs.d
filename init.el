@@ -9,6 +9,7 @@
     init-evil
     init-backup
     init-auto-completion
+    init-term
 
     ;; Plugins
     init-flycheck
