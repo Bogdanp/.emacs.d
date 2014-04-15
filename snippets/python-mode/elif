@@ -1,0 +1,4 @@
+# name: elif
+# --
+elif ${1:condition}:
+    ${2:pass}

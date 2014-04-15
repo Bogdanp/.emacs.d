@@ -1,0 +1,4 @@
+# name: method
+# --
+def $1(self, ${2:}):
+    ${3:pass}

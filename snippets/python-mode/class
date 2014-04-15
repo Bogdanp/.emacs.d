@@ -1,0 +1,4 @@
+# name: class
+# --
+class $1(${2:object}):
+    ${3:pass}
