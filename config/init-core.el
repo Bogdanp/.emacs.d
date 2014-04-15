@@ -9,6 +9,9 @@
 
 ;; UI
 ;; ~~
+;; Audible bell only.
+(setq visible-bell nil)
+
 (set-cursor-color "#FFFFFF")
 (set-default-font "Inconsolata-15")
 
