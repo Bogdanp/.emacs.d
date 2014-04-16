@@ -1,5 +1,8 @@
+# -*- mode: snippet -*-
 # name: property
 # --
 @property
-def $1(self, ${2:}):
-    ${3:pass}
+def $1(self${2:, ${3:}}):
+    """$4
+    """
+    ${5:pass}

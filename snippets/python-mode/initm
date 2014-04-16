@@ -1,4 +1,5 @@
+# -*- mode: snippet -*-
 # name: __init__
 # --
-def __init__(self, ${1:}):
-    ${2:pass}
+def __init__(self${1:, ${2:}}):
+    ${3:pass}

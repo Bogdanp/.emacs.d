@@ -1,4 +1,7 @@
+# -*- mode: snippet -*-
 # name: def
 # --
-def $1(${2:}):
-    ${3:pass}
+def $1($2):
+    """$3
+    """
+    ${4:pass}
