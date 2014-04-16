@@ -3,6 +3,7 @@
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c g") 'multi-occur-in-matching-buffers)
+(global-set-key (kbd "C-c p") 'prodigy)
 (global-set-key (kbd "<f5>") 'visit-ansi-term)
 
 
