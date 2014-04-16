@@ -1,4 +1,6 @@
-(add-hook 'term-mode-hook 'evil-emacs-state)
+(add-hook 'term-mode-hook (lambda ()
+                            (evil-emacs-state)
+                            (yas-minor-mode -1)))
 
 ;; A nicer way to deal with ansi-term.
 ;; Stolen from http://www.enigmacurry.com/2008/12/26/emacs-ansi-term-tricks/.
