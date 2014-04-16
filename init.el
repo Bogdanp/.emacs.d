@@ -9,6 +9,7 @@
     init-evil
     init-backup
     init-term
+    init-org
 
     ;; Plugins
     init-auto-completion
