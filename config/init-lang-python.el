@@ -14,11 +14,12 @@
   "Opens up the file at the point when looking at a Python stack
 trace."
   (interactive)
-  (let* ((segments (split-string (s-trim (thing-at-point 'line)) " "))
+  (let* ((current-line (s-trim (thing-at-point 'line)))
+         (segments (split-string current-line " "))
          (filename (substring (nth 1 segments) 1 -2))
-         (line (substring (nth 3 segments) 0 -1)))
+         (line (string-to-number (substring (nth 3 segments) 0 -1))))
     (find-file filename)
-    (goto-line (string-to-number line))))
+    (goto-line line)))
 
 
 (provide 'init-lang-python)
