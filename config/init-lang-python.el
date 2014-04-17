@@ -17,9 +17,8 @@ trace."
   (let* ((segments (split-string (s-trim (thing-at-point 'line)) " "))
          (filename (substring (nth 1 segments) 1 -2))
          (line (substring (nth 3 segments) 0 -1)))
-    (switch-to-buffer
-     (find-file filename)
-     (goto-line (string-to-number line)))))
+    (find-file filename)
+    (goto-line (string-to-number line))))
 
 
 (provide 'init-lang-python)
