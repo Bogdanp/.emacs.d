@@ -7,6 +7,11 @@
 (global-set-key (kbd "<f5>") 'visit-ansi-term)
 
 
+;; Prodigy bindings
+;; ~~~~~~~~~~~~~~~~
+(define-key prodigy-view-mode-map "\C-c f" 'python:trace-find-file-at-point)
+
+
 ;; Auto completion bindings
 ;; ~~~~~~~~~~~~~~~~~~~~~~~~
 (define-key ac-complete-mode-map "\C-n" 'ac-next)
