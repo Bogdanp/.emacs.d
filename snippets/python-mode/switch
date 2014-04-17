@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: switch
-# --
-try:
-    ${4:return }{
-        ${1:}
-    }[${2:var}]${3:()}
-except KeyError:
-    ${5:pass}

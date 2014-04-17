@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: method
-# --
-def $1(self${2:, ${3:}}):
-    """$4
-    """
-    ${5:pass}

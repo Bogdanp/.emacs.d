@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: class
-# key: cls
-# --
-class $1(${2:object}):
-    """$3
-    """
-    ${4:pass}

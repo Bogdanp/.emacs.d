@@ -1,9 +1,0 @@
-# -*- mode: snippet -*-
-# name: classmethod
-# key: cm
-# --
-@classmethod
-def $1(cls, ${2:}):
-    """$3
-    """
-    ${4:pass}
