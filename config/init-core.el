@@ -19,8 +19,8 @@
 (load-theme 'twilight-anti-bright t)
 
 (when (window-system)
-  (set-frame-position (selected-frame) 205 32)
-  (set-frame-size (selected-frame) 185 65))
+  (set-frame-position (selected-frame) 13 32)
+  (set-frame-size (selected-frame) 234 65))
 
 
 ;; Editing
