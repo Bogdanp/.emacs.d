@@ -9,6 +9,6 @@
 ;; Setup auto-completion.
 (add-hook 'c-mode-common-hook
           (lambda ()
-            (setq ac-sources (append '(ac-source-clang) ac-sources))))
+            (setq-local ac-sources (append '(ac-source-clang) ac-sources))))
 
 (provide 'init-lang-c)
