@@ -2,3 +2,6 @@
 	path = el-get-haskell
 	url = git://github.com/dysinger/el-get
 	branch = haskell
+[submodule "packages/ensime"]
+	path = packages/ensime
+	url = https://github.com/aemoncannon/ensime
