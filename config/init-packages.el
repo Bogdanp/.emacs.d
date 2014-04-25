@@ -15,6 +15,7 @@
     ;; Auto completion
     auto-complete
     auto-complete-clang
+    ido-ubiquitous
     smex
 
     ;; Editing
@@ -34,16 +35,16 @@
     less-css-mode markdown-mode scala-mode2 web-mode yaml-mode
 
     ;; Lisp
-    paredit rainbow-delimiters rainbow-mode
-
-    ;;starter-kit starter-kit-lisp
+    paredit
+    pretty-lambdada
+    rainbow-delimiters
+    rainbow-mode
 
     ;; Elisp
     litable
-    pretty-lambdada
 
     ;; Python
-    jedi 
+    jedi
 
     ;; Themes
     twilight-theme

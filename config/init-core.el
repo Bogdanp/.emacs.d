@@ -6,7 +6,8 @@
               `("/usr/local/bin"
                 ,(expand-file-name "~/.cabal/bin"))))
 
-(setq save-place t)
+;; Save point position in each buffer.
+(setq-default save-place t)
 
 
 ;; UI
@@ -18,9 +19,10 @@
 (setq visible-bell nil)
 (setq ring-bell-function (lambda ()))
 
+;; White cursor is best cursor.
 (set-cursor-color "#FFFFFF")
-(set-default-font "Inconsolata-15")
 
+;; Pretty colors!!
 (load-theme 'twilight-anti-bright t)
 
 (global-pretty-lambda-mode t)

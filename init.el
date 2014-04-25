@@ -1,9 +1,14 @@
+;; UI
+;; ~~
+;; Font first.
+(set-default-font "Inconsolata-15")
+
 ;; Position and resize frame.
 (when (window-system)
   (set-frame-position (selected-frame) 13 32)
   (set-frame-size (selected-frame) 234 65))
 
-;; Remove GUI elements first thing.
+;; Remove GUI elements.
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
   (when (fboundp mode) (funcall mode -1)))
 
