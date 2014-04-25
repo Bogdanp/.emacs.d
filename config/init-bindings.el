@@ -1,5 +1,6 @@
 ;; EMACS bindings
 ;; ~~~~~~~~~~~~~~
+(global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c g") 'multi-occur-in-matching-buffers)

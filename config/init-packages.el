@@ -15,6 +15,7 @@
     ;; Auto completion
     auto-complete
     auto-complete-clang
+    smex
 
     ;; Editing
     ace-jump-mode
@@ -33,10 +34,13 @@
     less-css-mode markdown-mode scala-mode2 web-mode yaml-mode
 
     ;; Lisp
-    rainbow-delimiters rainbow-mode starter-kit starter-kit-lisp
+    paredit rainbow-delimiters rainbow-mode
+
+    ;;starter-kit starter-kit-lisp
 
     ;; Elisp
     litable
+    pretty-lambdada
 
     ;; Python
     jedi 
@@ -55,7 +59,12 @@
 ;; Require packages.
 (defconst my-required-packages
   (append my-packages
-          '(auto-complete-config cc-mode))
+          '(ansi-color
+	    auto-complete-config
+	    cc-mode
+	    ffap
+	    saveplace
+	    uniquify))
   "A list of packages that must be loaded.")
 
 (mapc 'require my-required-packages)
