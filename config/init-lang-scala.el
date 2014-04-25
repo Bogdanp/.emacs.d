@@ -1,4 +1,4 @@
-(add-to-list 'load-path "~/.emacs.d/packages/ensime/elisp/")
+(add-to-list 'load-path "~/.emacs.d/packages/ensime/src/main/elisp/")
 
 (require 'ensime)
 
