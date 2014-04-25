@@ -34,6 +34,9 @@
     ;; Misc languages
     less-css-mode markdown-mode scala-mode2 web-mode yaml-mode
 
+    ;; Haskell
+    haskell-mode shm
+
     ;; Lisp
     paredit
     pretty-lambdada
