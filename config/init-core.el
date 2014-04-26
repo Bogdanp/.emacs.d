@@ -25,8 +25,6 @@
 ;; Pretty colors!!
 (load-theme 'twilight-anti-bright t)
 
-(global-pretty-lambda-mode t)
-
 
 ;; Editing
 ;; ~~~~~~~

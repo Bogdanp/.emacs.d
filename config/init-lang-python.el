@@ -1,5 +1,7 @@
 (add-hook 'python-mode-hook
           (lambda ()
+	    (pretty-lambda-mode t)
+
             (jedi:setup)
             (setq-local jedi:complete-on-dot t)
 
