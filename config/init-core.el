@@ -19,6 +19,12 @@
 (setq visible-bell nil)
 (setq ring-bell-function (lambda ()))
 
+;; Disable tooltips.
+(tooltip-mode -1)
+
+;; Prevent the cursor from blinking.
+(blink-cursor-mode -1)
+
 ;; White cursor is best cursor.
 (set-cursor-color "#FFFFFF")
 
