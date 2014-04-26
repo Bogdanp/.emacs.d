@@ -1,4 +1,4 @@
-(add-to-list 'load-path (expand-file-name "~/sandbox/evil/"))
+(add-to-list 'load-path (locate-user-emacs-file "packages/evil"))
 
 (require 'evil)
 
