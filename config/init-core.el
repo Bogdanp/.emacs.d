@@ -55,4 +55,22 @@
 (recentf-mode t)
 
 
+;; Windows
+;; ~~~~~~~
+(defvar window:previous-window-configuration nil
+  "Holds the previous window configuration.")
+
+(defun window:toggle-fullscreen ()
+  "Toggle between whether or not the current window should be
+maximized."
+  (interactive)
+  (if window:previous-window-configuration
+      (progn
+	(set-window-configuration window:previous-window-configuration)
+	(setq window:previous-window-configuration nil))
+    (progn
+      (setq window:previous-window-configuration (current-window-configuration))
+      (delete-other-windows))))
+
+
 (provide 'init-core)
