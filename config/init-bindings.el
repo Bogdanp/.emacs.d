@@ -5,7 +5,7 @@
 (global-set-key (kbd "C-c g") 'multi-occur-in-matching-buffers)
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c p") 'prodigy)
-(global-set-key (kbd "C-c s") 'ansi-term)
+(global-set-key (kbd "C-c C-a") 'term:toggle)
 (global-set-key (kbd "C-x C-i") 'imenu)
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
 
