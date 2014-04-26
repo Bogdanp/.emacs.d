@@ -11,7 +11,7 @@
 
 ## Python support
 
-Inside bash:
+Inside a shell:
 
 	pip install flake8
 	pip install virtualenv
