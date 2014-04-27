@@ -2,9 +2,9 @@
 	path = el-get-haskell
 	url = git://github.com/dysinger/el-get
 	branch = haskell
-[submodule "packages/ensime"]
-	path = packages/ensime
-	url = https://github.com/aemoncannon/ensime
 [submodule "packages/evil"]
 	path = packages/evil
 	url = https://github.com/Bogdanp/evil.git
+[submodule "packages/ensime"]
+	path = packages/ensime
+	url = https://github.com/ensime/ensime-src
