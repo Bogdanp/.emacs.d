@@ -1,0 +1,151 @@
+#+TITLE:  Bogdan's EMACS Config
+#+AUTHOR: Bogdan Popa
+#+DATE:   <2014-04-27 Sun>
+
+
+* Installation
+** Linux
+   This depends on the distribution. Most of them will have EMACS in
+   their repositories.
+
+   #+BEGIN_SRC sh
+     sudo apt-get install emacs-snapshot-gtk
+   #+END_SRC
+
+** Mac OS X
+   Download and install EMACS for OS X from http://emacsformacosx.com.
+
+** Windows
+   Download and install EMACS for Windows from
+   http://ftp.gnu.org.ua/gnu/emacs/windows/.
+
+* Setup
+** Unix
+   Clone the repo into your home directory and then fetch its
+   submodules.
+
+   #+BEGIN_SRC sh
+     cd ~/
+     git clone https://github.com/Bogdanp/.emacs.d.git
+     cd .emacs.d
+     git submodule init
+     git submodule update
+   #+END_SRC
+
+** Windows
+   Windows makes things a bit harder. Add an environment variable
+   called =HOME= and make it point to =C:/Users/Username/=. Clone the
+   =windows= branch of the repository in that folder and fetch its
+   submodules.
+
+* Bindings
+  The most important EMACS binding is =C-g=. Use it as an escape hatch
+  for when you mess up your key combinations.
+
+  - =C-p= and =C-n= goto next and prev line.
+  - =C-a= and =C-e= goto the beginning and end of the current line.
+  - =C-c M-a= toggle between the current window state and a
+    fullscreen terminal.
+
+* Backups
+  =undo-tree-mode= is enabled globally. All backups - including
+  =undo-tree= files - are saved in =temporary-file-directory=
+
+* EVIL
+** Differences From Standard EVIL
+   My EVIL mode fork makes some changes to the way registers are
+   handled. Most importantly, while you are inside an EVIL mode
+   buffer you can only access the clipboard through the =+= register
+   and nothing else, this prevents EMACS from dirtying the clipboard
+   whenever you cut things.
+
+   The copy-on-motion bug is fixed.
+
+   =C-w= works in the minibuffer and in the search buffer.
+
+** Normal Mode Bindings
+   - =SPC= bring up ace jump mode.
+   - =S-SPC= bring up ace char jump mode.
+   - =C-w f= toggle between making the current window fullscreen or not.
+
+** Visual Mode Bindings
+   The =C-a=, =C-e=, =C-p=, =C-n= bindings are available in visual
+   mode.
+
+** Insert Mode Bindings
+   The =C-a=, =C-e=, =C-p=, =C-n= bindings are available in insert
+   mode.
+
+   - =C-w= deletes the previous word.
+   - =C-r= inserts whatever is in a given buffer (=C-r += will
+   insert whatever is on the clipboard).
+
+* Magit
+  Magit is fucking great. You can find its official manual at
+  http://magit.github.io/master/magit.html.
+
+** Generic Bindings
+   - =n= goto next object.
+   - =p= goto previous object.
+   - =TAB= expand/collapse object.
+   - =RET= open object.
+
+** Status Bindings
+   Use =C-c m= to bring =magit-status= up.
+
+   - =S= stage everything.
+   - =s= stage object under point.
+   - =u= unstage object under point.
+   - =b*= branch operations.
+   - =c*= commit operations.
+   - =f*= fetch operations.
+   - =F*= pull operations.
+   - =P*= push operations.
+
+** Branch Bindings
+   Use =bv= inside =magit-status= to bring up the visual branch manager.
+
+* Python
+** Flycheck
+Install =flake8= to use it as a backend for Flycheck.
+
+*** Ignoring certain errors
+    Create a =.flake8rc= file in your =HOME= directory. For example:
+
+    #+NAME: .flake8rc
+    #+BEGIN_SRC conf
+      [flake8]
+      ignore = E501,F403,E712
+    #+END_SRC
+
+*** Bindings
+    - =C-c !n= and =C-c !p= goto next and prev error.
+    - =C-c !l= list errors.
+
+** Jedi
+   Install =virtualenv= and =epc= and then run =M-x jedi:install-server=.
+
+*** Bindings
+    - =C-c .= goto definition (and =C-c ,=).
+    - =C-c ?= show documentation of the object at point.
+
+* Scheme
+** Setup
+   Link =mzscheme= and =racket= so that they can be found in =PATH=.
+
+** Geiser mode
+   Start it up with =M-x run-geiser=.
+
+*** Buffer Bindings
+    - =C-c C-a= to switch to the REPL and enter the current module.
+    - =C-c C-z= to switch between the buffer and the REPL.
+    - =C-M-x= eval definition around point.
+    - =C-c M-e= eval definition around point and switch to REPL.
+    - =C-c C-x= eval sexp before point.
+    - =C-c C-r= eval region (also =C-c M-r=).
+    - =C-c C-b= eval buffer (also =C-c M-b=).
+    - =M-g n= and =M-g p= to jump to next and prev error.
+
+*** REPL Bindings
+    - =C-c C-q= kill Scheme process.
+    - =C-c M-o= clear REPL.

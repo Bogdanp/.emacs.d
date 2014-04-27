@@ -4,6 +4,8 @@
 /.python-environments/
 /ac-comphist.dat
 /backups/
+/doc/*.html
+/doc/*.tex
 /elpa/
 /eshell/
 /places
