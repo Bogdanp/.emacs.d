@@ -135,6 +135,28 @@
 ** Branch Bindings
    Use =bv= inside =magit-status= to bring up the visual branch manager.
 
+* Org
+** Bindings
+   - =TAB= toggle headings.
+   - =S-TAB= toggle headings globally.
+   - =C-c=' in a source code block will open up the code in a
+     separate buffer for editing.
+   - =C-c .= insert date.
+   - =C-c C-u= parent heading.
+   - =C-c C-b= previous same-level heading.
+   - =C-c C-f= next same-level heading.
+   - =C-c C-p= previous heading.
+   - =C-c C-n= next heading.
+   - =C-c C-e= export document.
+   - =C-x n s= narrow buffer.
+   - =C-x n w= widen buffer.
+   - =C-RET= add new heading at the current level.
+   - =M-RET= add new heading/list item at the current level.
+   - =M-→= increase heading level.
+   - =M-←= decrease heading level.
+   - =S-M-→= increase heading level incl. children.
+   - =S-M-←= decrease heading level incl. children.
+
 * Prodigy
   Prodigy is bound to =C-c p=.
 
