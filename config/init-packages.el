@@ -33,7 +33,7 @@
     prodigy
 
     ;; Misc languages
-    less-css-mode markdown-mode scala-mode2 web-mode yaml-mode
+    less-css-mode markdown-mode php-mode scala-mode2 web-mode yaml-mode
 
     ;; Haskell
     haskell-mode shm
