@@ -1,7 +1,8 @@
-#+TITLE:  Bogdan's EMACS Config
-#+AUTHOR: Bogdan Popa
-#+DATE:   <2014-04-27 Sun>
-
+#+TITLE:    Bogdan's EMACS Config
+#+AUTHOR:   Bogdan Popa
+#+EMAIL:    popa.bogdanp@gmail.com
+#+LANGUAGE: en
+#+STARTUP:  showall
 
 * This Document
   The purpose of this document is mostly to help me remember all of my
@@ -95,6 +96,34 @@
    - =C-w= deletes the previous word.
    - =C-r= inserts whatever is in a given buffer.
 
+* Prodigy
+  Prodigy is bound to =C-c p=.
+
+** Services
+   Services should be defined in =config/init-prodigy.el=. The
+   following is an example service:
+
+   #+BEGIN_SRC elisp -n -r
+     (prodigy-define-service
+       :name "Python Server"
+       :command "python"
+       :args '("-m" "SimpleHTTPServer" "8093")
+       :cwd "/path/to/my/project/"
+       :tags '(example)
+       :kill-process-buffer-on-stop t)
+   #+END_SRC
+
+** Bindings
+   - =s= start a process.
+   - =S= stop a process.
+   - =r= restart a process.
+   - =$= open a process' log.
+   - =F= clear filters.
+   - =f t= filter by tag.
+   - =f n= filter by name.
+   - =j d= open dired for the current process.
+   - =j m= open magit for the current process.
+
 * Magit
   Magit is fucking great. You can find its official manual [[http://magit.github.io/master/magit.html][here]].
 
@@ -127,7 +156,7 @@
     Create a =.flake8rc= file in your =HOME= directory. For example:
 
     #+NAME: .flake8rc
-    #+BEGIN_SRC conf
+    #+BEGIN_SRC conf -n -r
       [flake8]
       ignore = E501,F403,E712
     #+END_SRC
