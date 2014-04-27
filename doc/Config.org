@@ -63,6 +63,21 @@
   =undo-tree-mode= is enabled globally. All backups - including
   =undo-tree= files - are saved in =temporary-file-directory=.
 
+* dired+
+  You can bring up dired by pressing =C-j= on a folder whilst in
+  =ido-find-file= (=C-x C-f=).
+
+** Bindings
+   - =+= create directory.
+   - =d= delete file(s).
+   - =g= refresh buffer.
+   - =m= mark file.
+   - =u= unmark file.
+   - =R= rename file(s).
+   - =U= unmark all files.
+   - =M-<= goto beginning of buffer.
+   - =M->= goto end of buffer.
+
 * EVIL
 ** Differences From Standard EVIL
    My EVIL mode fork makes some changes to the way registers are
@@ -96,6 +111,30 @@
    - =C-w= deletes the previous word.
    - =C-r= inserts whatever is in a given buffer.
 
+* Magit
+  Magit is fucking great. You can find its official manual [[http://magit.github.io/master/magit.html][here]].
+
+** Generic Bindings
+   - =n= goto next object.
+   - =p= goto previous object.
+   - =TAB= expand/collapse object.
+   - =RET= open object.
+
+** Status Bindings
+   Use =C-c m= to bring =magit-status= up.
+
+   - =S= stage everything.
+   - =s= stage object under point.
+   - =u= unstage object under point.
+   - =b*= branch operations.
+   - =c*= commit operations.
+   - =f*= fetch operations.
+   - =F*= pull operations.
+   - =P*= push operations.
+
+** Branch Bindings
+   Use =bv= inside =magit-status= to bring up the visual branch manager.
+
 * Prodigy
   Prodigy is bound to =C-c p=.
 
@@ -124,29 +163,25 @@
    - =j d= open dired for the current process.
    - =j m= open magit for the current process.
 
-* Magit
-  Magit is fucking great. You can find its official manual [[http://magit.github.io/master/magit.html][here]].
+* Haskell
+  You will need a recent version of =ghc= and =cabal= as well as the
+  following packages: =hlint=, =ghc-mod=, =ghci-ng=,
+  =structured-haskell-mode=, =stylish-haskell=.
 
-** Generic Bindings
-   - =n= goto next object.
-   - =p= goto previous object.
-   - =TAB= expand/collapse object.
-   - =RET= open object.
+** Structured Haskell Mode
+   See the [[https://github.com/chrisdone/structured-haskell-mode][Official Repository]].
 
-** Status Bindings
-   Use =C-c m= to bring =magit-status= up.
+** Bindings
+   - =C-c C-l= load the current source file into a REPL.
+   - =C-c C-t= show type of object at point.
 
-   - =S= stage everything.
-   - =s= stage object under point.
-   - =u= unstage object under point.
-   - =b*= branch operations.
-   - =c*= commit operations.
-   - =f*= fetch operations.
-   - =F*= pull operations.
-   - =P*= push operations.
+* PHP
+  PHP is supported through =php-mode= and =web-mode=. Use =web-mode=
+  for mixed HTML and PHP files and =php-mode= for pure PHP files. The
+  default mode for PHP files is =web-mode=.
 
-** Branch Bindings
-   Use =bv= inside =magit-status= to bring up the visual branch manager.
+** Flycheck
+   Install =phpcs= from PEAR and you should be good to go.
 
 * Python
 ** Flycheck
@@ -171,6 +206,10 @@
 *** Bindings
     - =C-c .= goto definition (and =C-c= ,).
     - =C-c ?= show documentation of the object at point.
+
+* Scala
+  View the ENSIME manual at the [[https://github.com/ensime/ensime-src][Official Repository]]. Start up ENSIME
+  in a Scala buffer with =M-x ensime RET=.
 
 * Scheme
 ** Setup
