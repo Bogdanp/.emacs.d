@@ -88,10 +88,10 @@
 
    The copy-on-motion bug is fixed.
 
-   =C-w= works in the minibuffer and in the search buffer.
+   =C-w= now works in the minibuffer.
 
 ** Common Bindings
-   You can drop into EMACS mode for a single command using =\=.
+   You can drop into EMACS mode for a single command using ~\~.
 
    - =C-z= switch between EVIL and EMACS mode.
 
