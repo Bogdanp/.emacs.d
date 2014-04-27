@@ -46,6 +46,7 @@
     init-lang-elisp
     init-lang-haskell
     init-lang-python
+    init-lang-racket
     init-lang-scala
 
     ;; Bindings
