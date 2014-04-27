@@ -15,6 +15,7 @@
     ;; Auto completion
     auto-complete
     auto-complete-clang
+    ac-geiser
     ido-ubiquitous
     smex
 
@@ -49,6 +50,10 @@
     ;; Python
     jedi
 
+    ;; Racket
+    geiser
+    quack
+
     ;; Themes
     twilight-theme
     twilight-anti-bright-theme)
@@ -72,5 +77,6 @@
   "A list of packages that must be loaded.")
 
 (mapc 'require my-required-packages)
+
 
 (provide 'init-packages)
