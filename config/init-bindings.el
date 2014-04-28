@@ -41,5 +41,21 @@
 (define-key evil-insert-state-map (kbd "C-n") 'evil-next-line)
 (define-key evil-visual-state-map (kbd "C-n") 'evil-next-line)
 
+;; Org-mode bindings for EVIL purposes.
+(evil-define-key 'normal org-mode-map
+  ;; Replacements of standard VIM commands
+  "-"   'org-cycle-list-bullet
+  "<"   'org-metaleft
+  ">"   'org-metaright
+
+  ;; Enhancements of standard VIM commands
+  "gu" 'outline-up-heading
+  "gk" 'org-backward-heading-same-level
+  "gj" 'org-forward-heading-same-level
+
+  ;; "localleader" commands
+  ",a"  'org-agenda
+  ",t"  'org-todo)
+
 
 (provide 'init-bindings)
