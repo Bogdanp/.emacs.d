@@ -27,6 +27,7 @@
 (define-key evil-normal-state-map (kbd "S-SPC") 'ace-jump-char-mode)
 (define-key evil-normal-state-map (kbd "C-w f") 'window:toggle-fullscreen)
 (define-key evil-normal-state-map (kbd ",,") 'evil-ex-nohighlight)
+(define-key evil-normal-state-map (kbd ",a") 'org-agenda)
 
 ;; Useful emacs bindings in all modes.
 (define-key evil-normal-state-map (kbd "C-a") 'evil-beginning-of-line)
@@ -55,7 +56,6 @@
   "gj" 'org-forward-heading-same-level
 
   ;; "localleader" commands
-  ",a"  'org-agenda
   ",t"  'org-todo)
 
 
