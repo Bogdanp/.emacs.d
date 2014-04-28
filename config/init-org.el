@@ -2,7 +2,10 @@
 (setq org-src-fontify-natively t)
 
 ;; Set up path to agenda files.
-(setq org-agenda-files `(,(expand-file-name "~/Documents/Org/")))
+(setq org:agenda-files-path (expand-file-name "~/Documents/Org/"))
+
+(when (file-exists-p org:agenda-files-path)
+  (setq org-agenda-files `(,org:agenda-files-path)))
 
 ;; Log the closing time of TODO items.
 (setq org-log-done 'time)
