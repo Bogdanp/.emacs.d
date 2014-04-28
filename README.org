@@ -2,7 +2,6 @@
 #+AUTHOR:   Bogdan Popa
 #+EMAIL:    popa.bogdanp@gmail.com
 #+LANGUAGE: en
-#+STARTUP:  showall
 
 * This Document
   The purpose of this document is mostly to help me remember all of my
@@ -47,17 +46,19 @@
   The most important EMACS binding is =C-g=. Use it as an escape hatch
   for when you mess up your key combinations.
 
-  - =q= will close most popups, make sure you are in EMACS mode before
-    you use it (you're in EMACS mode if there's an =<E>= in your
-    status bad).
+  - =M-x= command mode.
+  - =C-x C-s= will save a file.
+  - =C-x C-c= will quit EMACS.
   - =C-p= and =C-n= goto next and prev line.
   - =C-a= and =C-e= goto the beginning and end of the current line.
-  - =M-x= command mode.
   - =C-x b= switch buffer.
   - =C-x f= find file.
   - =C-x o= switch to other window.
   - =C-c M-a= toggle between the current window state and a
     fullscreen terminal.
+  - =q= will close most popups, make sure you are in EMACS mode before
+    you use it (you're in EMACS mode if there's an =<E>= in your
+    status bad).
 
 * Backups
   =undo-tree-mode= is enabled globally. All backups - including
@@ -156,6 +157,16 @@
    - =M-←= decrease heading level.
    - =S-M-→= increase heading level incl. children.
    - =S-M-←= decrease heading level incl. children.
+     
+** EVIL Bindings
+   - , =a= bring up agenda (this one is globally-available).
+   - , =t= switch todo state on heading.
+   - =-= cycle list bullet.
+   - =<= decrease heading level.
+   - =>= increase heading level.
+   - =gu= goto parent heading.
+   - =gj= goto next same-level heading.
+   - =gk= goto prev same-level heading.
 
 * Prodigy
   Prodigy is bound to =C-c p=.
