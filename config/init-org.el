@@ -4,6 +4,9 @@
 ;; Set up path to agenda files.
 (setq org-agenda-files `(,(expand-file-name "~/Documents/Org/")))
 
+;; Log the closing time of TODO items.
+(setq org-log-done 'time)
+
 
 ;; Reminders
 ;; ~~~~~~~~~

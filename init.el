@@ -45,6 +45,7 @@
     init-lang-c
     init-lang-elisp
     init-lang-haskell
+    init-lang-javascript
     init-lang-python
     init-lang-racket
     init-lang-scala

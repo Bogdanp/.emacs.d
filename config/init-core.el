@@ -34,6 +34,9 @@
 
 ;; Editing
 ;; ~~~~~~~
+;; Never use tabs.
+(setq-default indent-tabs-mode nil)
+
 ;; Highlight current line.
 (global-hl-line-mode t)
 
