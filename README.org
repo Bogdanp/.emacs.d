@@ -95,7 +95,7 @@
 ** Popups
    - =q= :: Will close most popups, make sure you are in EMACS mode
             before you use it (you're in EMACS mode if there's an
-            =<E>= in your status bad).
+            =<E>= in your status bar).
 
 * Backups
   =undo-tree-mode= is enabled globally. All backups - including
