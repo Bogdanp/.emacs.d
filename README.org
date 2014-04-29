@@ -44,21 +44,58 @@
 
 * Bindings
   The most important EMACS binding is =C-g=. Use it as an escape hatch
-  for when you mess up your key combinations.
+  for when you mess up your key combinations. VIM users: =C-g= is your
+  =ESC= in EMACS.
 
-  - =M-x= command mode.
-  - =C-x C-s= will save a file.
-  - =C-x C-c= will quit EMACS.
-  - =C-p= and =C-n= goto next and prev line.
-  - =C-a= and =C-e= goto the beginning and end of the current line.
-  - =C-x b= switch buffer.
-  - =C-x f= find file.
-  - =C-x o= switch to other window.
-  - =C-c M-a= toggle between the current window state and a
-    fullscreen terminal.
-  - =q= will close most popups, make sure you are in EMACS mode before
-    you use it (you're in EMACS mode if there's an =<E>= in your
-    status bad).
+** General
+   - =M-x= :: Bring up extended command mode.
+   - =C-x C-c= :: Quit.
+   - =C-x C-i= :: Bring up =imenu=.
+   - =C-x C-e= :: Evaluate last sexp.
+
+** Getting Help
+   - =C-h f= :: Describe function.
+   - =C-h v= :: Describe variable.
+   - =C-h k= :: Describe key combination.
+
+** Moving Around
+   - =C-s= :: Search forward.
+   - =C-p= :: Goto prev line.
+   - =C-n= :: Goto next line.
+   - =C-a= :: Goto beginning of line.
+   - =C-e= :: Goto end of line.
+   - =C-b= :: Goto prev character.
+   - =C-f= :: Goto next character.
+   - =M-b= :: Goto prev word.
+   - =M-f= :: Goto next word.
+   - =M-<= :: Goto beginning of buffer.
+   - =M->= :: Goto end of buffer.
+   - =C-w= :: Kill word backward.
+   - =M-d= :: Kill word.
+
+** Buffer Management
+   - =C-x C-s= :: Save.
+   - =C-x C-w= :: Save as.
+   - =C-x C-b= :: List buffers.
+   - =C-x b= :: Switch buffers.
+   - =C-x f= :: Open.
+
+** Window Management
+   These suck compared to the EVIL alternatives but they (mostly =C-x
+   o=) will come in handy when dealing with =<E>= buffers.
+
+   - =C-x 0= :: Delete current window.
+   - =C-x 1= :: Delete other windows.
+   - =C-x 2= :: Split window vertically.
+   - =C-x 3= :: Split window horizontally.
+   - =C-x o= :: Goto other window.
+   - =C-c M-a= :: toggle between the current window state and a
+                  fullscreen terminal.
+
+** Popups
+   - =q= :: Will close most popups, make sure you are in EMACS mode
+            before you use it (you're in EMACS mode if there's an
+            =<E>= in your status bad).
 
 * Backups
   =undo-tree-mode= is enabled globally. All backups - including
@@ -66,18 +103,20 @@
 
 * dired+
   You can bring up dired by pressing =C-j= on a folder whilst in
-  =ido-find-file= (=C-x C-f=).
+  =ido-find-file= (=C-x C-f=). You can also bring it up with =C-x d=.
 
 ** Bindings
-   - =+= create directory.
-   - =d= delete file(s).
-   - =g= refresh buffer.
-   - =m= mark file.
-   - =u= unmark file.
-   - =R= rename file(s).
-   - =U= unmark all files.
-   - =M-<= goto beginning of buffer.
-   - =M->= goto end of buffer.
+   - =n= :: Goto next line.
+   - =p= :: Goto prev line.
+   - =+= :: Create directory.
+   - =x= :: Execute changes.
+   - =D= :: Delete file immediately.
+   - =d= :: Mark file for deletion.
+   - =g= :: Refresh buffer.
+   - =m= :: Mark file.
+   - =u= :: Unmark file.
+   - =R= :: Rename file(s).
+   - =U= :: Unmark all files.
 
 * EVIL
 ** Differences From Standard EVIL
@@ -94,12 +133,12 @@
 ** Common Bindings
    You can drop into EMACS mode for a single command using ~\~.
 
-   - =C-z= switch between EVIL and EMACS mode.
+   - =C-z= :: Toggle between EVIL and EMACS mode.
 
 ** Normal Mode Bindings
-   - =SPC= bring up ace jump mode.
-   - =S-SPC= bring up ace char jump mode.
-   - =C-w f= toggle between making the current window fullscreen or not.
+   - =SPC= :: Bring up ace jump mode.
+   - =S-SPC= :: Bring up ace char jump mode.
+   - =C-w f= :: Toggle window fullscreen.
 
 ** Visual Mode Bindings
    The =C-a=, =C-e=, =C-p=, =C-n= bindings are available in visual
@@ -109,64 +148,84 @@
    The =C-a=, =C-e=, =C-p=, =C-n= bindings are available in insert
    mode.
 
-   - =C-w= deletes the previous word.
-   - =C-r= inserts whatever is in a given buffer.
+   - =C-w= :: Kill word backward.
+   - =C-r= :: Yank from register.
 
 * Magit
   Magit is fucking great. You can find its official manual [[http://magit.github.io/master/magit.html][here]].
 
 ** Generic Bindings
-   - =n= goto next object.
-   - =p= goto previous object.
-   - =TAB= expand/collapse object.
-   - =RET= open object.
+   - =n=   :: Goto next object.
+   - =p=   :: Goto prev object.
+   - =TAB= :: Expand/collapse object.
+   - =RET= :: Open object.
 
 ** Status Bindings
    Use =C-c m= to bring =magit-status= up.
 
-   - =S= stage everything.
-   - =s= stage object under point.
-   - =u= unstage object under point.
-   - =b*= branch operations.
-   - =c*= commit operations.
-   - =f*= fetch operations.
-   - =F*= pull operations.
-   - =P*= push operations.
+   - =S= :: Stage everything.
+   - =s= :: Stage object under point.
+   - =u= :: Unstage object under point.
+   - =b*= :: Branch operations.
+   - =c*= :: Commit operations.
+   - =f*= :: Fetch operations.
+   - =F*= :: Pull operations.
+   - =P*= :: Push operations.
 
 ** Branch Bindings
    Use =bv= inside =magit-status= to bring up the visual branch manager.
 
 * Org
-** Bindings
-   - =TAB= toggle headings.
-   - =S-TAB= toggle headings globally.
-   - =C-c=' in a source code block will open up the code in a
-     separate buffer for editing.
-   - =C-c .= insert date.
-   - =C-c C-u= parent heading.
-   - =C-c C-b= previous same-level heading.
-   - =C-c C-f= next same-level heading.
-   - =C-c C-p= previous heading.
-   - =C-c C-n= next heading.
-   - =C-c C-e= export document.
-   - =C-x n s= narrow buffer.
-   - =C-x n w= widen buffer.
-   - =C-RET= add new heading at the current level.
-   - =M-RET= add new heading/list item at the current level.
-   - =M-→= increase heading level.
-   - =M-←= decrease heading level.
-   - =S-M-→= increase heading level incl. children.
-   - =S-M-←= decrease heading level incl. children.
+** EMACS Bindings
+*** Agenda
+    -     =C-c .= :: Insert date.
+    - =C-u C-c .= :: Insert date and time.
+
+*** Buffer
+    - =C-x n s= :: Narrow buffer.
+    - =C-x n w= :: Widen buffer.
+
+*** Document
+    - =C-c C-e= :: Export document.
+
+*** Headlines
+    -   =TAB=  :: Expand/collapse headline.
+    - =S-TAB=  :: Expand/collapse everything.
+    - =C-RET=  :: Add new headline at the current level.
+    - =M-RET=  :: Add new headline/list item at the current level.
+    - =M-→=   :: Increase headline level.
+    - =M-←=   :: Decrease headline level.
+    - =S-M-→= :: Increase headline level incl. children.
+    - =S-M-←= :: Decrease headline level incl. children.
+
+*** Movement
+    - =C-c C-u= :: Goto parent headline.
+    - =C-c C-b= :: Prev same-level headline.
+    - =C-c C-f= :: Next same-level headline.
+    - =C-c C-p= :: Prev headline.
+    - =C-c C-n= :: Next headline.
+
+*** Source Code
+    - =C-c=' :: Open up the code in a source code block in a separate
+                buffer for editing.
+    - =<sTAB= :: Insert source code block. You need to be in insert or
+                 EMACS mode to use this one.
      
 ** EVIL Bindings
-   - , =a= bring up agenda (this one is globally-available).
-   - , =t= switch todo state on heading.
-   - =-= cycle list bullet.
-   - =<= decrease heading level.
-   - =>= increase heading level.
-   - =gu= goto parent heading.
-   - =gj= goto next same-level heading.
-   - =gk= goto prev same-level heading.
+*** Agenda
+    - , =a= :: Bring up agenda (this one is globally-available).
+
+*** Headlines
+    - , =t= :: Toggle headline state.
+
+    - =-= :: Cycle list bullet.
+    - =<= :: Decrease headline level.
+    - =>= :: Increase headline level.
+
+*** Movement
+    - =gu= :: Goto parent headline.
+    - =gj= :: Goto next same-level headline.
+    - =gk= :: Goto prev same-level headline.
 
 * Prodigy
   Prodigy is bound to =C-c p=.
@@ -186,15 +245,17 @@
    #+END_SRC
 
 ** Bindings
-   - =s= start a process.
-   - =S= stop a process.
-   - =r= restart a process.
-   - =$= open a process' log.
-   - =F= clear filters.
-   - =f t= filter by tag.
-   - =f n= filter by name.
-   - =j d= open dired for the current process.
-   - =j m= open magit for the current process.
+   - =n= :: Next process.
+   - =p= :: Prev process.
+   - =s= :: Start process.
+   - =S= :: Stop process.
+   - =r= :: Restart process.
+   - =$= :: View process log.
+   - =F= :: Clear filters.
+   - =f t= :: Filter by tag.
+   - =f n= :: Filter by name.
+   - =j d= :: Open dired for the current process.
+   - =j m= :: Open magit for the current process.
 
 * Haskell
   You will need a recent version of =ghc= and =cabal= as well as the
@@ -205,8 +266,8 @@
    See the [[https://github.com/chrisdone/structured-haskell-mode][Official Repository]].
 
 ** Bindings
-   - =C-c C-l= load the current source file into a REPL.
-   - =C-c C-t= show type of object at point.
+   - =C-c C-l= :: Load the buffer into a REPL.
+   - =C-c C-t= :: View type of object at point.
 
 * PHP
   PHP is supported through =php-mode= and =web-mode=. Use =web-mode=
@@ -230,15 +291,16 @@
     #+END_SRC
 
 *** Bindings
-    - =C-c !n= and =C-c !p= goto next and prev error.
-    - =C-c !l= list errors.
+    - =C-c !n= :: Goto next error.
+    - =C-c !p= :: Goto prev error.
+    - =C-c !l= :: List errors.
 
 ** Jedi
    Install =virtualenv= and =epc= and then run =M-x jedi:install-server=.
 
 *** Bindings
-    - =C-c .= goto definition (and =C-c= ,).
-    - =C-c ?= show documentation of the object at point.
+    - =C-c .= :: Goto definition (and =C-c= ,).
+    - =C-c ?= :: Show documentation of the object at point.
 
 * Scala
   View the ENSIME manual at the [[https://github.com/ensime/ensime-src][Official Repository]]. Start up ENSIME
@@ -252,15 +314,16 @@
    Start it up with =M-x run-geiser=.
 
 *** Buffer Bindings
-    - =C-c C-a= to switch to the REPL and enter the current module.
-    - =C-c C-z= to switch between the buffer and the REPL.
-    - =C-M-x= eval definition around point.
-    - =C-c M-e= eval definition around point and switch to REPL.
-    - =C-c C-x= eval sexp before point.
-    - =C-c C-r= eval region (also =C-c M-r=).
-    - =C-c C-b= eval buffer (also =C-c M-b=).
-    - =M-g n= and =M-g p= to jump to next and prev error.
+    - =C-c C-a= :: Switch to the REPL and enter the current module.
+    - =C-c C-z= :: Switch between the buffer and the REPL.
+    - =C-M-x= :: Eval definition around point.
+    - =C-c M-e= :: Eval definition around point and switch to REPL.
+    - =C-c C-x= :: Eval sexp before point.
+    - =C-c C-r= :: Eval region (also =C-c M-r=).
+    - =C-c C-b= :: Eval buffer (also =C-c M-b=).
+    - =M-g n= :: Jump to next error.
+    - =M-g p= :: Jump to prev error.
 
 *** REPL Bindings
-    - =C-c C-q= kill Scheme process.
-    - =C-c M-o= clear REPL.
+    - =C-c C-q= :: Kill Scheme process.
+    - =C-c M-o= :: Clear REPL.
