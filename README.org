@@ -97,6 +97,18 @@
             before you use it (you're in EMACS mode if there's an
             =<E>= in your status bar).
 
+* Paredit
+  If you're writing any sort of LISP you *need* to learn Paredit. It's
+  that good. Paredit allows you to perform structured editing of
+  sexps. Read more about it on the [[http://www.emacswiki.org/emacs/ParEdit][EMACS Wiki]].
+
+  *NOTE*: If you're coming from VIM Paredit will probably leave you
+  frustrated (there will be times when you delete a closing paren in
+  normal mode and then paredit won't allow you to insert any closing
+  parens) if you don't take the time to learn it. So make sure you do.
+
+  You can find a Paredit cheatsheet [[http://pub.gajendra.net/src/paredit-refcard.pdf][here]].
+
 * Backups
   =undo-tree-mode= is enabled globally. All backups - including
   =undo-tree= files - are saved in =temporary-file-directory=.
