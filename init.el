@@ -1,7 +1,7 @@
 ;; UI
 ;; ~~
 ;; Font first.
-(set-default-font "Inconsolata-15")
+(set-frame-font "Inconsolata-15")
 
 ;; Position and resize frame.
 (when (window-system)
