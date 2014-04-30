@@ -28,6 +28,7 @@
 (define-key evil-normal-state-map (kbd "C-w f") 'window:toggle-fullscreen)
 (define-key evil-normal-state-map (kbd ",,") 'evil-ex-nohighlight)
 (define-key evil-normal-state-map (kbd ",a") 'org-agenda)
+(define-key evil-normal-state-map (kbd ",m") 'evil-jump-item)
 
 ;; Useful emacs bindings in all modes.
 (define-key evil-normal-state-map (kbd "C-a") 'evil-beginning-of-line)
