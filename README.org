@@ -97,6 +97,15 @@
             before you use it (you're in EMACS mode if there's an
             =<E>= in your status bar).
 
+* Bookmarks
+  You can set bookmarks to any line in any buffer (incl. dired
+  buffers).
+
+** Bindings
+   - =C-x r m= :: Create bookmark.
+   - =C-x r b= :: Goto bookmark.
+   - =C-x r l= :: List bookmarks.
+
 * Paredit
   If you're writing any sort of LISP you *need* to learn Paredit. It's
   that good. Paredit allows you to perform structured editing of
