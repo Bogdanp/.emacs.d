@@ -24,14 +24,29 @@
 
 ;; EVIL bindings
 ;; ~~~~~~~~~~~~~
+;; Misc
+(define-key evil-normal-state-map (kbd ",,") 'evil-ex-nohighlight)
+
+;; Ace Jump Mode
 (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode)
 (define-key evil-normal-state-map (kbd "S-SPC") 'ace-jump-char-mode)
+
+;; Window Management
 (define-key evil-normal-state-map (kbd "C-w f") 'window:toggle-fullscreen)
-(define-key evil-normal-state-map (kbd ",,") 'evil-ex-nohighlight)
+
+;; Agenda Bookmarks
 (define-key evil-normal-state-map (kbd ",a") 'org-agenda)
+
+;; Jump to matching paren/bracket/object. This is basically an alias
+;; for % which I find awkward to use.
 (define-key evil-normal-state-map (kbd ",m") 'evil-jump-item)
 
-;; Useful emacs bindings in all modes.
+;; Bookmarks
+(define-key evil-normal-state-map (kbd ",bc") 'bookmark-set)
+(define-key evil-normal-state-map (kbd ",bl") 'list-bookmarks)
+(define-key evil-normal-state-map (kbd ",bb") 'bookmark-jump)
+
+;; Useful EMACS bindings in all modes.
 (define-key evil-normal-state-map (kbd "C-a") 'evil-beginning-of-line)
 (define-key evil-insert-state-map (kbd "C-a") 'beginning-of-line)
 (define-key evil-visual-state-map (kbd "C-a") 'evil-beginning-of-line)
