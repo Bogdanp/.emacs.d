@@ -123,6 +123,11 @@
 
   You can find a Paredit cheatsheet [[http://pub.gajendra.net/src/paredit-refcard.pdf][here]].
 
+* Imenu
+  Imenu produces an index of all of the definitions in the current
+  buffer and allows to you easily go to any of them. It is bound to
+  =C-x C-i=.
+
 * Backups
   =undo-tree-mode= is enabled globally. All backups - including
   =undo-tree= files - are saved in =temporary-file-directory=.
