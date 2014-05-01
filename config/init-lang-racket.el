@@ -1,6 +1,8 @@
 (add-hook 'scheme-mode-hook 'paredit-mode)
 (add-hook 'scheme-mode-hook 'pretty-lambda-mode)
 
+;; Auto completion
+;; ~~~~~~~~~~~~~~~
 (add-hook 'geiser-mode-hook 'ac-geiser-setup)
 (add-hook 'geiser-repl-mode-hook 'ac-geiser-setup)
 

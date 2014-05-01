@@ -43,6 +43,7 @@
 
     ;; Languages
     init-lang-c
+    init-lang-common-lisp
     init-lang-elisp
     init-lang-haskell
     init-lang-javascript

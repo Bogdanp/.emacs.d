@@ -16,6 +16,9 @@
     auto-complete
     auto-complete-clang
     ac-geiser
+    ac-slime
+
+    ;; Better ido
     ido-ubiquitous
     smex
 
@@ -43,6 +46,9 @@
     pretty-lambdada
     rainbow-delimiters
     rainbow-mode
+
+    ;; Common Lisp
+    slime
 
     ;; Elisp
     litable
