@@ -52,7 +52,6 @@
 
     ;; Racket
     geiser
-    quack
 
     ;; Themes
     twilight-theme
