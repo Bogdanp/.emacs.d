@@ -21,7 +21,7 @@
   :command (expand-file-name "~/sandbox/defn/dist/build/defn/defn")
   :cwd (expand-file-name "~/sandbox/defn/")
   :args `("-p" "8093" ,(expand-file-name "~/sandbox/defn/articles/"))
-  :tags '(work)
+  :tags '(personal)
   :stop-signal 'sigterm
   :kill-process-buffer-on-stop t)
 
