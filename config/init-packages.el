@@ -15,6 +15,7 @@
     ;; Auto completion
     auto-complete
     auto-complete-clang
+    ac-cider-compliment
     ac-geiser
     ac-slime
 
@@ -49,6 +50,11 @@
 
     ;; Common Lisp
     slime
+
+    ;; Clojure
+    clojure-mode
+    clojure-test-mode
+    cider
 
     ;; Elisp
     litable
