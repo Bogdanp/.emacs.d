@@ -15,8 +15,8 @@
     ;; Auto completion
     auto-complete
     auto-complete-clang
-    ac-cider-compliment
     ac-geiser
+    ac-nrepl
     ac-slime
 
     ;; Better ido

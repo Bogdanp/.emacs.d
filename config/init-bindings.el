@@ -27,6 +27,10 @@
 ;; Misc
 (define-key evil-normal-state-map (kbd ",,") 'evil-ex-nohighlight)
 
+;; Clojure
+(evil-define-key 'normal cider-mode-map
+  ",x" 'cider-eval-defun-at-point)
+
 ;; SLIME and CL
 (evil-define-key 'normal slime-mode-map
   ",x" 'slime-eval-defun)
