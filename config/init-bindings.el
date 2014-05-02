@@ -27,6 +27,14 @@
 ;; Misc
 (define-key evil-normal-state-map (kbd ",,") 'evil-ex-nohighlight)
 
+;; SLIME and CL
+(evil-define-key 'normal slime-mode-map
+  ",x" 'slime-eval-defun)
+
+;; Racket
+(evil-define-key 'normal geiser-mode-map
+  ",x" 'geiser-eval-definition)
+
 ;; Ace Jump Mode
 (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode)
 (define-key evil-normal-state-map (kbd "S-SPC") 'ace-jump-char-mode)
