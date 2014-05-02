@@ -29,6 +29,9 @@
 
 ;; Clojure
 (evil-define-key 'normal cider-mode-map
+  ",cj" 'cider-jump
+  ",cb" 'cider-jump-back
+
   ",x" 'cider-eval-defun-at-point)
 
 ;; SLIME and CL
