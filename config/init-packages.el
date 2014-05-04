@@ -40,7 +40,9 @@
     js2-mode less-css-mode markdown-mode php-mode scala-mode2 web-mode yaml-mode
 
     ;; Haskell
-    haskell-mode shm
+    flycheck-haskell
+    haskell-mode
+    shm
 
     ;; Lisp
     paredit
