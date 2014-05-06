@@ -9,6 +9,9 @@
 ;; Save point position in each buffer.
 (setq-default save-place t)
 
+;; /path/to/buffer instead of buffer<n>
+(setq uniquify-buffer-name-style 'forward)
+
 
 ;; UI
 ;; ~~
