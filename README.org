@@ -1,6 +1,7 @@
 #+TITLE:    Bogdan's EMACS Config
 #+AUTHOR:   Bogdan Popa
 #+EMAIL:    popa.bogdanp@gmail.com
+#+STARTUP:  overview
 #+LANGUAGE: en
 
 * This Document
