@@ -6,6 +6,7 @@
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c p") 'prodigy)
 (global-set-key (kbd "C-c M-a") 'term:toggle)
+(global-set-key (kbd "C-c M-k") 'term:kill)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-i") 'imenu)
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
