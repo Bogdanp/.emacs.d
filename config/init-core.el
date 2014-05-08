@@ -60,6 +60,9 @@
 ;; Save a list of files that were visited recently.
 (recentf-mode t)
 
+;; Delete trailing whitespaces whenever a file gets saved.
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 
 ;; Windows
 ;; ~~~~~~~
