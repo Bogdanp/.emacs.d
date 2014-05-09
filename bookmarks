@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("defn.io"
+(("Documents"
+ (filename . "~/Documents/")
+ (front-context-string . ".\n  drwxr-xr-x@ ")
+ (rear-context-string . "18 May  7 15:20 ")
+ (position . 127))
+("defn.io"
  (filename . "/scpc:root@198.199.78.131:/root/")
  (front-context-string . ".bash_history\n  ")
  (rear-context-string . "51 Apr 30 21:11 ")
@@ -15,6 +20,6 @@
 ("Agenda"
  (filename . "~/Documents/Org/Bogdan.org")
  (front-context-string . "* Agenda        ")
- (rear-context-string)
- (position . 16))
+ (rear-context-string . "RTUP: overview\n\n")
+ (position . 36))
 )
