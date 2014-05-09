@@ -3,7 +3,15 @@
 (require 'evil)
 
 ;; Turn evil-mode on.
-(evil-mode 1)
+(evil-mode t)
+
+;; Default to EMACS mode in these modes.
+(dolist (mode '(dired-mode
+                git-commit-mode
+                help-mode
+                special-mode
+                term-mode))
+  (evil-set-initial-state mode 'emacs))
 
 ;; Make C-w work in the minibuffer.
 (add-hook 'minibuffer-setup-hook

@@ -1,6 +1,3 @@
-(add-hook 'term-mode-hook (lambda ()
-                            (evil-emacs-state)))
-
 (defconst term:shell "zsh"
   "The path to the shell that should be run.")
 
