@@ -37,6 +37,15 @@
 (define-key haskell-mode-map (kbd "C-c v c") 'haskell-cabal-visit-file)
 
 
+;; Term bindings
+;; ~~~~~~~~~~~~~
+(add-hook 'term-mode-hook
+          (lambda ()
+            (define-key term-raw-escape-map "\C-y"
+              (lambda ()
+                (interactive)
+                (term-send-raw-string (get-clipboard-value))))))
+
 ;; EVIL bindings
 ;; ~~~~~~~~~~~~~
 ;; Misc
