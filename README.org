@@ -242,7 +242,7 @@
                 buffer for editing.
     - =<sTAB= :: Insert source code block. You need to be in insert or
                  EMACS mode to use this one.
-     
+
 ** EVIL Bindings
 *** Agenda
     - , =a= :: Bring up agenda (this one is globally-available).
@@ -358,4 +358,22 @@
 
 *** REPL Bindings
     - =C-c C-q= :: Kill Scheme process.
+    - =C-c M-o= :: Clear REPL.
+
+* Clojure
+** Setup
+   Install [[http://leiningen.org][leiningen]].
+
+** Cider
+   Start it up with =M-x cider-jack-in=.
+
+*** Buffer Bindings
+    - =C-c C-z= :: Switch between the buffer and the REPL.
+    - =C-c C-x= :: Eval sexp before point.
+    - =C-c C-r= :: Eval region (also =C-c M-r=).
+    - =C-c C-b= :: Eval buffer (also =C-c M-b=).
+    - =C-c M-e= :: Eval definition around point and switch to REPL.
+    - =C-M-x= :: Eval definition around point.
+
+*** REPL Bindings
     - =C-c M-o= :: Clear REPL.
