@@ -5,7 +5,7 @@
 
 ;; Position and resize frame.
 (when (window-system)
-  (set-frame-position (selected-frame) 13 32)
+  (set-frame-position (selected-frame) 10 32)
   (set-frame-size (selected-frame) 235 65))
 
 ;; Remove GUI elements.
