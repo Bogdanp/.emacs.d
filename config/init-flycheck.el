@@ -6,7 +6,9 @@
   '(setq-default flycheck-disabled-checkers '(emacs-lisp
                                               emacs-lisp-checkdoc
 
-                                              html)))
+                                              haskell-ghc
+
+                                              html-tidy)))
 
 
 (provide 'init-flycheck)
