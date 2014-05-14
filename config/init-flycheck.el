@@ -3,7 +3,10 @@
 
 ;; Disable flycheck on elisp.
 (eval-after-load 'flycheck
-  '(setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)))
+  '(setq-default flycheck-disabled-checkers '(emacs-lisp
+                                              emacs-lisp-checkdoc
+
+                                              html)))
 
 
 (provide 'init-flycheck)
