@@ -3,7 +3,10 @@
 (custom-set-variables
  ;; Haskell Process
  '(haskell-process-type 'cabal-repl)
- '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans" "--with-ghc=ghci-ng"))
+ '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans"
+                                     "--ghc-option=-fno-warn-name-shadowing"
+                                     "--ghc-option=-fno-warn-orphans"
+                                     "--with-ghc=ghci-ng"))
  '(haskell-process-suggest-remove-import-lines t)
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
