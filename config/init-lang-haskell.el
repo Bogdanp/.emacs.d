@@ -1,18 +1,19 @@
 ;; Settings
 ;; ~~~~~~~~
+(setq haskell-process-common-args '("--ghc-option=-ferror-spans"
+                                    "--ghc-option=-fno-warn-name-shadowing"
+                                    "--ghc-option=-fno-warn-orphans"))
+
 (custom-set-variables
  ;; Haskell Process
  '(haskell-process-type 'cabal-repl)
- '(haskell-process-args-cabal-repl '("--ghc-option=-ferror-spans"
-                                     "--ghc-option=-fno-warn-name-shadowing"
-                                     "--ghc-option=-fno-warn-orphans"
+ '(haskell-process-args-cabal-repl `(,@haskell-process-common-args
                                      "--with-ghc=ghci-ng"))
  '(haskell-process-suggest-remove-import-lines t)
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-reload-with-fbytecode nil)
  '(haskell-process-use-presentation-mode t)
- '(haskell-process-do-cabal-format-string ":!cd %s && unset GHC_PACKAGE_PATH && %s")
  '(haskell-process-show-debug-tips nil)
 
  ;; Haskell Interactive
