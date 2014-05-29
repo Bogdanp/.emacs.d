@@ -63,6 +63,9 @@
 ;; Delete trailing whitespaces whenever a file gets saved.
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
+;; A more useful default grep command.
+(grep-apply-setting 'grep-command "grep -irnHI -e ")
+
 
 ;; Windows
 ;; ~~~~~~~
