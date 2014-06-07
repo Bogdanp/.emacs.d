@@ -44,6 +44,10 @@
     haskell-mode
     shm
 
+    ;; OCaml
+    tuareg
+    merlin
+
     ;; Lisp
     paredit
     pretty-lambdada

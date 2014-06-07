@@ -51,6 +51,7 @@
     init-lang-python
     init-lang-racket
     init-lang-scala
+    init-lang-ocaml
 
     ;; Bindings
     init-bindings))

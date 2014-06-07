@@ -4,7 +4,8 @@
 (setq exec-path
       (append exec-path
               `("/usr/local/bin"
-                ,(expand-file-name "~/.cabal/bin"))))
+                ,(expand-file-name "~/.cabal/bin")
+                ,(expand-file-name "~/.opam/system/bin"))))
 
 ;; Save point position in each buffer.
 (setq-default save-place t)
