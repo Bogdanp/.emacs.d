@@ -1,9 +1,6 @@
-(add-to-list 'load-path "~/.emacs.d/packages/ensime/src/main/elisp/")
-
-(require 'ensime)
-
 (defun scala:test-toggle-path (fp)
   "Test whether FP is one of '(mvn-source mvn-test play-source
+
 play-test) and transform it into its pair (source to test and
 vice-versa).
 
@@ -50,9 +47,9 @@ vice-versa).
           (find-file np))
       (message "Could not determine correct path"))))
 
-(add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 (add-hook 'scala-mode-hook
           (lambda ()
             (local-set-key (kbd "C-c t") 'scala:toggle-test)))
+
 
 (provide 'init-lang-scala)

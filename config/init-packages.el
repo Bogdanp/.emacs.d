@@ -36,13 +36,21 @@
     ;; System
     prodigy
 
-    ;; Misc languages
-    js2-mode less-css-mode markdown-mode php-mode scala-mode2 web-mode yaml-mode
+    ;; Frontend Languages
+    js2-mode
+    less-css-mode
+    markdown-mode
+    web-mode
+    yaml-mode
 
     ;; Haskell
     flycheck-haskell
     haskell-mode
     shm
+
+    ;; Scala
+    scala-mode2
+    sbt-mode
 
     ;; OCaml
     tuareg
