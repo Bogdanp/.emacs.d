@@ -1,12 +1,12 @@
 ;; UI
 ;; ~~
 ;; Font first.
-(set-frame-font "Inconsolata-17")
+(set-frame-font "Inconsolata-15")
 
 ;; Position and resize frame.
 (when (window-system)
   (set-frame-position (selected-frame) 10 32)
-  (set-frame-size (selected-frame) 235 61))
+  (set-frame-size (selected-frame) 235 65))
 
 ;; Remove GUI elements.
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
