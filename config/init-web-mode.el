@@ -8,7 +8,8 @@
 (add-to-list 'auto-mode-alist '("\\.php\\'"   . web-mode))
 
 (setq web-mode-engines-alist
-      '(("django"  . "\\.html\\'")))
+      '(("razor"  . "\\.scala\\.html\\'")
+        ("django" . "\\.html\\'")))
 
 (setq web-mode-style-padding 4)
 (setq web-mode-script-padding 4)
