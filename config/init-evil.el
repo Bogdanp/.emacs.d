@@ -8,6 +8,7 @@
 ;; Default to EMACS mode in these modes.
 (dolist (mode '(dired-mode
                 git-commit-mode
+                grep-mode
                 help-mode
                 special-mode
                 term-mode))
