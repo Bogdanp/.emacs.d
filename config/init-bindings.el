@@ -41,7 +41,7 @@
 
 (add-hook 'term-mode-hook
           (lambda ()
-            (define-key term-raw-escape-map "\C-x" 'term:add)
+            (define-key term-raw-escape-map "c" 'term:add)
             (define-key term-raw-escape-map "\C-k" 'term:kill)
             (define-key term-raw-escape-map "\C-n" 'term:next)
             (define-key term-raw-escape-map "\C-p" 'term:prev)
