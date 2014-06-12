@@ -5,8 +5,6 @@
 (global-set-key (kbd "C-c g") 'multi-occur-in-matching-buffers)
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c p") 'prodigy)
-(global-set-key (kbd "C-c M-a") 'term:toggle)
-(global-set-key (kbd "C-c M-k") 'term:kill)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-i") 'imenu)
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
@@ -39,8 +37,14 @@
 
 ;; Term bindings
 ;; ~~~~~~~~~~~~~
+(global-set-key (kbd "C-c M-a") 'term:toggle)
+
 (add-hook 'term-mode-hook
           (lambda ()
+            (define-key term-raw-escape-map "\C-c" 'term:add)
+            (define-key term-raw-escape-map "\C-k" 'term:kill)
+            (define-key term-raw-escape-map "\C-n" 'term:next)
+            (define-key term-raw-escape-map "\C-p" 'term:prev)
             (define-key term-raw-escape-map "\C-y"
               (lambda ()
                 (interactive)
