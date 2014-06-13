@@ -6,7 +6,10 @@
 (evil-mode t)
 
 ;; Default to EMACS mode in these modes.
-(dolist (mode '(debugger-mode
+(dolist (mode '(calendar-mode
+                comint-mode
+                debugger-mode
+                diff-mode
                 dired-mode
                 git-commit-mode
                 grep-mode
