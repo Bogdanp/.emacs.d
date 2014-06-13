@@ -30,6 +30,7 @@
     init-term
     init-org
     init-ido
+    init-mc
 
     ;; Plugins
     init-auto-completion

@@ -10,6 +10,16 @@
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
 
 
+;; MC bindings
+;; ~~~~~~~~~~~
+(global-set-key (kbd "C-c C-,") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-.") 'mc/mark-next-like-this)
+
+(define-key evil-normal-state-map (kbd "gcc") 'mc/mark-all-dwim)
+(define-key evil-normal-state-map (kbd "gcr") 'mc/mark-all-like-this-dwim)
+(define-key evil-normal-state-map (kbd "gcs") 'mc/mark-all-symbols-like-this)
+
+
 ;; Prodigy bindings
 ;; ~~~~~~~~~~~~~~~~
 (define-key prodigy-view-mode-map (kbd "C-c f") 'python:trace-find-file-at-point)
