@@ -6,6 +6,8 @@
         evil-backward-char
         evil-change
         evil-delete
+        evil-emacs-state
+        evil-previous-line
         paredit-forward-kill-word
         smex
         ))
