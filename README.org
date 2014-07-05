@@ -124,6 +124,7 @@
 
   You can find a Paredit cheatsheet [[http://pub.gajendra.net/src/paredit-refcard.pdf][here]].
 
+* Multiple cursors
 * Imenu
   Imenu produces an index of all of the definitions in the current
   buffer and allows to you easily go to any of them. It is bound to
