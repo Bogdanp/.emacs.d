@@ -1,7 +1,7 @@
 ;; UI
 ;; ~~
-;; Font first. Adding this to the default-frame-alist ensures that _all_
-;; frames use the same font and not just the main one.
+;; Adding this to the default-frame-alist ensures that _all_ frames use
+;; the same font and not just the main one.
 (add-to-list 'default-frame-alist
              '(font . "Inconsolata-15"))
 
@@ -17,7 +17,8 @@
 ;; Disable welcome screen.
 (setq inhibit-startup-message t)
 
-
+;; Config
+;; ~~~~~~
 ;; Initialize all of the other settings.
 (add-to-list 'load-path (locate-user-emacs-file "config"))
 
