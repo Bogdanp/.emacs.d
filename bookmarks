@@ -12,11 +12,6 @@
  (front-context-string . ".\n  drwxr-xr-x@ ")
  (rear-context-string . "18 May  7 15:20 ")
  (position . 127))
-("defn.io"
- (filename . "/scpc:root@198.199.78.131:/root/")
- (front-context-string . ".bash_history\n  ")
- (rear-context-string . "51 Apr 30 21:11 ")
- (position . 184))
 ("README.org"
  (filename . "~/.emacs.d/README.org")
  (front-context-string . "\n* This Document")

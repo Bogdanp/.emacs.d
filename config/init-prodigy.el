@@ -4,11 +4,11 @@
       `(("PHANTOMJS_BIN_PATH" "/usr/local/bin/phantomjs")
         ("PHANTOMJS_CAPTURE_PATH" ,(expand-file-name "~/Work/screenshot-service/phantomjs/capture.js"))))
 
-(defun prodigy:start-beanstalk-and-continue (done)
+(defun prodigy:start-beanstalk& (k)
   (let ((beanstalkd (prodigy-find-service "beanstalkd")))
     (if (prodigy-service-started-p beanstalkd)
-        (funcall done)
-        (prodigy-start-service beanstalkd done))))
+        (funcall k)
+        (prodigy-start-service beanstalkd k))))
 
 (prodigy-define-service
   :name "LeadPages Server"
@@ -35,7 +35,7 @@
   :tags '(work)
   :stop-signal 'sigterm
   :kill-process-buffer-on-stop t
-  :init-async #'prodigy:start-beanstalk-and-continue)
+  :init-async #'prodigy:start-beanstalk&)
 
 (prodigy-define-service
   :name "LeadPages Screenshot Service Consumer"
@@ -46,16 +46,7 @@
   :tags '(work)
   :stop-signal 'sigterm
   :kill-process-buffer-on-stop t
-  :init-async #'prodigy:start-beanstalk-and-continue)
-
-(prodigy-define-service
-  :name "defn.io"
-  :command (expand-file-name "~/sandbox/defn/dist/build/defn/defn")
-  :cwd (expand-file-name "~/sandbox/defn/")
-  :args `("-p" "8093" ,(expand-file-name "~/sandbox/defn/articles/"))
-  :tags '(personal)
-  :stop-signal 'sigterm
-  :kill-process-buffer-on-stop t)
+  :init-async #'prodigy:start-beanstalk&)
 
 (prodigy-define-service
   :name "beanstalkd"
