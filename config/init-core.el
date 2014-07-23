@@ -1,6 +1,10 @@
 ;; Paths
 ;; ~~~~~
 (setq default-directory "~/")
+
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
 (setq exec-path
       (append exec-path
               `("/usr/local/bin"

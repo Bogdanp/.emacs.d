@@ -34,6 +34,7 @@
     git-gutter magit
 
     ;; System
+    exec-path-from-shell
     prodigy
 
     ;; Frontend Languages
