@@ -2,13 +2,14 @@
 ;; ~~
 ;; Adding this to the default-frame-alist ensures that _all_ frames use
 ;; the same font and not just the main one.
-(add-to-list 'default-frame-alist
-             '(font . "Inconsolata-15"))
+(add-to-list 'default-frame-alist '(font . "Inconsolata-15"))
 
 ;; Position and resize frame.
 (when (window-system)
-  (set-frame-position (selected-frame) 10 32)
-  (set-frame-size (selected-frame) 235 65))
+  (add-to-list 'default-frame-alist '(left . 10))
+  (add-to-list 'default-frame-alist '(top . 32))
+  (add-to-list 'default-frame-alist '(width . 235))
+  (add-to-list 'default-frame-alist '(height . 65)))
 
 ;; Remove GUI elements.
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
