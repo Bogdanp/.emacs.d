@@ -10,7 +10,7 @@
 ;; Install missing packages.
 (defconst my-packages
   '(;; Misc
-    dired+ flycheck command-log-mode multiple-cursors engine-mode
+    dired+ flycheck command-log-mode multiple-cursors engine-mode col-highlight
 
     ;; Auto completion
     auto-complete

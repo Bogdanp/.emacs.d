@@ -59,6 +59,9 @@
 
 ;; EVIL bindings
 ;; ~~~~~~~~~~~~~
+;; Toggle column highlight.
+(define-key evil-normal-state-map (kbd ",c") 'column-highlight-mode)
+
 ;; Misc
 (define-key evil-normal-state-map (kbd ",,") 'evil-ex-nohighlight)
 
