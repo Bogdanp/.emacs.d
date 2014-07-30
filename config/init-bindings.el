@@ -8,6 +8,7 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-i") 'imenu)
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
+(global-set-key (kbd "C-c M-f") 'other-frame)
 
 
 ;; MC bindings
