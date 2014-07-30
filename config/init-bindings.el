@@ -89,7 +89,7 @@
 
 ;; Jump to matching paren/bracket/object. This is basically an alias
 ;; for % which I find awkward to use.
-(define-key evil-normal-state-map (kbd ",m") 'evil-jump-item)
+(define-key evil-normal-state-map (kbd "TAB") 'evil-jump-item)
 
 ;; Bookmarks
 (define-key evil-normal-state-map (kbd ",bc") 'bookmark-set)
