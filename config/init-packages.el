@@ -31,7 +31,7 @@
     undo-tree
 
     ;; Git
-    git-gutter magit
+    git-gutter git-timemachine magit
 
     ;; System
     exec-path-from-shell
