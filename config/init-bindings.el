@@ -8,7 +8,15 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-i") 'imenu)
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
-(global-set-key (kbd "C-c M-f") 'other-frame)
+
+;; Frame bindings
+;; ~~~~~~~~~~~~~~
+(global-set-key (kbd "C-c 1 M-c") 'create-frame-on-1st-monitor)
+(global-set-key (kbd "C-c 2 M-c") 'create-frame-on-2nd-monitor)
+(global-set-key (kbd "C-c 1 M-m") 'move-current-frame-to-1st-monitor)
+(global-set-key (kbd "C-c 2 M-m") 'move-current-frame-to-2nd-monitor)
+(global-set-key (kbd "C-c M-o") 'other-frame)
+(global-set-key (kbd "C-c M-d") 'delete-frame)
 
 
 ;; MC bindings

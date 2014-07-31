@@ -31,6 +31,7 @@
     init-core
     init-evil
     init-backup
+    init-frame
     init-term
     init-org
     init-ido
