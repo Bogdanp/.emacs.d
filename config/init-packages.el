@@ -80,6 +80,9 @@
     ;; Racket
     geiser
 
+    ;; Rust
+    rust-mode
+
     ;; Themes
     twilight-theme
     twilight-anti-bright-theme)
