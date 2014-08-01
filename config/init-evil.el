@@ -1,3 +1,5 @@
+;; Setup
+;; ~~~~~
 (add-to-list 'load-path (expand-file-name "~/sandbox/evil"))
 
 (require 'evil)
@@ -5,6 +7,9 @@
 ;; Turn evil-mode on.
 (evil-mode t)
 
+
+;; Config
+;; ~~~~~~
 ;; Default to EMACS mode in these modes.
 (dolist (mode '(calendar-mode
                 comint-mode
@@ -18,6 +23,9 @@
                 term-mode))
   (evil-set-initial-state mode 'emacs))
 
+
+;; Fixes
+;; ~~~~~
 ;; Make C-w work in the minibuffer.
 (add-hook 'minibuffer-setup-hook
           (lambda () (local-set-key (kbd "C-w") 'backward-kill-word)))

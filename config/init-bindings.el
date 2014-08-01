@@ -9,6 +9,7 @@
 (global-set-key (kbd "C-x C-i") 'imenu)
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
 
+
 ;; Frame bindings
 ;; ~~~~~~~~~~~~~~
 (global-set-key (kbd "C-c 1 M-c") 'create-frame-on-1st-monitor)
@@ -74,21 +75,6 @@
 ;; Misc
 (define-key evil-normal-state-map (kbd ",,") 'evil-ex-nohighlight)
 
-;; Clojure
-(evil-define-key 'normal cider-mode-map
-  ",cj" 'cider-jump
-  ",cb" 'cider-jump-back
-
-  ",x" 'cider-eval-defun-at-point)
-
-;; SLIME and CL
-(evil-define-key 'normal slime-mode-map
-  ",x" 'slime-eval-defun)
-
-;; Racket
-(evil-define-key 'normal geiser-mode-map
-  ",x" 'geiser-eval-definition)
-
 ;; Ace Jump Mode
 (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode)
 (define-key evil-normal-state-map (kbd "S-SPC") 'ace-jump-char-mode)
@@ -124,18 +110,9 @@
 
 ;; Org-mode bindings for EVIL purposes.
 (evil-define-key 'normal org-mode-map
-  ;; Replacements of standard VIM commands
-  "-"   'org-cycle-list-bullet
-  "<"   'org-metaleft
-  ">"   'org-metaright
-
-  ;; Enhancements of standard VIM commands
   "gu" 'outline-up-heading
   "gk" 'org-backward-heading-same-level
-  "gj" 'org-forward-heading-same-level
-
-  ;; "localleader" commands
-  ",t"  'org-todo)
+  "gj" 'org-forward-heading-same-level)
 
 
 (provide 'init-bindings)

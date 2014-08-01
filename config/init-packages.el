@@ -10,28 +10,37 @@
 ;; Install missing packages.
 (defconst my-packages
   '(;; Misc
-    dired+ flycheck command-log-mode multiple-cursors engine-mode col-highlight
+    engine-mode
 
     ;; Auto completion
     auto-complete
     auto-complete-clang
-    ac-geiser
-    ac-nrepl
-    ac-slime
 
-    ;; Better ido
-    ido-ubiquitous
-    smex
-
-    ;; Editing
-    ace-jump-mode
-
-    ;; VIM emulation
+    ;; EVIL enhancements
     goto-chg
     undo-tree
 
+    ;; Ido
+    ido-ubiquitous
+    smex
+
+    ;; Code analysis
+    flycheck
+    flycheck-haskell
+
+    ;; File management
+    dired+
+
+    ;; Editing
+    multiple-cursors
+
+    ;; Movement
+    ace-jump-mode
+
     ;; Git
-    git-gutter git-timemachine magit
+    git-gutter
+    git-timemachine
+    magit
 
     ;; System
     exec-path-from-shell
@@ -45,7 +54,6 @@
     yaml-mode
 
     ;; Haskell
-    flycheck-haskell
     haskell-mode
     shm
 
@@ -53,32 +61,17 @@
     scala-mode2
     sbt-mode
 
-    ;; OCaml
-    tuareg
-    merlin
-
     ;; Lisp
     paredit
     pretty-lambdada
     rainbow-delimiters
     rainbow-mode
 
-    ;; Common Lisp
-    slime
-
-    ;; Clojure
-    clojure-mode
-    clojure-test-mode
-    cider
-
     ;; Elisp
     litable
 
     ;; Python
     jedi
-
-    ;; Racket
-    geiser
 
     ;; Rust
     rust-mode
