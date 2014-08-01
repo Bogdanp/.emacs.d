@@ -100,7 +100,9 @@
   '(evil-surround)
   "A list of packages that must get installed but are not required immediately.")
 
-(mapc 'require (set-difference my-required-packages my-deferred-packages))
+(mapc 'require
+      (set-difference my-required-packages
+                      my-deferred-packages))
 
 
 (provide 'init-packages)
