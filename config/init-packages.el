@@ -1,3 +1,4 @@
+(require 'cl)
 (require 'package)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("melpa"     . "http://melpa.milkbox.net/packages/") t)
@@ -17,7 +18,6 @@
     auto-complete-clang
 
     ;; EVIL enhancements
-    evil-surround
     goto-chg
     undo-tree
 
@@ -96,7 +96,11 @@
 	    uniquify))
   "A list of packages that must be loaded.")
 
-(mapc 'require my-required-packages)
+(defconst my-deferred-packages
+  '(evil-surround)
+  "A list of packages that must get installed but are not required immediately.")
+
+(mapc 'require (set-difference my-required-packages my-deferred-packages))
 
 
 (provide 'init-packages)
