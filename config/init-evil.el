@@ -43,5 +43,10 @@
   ad-do-it
   (fset 'x-select-text (symbol-function 'old-x-select-text)))
 
+;; Extras
+;; ~~~~~~
+;; EVIL surround
+(global-evil-surround-mode 1)
+
 
 (provide 'init-evil)

@@ -17,6 +17,7 @@
     auto-complete-clang
 
     ;; EVIL enhancements
+    evil-surround
     goto-chg
     undo-tree
 
