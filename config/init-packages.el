@@ -67,9 +67,6 @@
     rainbow-delimiters
     rainbow-mode
 
-    ;; Elisp
-    litable
-
     ;; Python
     jedi
 
