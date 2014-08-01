@@ -49,16 +49,11 @@
 
     ;; Languages
     init-lang-c
-    init-lang-clojure
-    init-lang-common-lisp
     init-lang-elisp
-    init-lang-extempore
     init-lang-haskell
     init-lang-javascript
     init-lang-python
-    init-lang-racket
     init-lang-scala
-    init-lang-ocaml
 
     ;; Bindings
     init-bindings))
