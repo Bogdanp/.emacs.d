@@ -54,6 +54,7 @@
     init-lang-javascript
     init-lang-python
     init-lang-scala
+    init-lang-scss
 
     ;; Bindings
     init-bindings))
