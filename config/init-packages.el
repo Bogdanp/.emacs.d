@@ -51,6 +51,7 @@
     js2-mode
     less-css-mode
     markdown-mode
+    sass-mode
     web-mode
     yaml-mode
 
