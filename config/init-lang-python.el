@@ -1,6 +1,6 @@
 (add-hook 'python-mode-hook
           (lambda ()
-	    (pretty-lambda-mode t)
+            (pretty-lambda-mode t)
 
             (jedi:setup)
             (setq-local jedi:complete-on-dot t)
@@ -22,6 +22,25 @@ trace."
          (line (string-to-number (substring (nth 3 segments) 0 -1))))
     (find-file filename)
     (goto-line line)))
+
+
+;; Jedi utils
+;; ~~~~~~~~~~
+(defun jedi:workon (path)
+  (interactive "sVirtual env: ")
+  (jedi:stop-server)
+  (setq jedi:server-args
+        `("--virtual-env" ,(expand-file-name path)))
+  (jedi:install-server-block)
+  (jedi:start-server)
+  (jedi:setup))
+
+(defun jedi:workon-default ()
+  (interactive)
+  (jedi:stop-server)
+  (setq jedi:server-args nil)
+  (jedi:start-server)
+  (jedi:setup))
 
 
 (provide 'init-lang-python)
