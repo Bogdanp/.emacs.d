@@ -27,7 +27,7 @@ trace."
 ;; Jedi utils
 ;; ~~~~~~~~~~
 (defun jedi:workon (path)
-  (interactive "sVirtual env: ")
+  (interactive "fVirtual env: ")
   (jedi:stop-server)
   (setq jedi:server-args
         `("--virtual-env" ,(expand-file-name path)))
