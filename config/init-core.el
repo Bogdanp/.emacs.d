@@ -89,5 +89,8 @@ maximized."
       (setq window:previous-window-configuration (current-window-configuration))
       (delete-other-windows))))
 
+;; winner-mode
+(winner-mode 1)
+
 
 (provide 'init-core)
