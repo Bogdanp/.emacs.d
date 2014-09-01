@@ -11,6 +11,7 @@
 ;; Install missing packages.
 (defconst my-packages
   '(;; Misc
+    org
     engine-mode
 
     ;; Auto completion
