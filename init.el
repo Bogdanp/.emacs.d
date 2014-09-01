@@ -42,7 +42,6 @@
     init-flycheck
     init-jedi
     init-web-mode
-    init-openwith
     init-yasnippet
 
     ;; System

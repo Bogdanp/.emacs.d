@@ -12,7 +12,6 @@
 (defconst my-packages
   '(;; Misc
     org
-    openwith
 
     ;; Auto completion
     auto-complete
