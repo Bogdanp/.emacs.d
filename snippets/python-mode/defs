@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: define classmethod
+# key: defs
+# binding: direct-keybinding
+# --
+@classmethod
+def ${1:method}(${2:cls}):
+    "$3"
+    ${4:return}

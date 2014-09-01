@@ -17,6 +17,7 @@
     ;; Auto completion
     auto-complete
     auto-complete-clang
+    yasnippet
 
     ;; EVIL enhancements
     goto-chg

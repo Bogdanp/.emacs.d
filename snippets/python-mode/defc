@@ -1,0 +1,9 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: define class
+# key: defc
+# binding: direct-keybinding
+# --
+class ${1:Class}(${2:object}):
+    "$3"
+    def __init__(${4:self}):
+        ${5:super($1, self).__init__()}

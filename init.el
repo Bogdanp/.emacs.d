@@ -43,6 +43,7 @@
     init-jedi
     init-web-mode
     init-openwith
+    init-yasnippet
 
     ;; System
     init-git
