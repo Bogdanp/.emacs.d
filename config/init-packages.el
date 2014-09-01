@@ -12,7 +12,6 @@
 (defconst my-packages
   '(;; Misc
     org
-    engine-mode
     openwith
 
     ;; Auto completion

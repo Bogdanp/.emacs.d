@@ -72,15 +72,6 @@
 (grep-apply-setting 'grep-command "grep -irnHI -e ")
 
 
-;; Search engine
-;; ~~~~~~~~~~~~~
-(engine-mode 1)
-
-(defengine github "https://github.com/search?ref=simplesearch&q=%s" "c")
-(defengine google "http://www.google.com/search?ie=utf-8&oe=utf-8&q=%s" "g")
-(defengine youtube "http://www.youtube.com/results?aq=f&oq=&search_query=%s" "y")
-
-
 ;; Windows
 ;; ~~~~~~~
 (defvar window:previous-window-configuration nil
