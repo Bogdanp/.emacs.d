@@ -42,6 +42,7 @@
     init-flycheck
     init-jedi
     init-web-mode
+    init-openwith
 
     ;; System
     init-git
