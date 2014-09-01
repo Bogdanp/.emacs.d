@@ -13,6 +13,7 @@
   '(;; Misc
     org
     engine-mode
+    openwith
 
     ;; Auto completion
     auto-complete
