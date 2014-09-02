@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: super call
+# key: super
+# binding: direct-keybinding
+# --
+super(${1:Class}, ${2:self}).${3:__init__($4)}

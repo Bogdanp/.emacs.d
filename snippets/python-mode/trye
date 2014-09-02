@@ -1,0 +1,12 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: try..except..else block
+# key: trye
+# binding: direct-keybinding
+# expand-env: ((yas-indent-line 'fixed))
+# --
+try:
+    ${1:pass}
+except ${2:Exception}${3: as e}:
+    ${4:pass}
+else:
+    ${5:pass}

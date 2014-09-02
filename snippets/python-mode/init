@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: init method
+# key: init
+# binding: direct-keybinding
+# --
+def __init__(self):
+    ${2:super(${3:Class}, self).__init__()}

@@ -1,0 +1,17 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: property definition
+# key: property
+# binding: direct-keybinding
+# expand-env: ((yas-indent-line 'fixed))
+# --
+@property
+def ${1:my_property}(self):
+    ${2:return None}
+
+@$1.setter
+def $1(self, ${3:value}):
+    ${4:pass}
+
+@$1.deleter
+def $1(self):
+    ${5:pass}
