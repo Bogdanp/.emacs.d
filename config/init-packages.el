@@ -62,6 +62,7 @@
     shm
 
     ;; Scala
+    ensime
     scala-mode2
     sbt-mode
 
