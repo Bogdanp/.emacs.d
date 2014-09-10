@@ -61,6 +61,11 @@
     haskell-mode
     shm
 
+    ;; ocaml
+    tuareg
+    utop
+    merlin
+
     ;; Scala
     ensime
     scala-mode2
