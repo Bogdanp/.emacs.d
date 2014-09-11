@@ -93,4 +93,9 @@ maximized."
 (winner-mode 1)
 
 
+;; Regexps
+;; ~~~~~~~
+(setq reb-re-syntax 'string)
+
+
 (provide 'init-core)
