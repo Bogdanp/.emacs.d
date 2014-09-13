@@ -75,7 +75,7 @@
     ;; Lisp
     paredit
     pretty-lambdada
-    ;;rainbow-delimiters
+    rainbow-delimiters
     rainbow-mode
 
     ;; Python
