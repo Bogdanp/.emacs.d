@@ -58,6 +58,7 @@
     yaml-mode
 
     ;; Haskell
+    ghc
     haskell-mode
     shm
 
