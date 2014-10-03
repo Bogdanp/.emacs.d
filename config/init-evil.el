@@ -23,9 +23,10 @@
                 term-mode))
   (evil-set-initial-state mode 'emacs))
 
-;; Git-timemachie should default to EMACS mode as well.
-(add-hook 'git-timemachine-mode-hook (lambda ()
-                                       (evil-emacs-state)))
+;; Git-timemachine should default to EMACS mode as well.
+(add-hook 'git-timemachine-mode-hook
+          (lambda ()
+            (evil-emacs-state)))
 
 ;; Fixes
 ;; ~~~~~
