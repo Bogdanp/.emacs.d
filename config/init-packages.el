@@ -67,6 +67,9 @@
     utop
     merlin
 
+    ;; SML
+    sml-mode
+
     ;; Scala
     ensime
     scala-mode2
