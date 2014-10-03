@@ -57,8 +57,6 @@
 ;; Show line and column number in status line.
 (column-number-mode t)
 
-(global-rainbow-delimiters-mode t)
-
 
 ;; Files
 ;; ~~~~~
