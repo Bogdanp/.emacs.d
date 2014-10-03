@@ -88,7 +88,6 @@
     rust-mode
 
     ;; Themes
-    twilight-theme
     twilight-anti-bright-theme)
   "A list of packages that must be installed.")
 

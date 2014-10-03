@@ -39,7 +39,6 @@
 ;; Pretty colors!!
 (load-theme 'twilight-anti-bright t)
 
-
 ;; Editing
 ;; ~~~~~~~
 ;; Never use tabs.
