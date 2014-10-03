@@ -42,7 +42,6 @@
     init-flycheck
     init-jedi
     init-web-mode
-    init-yasnippet
 
     ;; System
     init-git

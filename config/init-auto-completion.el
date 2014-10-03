@@ -10,7 +10,6 @@
 ;; Source ALL the things.
 (setq-default ac-sources '(ac-source-filename
                            ac-source-functions
-                           ac-source-yasnippet
                            ac-source-variables
                            ac-source-symbols
                            ac-source-features
