@@ -69,6 +69,10 @@
 ;; A more useful default grep command.
 (grep-apply-setting 'grep-command "grep -irnHI -e ")
 
+;; Make default dired slightly nicer.
+(setq insert-directory-program "/usr/local/bin/gls")
+(setq dired-listing-switches "--group-directories-first -alh")
+
 
 ;; Windows
 ;; ~~~~~~~
