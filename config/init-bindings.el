@@ -35,6 +35,9 @@
 (define-key evil-normal-state-map (kbd "gcs") 'mc/mark-all-symbols-like-this)
 
 
+;; Python-mode bindings
+(define-key python-mode-map (kbd "C-x e") 'python:eval-region)
+
 ;; Prodigy bindings
 ;; ~~~~~~~~~~~~~~~~
 (define-key prodigy-view-mode-map (kbd "C-c f") 'python:trace-find-file-at-point)
