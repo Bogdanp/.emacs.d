@@ -26,19 +26,22 @@ trace."
     (goto-line line)))
 
 (defun python:eval-region (start end)
+  "Evaluates simple Python code that's part of a region."
   (interactive "r")
   (save-excursion
-    (let* ((prompt "\n# => ")
+    (let* ((prompt "# => ")
            (source (s-trim (buffer-substring-no-properties start end)))
            (interpreter (concat "from code import InteractiveConsole;"
                                 "interpreter = InteractiveConsole();"
                                 "code = '''%s'''.split('\\n');"
-                                "[interpreter.runsource(line) for line in code];"))
+                                "[interpreter.runsource(line.strip()) for line in code];"))
            (code (format interpreter source))
            (result-lines (process-lines "python" "-c" code))
-           (result (mapconcat #'identity result-lines prompt)))
+           (result (mapconcat #'identity result-lines (concat "\n" prompt)))
+           (text (concat prompt result "\n")))
       (goto-char end)
-      (insert (concat prompt result "\n")))))
+      (insert text)
+      (indent-region end (+ end (length text))))))
 
 
 ;; Jedi utils

@@ -36,7 +36,7 @@
 
 
 ;; Python-mode bindings
-(define-key python-mode-map (kbd "C-x e") 'python:eval-region)
+(define-key python-mode-map (kbd "C-x C-e") 'python:eval-region)
 
 ;; Prodigy bindings
 ;; ~~~~~~~~~~~~~~~~
