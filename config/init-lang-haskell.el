@@ -7,8 +7,7 @@
 (custom-set-variables
  ;; Haskell Process
  '(haskell-process-type 'cabal-repl)
- '(haskell-process-args-cabal-repl `(,@haskell-process-common-args
-                                     "--with-ghc=ghci-ng"))
+ '(haskell-process-args-cabal-repl `(,@haskell-process-common-args))
  '(haskell-process-suggest-remove-import-lines t)
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
