@@ -292,8 +292,8 @@
 
 * Haskell
   You will need a recent version of =ghc= and =cabal= as well as the
-  following packages: =hlint=, =ghc-mod=, =ghci-ng=,
-  =structured-haskell-mode=, =stylish-haskell=.
+  following packages: =hlint=, =ghc-mod=, =structured-haskell-mode=,
+  =stylish-haskell=.
 
 ** Structured Haskell Mode
    See the [[https://github.com/chrisdone/structured-haskell-mode][Official Repository]].
