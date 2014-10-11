@@ -81,7 +81,6 @@
     rainbow-mode
 
     ;; Python
-    python-mode
     jedi
 
     ;; Rust
