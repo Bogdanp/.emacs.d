@@ -2,7 +2,7 @@
 (setq org-src-fontify-natively t)
 
 ;; Set up path to agenda files.
-(setq org:agenda-files-path (expand-file-name "~/Documents/Org/"))
+(setq org:agenda-files-path (expand-file-name "~/Dropbox/Documents/Personal"))
 
 (when (file-exists-p org:agenda-files-path)
   (setq org-agenda-files `(,org:agenda-files-path)))
