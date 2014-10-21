@@ -16,6 +16,9 @@
                 debugger-mode
                 diff-mode
                 dired-mode
+                eww-mode
+                eww-bookmark-mode
+                eww-history-mode
                 git-commit-mode
                 grep-mode
                 help-mode
