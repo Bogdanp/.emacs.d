@@ -2,11 +2,11 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("LeadPages"
- (filename . "~/Documents/Org/Bogdan.org")
- (front-context-string . "** LeadPages				")
+(("Bogdan.org"
+ (filename . "~/Dropbox/Documents/Personal/Bogdan.org")
+ (front-context-string . "#+TITLE:   Life\n")
  (rear-context-string)
- (position . 2600))
+ (position . 1))
 ("Documents"
  (filename . "~/Documents/")
  (front-context-string . ".\n  drwxr-xr-x@ ")
@@ -17,9 +17,4 @@
  (front-context-string . "\n* This Document")
  (rear-context-string . "\n#+LANGUAGE: en\n")
  (position . 109))
-("Agenda"
- (filename . "~/Documents/Org/Bogdan.org")
- (front-context-string . "* Agenda        ")
- (rear-context-string . "RTUP: overview\n\n")
- (position . 36))
 )
