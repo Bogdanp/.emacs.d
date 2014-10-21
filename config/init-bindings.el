@@ -34,11 +34,18 @@
 (define-key evil-normal-state-map (kbd "gcr") 'mc/mark-all-like-this-dwim)
 (define-key evil-normal-state-map (kbd "gcs") 'mc/mark-all-symbols-like-this)
 
+;; Scala-mode bindings
+(add-hook 'scala-mode-hook
+          (lambda ()
+            (define-key scala-mode-map (kbd "C-c .") 'ensime-edit-definition)
+            (define-key scala-mode-map (kbd "C-c C-.") 'ensime-edit-definition-other-window)
+            (define-key scala-mode-map (kbd "C-c ,") 'ensime-pop-find-definition-stack)))
 
 ;; Python-mode bindings
 (add-hook 'python-mode-hook
           (lambda ()
             (define-key python-mode-map (kbd "C-x C-e") 'python:eval-region)))
+
 
 ;; Prodigy bindings
 ;; ~~~~~~~~~~~~~~~~
