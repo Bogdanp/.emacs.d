@@ -1,7 +1,5 @@
 (add-hook 'python-mode-hook
           (lambda ()
-            (yas-minor-mode)
-
             (pretty-lambda-mode t)
 
             (jedi:setup)
