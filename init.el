@@ -1,11 +1,8 @@
 ;; UI
 ;; ~~
-;; Adding this to the default-frame-alist ensures that _all_ frames use
-;; the same font and not just the main one.
-(add-to-list 'default-frame-alist '(font . "Inconsolata-15"))
-
 ;; Position and resize frame.
 (when (window-system)
+  (add-to-list 'default-frame-alist '(font . "Inconsolata-15"))
   (add-to-list 'default-frame-alist '(top . 32))
   (add-to-list 'default-frame-alist '(left . 10))
   (add-to-list 'default-frame-alist '(width . 205))
