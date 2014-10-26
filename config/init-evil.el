@@ -23,6 +23,7 @@
                 grep-mode
                 help-mode
                 special-mode
+                prodigy-mode
                 term-mode))
   (evil-set-initial-state mode 'emacs))
 

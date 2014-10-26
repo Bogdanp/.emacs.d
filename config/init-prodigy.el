@@ -1,5 +1,3 @@
-(add-hook 'prodigy-mode-hook 'evil-emacs-state)
-
 (setq prodigy:screenshot-service-env
       `(("PHANTOMJS_BIN_PATH" "/usr/local/bin/phantomjs")
         ("PHANTOMJS_CAPTURE_PATH" ,(expand-file-name "~/Work/screenshot-service/phantomjs/capture.js"))))
