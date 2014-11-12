@@ -1,3 +1,18 @@
+;; Allow pdflatex to call external programs.
+(setq org-latex-pdf-process
+      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+
+;; Highlight code in exported PDFs.
+(setq org-latex-listings 'minted)
+(setq org-latex-minted-options
+           '(("frame" "lines")
+             ("fontsize" "\\scriptsize")
+             ("linenos" "")))
+
+(add-to-list 'org-latex-packages-alist '("" "minted"))
+
 ;; Highlight code in BEGIN_SRC-END_SRC blocks.
 (setq org-src-fontify-natively t)
 
