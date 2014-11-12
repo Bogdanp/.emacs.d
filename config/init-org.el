@@ -4,7 +4,8 @@
 ;; Allow these languages to be executed in org code blocks.
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((python . t)))
+ '((python . t)
+   (sh . t)))
 
 ;; Set up path to agenda files.
 (setq org:agenda-files-path (expand-file-name "~/Dropbox/Documents/Personal"))
