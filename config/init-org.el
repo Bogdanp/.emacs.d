@@ -10,6 +10,10 @@
 ;; Log the closing time of TODO items.
 (setq org-log-done 'time)
 
+;; Better todo states.
+(setq org-todo-keywords
+      '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
+
 
 ;; Reminders
 ;; ~~~~~~~~~
