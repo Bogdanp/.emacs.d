@@ -1,6 +1,11 @@
 ;; Highlight code in BEGIN_SRC-END_SRC blocks.
 (setq org-src-fontify-natively t)
 
+;; Allow these languages to be executed in org code blocks.
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((python . t)))
+
 ;; Set up path to agenda files.
 (setq org:agenda-files-path (expand-file-name "~/Dropbox/Documents/Personal"))
 
