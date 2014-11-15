@@ -44,9 +44,9 @@
       '(("T" "Barebones TODO" entry (file+headline org:main-file "Tasks")
          "* TODO %?\n  %i")
         ("t" "TODO" entry (file+headline org:main-file "Tasks")
-         "* TODO %?\n  :PROPERTIES:\n  :Created: %u\n  :Source:  %a\n  :END:\n  %i")
+         "* TODO %?\n  :PROPERTIES:\n  :Created: %u\n  :Source:  %a\n  :END:")
         ("i" "Idea" entry (file+headline org:main-file "Ideas")
-         "* %?\n  :PROPERTIES:\n  :Created: %u\n  :END:\n  %i")))
+         "* %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")))
 
 
 ;; Agenda
