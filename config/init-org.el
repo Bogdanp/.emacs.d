@@ -1,7 +1,11 @@
+;; Misc
+;; ~~~~
 ;; Paths to my org files.
 (setq org:dir (expand-file-name "~/Dropbox/Documents/Personal"))
 (setq org:main-file (concat org:dir "/Bogdan.org"))
 
+;; PDF generation
+;; ~~~~~~~~~~~~~~
 ;; Allow pdflatex to call external programs.
 (setq org-latex-pdf-process
       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
@@ -17,6 +21,9 @@
 
 (add-to-list 'org-latex-packages-alist '("" "minted"))
 
+
+;; Code blocks
+;; ~~~~~~~~~~~
 ;; Highlight code in BEGIN_SRC-END_SRC blocks.
 (setq org-src-fontify-natively t)
 
@@ -50,6 +57,9 @@
 (when (file-exists-p org:agenda-files-path)
   (setq org-agenda-files `(,org:agenda-files-path)))
 
+
+;; TODOs
+;; ~~~~~
 ;; Log the closing time of TODO items.
 (setq org-log-done 'time)
 
