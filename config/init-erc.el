@@ -16,5 +16,10 @@
 (setq erc-kill-queries-on-quit t)
 (setq erc-kill-server-buffer-on-quit t)
 
+;; Reset the margin in ERC so the command line doesn't get padded unnecessarily.
+(add-hook 'erc-mode-hook
+          (lambda ()
+            (setq-local scroll-margin 0)))
+
 
 (provide 'init-erc)
