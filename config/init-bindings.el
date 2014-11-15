@@ -88,6 +88,7 @@
 ;; ~~~~~~~~~~~~~
 ;; Misc
 (define-key evil-normal-state-map (kbd ",,") 'evil-ex-nohighlight)
+(define-key evil-normal-state-map (kbd ",x") 'calc)
 
 ;; Ace Jump Mode
 (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode)
@@ -129,7 +130,9 @@
 (evil-define-key 'normal org-mode-map
   "gu" 'outline-up-heading
   "gk" 'org-backward-heading-same-level
-  "gj" 'org-forward-heading-same-level)
+  "gj" 'org-forward-heading-same-level
+  "gp" 'org-backward-element
+  "gn" 'org-forward-element)
 
 
 (provide 'init-bindings)
