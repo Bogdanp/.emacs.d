@@ -105,4 +105,12 @@ maximized."
 (setq reb-re-syntax 'string)
 
 
+;; Scrolling
+;; ~~~~~~~~~
+;; Make scrolling behave like it does in VIM.
+(setq scroll-conservatively 10000
+      scroll-margin 3
+      scroll-step 1)
+
+
 (provide 'init-core)
