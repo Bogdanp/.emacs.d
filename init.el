@@ -33,6 +33,7 @@
     init-org
     init-ido
     init-mc
+    init-erc
 
     ;; Plugins
     init-auto-completion
