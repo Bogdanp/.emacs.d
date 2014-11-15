@@ -75,6 +75,9 @@
 (setq insert-directory-program "/usr/local/bin/gls")
 (setq dired-listing-switches "--group-directories-first -alh")
 
+;; Revert files that update on disk automatically. Ignores dirty buffers.
+(global-auto-revert-mode 1)
+
 
 ;; Windows
 ;; ~~~~~~~

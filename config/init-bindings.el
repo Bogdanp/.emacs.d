@@ -86,9 +86,6 @@
 
 ;; EVIL bindings
 ;; ~~~~~~~~~~~~~
-;; Toggle column highlight.
-(define-key evil-normal-state-map (kbd ",c") 'column-highlight-mode)
-
 ;; Misc
 (define-key evil-normal-state-map (kbd ",,") 'evil-ex-nohighlight)
 
@@ -98,6 +95,9 @@
 
 ;; Window Management
 (define-key evil-normal-state-map (kbd "C-w f") 'window:toggle-fullscreen)
+
+;; Org-capture
+(define-key evil-normal-state-map (kbd ",c") 'org-capture)
 
 ;; Agenda Bookmarks
 (define-key evil-normal-state-map (kbd ",a") 'org-agenda)

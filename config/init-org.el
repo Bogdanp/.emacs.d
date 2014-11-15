@@ -1,3 +1,7 @@
+;; Paths to my org files.
+(setq org:dir (expand-file-name "~/Dropbox/Documents/Personal"))
+(setq org:main-file (concat org:dir "/Bogdan.org"))
+
 ;; Allow pdflatex to call external programs.
 (setq org-latex-pdf-process
       '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
@@ -22,8 +26,26 @@
  '((python . t)
    (sh . t)))
 
+
+;; Org-capture
+;; ~~~~~~~~~~~
+;; Where to put captured stuff.
+(setq org-default-notes-file org:main-file)
+
+;; Capture templates.
+(setq org-capture-templates
+      '(("T" "Barebones TODO" entry (file+headline org:main-file "Tasks")
+         "* TODO %?\n  %i")
+        ("t" "TODO" entry (file+headline org:main-file "Tasks")
+         "* TODO %?\n  :PROPERTIES:\n  :Created: %T\n  :Source:  %a\n  :END:\n  %i")
+        ("i" "Idea" entry (file+headline org:main-file "Ideas")
+         "* %?\n  :PROPERTIES:\n  :Created: %T\n  :END:\n  %i")))
+
+
+;; Agenda
+;; ~~~~~~
 ;; Set up path to agenda files.
-(setq org:agenda-files-path (expand-file-name "~/Dropbox/Documents/Personal"))
+(setq org:agenda-files-path org:dir)
 
 (when (file-exists-p org:agenda-files-path)
   (setq org-agenda-files `(,org:agenda-files-path)))
@@ -60,13 +82,6 @@ agenda."
 
 ;; Setup appointments at startup.
 (org/agenda-to-appt)
-
-
-;; Archiving
-;; ~~~~~~~~~
-(defun org:archive-done-tasks ()
-  (interactive)
-  (org-map-entries 'org-archive-subtree "/DONE" 'file))
 
 
 (provide 'init-org)
