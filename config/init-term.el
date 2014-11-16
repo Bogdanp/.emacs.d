@@ -114,4 +114,10 @@
     (term:fullscreen)))
 
 
+;; Reset the margin in term mode so the command line doesn't get padded unnecessarily.
+(add-hook 'term-mode-hook
+          (lambda ()
+            (setq-local scroll-margin 0)))
+
+
 (provide 'init-term)
