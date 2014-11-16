@@ -14,6 +14,7 @@
 (dolist (mode '(calendar-mode
                 comint-mode
                 cider-repl-mode
+                cider-stacktrace-mode
                 debugger-mode
                 diff-mode
                 dired-mode
