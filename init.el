@@ -54,6 +54,7 @@
     init-lang-purescript
     init-lang-scala
     init-lang-scss
+    init-lang-clojure
 
     ;; Bindings
     init-bindings))
