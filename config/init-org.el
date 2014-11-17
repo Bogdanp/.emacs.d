@@ -31,7 +31,12 @@
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((python . t)
+   (clojure . t)
    (sh . t)))
+
+;; Use cider instead of slime to evaluate clojure code.
+(require 'ob-clojure)
+(setq org-babel-clojure-backend 'cider)
 
 
 ;; Org-capture
