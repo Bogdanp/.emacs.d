@@ -12,6 +12,7 @@
 (defconst my-packages
   '(;; Misc
     org
+    restclient
 
     ;; Auto completion
     auto-complete
