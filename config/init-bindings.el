@@ -128,6 +128,10 @@
 
 ;; Org-mode bindings for EVIL purposes.
 (evil-define-key 'normal org-mode-map
+  ;; Tasks
+  ",ta" 'org/archive-task-at-point
+
+  ;; Movement
   "gu" 'outline-up-heading
   "gk" 'org-backward-heading-same-level
   "gj" 'org-forward-heading-same-level

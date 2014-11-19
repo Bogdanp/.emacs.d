@@ -103,4 +103,36 @@ agenda."
 (org/agenda-to-appt)
 
 
+;; Archiving
+;; ~~~~~~~~~
+(defun org/level-of-heading-at-point ()
+  "Returns the level of the headline at point."
+  (length (car (split-string (thing-at-point 'line t) " "))))
+
+(defun org/archive-task-at-point ()
+  "Moves the task at point into the first heading of its parent (which,
+by convention, should be an Archive heading)."
+  (interactive)
+  (save-excursion
+    (let ((start-level (org/level-of-heading-at-point)))
+      (org-cut-subtree)
+
+      ;; Cutting the subtree might place us on a different
+      ;; level. Account for those cases.
+      (let ((current-level (org/level-of-heading-at-point)))
+        (if (< current-level start-level)
+            ;; This fails if (>= 2 (- start-level current-level)) but
+            ;; that's OK.
+            (org-goto-sibling -1)
+          (outline-up-heading
+           (+ 1 (- (org/level-of-heading-at-point) start-level)))))
+
+      ;; TODO: Turn this into a heading search?
+      (org-goto-first-child)
+
+      (let ((archive-level (org/level-of-heading-at-point)))
+        (next-line)
+        (org-paste-subtree (+ 1 archive-level))))))
+
+
 (provide 'init-org)
