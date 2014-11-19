@@ -52,6 +52,8 @@
          "* TODO %?\n  :PROPERTIES:\n  :Created: %u\n  :Source:  %a\n  :END:")
         ("i" "Idea" entry (file+headline org:main-file "Ideas")
          "* %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")
+        ("m" "LeadPages Meeting" entry (file+olp org:main-file "LeadPages" "Meetings")
+         "* TODO %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")
         ("n" "Note" entry (file+headline org:main-file "Notes")
          "* %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")))
 
