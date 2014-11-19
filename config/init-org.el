@@ -124,8 +124,7 @@ by convention, should be an Archive heading)."
             ;; This fails if (>= 2 (- start-level current-level)) but
             ;; that's OK.
             (org-goto-sibling -1)
-          (outline-up-heading
-           (+ 1 (- (org/level-of-heading-at-point) start-level)))))
+          (outline-up-heading (+ 1 (- current-level start-level)))))
 
       ;; TODO: Turn this into a heading search?
       (org-goto-first-child)
