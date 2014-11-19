@@ -121,9 +121,11 @@ by convention, should be an Archive heading)."
       ;; level. Account for those cases.
       (let ((current-level (org/level-of-heading-at-point)))
         (if (< current-level start-level)
-            ;; This fails if (>= 2 (- start-level current-level)) but
-            ;; that's OK.
-            (org-goto-sibling -1)
+            (progn
+              (org-goto-sibling 'previous)
+              (dotimes (number (- start-level current-level 1))
+                (org-end-of-subtree)
+                (org-goto-first-child)))
           (outline-up-heading (+ 1 (- current-level start-level)))))
 
       ;; TODO: Turn this into a heading search?
