@@ -61,4 +61,17 @@ trace."
   (jedi:setup))
 
 
+;; Testing
+;; ~~~~~~~
+(defun python:pytest-current-folder ()
+  (interactive)
+  (compile "py.test .")
+  (switch-to-buffer-other-window "*compilation*"))
+
+(defun python:pytest-current-file ()
+  (interactive)
+  (compile (string-join (list "py.test" (buffer-file-name)) " "))
+  (switch-to-buffer-other-window "*compilation*"))
+
+
 (provide 'init-lang-python)
