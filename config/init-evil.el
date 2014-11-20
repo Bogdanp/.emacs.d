@@ -25,6 +25,7 @@
                 git-commit-mode
                 grep-mode
                 help-mode
+                info-mode
                 special-mode
                 prodigy-mode
                 term-mode))
