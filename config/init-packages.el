@@ -14,6 +14,7 @@
     org
     htmlize
     restclient
+    f
 
     ;; Auto completion
     auto-complete

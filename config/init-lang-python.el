@@ -65,12 +65,28 @@ trace."
 ;; ~~~~~~~
 (defun python:pytest-current-folder ()
   (interactive)
-  (compile "py.test .")
+  (let* ((filename (buffer-file-name))
+         (folder (f-dirname filename))
+         (has-runner (f-exists? (f-join folder "runner.py"))))
+    (if (not has-runner)
+        (let* ((folder (f-dirname folder))
+               (runner (f-join folder "runner.py")))
+          (compile (string-join (list "python" runner ".") " ")))
+        (compile "python runner.py .")))
   (switch-to-buffer-other-window "*compilation*"))
+
 
 (defun python:pytest-current-file ()
   (interactive)
-  (compile (string-join (list "py.test" (buffer-file-name)) " "))
+  (let* ((filename (buffer-file-name))
+         (folder (f-dirname filename))
+         (has-runner (f-exists? (f-join folder "runner.py"))))
+    (if (not has-runner)
+        (let* ((filename (substring filename (+ 1 (length folder))))
+               (folder (f-dirname folder))
+               (runner (f-join folder "runner.py")))
+          (compile (string-join (list "python" runner filename) " ")))
+        (compile (string-join (list "python runner.py" filename) " "))))
   (switch-to-buffer-other-window "*compilation*"))
 
 
