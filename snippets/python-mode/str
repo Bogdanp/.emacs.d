@@ -1,7 +1,0 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: str method
-# key: str
-# binding: direct-keybinding
-# --
-def __str__(self):
-    ${2:return super(${3:Class}, self).__str__()}
