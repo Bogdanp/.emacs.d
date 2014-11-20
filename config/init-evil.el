@@ -18,6 +18,7 @@
                 debugger-mode
                 diff-mode
                 dired-mode
+                erc-mode
                 eww-mode
                 eww-bookmark-mode
                 eww-history-mode
