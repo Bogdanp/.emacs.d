@@ -12,6 +12,7 @@
 (defconst my-packages
   '(;; Misc
     org
+    htmlize
     restclient
 
     ;; Auto completion
