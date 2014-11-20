@@ -13,6 +13,7 @@
 ;; Default to EMACS mode in these modes.
 (dolist (mode '(calendar-mode
                 comint-mode
+                compilation-mode
                 cider-repl-mode
                 cider-stacktrace-mode
                 debugger-mode
