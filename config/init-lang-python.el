@@ -71,9 +71,9 @@ trace."
 ;; LeadPages project.
 (py-test/define-project
  :name "LeadPages"
- :basedir (expand-file-name "~/Work/lead-pages/")
- :runner (expand-file-name "~/Work/lead-pages/tests/unit/runner.py")
- :cwd (expand-file-name "~/Work/lead-pages/tests/unit/"))
+ :base-directory (expand-file-name "~/Work/lead-pages/")
+ :test-runner (expand-file-name "~/Work/lead-pages/tests/unit/runner.py")
+ :working-directory (expand-file-name "~/Work/lead-pages/tests/unit/"))
 
 
 (provide 'init-lang-python)
