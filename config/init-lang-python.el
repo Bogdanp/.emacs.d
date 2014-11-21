@@ -63,31 +63,17 @@ trace."
 
 ;; Testing
 ;; ~~~~~~~
-(defun python:pytest-current-folder ()
-  (interactive)
-  (let* ((filename (buffer-file-name))
-         (folder (f-dirname filename))
-         (has-runner (f-exists? (f-join folder "runner.py"))))
-    (if (not has-runner)
-        (let* ((folder (f-dirname folder))
-               (runner (f-join folder "runner.py")))
-          (compile (string-join (list "python" runner ".") " ")))
-        (compile "python runner.py .")))
-  (switch-to-buffer-other-window "*compilation*"))
+;; Set up py-test.
+(add-to-list 'load-path (expand-file-name "~/sandbox/py-test"))
 
+(require 'py-test)
 
-(defun python:pytest-current-file ()
-  (interactive)
-  (let* ((filename (buffer-file-name))
-         (folder (f-dirname filename))
-         (has-runner (f-exists? (f-join folder "runner.py"))))
-    (if (not has-runner)
-        (let* ((filename (substring filename (+ 1 (length folder))))
-               (folder (f-dirname folder))
-               (runner (f-join folder "runner.py")))
-          (compile (string-join (list "python" runner filename) " ")))
-        (compile (string-join (list "python runner.py" filename) " "))))
-  (switch-to-buffer-other-window "*compilation*"))
+;; LeadPages project.
+(py-test/define-project
+ :name "LeadPages"
+ :basedir (expand-file-name "~/Work/lead-pages/")
+ :runner (expand-file-name "~/Work/lead-pages/tests/unit/runner.py")
+ :cwd (expand-file-name "~/Work/lead-pages/tests/unit/"))
 
 
 (provide 'init-lang-python)
