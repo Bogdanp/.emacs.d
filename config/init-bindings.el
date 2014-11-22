@@ -47,8 +47,9 @@
             (define-key python-mode-map (kbd "C-x C-e") 'python:eval-region)
 
             (evil-define-key 'normal python-mode-map
-              ",T" 'py-test/run-folder
-              ",t" 'py-test/run-file)))
+              ",r" 'py-test-run-test-at-point
+              ",T" 'py-test-run-directory
+              ",t" 'py-test-run-file)))
 
 
 ;; Prodigy bindings

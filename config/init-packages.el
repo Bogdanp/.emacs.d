@@ -85,6 +85,7 @@
 
     ;; Python
     jedi
+    py-test
 
     ;; Rust
     rust-mode

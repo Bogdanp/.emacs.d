@@ -63,16 +63,12 @@ trace."
 
 ;; Testing
 ;; ~~~~~~~
-;; Set up py-test.
-(add-to-list 'load-path (expand-file-name "~/sandbox/py-test"))
-
-(require 'py-test)
-
-;; LeadPages project.
-(py-test/define-project
+(py-test-define-project
  :name "LeadPages"
+ :python-command "python"
  :base-directory (expand-file-name "~/Work/lead-pages/")
  :test-runner (expand-file-name "~/Work/lead-pages/tests/unit/runner.py")
+ :test-runner-arguments '("-sv")
  :working-directory (expand-file-name "~/Work/lead-pages/tests/unit/"))
 
 
