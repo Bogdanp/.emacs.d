@@ -34,21 +34,25 @@
   (evil-set-initial-state mode 'emacs))
 
 ;; Git-timemachine should default to EMACS mode as well.
-(add-hook 'git-timemachine-mode-hook
-          (lambda ()
-            (evil-emacs-state)))
+(defun my-git-timemachine-mode-hook-for-evil ()
+  (evil-emacs-state))
+
+(add-hook 'git-timemachine-mode-hook 'my-git-timemachine-mode-hook-for-evil)
 
 ;; Fixes
 ;; ~~~~~
 ;; Make C-w work in the minibuffer.
-(add-hook 'minibuffer-setup-hook
-          (lambda () (local-set-key (kbd "C-w") 'backward-kill-word)))
+(defun my-minibuffer-setup-hook-for-evil ()
+  (local-set-key (kbd "C-w") 'backward-kill-word))
+
+(add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook-for-evil)
 
 ;; Fix clipboard dirtying.
-(add-hook 'evil-local-mode-hook
-          (lambda ()
-            (setq-local interprogram-cut-function nil)
-            (setq-local interprogram-paste-function nil)))
+(defun my-evil-local-mode-hook ()
+  (setq-local interprogram-cut-function nil)
+  (setq-local interprogram-paste-function nil))
+
+(add-hook 'evil-local-mode-hook 'my-evil-local-mode-hook)
 
 ;; Fix copy-on-motion.
 (defadvice evil-visual-update-x-selection (around clobber-x-select-text activate)
@@ -59,7 +63,7 @@
 
 ;; Extras
 ;; ~~~~~~
-;; EVIL surround
+;; EVIL surround.
 (require 'evil-surround)
 (global-evil-surround-mode 1)
 

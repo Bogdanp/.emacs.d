@@ -83,7 +83,7 @@
 ;; Reminders
 ;; ~~~~~~~~~
 ;; Code below mostly stolen from http://doc.norang.ca/org-mode.html#Reminders
-(defun org/agenda-to-appt ()
+(defun bp-org-agenda-to-appt ()
   "Erase all current reminders and rebuild the list from the current
 agenda."
   (interactive)
@@ -94,35 +94,35 @@ agenda."
 (setq appt-display-mode-line t)
 
 ;; Rebuild reminders each time the agenda is displayed.
-(add-hook 'org-finalize-agenda-hook #'org/agenda-to-appt 'append)
+(add-hook 'org-finalize-agenda-hook #'bp-org-agenda-to-appt 'append)
 
 ;; Activate appointments.
 (appt-activate t)
 
 ;; Reset appointments 1 minute after midnight.
-(run-at-time "24:01" nil #'org/agenda-to-appt)
+(run-at-time "24:01" nil #'bp-org-agenda-to-appt)
 
 ;; Setup appointments at startup.
-(org/agenda-to-appt)
+(bp-org-agenda-to-appt)
 
 
 ;; Archiving
 ;; ~~~~~~~~~
-(defun org/level-of-heading-at-point ()
+(defun bp-org-level-of-heading-at-point ()
   "Returns the level of the headline at point."
   (length (car (split-string (thing-at-point 'line t) " "))))
 
-(defun org/archive-task-at-point ()
+(defun bp-org-archive-task-at-point ()
   "Moves the task at point into the first heading of its parent (which,
 by convention, should be an Archive heading)."
   (interactive)
   (save-excursion
-    (let ((start-level (org/level-of-heading-at-point)))
+    (let ((start-level (bp-org-level-of-heading-at-point)))
       (org-cut-subtree)
 
       ;; Cutting the subtree might place us on a different
       ;; level. Account for those cases.
-      (let ((current-level (org/level-of-heading-at-point)))
+      (let ((current-level (bp-org-level-of-heading-at-point)))
         (if (< current-level start-level)
             (progn
               (org-goto-sibling 'previous)
@@ -134,7 +134,7 @@ by convention, should be an Archive heading)."
       ;; TODO: Turn this into a heading search?
       (org-goto-first-child)
 
-      (let ((archive-level (org/level-of-heading-at-point)))
+      (let ((archive-level (bp-org-level-of-heading-at-point)))
         (next-line)
         (org-paste-subtree (+ 1 archive-level))))))
 

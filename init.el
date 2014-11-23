@@ -32,13 +32,11 @@
     init-term
     init-org
     init-ido
-    init-mc
     init-erc
 
     ;; Plugins
     init-auto-completion
     init-flycheck
-    init-jedi
     init-web-mode
 
     ;; System

@@ -1,14 +1,13 @@
-;; Initialize flycheck after loading the EMACS session.
-(add-hook 'after-init-hook #'global-flycheck-mode)
+;; Flycheck allthethings.
+(global-flycheck-mode)
 
-;; Disable flycheck on elisp.
-(eval-after-load 'flycheck
-  '(setq-default flycheck-disabled-checkers '(emacs-lisp
-                                              emacs-lisp-checkdoc
+;; Disable flycheck on these.
+(setq-default flycheck-disabled-checkers '(emacs-lisp
+                                           emacs-lisp-checkdoc
 
-                                              haskell-ghc
+                                           haskell-ghc
 
-                                              html-tidy)))
+                                           html-tidy))
 
 
 (provide 'init-flycheck)

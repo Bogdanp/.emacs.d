@@ -1,6 +1,5 @@
 ;; Zipper
 ;; ~~~~~~
-;; TODO: Move this someplace more appropriate.
 (cl-defstruct zipper lhs curr rhs)
 
 (defun zipper-append (zipper x)
@@ -14,7 +13,7 @@
 (defun zipper-curr-list (zipper)
   (if (zipper-curr zipper)
       `(,(zipper-curr zipper))
-      nil))
+    nil))
 
 (defun zipper-beginning (zipper)
   (setf (zipper-rhs zipper)
@@ -53,71 +52,75 @@
 
 ;; Term
 ;; ~~~~
-(defconst term:shell "zsh"
+(defconst bp-term-shell "zsh"
   "The path to the shell that should be run.")
 
-(defvar term:previous-window-configuration nil
+(defvar bp-term-previous-window-configuration nil
   "Holds the previous window configuration.")
 
-(defvar term:current-term-buffer nil
+(defvar bp-term-current-term-buffer nil
   "Holds the current term buffer.")
 
-(defvar term:terms
+(defvar bp-term-terms
   (make-zipper :lhs  nil
                :rhs  nil
                :curr nil)
   "A zipper for all of the existing terms.")
 
-(defun term:add ()
+(defun bp-term-add ()
   (interactive)
-  (zipper-end term:terms)
-  (zipper-append term:terms (ansi-term term:shell))
-  (term:next))
+  (zipper-end bp-term-terms)
+  (zipper-append bp-term-terms (ansi-term bp-term-shell))
+  (bp-term-next))
 
-(defun term:kill ()
+(defun bp-term-kill ()
   (interactive)
-  (let ((buffer (zipper-drop term:terms)))
-    (kill-buffer term:current-term-buffer)
-    (setq term:current-term-buffer buffer)
+  (let ((buffer (zipper-drop bp-term-terms)))
+    (kill-buffer bp-term-current-term-buffer)
+    (setq bp-term-current-term-buffer buffer)
     (switch-to-buffer buffer)))
 
-(defun term:next ()
+(defun bp-term-next ()
   (interactive)
-  (let ((buffer (zipper-next term:terms)))
-    (setq term:current-term-buffer buffer)
+  (let ((buffer (zipper-next bp-term-terms)))
+    (setq bp-term-current-term-buffer buffer)
     (switch-to-buffer buffer)))
 
-(defun term:prev ()
+(defun bp-term-prev ()
   (interactive)
-  (let ((buffer (zipper-prev term:terms)))
-    (setq term:current-term-buffer buffer)
+  (let ((buffer (zipper-prev bp-term-terms)))
+    (setq bp-term-current-term-buffer buffer)
     (switch-to-buffer buffer)))
 
-(defun term:fullscreen ()
-  (setq term:previous-window-configuration (current-window-configuration))
+(defun bp-term-fullscreen ()
+  (setq bp-term-previous-window-configuration (current-window-configuration))
   (delete-other-windows)
-  (if term:current-term-buffer
-      (switch-to-buffer term:current-term-buffer)
-      (progn
-        (term:add)
-        (setq term:current-term-buffer (zipper-curr term:terms)))))
+  (if bp-term-current-term-buffer
+      (switch-to-buffer bp-term-current-term-buffer)
+    (progn
+      (bp-term-add)
+      (setq bp-term-current-term-buffer (zipper-curr bp-term-terms)))))
 
-(defun term:restore ()
-  (set-window-configuration term:previous-window-configuration))
+(defun bp-term-restore ()
+  (set-window-configuration bp-term-previous-window-configuration))
 
-(defun term:toggle ()
+(defun bp-term-toggle ()
   (interactive)
-  (if term:previous-window-configuration
+  (if bp-term-previous-window-configuration
       (progn
-	(term:restore)
-	(setq term:previous-window-configuration nil))
-    (term:fullscreen)))
+	(bp-term-restore)
+	(setq bp-term-previous-window-configuration nil))
+    (bp-term-fullscreen)))
 
 
-;; Reset the margin in term mode so the command line doesn't get padded unnecessarily.
-(add-hook 'term-mode-hook
-          (lambda ()
-            (setq-local scroll-margin 0)))
+;; Misc
+;; ~~~~
+(defun my-term-mode-hook ()
+  ;; Reset the margin in term mode so the command line doesn't get
+  ;; padded unnecessarily.
+  (setq-local scroll-margin 0))
+
+(add-hook 'term-mode-hook 'my-term-mode-hook)
 
 
 (provide 'init-term)

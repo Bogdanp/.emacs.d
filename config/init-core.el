@@ -5,12 +5,6 @@
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
-(setq exec-path
-      (append exec-path
-              `("/usr/local/bin"
-                ,(expand-file-name "~/.cabal/bin")
-                ,(expand-file-name "~/.opam/system/bin"))))
-
 ;; Save point position in each buffer.
 (setq-default save-place t)
 
@@ -81,19 +75,19 @@
 
 ;; Windows
 ;; ~~~~~~~
-(defvar window:previous-window-configuration nil
+(defvar bp-window-previous-window-configuration nil
   "Holds the previous window configuration.")
 
-(defun window:toggle-fullscreen ()
+(defun bp-window-toggle-fullscreen ()
   "Toggle between whether or not the current window should be
 maximized."
   (interactive)
-  (if window:previous-window-configuration
+  (if bp-window-previous-window-configuration
       (progn
-	(set-window-configuration window:previous-window-configuration)
-	(setq window:previous-window-configuration nil))
+	(set-window-configuration bp-window-previous-window-configuration)
+	(setq bp-window-previous-window-configuration nil))
     (progn
-      (setq window:previous-window-configuration (current-window-configuration))
+      (setq bp-window-previous-window-configuration (current-window-configuration))
       (delete-other-windows))))
 
 ;; winner-mode

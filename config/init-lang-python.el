@@ -1,18 +1,20 @@
-(add-hook 'python-mode-hook
-          (lambda ()
-            (pretty-lambda-mode t)
+(defun my-python-mode-hook ()
+  (pretty-lambda-mode t)
 
-            (jedi:setup)
-            (setq-local jedi:complete-on-dot t)
+  (jedi:setup)
+  (setq-local jedi:complete-on-dot t)
+  (setq-local jedi:tooltip-method nil)
 
-            ;; Don't start automatically (causes SERIOUS performance issues on
-            ;; large Python files (> 1k LOC)).
-            (setq-local ac-auto-start nil)))
+  ;; Don't start automatically (causes SERIOUS performance issues on
+  ;; large Python files (> 1k LOC)).
+  (setq-local ac-auto-start nil))
+
+(add-hook 'python-mode-hook 'my-python-mode-hook)
 
 
 ;; Utility functions
 ;; ~~~~~~~~~~~~~~~~~
-(defun python:trace-find-file-at-point ()
+(defun bp-python-trace-find-file-at-point ()
   "Opens up the file at the point when looking at a Python stack
 trace."
   (interactive)
@@ -23,7 +25,7 @@ trace."
     (find-file filename)
     (goto-line line)))
 
-(defun python:eval-region (start end)
+(defun bp-python-eval-region (start end)
   "Evaluates simple Python code that's part of a region."
   (interactive "r")
   (save-excursion

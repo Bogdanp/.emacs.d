@@ -35,9 +35,6 @@
     ;; File management
     dired+
 
-    ;; Editing
-    multiple-cursors
-
     ;; Movement
     ace-jump-mode
 
@@ -112,6 +109,7 @@
 	    auto-complete-config
 	    cc-mode
 	    ffap
+            python
 	    saveplace
 	    uniquify))
   "A list of packages that must be loaded.")

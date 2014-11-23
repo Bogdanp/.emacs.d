@@ -45,15 +45,17 @@
 ;; Hooks
 ;; ~~~~~
 ;; Haskell
-(add-hook 'haskell-mode-hook #'(lambda ()
-                                 (ghc-init)
-                                 (turn-on-haskell-doc-mode)
-                                 (structured-haskell-mode t)
+(defun my-haskell-mode-hook ()
+  (ghc-init)
+  (turn-on-haskell-doc-mode)
+  (structured-haskell-mode t)
 
-                                 (add-to-list 'ac-sources 'ac-source-haskell)
+  (add-to-list 'ac-sources 'ac-source-haskell)
 
-                                 (setq-local ac-auto-start 2)
-                                 (setq-local indent-line-function #'indent-relative)))
+  (setq-local ac-auto-start 2)
+  (setq-local indent-line-function #'indent-relative))
+
+(add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
 
 ;; Flycheck
 (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)

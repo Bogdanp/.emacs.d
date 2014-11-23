@@ -2,12 +2,10 @@
 ;; ~~~~~~~~~~~~~~
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "C-w") 'backward-kill-word)
-(global-set-key (kbd "C-c g") 'multi-occur-in-matching-buffers)
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-c p") 'prodigy)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-i") 'imenu)
-(global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
 (global-set-key (kbd "C-c C-w u") 'winner-undo)
 (global-set-key (kbd "C-c C-w r") 'winner-redo)
 (global-set-key (kbd "C--") 'text-scale-decrease)
@@ -25,36 +23,26 @@
 (global-set-key (kbd "C-c M-d") 'delete-frame)
 
 
-;; MC bindings
-;; ~~~~~~~~~~~
-(global-set-key (kbd "C-c C-,") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-.") 'mc/mark-next-like-this)
-
-(define-key evil-normal-state-map (kbd "gcc") 'mc/mark-all-dwim)
-(define-key evil-normal-state-map (kbd "gcr") 'mc/mark-all-like-this-dwim)
-(define-key evil-normal-state-map (kbd "gcs") 'mc/mark-all-symbols-like-this)
-
 ;; Scala-mode bindings
-(add-hook 'scala-mode-hook
-          (lambda ()
-            (define-key scala-mode-map (kbd "C-c .") 'ensime-edit-definition)
-            (define-key scala-mode-map (kbd "C-c C-.") 'ensime-edit-definition-other-window)
-            (define-key scala-mode-map (kbd "C-c ,") 'ensime-pop-find-definition-stack)))
+;; ~~~~~~~~~~~~~~~~~~~
+(define-key scala-mode-map (kbd "C-c .") 'ensime-edit-definition)
+(define-key scala-mode-map (kbd "C-c C-.") 'ensime-edit-definition-other-window)
+(define-key scala-mode-map (kbd "C-c ,") 'ensime-pop-find-definition-stack)
+
 
 ;; Python-mode bindings
-(add-hook 'python-mode-hook
-          (lambda ()
-            (define-key python-mode-map (kbd "C-x C-e") 'python:eval-region)
+;; ~~~~~~~~~~~~~~~~~~~~
+(define-key python-mode-map (kbd "C-x C-e") 'bp-python-eval-region)
 
-            (evil-define-key 'normal python-mode-map
-              ",r" 'py-test-run-test-at-point
-              ",T" 'py-test-run-directory
-              ",t" 'py-test-run-file)))
+(evil-define-key 'normal python-mode-map
+  ",r" 'py-test-run-test-at-point
+  ",T" 'py-test-run-directory
+  ",t" 'py-test-run-file)
 
 
 ;; Prodigy bindings
 ;; ~~~~~~~~~~~~~~~~
-(define-key prodigy-view-mode-map (kbd "C-c f") 'python:trace-find-file-at-point)
+(define-key prodigy-view-mode-map (kbd "C-c f") 'bp-python-trace-find-file-at-point)
 
 
 ;; Auto completion bindings
@@ -76,18 +64,21 @@
 
 ;; Term bindings
 ;; ~~~~~~~~~~~~~
-(global-set-key (kbd "C-c M-a") 'term:toggle)
+(global-set-key (kbd "C-c M-a") 'bp-term-toggle)
 
-(add-hook 'term-mode-hook
-          (lambda ()
-            (define-key term-raw-escape-map "c" 'term:add)
-            (define-key term-raw-escape-map "\C-k" 'term:kill)
-            (define-key term-raw-escape-map "\C-n" 'term:next)
-            (define-key term-raw-escape-map "\C-p" 'term:prev)
-            (define-key term-raw-escape-map "\C-y"
-              (lambda ()
-                (interactive)
-                (term-send-raw-string (get-clipboard-value))))))
+;; This is necessary for term-mode otherwise we run into the font issue.
+(defun my-term-mode-bindings-hook ()
+  (define-key term-raw-escape-map "c" 'bp-term-add)
+  (define-key term-raw-escape-map "\C-k" 'bp-term-kill)
+  (define-key term-raw-escape-map "\C-n" 'bp-term-next)
+  (define-key term-raw-escape-map "\C-p" 'bp-term-prev)
+  (define-key term-raw-escape-map "\C-y"
+    (lambda ()
+      (interactive)
+      (term-send-raw-string (get-clipboard-value)))))
+
+(add-hook 'term-mode-hook 'my-term-mode-bindings-hook)
+
 
 ;; EVIL bindings
 ;; ~~~~~~~~~~~~~
@@ -100,7 +91,7 @@
 (define-key evil-normal-state-map (kbd "S-SPC") 'ace-jump-char-mode)
 
 ;; Window Management
-(define-key evil-normal-state-map (kbd "C-w f") 'window:toggle-fullscreen)
+(define-key evil-normal-state-map (kbd "C-w f") 'bp-window-toggle-fullscreen)
 
 ;; Org-capture
 (define-key evil-normal-state-map (kbd ",c") 'org-capture)
@@ -113,9 +104,9 @@
 (define-key evil-normal-state-map (kbd "TAB") 'evil-jump-item)
 
 ;; Bookmarks
+(define-key evil-normal-state-map (kbd ",bb") 'bookmark-jump)
 (define-key evil-normal-state-map (kbd ",bc") 'bookmark-set)
 (define-key evil-normal-state-map (kbd ",bl") 'list-bookmarks)
-(define-key evil-normal-state-map (kbd ",bb") 'bookmark-jump)
 
 ;; Useful EMACS bindings in all modes.
 (define-key evil-normal-state-map (kbd "C-a") 'evil-beginning-of-line)
@@ -134,7 +125,7 @@
 ;; Org-mode bindings for EVIL purposes.
 (evil-define-key 'normal org-mode-map
   ;; Tasks
-  ",ta" 'org/archive-task-at-point
+  ",ta" 'bp-org-archive-task-at-point
 
   ;; Movement
   "gu" 'outline-up-heading

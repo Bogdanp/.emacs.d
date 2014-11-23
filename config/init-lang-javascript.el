@@ -5,8 +5,11 @@
  '(js2-highlight-external-variables nil)
  '(js2-mode-show-strict-warnings nil))
 
-(add-hook 'js2-mode-hook (lambda ()
-                           (setq-local indent-tabs-mode nil)))
+
+(defun my-js2-mode-hook ()
+  (setq-local indent-tabs-mode nil))
+
+(add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
 
 (provide 'init-lang-javascript)
