@@ -20,6 +20,7 @@
                 diff-mode
                 dired-mode
                 erc-mode
+                eshell-mode
                 eww-mode
                 eww-bookmark-mode
                 eww-history-mode
