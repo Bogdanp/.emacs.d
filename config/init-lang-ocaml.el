@@ -1,5 +1,5 @@
-;; Filetypes
-;; ~~~~~~~~~
+;; OCaml Language
+;; ~~~~~~~~~~~~~~
 (add-to-list 'auto-mode-alist '("\\.eliom"     . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
 (add-to-list 'auto-mode-alist '("\\.topml$"    . tuareg-mode))

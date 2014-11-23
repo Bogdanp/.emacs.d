@@ -1,3 +1,5 @@
+;; Ido
+;; ~~~
 (ido-mode t)
 (ido-ubiquitous-mode)
 
@@ -10,6 +12,12 @@
       ido-handle-duplicate-virtual-buffers 2
       ido-max-prospects 10
       ido-ignore-extensions t)
+
+
+;; Smex
+;; ~~~~
+(setq smex-save-file (concat user-emacs-directory ".smex-items"))
+(smex-initialize)
 
 
 (provide 'init-ido)

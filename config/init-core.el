@@ -1,14 +1,16 @@
 ;; Paths
 ;; ~~~~~
+;; Home sweet home.
 (setq default-directory "~/")
 
+;; Read PATH from zsh on OS X.
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
 
 ;; Save point position in each buffer.
 (setq-default save-place t)
 
-;; /path/to/buffer instead of buffer<n>
+;; /path/to/buffer instead of buffer<n>.
 (setq uniquify-buffer-name-style 'forward)
 
 
@@ -32,6 +34,7 @@
 
 ;; Pretty colors!!
 (load-theme 'twilight-anti-bright t)
+
 
 ;; Editing
 ;; ~~~~~~~
@@ -105,6 +108,15 @@ maximized."
 (setq scroll-conservatively 10000
       scroll-margin 3
       scroll-step 1)
+
+
+;; Misc
+;; ~~~~
+;; Enable git-gutter.
+(global-git-gutter-mode t)
+
+;; Hide gutter if there are no changes.
+(setq git-gutter:hide-gutter t)
 
 
 (provide 'init-core)

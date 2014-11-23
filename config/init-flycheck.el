@@ -1,12 +1,11 @@
-;; Flycheck allthethings.
+;; Flycheck
+;; ~~~~~~~~
 (global-flycheck-mode)
 
-;; Disable flycheck on these.
+;; Don't Flycheck these.
 (setq-default flycheck-disabled-checkers '(emacs-lisp
                                            emacs-lisp-checkdoc
-
                                            haskell-ghc
-
                                            html-tidy))
 
 

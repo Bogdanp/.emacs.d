@@ -1,3 +1,5 @@
+;; Javascript Language
+;; ~~~~~~~~~~~~~~~~~~~
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 (custom-set-variables
@@ -6,6 +8,8 @@
  '(js2-mode-show-strict-warnings nil))
 
 
+;; Hooks
+;; ~~~~~
 (defun my-js2-mode-hook ()
   (setq-local indent-tabs-mode nil))
 

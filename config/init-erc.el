@@ -1,4 +1,6 @@
-;; Defaults
+;; ERC
+;; ~~~
+;; Default config.
 (setq erc-server "irc.freenode.net"
       erc-port 6667
       erc-nick "bogdanp"

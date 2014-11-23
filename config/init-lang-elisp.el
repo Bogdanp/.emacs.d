@@ -1,3 +1,5 @@
+;; Emacs Lisp Language
+;; ~~~~~~~~~~~~~~~~~~~
 (defun bp-elisp-remove-elc-on-save ()
   "Deletes the .elc file for any elisp file on save."
   (add-hook 'after-save-hook
@@ -7,6 +9,9 @@
 		  (delete-file filename)))
 	      t)))
 
+
+;; Hooks
+;; ~~~~~
 (add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'emacs-lisp-mode-hook 'paredit-mode)

@@ -1,8 +1,8 @@
-(setq prodigy:screenshot-service-env
+(setq bp-prodigy-screenshot-service-env
       `(("PHANTOMJS_BIN_PATH" "/usr/local/bin/phantomjs")
         ("PHANTOMJS_CAPTURE_PATH" ,(expand-file-name "~/Work/screenshot-service/phantomjs/capture.js"))))
 
-(defun prodigy:start-beanstalk& (k)
+(defun bp-prodigy-start-beanstalk& (k)
   (let ((beanstalkd (prodigy-find-service "beanstalkd")))
     (if (prodigy-service-started-p beanstalkd)
         (funcall k)
@@ -29,22 +29,22 @@
   :command (expand-file-name "~/Work/screenshot-service/venv/bin/python")
   :cwd (expand-file-name "~/Work/screenshot-service/")
   :args `(,(expand-file-name "~/Work/screenshot-service/service/app.py") "5000")
-  :env  prodigy:screenshot-service-env
+  :env  bp-prodigy-screenshot-service-env
   :tags '(work)
   :stop-signal 'sigterm
   :kill-process-buffer-on-stop t
-  :init-async #'prodigy:start-beanstalk&)
+  :init-async #'bp-prodigy-start-beanstalk&)
 
 (prodigy-define-service
   :name "LeadPages Screenshot Service Consumer"
   :command (expand-file-name "~/Work/screenshot-service/venv/bin/python")
   :cwd (expand-file-name "~/Work/screenshot-service/consumer/")
   :args `(,(expand-file-name "~/Work/screenshot-service/consumer/consumer.py"))
-  :env prodigy:screenshot-service-env
+  :env bp-prodigy-screenshot-service-env
   :tags '(work)
   :stop-signal 'sigterm
   :kill-process-buffer-on-stop t
-  :init-async #'prodigy:start-beanstalk&)
+  :init-async #'bp-prodigy-start-beanstalk&)
 
 (prodigy-define-service
   :name "beanstalkd"

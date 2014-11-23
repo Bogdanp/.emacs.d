@@ -1,5 +1,5 @@
-;; Settings
-;; ~~~~~~~~
+;; Haskell Language
+;; ~~~~~~~~~~~~~~~~
 (setq haskell-process-common-args '("--ghc-option=-ferror-spans"
                                     "--ghc-option=-fno-warn-name-shadowing"
                                     "--ghc-option=-fno-warn-orphans"))
@@ -36,7 +36,7 @@
 ;; ~~~~~~~~~~~~~
 (defun ac-haskell-candidates (prefix)
   (let ((cs (haskell-process-get-repl-completions (haskell-process) prefix)))
-    (remove-if #'(lambda (c) (string= "" c)) cs)))
+    (remove-if (lambda (c) (string= "" c)) cs)))
 
 (ac-define-source haskell
   '((candidates . (ac-haskell-candidates ac-prefix))))
@@ -55,9 +55,7 @@
   (setq-local ac-auto-start 2)
   (setq-local indent-line-function #'indent-relative))
 
-(add-hook 'haskell-mode-hook 'my-haskell-mode-hook)
-
-;; Flycheck
+(add-hook 'haskell-mode-hook #'my-haskell-mode-hook)
 (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
 
 

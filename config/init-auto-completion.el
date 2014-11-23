@@ -1,3 +1,5 @@
+;; AC
+;; ~~
 (global-auto-complete-mode t)
 
 ;; Use default config.

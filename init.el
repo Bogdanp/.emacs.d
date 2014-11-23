@@ -34,13 +34,10 @@
     init-ido
     init-erc
 
-    ;; Plugins
+    ;; Misc plugins
     init-auto-completion
     init-flycheck
     init-web-mode
-
-    ;; System
-    init-git
     init-prodigy
 
     ;; Languages

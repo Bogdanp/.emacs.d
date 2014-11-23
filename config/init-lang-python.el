@@ -1,19 +1,5 @@
-(defun my-python-mode-hook ()
-  (pretty-lambda-mode t)
-
-  (jedi:setup)
-  (setq-local jedi:complete-on-dot t)
-  (setq-local jedi:tooltip-method nil)
-
-  ;; Don't start automatically (causes SERIOUS performance issues on
-  ;; large Python files (> 1k LOC)).
-  (setq-local ac-auto-start nil))
-
-(add-hook 'python-mode-hook 'my-python-mode-hook)
-
-
-;; Utility functions
-;; ~~~~~~~~~~~~~~~~~
+;; Python Language
+;; ~~~~~~~~~~~~~~~
 (defun bp-python-trace-find-file-at-point ()
   "Opens up the file at the point when looking at a Python stack
 trace."
@@ -65,6 +51,7 @@ trace."
 
 ;; Testing
 ;; ~~~~~~~
+;; py-test projects ahoy:
 (py-test-define-project
  :name "LeadPages"
  :python-command "python"
@@ -72,6 +59,22 @@ trace."
  :test-runner (expand-file-name "~/Work/lead-pages/tests/unit/runner.py")
  :test-runner-arguments '("-sv")
  :working-directory (expand-file-name "~/Work/lead-pages/tests/unit/"))
+
+
+;; Hooks
+;; ~~~~~
+(defun my-python-mode-hook ()
+  (pretty-lambda-mode t)
+
+  (jedi:setup)
+  (setq-local jedi:complete-on-dot t)
+  (setq-local jedi:tooltip-method nil)
+
+  ;; Don't start automatically (causes SERIOUS performance issues on
+  ;; large Python files (> 1k LOC)).
+  (setq-local ac-auto-start nil))
+
+(add-hook 'python-mode-hook 'my-python-mode-hook)
 
 
 (provide 'init-lang-python)

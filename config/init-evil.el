@@ -1,5 +1,5 @@
-;; Setup
-;; ~~~~~
+;; EVIL
+;; ~~~~
 (add-to-list 'load-path (expand-file-name "~/sandbox/evil"))
 
 (require 'evil)
@@ -39,6 +39,7 @@
 
 (add-hook 'git-timemachine-mode-hook 'my-git-timemachine-mode-hook-for-evil)
 
+
 ;; Fixes
 ;; ~~~~~
 ;; Make C-w work in the minibuffer.
@@ -60,6 +61,7 @@
   (fmakunbound 'x-select-text)
   ad-do-it
   (fset 'x-select-text (symbol-function 'old-x-select-text)))
+
 
 ;; Extras
 ;; ~~~~~~

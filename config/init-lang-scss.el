@@ -1,8 +1,11 @@
+;; Scss Language
+;; ~~~~~~~~~~~~~
 ;; Stupid functionality is stupid.
 (setq scss-compile-at-save nil)
 
-;; Indentation
-;; ~~~~~~~~~~~
+
+;; Hooks
+;; ~~~~~
 (defun my-scss-mode-hook ()
   (setq-local css-indent-offset 2))
 

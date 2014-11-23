@@ -1,3 +1,5 @@
+;; Frame
+;; ~~~~~
 (defun move-current-frame-to-1st-monitor ()
   (interactive)
   (set-frame-size (selected-frame) 205 53)
