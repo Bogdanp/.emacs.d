@@ -25,8 +25,8 @@
 
 ;; Scala-mode bindings
 ;; ~~~~~~~~~~~~~~~~~~~
-(define-key scala-mode-map (kbd "C-c .") 'ensime-edit-definition)
 (define-key scala-mode-map (kbd "C-c C-.") 'ensime-edit-definition-other-window)
+(define-key scala-mode-map (kbd "C-c .") 'ensime-edit-definition)
 (define-key scala-mode-map (kbd "C-c ,") 'ensime-pop-find-definition-stack)
 
 
