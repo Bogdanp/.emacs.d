@@ -4,9 +4,6 @@
 (ac-config-default)
 (ac-set-trigger-key "TAB")
 
-;; I don't mind having to press TAB.
-(setq ac-auto-start nil)
-
 ;; Source ALL the things.
 (setq-default ac-sources '(ac-source-filename
                            ac-source-functions
