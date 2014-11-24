@@ -33,6 +33,7 @@
     init-org
     init-ido
     init-erc
+    init-jabber
 
     ;; Misc plugins
     init-auto-completion

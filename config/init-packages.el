@@ -46,6 +46,7 @@
     ;; System
     exec-path-from-shell
     prodigy
+    jabber
 
     ;; Frontend Languages
     js2-mode
