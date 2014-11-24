@@ -4,12 +4,13 @@
       ssl-program-arguments '("--insecure" "-p" service host)
       ssl-certificate-verification-policy 1)
 
-(setq jabber-account-list nil)
+(setq jabber-account-list `((,(getenv "JABBER_HIPCHAT_USER"))))
 
 ;; HipChat
 ;; ~~~~~~~
-(defvar hipchat-number "")
-(defvar hipchat-nickname "")
+(defvar hipchat-number (getenv "JABBER_HIPCHAT_NUMBER"))
+(defvar hipchat-nickname (getenv "JABBER_HIPCHAT_NICKNAME"))
+
 
 (defun hipchat-join (room)
   "Join ROOM in HipChat."
