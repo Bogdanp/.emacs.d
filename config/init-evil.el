@@ -24,12 +24,14 @@
                 eww-mode
                 eww-bookmark-mode
                 eww-history-mode
-                git-commit-mode
                 grep-mode
                 help-mode
                 info-mode
+                magit-mode
+                magit-popup-mode
                 special-mode
                 prodigy-mode
+                text-mode
                 term-mode))
   (evil-set-initial-state mode 'emacs))
 

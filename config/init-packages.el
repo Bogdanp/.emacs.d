@@ -41,7 +41,7 @@
     ;; Git
     git-gutter
     git-timemachine
-    magit
+    ;magit  ;; using the `next' branch for the time being
 
     ;; System
     exec-path-from-shell

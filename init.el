@@ -27,6 +27,7 @@
     ;; Core
     init-core
     init-evil
+    init-magit
     init-backup
     init-frame
     init-term
@@ -37,11 +38,12 @@
     ;; Misc plugins
     init-auto-completion
     init-flycheck
-    init-web-mode
     init-prodigy
+    init-web-mode
 
     ;; Languages
     init-lang-c
+    init-lang-clojure
     init-lang-elisp
     init-lang-haskell
     init-lang-javascript
@@ -49,7 +51,6 @@
     init-lang-purescript
     init-lang-scala
     init-lang-scss
-    init-lang-clojure
 
     ;; Bindings
     init-bindings))
