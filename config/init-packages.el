@@ -49,9 +49,7 @@
 
     ;; Frontend Languages
     js2-mode
-    less-css-mode
     markdown-mode
-    sass-mode
     scss-mode
     web-mode
     yaml-mode
@@ -60,14 +58,6 @@
     ghc
     haskell-mode
     shm
-
-    ;; OCaml
-    tuareg
-    utop
-    merlin
-
-    ;; SML
-    sml-mode
 
     ;; Scala
     ensime
