@@ -27,7 +27,6 @@
     ;; Core
     init-core
     init-evil
-    init-magit
     init-backup
     init-frame
     init-term
