@@ -22,7 +22,7 @@
 
     ;; EVIL enhancements
     goto-chg
-    undo-tree
+    ;undo-tree  ;; broken as hell.
 
     ;; Ido
     ido-ubiquitous
