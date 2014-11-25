@@ -30,7 +30,8 @@
                 info-mode
                 special-mode
                 prodigy-mode
-                term-mode))
+                term-mode
+                undo-tree-visualizer-mode))
   (evil-set-initial-state mode 'emacs))
 
 ;; Git-timemachine should default to EMACS mode as well.

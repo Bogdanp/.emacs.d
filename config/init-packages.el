@@ -22,7 +22,7 @@
 
     ;; EVIL enhancements
     goto-chg
-    ;undo-tree  ;; broken as hell.
+    undo-tree
 
     ;; Ido
     ido-ubiquitous
@@ -61,7 +61,7 @@
     haskell-mode
     shm
 
-    ;; ocaml
+    ;; OCaml
     tuareg
     utop
     merlin
@@ -115,7 +115,8 @@
   "A list of packages that must be loaded.")
 
 (defconst my-deferred-packages
-  '(evil-surround)
+  '(evil-surround
+    undo-tree)
   "A list of packages that must get installed but are not required immediately.")
 
 (mapc 'require
