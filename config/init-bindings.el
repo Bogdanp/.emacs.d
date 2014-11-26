@@ -72,6 +72,7 @@
   (define-key term-raw-escape-map "\C-k" 'bp-term-kill)
   (define-key term-raw-escape-map "\C-n" 'bp-term-next)
   (define-key term-raw-escape-map "\C-p" 'bp-term-prev)
+  (define-key term-raw-escape-map "\C-r" 'rename-buffer)
   (define-key term-raw-escape-map "\C-y"
     (lambda ()
       (interactive)
