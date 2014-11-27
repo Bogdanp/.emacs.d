@@ -58,5 +58,45 @@
 (add-hook 'haskell-mode-hook #'my-haskell-mode-hook)
 (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
 
+;; Setup purty symbols.
+(defun my-haskell-mode-prettify-symbols-hook ()
+  (setf prettify-symbols-alist
+        (append '(;;; Syntax
+                  ("forall" . ?∀)
+                  ("::"     . ?∷)
+                  ("\\"     . ?λ)
+                  ("->"     . ?→)
+                  ("=>"     . ?⇒)
+
+                  ;;; Functions
+                  ;; Prefix
+                  ("not"         . ?¬)
+                  ("and"         . ?∧)
+                  ("or"          . ?∨)
+                  ;; Infix
+                  (">>="         . ?↪)
+                  ("=<<"         . ?↩)
+                  ("."           . ?∘)
+                  ("*"           . ?×)
+                  (":="          . ?≔)
+                  ("|-"          . ?⊢)
+                  ("-|"          . ?⊣)
+                  ("<="          . ?≤)
+                  (">="          . ?≥)
+                  ("=="          . ?≡)
+                  ("/="          . ?≠)
+                  ("&&"          . ?∧)
+                  ("||"          . ?∨)
+                  ("!!"          . ?‼)
+                  ("`div`"       . ?÷)
+                  ("`elem`"      . ?∈)
+                  ("`notElem`"   . ?∉)
+                  ("`union`"     . ?∪)
+                  ("`intersect`" . ?∩))
+                prettify-symbols-alist)))
+
+(add-hook 'haskell-mode-hook #'prettify-symbols-mode)
+(add-hook 'haskell-mode-hook #'my-haskell-mode-prettify-symbols-hook)
+
 
 (provide 'init-lang-haskell)
