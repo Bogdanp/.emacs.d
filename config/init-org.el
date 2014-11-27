@@ -1,8 +1,8 @@
 ;; Misc
 ;; ~~~~
 ;; Paths to my org files.
-(setq org:dir (expand-file-name "~/Dropbox/Documents/Personal"))
-(setq org:main-file (concat org:dir "/Bogdan.org"))
+(setq bp-org-dir (expand-file-name "~/Dropbox/Documents/Personal"))
+(setq bp-org-main-file (concat bp-org-dir "/Bogdan.org"))
 
 ;; PDF generation
 ;; ~~~~~~~~~~~~~~
@@ -42,29 +42,29 @@
 ;; Org-capture
 ;; ~~~~~~~~~~~
 ;; Where to put captured stuff.
-(setq org-default-notes-file org:main-file)
+(setq org-default-notes-file bp-org-main-file)
 
 ;; Capture templates.
 (setq org-capture-templates
-      '(("T" "Barebones TODO" entry (file+headline org:main-file "Tasks")
+      '(("T" "Barebones TODO" entry (file+headline bp-org-main-file "Tasks")
          "* TODO %?\n  %i")
-        ("t" "TODO" entry (file+headline org:main-file "Tasks")
+        ("t" "TODO" entry (file+headline bp-org-main-file "Tasks")
          "* TODO %?\n  :PROPERTIES:\n  :Created: %u\n  :Source:  %a\n  :END:")
-        ("i" "Idea" entry (file+headline org:main-file "Ideas")
+        ("i" "Idea" entry (file+headline bp-org-main-file "Ideas")
          "* %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")
-        ("m" "LeadPages Meeting" entry (file+olp org:main-file "LeadPages" "Meetings")
+        ("m" "LeadPages Meeting" entry (file+olp bp-org-main-file "LeadPages" "Meetings")
          "* TODO %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")
-        ("n" "Note" entry (file+headline org:main-file "Notes")
+        ("n" "Note" entry (file+headline bp-org-main-file "Notes")
          "* %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")))
 
 
 ;; Agenda
 ;; ~~~~~~
 ;; Set up path to agenda files.
-(setq org:agenda-files-path org:dir)
+(setq bp-org-agenda-files-path bp-org-dir)
 
-(when (file-exists-p org:agenda-files-path)
-  (setq org-agenda-files `(,org:agenda-files-path)))
+(when (file-exists-p bp-org-agenda-files-path)
+  (setq org-agenda-files `(,bp-org-agenda-files-path)))
 
 
 ;; TODOs
