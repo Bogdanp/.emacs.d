@@ -3,7 +3,6 @@
 ;; Paths to my org files.
 (setq org:dir (expand-file-name "~/Dropbox/Documents/Personal"))
 (setq org:main-file (concat org:dir "/Bogdan.org"))
-(setq org:blog-file (concat org:dir "/Blog.org"))
 
 ;; PDF generation
 ;; ~~~~~~~~~~~~~~
@@ -56,9 +55,7 @@
         ("m" "LeadPages Meeting" entry (file+olp org:main-file "LeadPages" "Meetings")
          "* TODO %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")
         ("n" "Note" entry (file+headline org:main-file "Notes")
-         "* %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")
-        ("b" "Blog" entry (file+datetree org:blog-file)
-         "* %?\n  %i")))
+         "* %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")))
 
 
 ;; Agenda
