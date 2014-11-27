@@ -26,6 +26,7 @@
                 eww-history-mode
                 git-commit-mode
                 grep-mode
+                haskell-interactive-mode
                 help-mode
                 Info-mode
                 special-mode
