@@ -71,6 +71,7 @@
 
                   ;;; Functions
                   ;; Prefix
+                  ("undefined"   . ?⊥)
                   ("not"         . ?¬)
                   ("and"         . ?∧)
                   ("or"          . ?∨)
