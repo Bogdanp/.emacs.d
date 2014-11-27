@@ -19,12 +19,4 @@
 (setq erc-kill-server-buffer-on-quit t)
 
 
-(defun my-erc-mode-hook ()
-  ;; Reset the margin in ERC so the command line doesn't get padded
-  ;; unnecessarily.
-  (setq-local scroll-margin 0))
-
-(add-hook 'erc-mode-hook 'my-erc-mode-hook)
-
-
 (provide 'init-erc)

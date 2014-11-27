@@ -108,14 +108,4 @@
     (bp-term-fullscreen)))
 
 
-;; Misc
-;; ~~~~
-(defun my-term-mode-hook ()
-  ;; Reset the margin in term mode so the command line doesn't get
-  ;; padded unnecessarily.
-  (setq-local scroll-margin 0))
-
-(add-hook 'term-mode-hook 'my-term-mode-hook)
-
-
 (provide 'init-term)
