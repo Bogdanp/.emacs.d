@@ -35,8 +35,9 @@
 ;; Auto Complete
 ;; ~~~~~~~~~~~~~
 (defun ac-haskell-candidates (prefix)
-  (let ((cs (haskell-process-get-repl-completions (haskell-process) prefix)))
-    (remove-if (lambda (c) (string= "" c)) cs)))
+  (when (fboundp #'haskell-process-get-repl-completions)
+    (let ((cs (haskell-process-get-repl-completions (haskell-process) prefix)))
+      (remove-if (lambda (c) (string= "" c)) cs))))
 
 (ac-define-source haskell
   '((candidates . (ac-haskell-candidates ac-prefix))))
