@@ -105,9 +105,11 @@ maximized."
 ;; Scrolling
 ;; ~~~~~~~~~
 ;; Make scrolling behave like it does in VIM.
-(setq scroll-conservatively 10000
+(setq redisplay-dont-pause t
       scroll-margin 0
-      scroll-step 1)
+      scroll-step 1
+      scroll-conservatively 10000
+      scroll-preserve-screen-position 1)
 
 
 ;; Misc
