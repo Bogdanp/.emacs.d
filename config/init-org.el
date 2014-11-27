@@ -90,6 +90,9 @@ agenda."
   (setq appt-time-msg-list nil)
   (org-agenda-to-appt))
 
+;; Plz don't ruin my window setup, org-agenda.
+(setq org-agenda-window-setup 'current-window)
+
 ;; Display appointment info in the modeline.
 (setq appt-display-mode-line t)
 
