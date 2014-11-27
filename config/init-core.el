@@ -111,6 +111,10 @@ maximized."
       scroll-conservatively 10000
       scroll-preserve-screen-position 1)
 
+;; Improved scrolling when using the trackpad.
+(setq mouse-wheel-follow-mouse 't)
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+
 
 ;; Misc
 ;; ~~~~
