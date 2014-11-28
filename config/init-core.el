@@ -133,6 +133,9 @@ maximized."
 ;; Hide gutter if there are no changes.
 (setq git-gutter:hide-gutter t)
 
+;; Make paradox behave.
+(setq paradox-github-token t)
+
 
 ;; Compilation mode
 ;; ~~~~~~~~~~~~~~~~
