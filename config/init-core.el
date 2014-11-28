@@ -125,4 +125,10 @@ maximized."
 (setq git-gutter:hide-gutter t)
 
 
+;; Compilation mode
+;; ~~~~~~~~~~~~~~~~
+;; Follow compilation output.
+(setq compilation-scroll-output t)
+
+
 (provide 'init-core)
