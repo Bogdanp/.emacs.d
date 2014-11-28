@@ -14,6 +14,7 @@
     org
     htmlize
     restclient
+    paradox
     f
 
     ;; Auto completion

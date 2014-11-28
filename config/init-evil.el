@@ -30,6 +30,8 @@
                 help-mode
                 Info-mode
                 special-mode
+                paradox-commit-list-mode
+                paradox-menu-mode
                 prodigy-mode
                 term-mode
                 undo-tree-visualizer-mode))
