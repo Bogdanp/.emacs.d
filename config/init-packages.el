@@ -41,7 +41,8 @@
     ace-jump-mode
 
     ;; Git
-    git-gutter
+    git-gutter+
+    git-gutter-fringe+
     git-timemachine
     magit
 
