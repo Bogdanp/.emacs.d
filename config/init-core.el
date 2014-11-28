@@ -42,7 +42,16 @@
 (setq-default indent-tabs-mode nil)
 
 ;; Highlight current line.
-(global-hl-line-mode t)
+(define-global-minor-mode my-global-hl-line-mode global-hl-line-mode
+  (lambda ()
+    "You can't turn off global-hl-line-mode on a per-buffer basis so we
+can just build up our own version that doesn't activate for a given list
+of modes."
+    (when (not (memq major-mode (list 'eww-mode
+                                      'term-mode)))
+      (hl-line-mode))))
+
+(my-global-hl-line-mode)
 
 ;; Don't wrap long lines.
 (setq-default truncate-lines t)
