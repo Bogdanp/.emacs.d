@@ -17,6 +17,7 @@
     f
 
     ;; Auto completion
+    fuzzy  ;; required by ac-use-fuzzy
     auto-complete
     auto-complete-clang
 

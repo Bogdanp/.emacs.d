@@ -8,16 +8,19 @@
 
 ;; Source ALL the things.
 (setq-default ac-sources '(ac-source-filename
-                           ac-source-functions
-                           ac-source-variables
-                           ac-source-symbols
+                           ac-source-imenu
                            ac-source-features
                            ac-source-abbrev
                            ac-source-words-in-same-mode-buffers
                            ac-source-dictionary))
 
 ;; Smarcase completion.
-(setq ac-ignore-case 'smart)
+(setq ac-auto-show-menu 0.01
+      ac-quick-help-delay 0.1
+
+      ac-use-menu-map t
+      ac-use-fuzzy t
+      ac-use-quick-help t)
 
 
 (provide 'init-auto-completion)

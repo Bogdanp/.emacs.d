@@ -34,6 +34,7 @@
 ;; Python-mode bindings
 ;; ~~~~~~~~~~~~~~~~~~~~
 (define-key python-mode-map (kbd "C-x C-e") 'bp-python-eval-region)
+(define-key python-mode-map (kbd "TAB") 'jedi:complete)
 
 (evil-define-key 'normal python-mode-map
   ",r" 'py-test-run-test-at-point
@@ -44,12 +45,6 @@
 ;; Prodigy bindings
 ;; ~~~~~~~~~~~~~~~~
 (define-key prodigy-view-mode-map (kbd "C-c f") 'bp-python-trace-find-file-at-point)
-
-
-;; Auto completion bindings
-;; ~~~~~~~~~~~~~~~~~~~~~~~~
-(define-key ac-complete-mode-map (kbd "C-n") 'ac-next)
-(define-key ac-complete-mode-map (kbd "C-p") 'ac-previous)
 
 
 ;; Haskell-mode bindings
