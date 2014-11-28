@@ -12,7 +12,8 @@
                            ac-source-features
                            ac-source-abbrev
                            ac-source-words-in-same-mode-buffers
-                           ac-source-dictionary))
+                           ac-source-dictionary
+                           ac-source-yasnippet))
 
 ;; Smarcase completion.
 (setq ac-auto-show-menu 0.01

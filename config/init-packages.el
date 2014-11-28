@@ -21,6 +21,7 @@
     fuzzy  ;; required by ac-use-fuzzy
     auto-complete
     auto-complete-clang
+    yasnippet
 
     ;; EVIL enhancements
     goto-chg
