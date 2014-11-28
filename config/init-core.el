@@ -136,8 +136,6 @@ maximized."
 ;; Make paradox behave.
 (setq paradox-github-token t)
 
-;; Enable yasnippet.
-(yas-global-mode 1)
 
 ;; Compilation mode
 ;; ~~~~~~~~~~~~~~~~

@@ -70,6 +70,8 @@ trace."
   (setq-local jedi:complete-on-dot t)
   (setq-local jedi:tooltip-method nil)
 
+  (yas-minor-mode)
+
   ;; Don't start automatically (causes SERIOUS performance issues on
   ;; large Python files (> 1k LOC)).
   (setq-local ac-auto-start nil))
