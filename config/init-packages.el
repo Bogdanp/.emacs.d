@@ -43,7 +43,6 @@
 
     ;; Git
     git-gutter
-    git-gutter-fringe
     git-timemachine
     magit
 
