@@ -29,6 +29,7 @@
 
     ;; Ido
     ido-ubiquitous
+    imenu-anywhere
     smex
 
     ;; Code analysis
