@@ -4,23 +4,6 @@
 (setq bp-org-dir (expand-file-name "~/Dropbox/Documents/Personal"))
 (setq bp-org-main-file (concat bp-org-dir "/Bogdan.org"))
 
-;; PDF generation
-;; ~~~~~~~~~~~~~~
-;; Allow pdflatex to call external programs.
-(setq org-latex-pdf-process
-      '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
-        "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
-
-;; Highlight code in exported PDFs.
-(setq org-latex-listings 'minted)
-(setq org-latex-minted-options
-           '(("frame" "lines")
-             ("fontsize" "\\scriptsize")
-             ("linenos" "")))
-
-(add-to-list 'org-latex-packages-alist '("" "minted"))
-
 
 ;; Code blocks
 ;; ~~~~~~~~~~~
@@ -30,13 +13,21 @@
 ;; Allow these languages to be executed in org code blocks.
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((python . t)
-   (clojure . t)
-   (sh . t)))
+ '((clojure . t)
+   (latex   . t)
+   (python  . t)
+   (sh      . t)))
+
+;; Make org-babel work w/ clojure and latex.
+(require 'ob-clojure)
+(require 'ob-latex)
 
 ;; Use cider instead of slime to evaluate clojure code.
-(require 'ob-clojure)
 (setq org-babel-clojure-backend 'cider)
+
+;; Evaluate code in org files w/o asking for confirmation. Potentially
+;; dangerous but meh.
+(setq org-confirm-babel-evaluate nil)
 
 
 ;; Org-capture
