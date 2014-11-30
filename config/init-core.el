@@ -1,3 +1,7 @@
+;; Server
+;; ~~~~~~
+(server-start)
+
 ;; Paths
 ;; ~~~~~
 ;; Home sweet home.
