@@ -27,6 +27,8 @@
 ;; Hooks
 ;; ~~~~~
 (defun my-web-mode-hook ()
+  (setq-local ac-auto-start nil)
+
   ;; These things break web-mode so we need to disable them.
   (remove-hook 'prog-mode-hook 'esk-pretty-lambdas t)
   (remove-hook 'prog-mode-hook 'esk-add-watchwords t)

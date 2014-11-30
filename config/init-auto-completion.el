@@ -15,7 +15,6 @@
                            ac-source-dictionary
                            ac-source-yasnippet))
 
-;; Smarcase completion.
 (setq ac-auto-show-menu 0.01
       ac-quick-help-delay 0.1
 
