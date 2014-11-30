@@ -39,16 +39,18 @@
 
 ;; Capture templates.
 (setq org-capture-templates
-      '(("T" "Barebones TODO" entry (file+headline bp-org-main-file "Tasks")
-         "* TODO %?\n  %i")
-        ("t" "TODO" entry (file+headline bp-org-main-file "Tasks")
-         "* TODO %?\n  :PROPERTIES:\n  :Created: %u\n  :Source:  %a\n  :END:")
-        ("i" "Idea" entry (file+headline bp-org-main-file "Ideas")
-         "* %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")
-        ("m" "LeadPages Meeting" entry (file+olp bp-org-main-file "LeadPages" "Meetings")
-         "* TODO %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")
+      '(("t" "TODO" entry (file+headline bp-org-main-file "Tasks")
+         "%^{Effort}p* TODO %?\n  :PROPERTIES:\n  :Created:  %u\n  :Source:   %a\n  :END:"
+         :clock-in t
+         :clock-keep t)
+        ("s" "Call" entry (file+olp bp-org-main-file "LeadPages" "Meetings")
+         "%^{Effort}p* TODO %?\n  :PROPERTIES:\n  :Created:  %u\n  :END:"
+         :clock-in t
+         :clock-keep t)
+        ("m" "Meeting" entry (file+olp bp-org-main-file "LeadPages" "Meetings")
+         "%^{Effort}p* TODO %?\n  :PROPERTIES:\n  :Created:  %u\n  :END:")
         ("n" "Note" entry (file+headline bp-org-main-file "Notes")
-         "* %?\n  :PROPERTIES:\n  :Created: %u\n  :END:")))
+         "* %?\n  :PROPERTIES:\n  :Created:  %u\n  :END:")))
 
 
 ;; Agenda
