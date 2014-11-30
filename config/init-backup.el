@@ -2,6 +2,9 @@
 ;; ~~~~
 (global-undo-tree-mode)
 
+(setq undo-tree-visualizer-timestamps t)
+(setq undo-tree-visualizer-diffs t)
+
 
 ;; Backups
 ;; ~~~~~~~
