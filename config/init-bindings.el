@@ -129,8 +129,8 @@
   "gu" 'outline-up-heading
   "gk" 'org-backward-heading-same-level
   "gj" 'org-forward-heading-same-level
-  "gp" 'org-backward-element
-  "gn" 'org-forward-element)
+  "gp" 'outline-previous-visible-heading
+  "gn" 'outline-next-visible-heading)
 
 
 (provide 'init-bindings)
