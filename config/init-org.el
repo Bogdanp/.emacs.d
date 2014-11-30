@@ -14,12 +14,14 @@
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((clojure . t)
+   (haskell . t)
    (latex   . t)
    (python  . t)
    (sh      . t)))
 
-;; Make org-babel work w/ clojure and latex.
+;; Make org-babel work w/ these languages.
 (require 'ob-clojure)
+(require 'ob-haskell)
 (require 'ob-latex)
 
 ;; Use cider instead of slime to evaluate clojure code.
