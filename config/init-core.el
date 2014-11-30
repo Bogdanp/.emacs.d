@@ -1,3 +1,8 @@
+;; Me
+;; ~~
+(setq user-full-name "Bogdan Popa")
+(setq user-mail-address "popa.bogdanp@gmail.com")
+
 ;; Server
 ;; ~~~~~~
 (server-start)
