@@ -145,6 +145,12 @@ maximized."
 ;; Make paradox behave.
 (setq paradox-github-token t)
 
+;; Search Google and that's about it.
+(defun bp-search-google (q)
+  (interactive "sQuery: ")
+  (browse-url (concat "https://www.google.com/webhp#q="
+                      (org-link-escape q))))
+
 
 ;; Compilation mode
 ;; ~~~~~~~~~~~~~~~~
