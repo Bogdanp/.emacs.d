@@ -10,13 +10,13 @@
 	      t)))
 
 
-;; Hooks
+;;; Hooks
 ;; ~~~~~
-(add-hook 'emacs-lisp-mode-hook 'rainbow-delimiters-mode)
-(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
-(add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-(add-hook 'emacs-lisp-mode-hook 'pretty-lambda-mode)
-(add-hook 'emacs-lisp-mode-hook 'bp-elisp-remove-elc-on-save)
+(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'emacs-lisp-mode-hook #'turn-on-eldoc-mode)
+(add-hook 'emacs-lisp-mode-hook #'paredit-mode)
+(add-hook 'emacs-lisp-mode-hook #'pretty-lambda-mode)
+(add-hook 'emacs-lisp-mode-hook #'bp-elisp-remove-elc-on-save)
 
 
 (provide 'init-lang-elisp)
