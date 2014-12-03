@@ -164,7 +164,8 @@ maximized."
       (quote (("default"
                ("Org"   (mode . org-mode))
                ("ERC"   (mode . erc-mode))
-               ("Elisp" (mode . emacs-lisp-mode))))))
+               ("Elisp" (mode . emacs-lisp-mode))
+               ("Work"  (filename . "Work/"))))))
 
 (defun my-ibuffer-mode-hook-for-groups ()
   (ibuffer-switch-to-saved-filter-groups "default"))
