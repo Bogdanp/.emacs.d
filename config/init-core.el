@@ -158,4 +158,19 @@ maximized."
 (setq compilation-scroll-output t)
 
 
+;; Ibuffer
+;; ~~~~~~~
+(setq ibuffer-saved-filter-groups
+      (quote (("default"
+               ("Org"   (mode . org-mode))
+               ("ERC"   (mode . erc-mode))
+               ("Elisp" (mode . emacs-lisp-mode))))))
+
+(defun my-ibuffer-mode-hook-for-groups ()
+  (ibuffer-switch-to-saved-filter-groups "default"))
+
+
+(add-hook 'ibuffer-mode-hook #'my-ibuffer-mode-hook-for-groups)
+
+
 (provide 'init-core)
