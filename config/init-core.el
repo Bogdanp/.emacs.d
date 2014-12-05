@@ -57,7 +57,8 @@
 can just build up our own version that doesn't activate for a given list
 of modes."
     (when (not (memq major-mode (list 'eww-mode
-                                      'term-mode)))
+                                      'term-mode
+                                      'org-agenda-mode)))
       (hl-line-mode))))
 
 (my-global-hl-line-mode)
