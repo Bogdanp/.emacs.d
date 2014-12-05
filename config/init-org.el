@@ -134,4 +134,12 @@ by convention, should be an Archive heading)."
         (org-paste-subtree (+ 1 archive-level))))))
 
 
+;; Habits
+;; ~~~~~~
+;; Load the habits module.
+(require 'org-habit)
+
+(setq org-habit-following-days 2)
+
+
 (provide 'init-org)
