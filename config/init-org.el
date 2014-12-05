@@ -71,6 +71,9 @@
 (setq org-todo-keywords
       '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
 
+;; Refile anywhere.
+(setq org-refile-targets '((nil :maxlevel . 9)))
+
 
 ;; Reminders
 ;; ~~~~~~~~~
@@ -138,8 +141,6 @@ by convention, should be an Archive heading)."
 ;; ~~~~~~
 ;; Load the habits module.
 (require 'org-habit)
-
-(setq org-habit-following-days 2)
 
 
 (provide 'init-org)
