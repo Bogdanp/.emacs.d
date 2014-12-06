@@ -56,6 +56,8 @@
   (setq-local ac-auto-start 2)
   (setq-local indent-line-function #'indent-relative))
 
+(add-hook 'haskell-mode-hook #'interactive-haskell-mode)
+(add-hook 'haskell-mode-hook #'haskell-doc-mode)
 (add-hook 'haskell-mode-hook #'my-haskell-mode-hook)
 (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
 
