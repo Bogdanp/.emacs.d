@@ -100,7 +100,6 @@
 (defconst my-required-packages
   (append my-packages
           '(ansi-color
-	    auto-complete-config
 	    cc-mode
 	    ffap
             python

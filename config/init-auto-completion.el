@@ -3,6 +3,7 @@
 (global-auto-complete-mode t)
 
 ;; Use default config.
+(require 'auto-complete-config)
 (ac-config-default)
 (ac-set-trigger-key "TAB")
 

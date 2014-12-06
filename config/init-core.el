@@ -45,6 +45,14 @@
 ;; Pretty colors!!
 (load-theme 'twilight-anti-bright t)
 
+;; Persist minibuffer history.
+(require 'savehist)
+(savehist-mode +1)
+(setq savehist-file (locate-user-emacs-file "savehist")
+      savehist-additional-variables '(search ring regexp-search-ring)
+      savehist-autosave-interval 60
+
+      history-length 1000)
 
 ;; Editing
 ;; ~~~~~~~
@@ -83,7 +91,13 @@ of modes."
 ;; Files
 ;; ~~~~~
 ;; Save a list of files that were visited recently.
-(recentf-mode t)
+(require 'recentf)
+(recentf-mode +1)
+(setq recentf-save-file (locate-user-emacs-file "recentf")
+      recentf-max-saved-items 1000
+      recentf-max-menu-items 500)
+
+(add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
 
 ;; Delete trailing whitespaces whenever a file gets saved.
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
