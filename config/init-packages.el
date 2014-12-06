@@ -111,7 +111,8 @@
 (defconst my-deferred-packages
   '(evil-surround
     undo-tree)
-  "A list of packages that must get installed but are not required immediately.")
+  "A list of packages that must get installed but are not required
+  immediately.")
 
 (mapc 'require
       (set-difference my-required-packages
