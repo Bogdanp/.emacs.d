@@ -74,7 +74,6 @@
     paredit
     pretty-lambdada
     rainbow-delimiters
-    rainbow-mode
 
     ;; Python
     jedi
