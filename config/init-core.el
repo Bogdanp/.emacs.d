@@ -39,9 +39,6 @@
 ;; Prevent the cursor from blinking.
 (blink-cursor-mode -1)
 
-;; White cursor is best cursor.
-(set-cursor-color "#FFFFFF")
-
 ;; Pretty colors!!
 (load-theme 'twilight-anti-bright t)
 
