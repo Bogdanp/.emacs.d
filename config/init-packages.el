@@ -56,7 +56,9 @@ list of packages to be instaleld using package.el."
    undo-tree
 
    ;; Ido
+   flx-ido
    ido-ubiquitous
+   ido-vertical-mode
    imenu-anywhere
    smex
 
@@ -66,6 +68,7 @@ list of packages to be instaleld using package.el."
 
    ;; File management
    dired+
+   projectile
 
    ;; Movement
    ace-jump-mode

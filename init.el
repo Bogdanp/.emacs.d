@@ -34,6 +34,7 @@
     init-ido
     init-erc
     init-eww
+    init-projectile
 
     ;; Misc plugins
     init-auto-completion

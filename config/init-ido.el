@@ -2,6 +2,7 @@
 ;; ~~~
 (ido-mode t)
 (ido-ubiquitous-mode)
+(ido-vertical-mode)
 
 (setq ido-enable-prefix nil
       ido-enable-flex-matching t
