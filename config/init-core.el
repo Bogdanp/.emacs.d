@@ -90,6 +90,9 @@ of modes."
 (set-selection-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
+;; Make fill-paragraph more useful.
+(setq sentence-end-double-space nil)
+
 
 ;; Files
 ;; ~~~~~
