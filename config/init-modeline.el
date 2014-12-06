@@ -2,7 +2,6 @@
 ;; ~~~~~~~~
 (line-number-mode +1)
 (column-number-mode +1)
-(display-time-mode +1)
 
 ;; Diminish global minor modes.
 (defconst my-diminished-minor-modes
