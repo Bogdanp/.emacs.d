@@ -9,6 +9,7 @@
   '(auto-complete-mode
     eldoc-mode
     git-gutter-mode
+    magit-auto-revert-mode
     undo-tree-mode
     yas-minor-mode)
   "A list of minor modes to hide from the modeline.")
