@@ -143,4 +143,9 @@ by convention, should be an Archive heading)."
 (require 'org-habit)
 
 
+;; Text editing
+;; ~~~~~~~~~~~~
+(add-hook 'org-mode-hook #'auto-fill-mode)
+
+
 (provide 'init-org)
