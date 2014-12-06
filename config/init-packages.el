@@ -11,11 +11,12 @@
 ;; Install missing packages.
 (defconst my-packages
   '(;; Misc
+    f
     org
     htmlize
     restclient
     paradox
-    f
+    expand-region
 
     ;; Auto completion
     fuzzy  ;; required by ac-use-fuzzy
