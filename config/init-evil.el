@@ -1,9 +1,5 @@
 ;; EVIL
 ;; ~~~~
-(add-to-list 'load-path (expand-file-name "~/sandbox/evil"))
-
-(require 'evil)
-
 ;; Turn evil-mode on.
 (evil-mode t)
 
