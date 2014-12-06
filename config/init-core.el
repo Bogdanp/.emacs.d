@@ -3,10 +3,12 @@
 (setq user-full-name "Bogdan Popa")
 (setq user-mail-address "popa.bogdanp@gmail.com")
 
+
 ;; Server
 ;; ~~~~~~
 (unless (server-running-p)
   (server-start))
+
 
 ;; Paths
 ;; ~~~~~
