@@ -12,19 +12,17 @@ trace."
     (goto-line line)))
 
 (defun bp-python-eval-region (start end)
-  "Evaluates simple Python code that's part of a region."
+  "Evaluates a region of Python code."
   (interactive "r")
   (save-excursion
     (let* ((prompt "# => ")
            (source (s-trim (buffer-substring-no-properties start end)))
-           (interpreter (concat "from code import InteractiveConsole;"
-                                "interpreter = InteractiveConsole();"
-                                "code = '''%s'''.split('\\n');"
-                                "[interpreter.runsource(line.strip()) for line in code];"))
-           (code (format interpreter source))
-           (result-lines (process-lines "python" "-c" code))
+           (filename (make-temp-file "python-eval-region"))
+           (_ (f-write source 'utf-8 filename))
+           (result-lines (process-lines "python" filename))
            (result (mapconcat #'identity result-lines (concat "\n" prompt)))
            (text (concat prompt result "\n")))
+      (f-delete filename)
       (goto-char end)
       (insert text)
       (indent-region end (+ end (length text))))))

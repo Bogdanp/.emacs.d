@@ -175,8 +175,8 @@ maximized."
 (defun my-ibuffer-mode-hook-for-groups ()
   (ibuffer-switch-to-saved-filter-groups "default"))
 
-
 (add-hook 'ibuffer-mode-hook #'my-ibuffer-mode-hook-for-groups)
+
 
 ;; Yasnippet
 ;; ~~~~~~~~~
