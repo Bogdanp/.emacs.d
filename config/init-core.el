@@ -54,6 +54,7 @@
 
       history-length 1000)
 
+
 ;; Editing
 ;; ~~~~~~~
 ;; Never use tabs.
@@ -86,6 +87,12 @@ of modes."
 
 ;; Electric pair mode, however, is decent.
 (electric-pair-mode)
+
+;; Prefer utf-8.
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
 
 
 ;; Files
