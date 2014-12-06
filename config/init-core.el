@@ -75,6 +75,9 @@ of modes."
 ;; Fuck electric-indent-mode.
 (electric-indent-mode -1)
 
+;; Electric pair mode, however, is decent.
+(electric-pair-mode)
+
 
 ;; Files
 ;; ~~~~~
