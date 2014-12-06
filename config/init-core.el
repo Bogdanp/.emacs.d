@@ -79,9 +79,6 @@ of modes."
 ;; Highlight matching parens.
 (show-paren-mode 1)
 
-;; Show line and column number in status line.
-(column-number-mode t)
-
 ;; Fuck electric-indent-mode.
 (electric-indent-mode -1)
 

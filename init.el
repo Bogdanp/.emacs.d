@@ -52,7 +52,7 @@
     init-lang-scala
     init-lang-scss
 
-    ;; Bindings
+    init-modeline
     init-bindings))
 
 (mapc 'require my-modules)

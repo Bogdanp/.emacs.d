@@ -17,6 +17,7 @@
     restclient
     paradox
     expand-region
+    diminish
 
     ;; Auto completion
     fuzzy  ;; required by ac-use-fuzzy
