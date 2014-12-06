@@ -174,5 +174,10 @@ maximized."
 
 (add-hook 'ibuffer-mode-hook #'my-ibuffer-mode-hook-for-groups)
 
+;; Yasnippet
+;; ~~~~~~~~~
+;; Load all snippets on startup.
+(yas-reload-all)
+
 
 (provide 'init-core)
