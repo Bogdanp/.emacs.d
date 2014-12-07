@@ -1,3 +1,14 @@
+;;; init.el --- main config entry point -*- no-byte-compile: t -*-
+;; Auto compile everything
+;; ~~~~~~~~~~~~~~~~~~~~~~~
+(add-to-list 'load-path (locate-user-emacs-file "packed"))
+(add-to-list 'load-path (locate-user-emacs-file "auto-compile"))
+(setq load-prefer-newer t)
+(require 'auto-compile)
+(auto-compile-on-load-mode 1)
+(auto-compile-on-save-mode 1)
+
+
 ;; UI
 ;; ~~
 ;; Position and resize frame.
