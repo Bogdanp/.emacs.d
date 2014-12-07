@@ -1,3 +1,6 @@
 [submodule "auto-compile"]
 	path = auto-compile
 	url = https://github.com/tarsius/auto-compile
+[submodule "packed"]
+	path = packed
+	url = https://github.com/tarsius/packed
