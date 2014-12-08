@@ -1,3 +1,5 @@
+;; Ewww
+;; ~~~~
 (defun my-eww-mode-hook ()
   (setq-local truncate-lines nil))
 
