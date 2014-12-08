@@ -81,9 +81,6 @@ of modes."
 ;; Fuck electric-indent-mode.
 (electric-indent-mode -1)
 
-;; Electric pair mode, however, is decent.
-(electric-pair-mode)
-
 ;; Prefer utf-8.
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
