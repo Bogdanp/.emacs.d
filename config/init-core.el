@@ -42,7 +42,9 @@
 (blink-cursor-mode -1)
 
 ;; Pretty colors!!
-(load-theme 'twilight-anti-bright t)
+(if (display-graphic-p)
+    (load-theme 'twilight-anti-bright t)
+  (load-theme 'wombat t))
 
 ;; Persist minibuffer history.
 (require 'savehist)
