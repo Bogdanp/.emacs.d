@@ -37,7 +37,13 @@
 (defun my-git-timemachine-mode-hook-for-evil ()
   (evil-emacs-state))
 
-(add-hook 'git-timemachine-mode-hook 'my-git-timemachine-mode-hook-for-evil)
+(add-hook 'git-timemachine-mode-hook #'my-git-timemachine-mode-hook-for-evil)
+
+;; Same goes for Flycheck's `C-c ! l'.
+(defun my-flycheck-error-list-mode-hook-for-evil ()
+  (evil-emacs-state))
+
+(add-hook 'flycheck-error-list-mode-hook #'my-flycheck-error-list-mode-hook-for-evil)
 
 
 ;; Fixes
