@@ -120,7 +120,10 @@ list of packages to be instaleld using package.el."
 
 ;; Packages that may or may not be available on disk.
 (bp-add-local-package 'evil)
-(bp-add-local-package 'twilight-anti-bright-theme)
+
+(when (display-graphic-p)
+  (bp-add-local-package 'twilight-anti-bright-theme))
+
 
 (mapc
  (lambda (package)
