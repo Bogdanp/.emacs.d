@@ -26,6 +26,7 @@
 ;; Disable welcome screen.
 (setq inhibit-startup-message t)
 
+
 ;; Config
 ;; ~~~~~~
 ;; Initialize all of the other settings.
