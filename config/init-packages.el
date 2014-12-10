@@ -124,7 +124,6 @@ list of packages to be instaleld using package.el."
 (when (display-graphic-p)
   (bp-add-local-package 'twilight-anti-bright-theme))
 
-
 (mapc
  (lambda (package)
    (when package
