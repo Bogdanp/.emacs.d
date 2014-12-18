@@ -49,6 +49,10 @@ trace."
 
 ;; Testing
 ;; ~~~~~~~
+;; Purty mode-line.
+(setq py-test-*mode-line-face-shenanigans-on* t)
+(setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec")
+
 ;; py-test projects ahoy:
 (py-test-define-project
  :name "LeadPages"
