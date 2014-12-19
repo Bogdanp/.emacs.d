@@ -27,6 +27,19 @@ trace."
       (insert text)
       (indent-region end (+ end (length text))))))
 
+(defvar bp-python--block-re "^.*: *$")
+
+(defun bp-python-goto-prev-block ()
+  "Go to the beginning of the previous Python block."
+  (interactive)
+  (re-search-backward bp-python--block-re nil t)
+  (beginning-of-line-text))
+
+(defun bp-python-goto-next-block ()
+  "Go to the beginning of the next Python block."
+  (interactive)
+  (re-search-forward bp-python--block-re nil t))
+
 
 ;; Jedi utils
 ;; ~~~~~~~~~~

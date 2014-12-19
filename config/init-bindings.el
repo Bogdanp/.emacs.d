@@ -39,6 +39,8 @@
 (define-key python-mode-map (kbd "TAB") 'jedi:complete)
 
 (evil-define-key 'normal python-mode-map
+  ",b" 'bp-python-goto-prev-block
+  ",f" 'bp-python-goto-next-block
   ",r" 'py-test-run-test-at-point
   ",T" 'py-test-run-directory
   ",t" 'py-test-run-file)
