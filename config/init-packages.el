@@ -61,6 +61,7 @@ list of packages to be instaleld using package.el."
    flx-ido
    ido-ubiquitous
    ido-vertical-mode
+   imenu-anywhere
    smex
 
    ;; Code analysis
