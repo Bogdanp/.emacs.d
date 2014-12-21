@@ -86,7 +86,6 @@ list of packages to be instaleld using package.el."
 
    ;; Frontend Languages
    js2-mode
-   jsx-mode
    markdown-mode
    scss-mode
    web-mode

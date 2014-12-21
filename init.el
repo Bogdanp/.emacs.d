@@ -61,7 +61,6 @@
     init-lang-elisp
     init-lang-haskell
     init-lang-javascript
-    init-lang-jsx
     init-lang-purescript
     init-lang-python
     init-lang-scala
