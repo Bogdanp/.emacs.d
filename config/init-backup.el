@@ -8,7 +8,7 @@
 
 ;; Backups
 ;; ~~~~~~~
-(setq local-temp-dir (locate-user-emacs-file "temp"))
+(setq local-temp-dir (expand-file-name (locate-user-emacs-file "temp")))
 
 (setq auto-save-file-name-transforms    `((".*"   ,local-temp-dir t))
       backup-directory-alist            `((".*" . ,local-temp-dir))

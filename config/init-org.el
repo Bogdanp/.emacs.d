@@ -2,7 +2,7 @@
 ;; ~~~~
 ;; Paths to my org files.
 (setq bp-org-dir (expand-file-name "~/Dropbox/Documents/Personal"))
-(setq bp-org-main-file (concat bp-org-dir "/Bogdan.org"))
+(setq bp-org-main-file (expand-file-name (concat bp-org-dir "/Bogdan.org")))
 
 
 ;; Code blocks
