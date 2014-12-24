@@ -17,8 +17,8 @@
   (add-to-list 'default-frame-alist '(font . "Inconsolata-15"))
   (add-to-list 'default-frame-alist '(top . 32))
   (add-to-list 'default-frame-alist '(left . 10))
-  (add-to-list 'default-frame-alist '(width . 205))
-  (add-to-list 'default-frame-alist '(height . 53)))
+  (add-to-list 'default-frame-alist '(width . 235))
+  (add-to-list 'default-frame-alist '(height . 62)))
 
 ;; Remove GUI elements.
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
