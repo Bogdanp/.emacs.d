@@ -13,7 +13,7 @@
 ;; Paths
 ;; ~~~~~
 ;; Home sweet home.
-(setq default-directory "~/")
+(setq default-directory (expand-file-name "~/"))
 
 ;; Read PATH from zsh on OS X.
 (when (memq window-system '(mac ns))
