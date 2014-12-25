@@ -10,7 +10,6 @@
 (global-set-key (kbd "C-c C-i") 'imenu-anywhere)
 (global-set-key (kbd "C-c C-w u") 'winner-undo)
 (global-set-key (kbd "C-c C-w r") 'winner-redo)
-(global-set-key (kbd "C-c C-=") 'er/expand-region)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "C-=") 'text-scale-increase)
 (global-set-key (kbd "C-+") 'text-scale-increase)
