@@ -8,15 +8,13 @@
 ;; ~~~~~
 ;; Setup indentation.
 (defun my-c-mode-hook ()
-  (c-set-offset 'arglist-intro '+))
+  (c-set-offset 'arglist-intro '+)
+
+  (font-lock-add-keywords nil
+                          '(("\\<\\(FIXME\\|TODO\\|NOTE\\)\\(([^)]+)\\)?:"
+                             1 font-lock-warning-face t))))
 
 (add-hook 'c-mode-hook 'my-c-mode-hook)
-
-;; Setup auto-completion.
-(defun my-c-mode-common-hook ()
-  (setq-local ac-sources (append '(ac-source-clang) ac-sources)))
-
-(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 
 
 (provide 'init-lang-c)
