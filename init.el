@@ -14,15 +14,13 @@
 ;; ~~
 ;; Position and resize frame.
 (when (window-system)
-  (add-to-list 'default-frame-alist '(font . "Inconsolata-15"))
-  (add-to-list 'default-frame-alist '(top . 32))
-  (add-to-list 'default-frame-alist '(left . 10))
-  (add-to-list 'default-frame-alist '(width . 235))
-  (add-to-list 'default-frame-alist '(height . 62)))
+  (add-to-list 'default-frame-alist '(font . "Terminal")))
 
 ;; Remove GUI elements.
-(dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
-  (when (fboundp mode) (funcall mode -1)))
+(add-hook 'window-setup-hook
+          (lambda ()
+            (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
+              (when (fboundp mode) (funcall mode -1)))))
 
 ;; Disable welcome screen.
 (setq inhibit-startup-message t)
@@ -61,7 +59,7 @@
     init-lang-elisp
     init-lang-haskell
     init-lang-javascript
-    init-lang-purescript
+    ;; init-lang-purescript
     init-lang-python
     init-lang-scala
     init-lang-scss
