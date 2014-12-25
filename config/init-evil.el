@@ -29,6 +29,7 @@
                 paradox-commit-list-mode
                 paradox-menu-mode
                 prodigy-mode
+                sbt-mode
                 term-mode
                 undo-tree-visualizer-mode))
   (evil-set-initial-state mode 'emacs))
