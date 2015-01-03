@@ -1,19 +1,25 @@
 ;; Javascript Language
 ;; ~~~~~~~~~~~~~~~~~~~
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-
-(custom-set-variables
- '(js2-mode-show-parse-errors nil)
- '(js2-highlight-external-variables nil)
- '(js2-mode-show-strict-warnings nil))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . web-mode))
 
 
 ;; Hooks
 ;; ~~~~~
-(defun my-js2-mode-hook ()
-  (setq-local indent-tabs-mode nil))
+(flycheck-define-checker jsxhint-checker
+  "A JSX syntax and style checker based on JSXHint."
 
-(add-hook 'js2-mode-hook 'my-js2-mode-hook)
+  :command ("jsxhint" source)
+  :error-patterns
+  ((error line-start (1+ nonl) ": line " line ", col " column ", " (message) line-end))
+  :modes (web-mode))
+
+(defun my-web-mode-hook-for-flycheck ()
+  (when (or (equal web-mode-content-type "javascript")
+            (equal web-mode-content-type "jsx"))
+    (flycheck-select-checker 'jsxhint-checker)
+    (flycheck-mode 1)))
+
+(add-hook 'web-mode-hook #'my-web-mode-hook-for-flycheck)
 
 
 (provide 'init-lang-javascript)

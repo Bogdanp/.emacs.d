@@ -83,7 +83,6 @@ list of packages to be instaleld using package.el."
    prodigy
 
    ;; Frontend Languages
-   js2-mode
    markdown-mode
    scss-mode
    web-mode
