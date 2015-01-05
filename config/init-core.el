@@ -203,7 +203,7 @@ maximized."
 (yas-reload-all)
 
 ;; vi-like tildes after EOF.
-(add-hook 'prog-mode-hook 'vi-tilde-fringe-mode)
+(add-hook 'prog-mode-hook #'vi-tilde-fringe-mode)
 
 
 (provide 'init-core)
