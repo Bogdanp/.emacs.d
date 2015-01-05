@@ -202,5 +202,8 @@ maximized."
 ;; Load all snippets on startup.
 (yas-reload-all)
 
+;; vi-like tildes after EOF.
+(global-vi-tilde-fringe-mode)
+
 
 (provide 'init-core)

@@ -44,6 +44,7 @@ list of packages to be instaleld using package.el."
    restclient
    paradox
    diminish
+   vi-tilde-fringe
 
    ;; Auto completion
    fuzzy  ;; required by ac-use-fuzzy
