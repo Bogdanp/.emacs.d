@@ -45,6 +45,7 @@ list of packages to be instaleld using package.el."
    paradox
    diminish
    vi-tilde-fringe
+   dash-at-point
 
    ;; Auto completion
    fuzzy  ;; required by ac-use-fuzzy

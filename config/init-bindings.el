@@ -82,6 +82,8 @@
 ;; EVIL bindings
 ;; ~~~~~~~~~~~~~
 ;; Misc
+(define-key evil-normal-state-map (kbd ",d") 'dash-at-point)
+(define-key evil-normal-state-map (kbd ",D") 'dash-at-point-with-docset)
 (define-key evil-normal-state-map (kbd ",s") 'bp-search-google)
 (define-key evil-normal-state-map (kbd ",,") 'evil-ex-nohighlight)
 (define-key evil-normal-state-map (kbd ",x") 'calc)
