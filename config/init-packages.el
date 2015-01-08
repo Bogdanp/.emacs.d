@@ -115,7 +115,10 @@ list of packages to be instaleld using package.el."
    ;; Clojure
    clojure-mode
    cider
-   ac-cider))
+   ac-cider
+
+   ;; Swift
+   swift-mode))
 
 ;; Packages that may or may not be available on disk.
 (bp-add-local-package 'evil)

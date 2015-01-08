@@ -65,6 +65,7 @@
     init-lang-python
     init-lang-scala
     init-lang-scss
+    init-lang-swift
 
     init-modeline
     init-bindings))
