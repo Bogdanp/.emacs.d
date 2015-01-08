@@ -18,7 +18,7 @@
   (add-to-list 'default-frame-alist '(top . 32))
   (add-to-list 'default-frame-alist '(left . 10))
   (add-to-list 'default-frame-alist '(width . 199))
-  (add-to-list 'default-frame-alist '(height . 55)))
+  (add-to-list 'default-frame-alist '(height . 59)))
 
 ;; Remove GUI elements.
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
