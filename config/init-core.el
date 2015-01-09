@@ -81,7 +81,7 @@ of modes."
 (show-paren-mode 1)
 
 ;; Fuck electric-indent-mode.
-(electric-indent-mode -1)
+(electric-indent-mode +1)
 
 ;; Prefer utf-8.
 (set-terminal-coding-system 'utf-8)
