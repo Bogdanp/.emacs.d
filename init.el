@@ -64,6 +64,7 @@
     init-lang-purescript
     init-lang-python
     init-lang-scala
+    init-lang-scons
     init-lang-scss
     init-lang-swift
 
