@@ -51,6 +51,11 @@
 ;; ~~~~~~~~~~~~~~~~
 (define-key prodigy-view-mode-map (kbd "C-c f") 'bp-python-trace-find-file-at-point)
 
+(defun my-prodigy-view-mode-hook ()
+  (local-set-key (kbd "C-c C-t") 'bp-prodigy-toggle-compilation-mode))
+
+(add-hook 'prodigy-view-mode-hook #'my-prodigy-view-mode-hook)
+
 
 ;; Haskell-mode bindings
 ;; ~~~~~~~~~~~~~~~~~~~~~

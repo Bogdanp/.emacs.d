@@ -8,6 +8,15 @@
         (funcall k)
         (prodigy-start-service beanstalkd k))))
 
+(defun bp-prodigy-toggle-compilation-mode ()
+  (interactive)
+  (if (eq major-mode 'compilation-mode)
+      (prodigy-view-mode)
+    (compilation-mode))
+  (if (fboundp #'my-prodigy-view-mode-hook)
+      (my-prodigy-view-mode-hook))
+  (end-of-buffer))
+
 (prodigy-define-service
   :name "LeadPages Server"
   :command (expand-file-name "~/Work/lead-pages/runserver")
