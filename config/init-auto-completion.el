@@ -16,7 +16,8 @@
                            ac-source-dictionary
                            ac-source-yasnippet))
 
-(setq ac-auto-show-menu 0.25
+(setq ac-auto-start 4
+      ac-auto-show-menu 0.25
       ac-quick-help-delay 0.25
 
       ac-use-menu-map t

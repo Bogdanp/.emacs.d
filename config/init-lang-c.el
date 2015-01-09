@@ -14,7 +14,8 @@
 
 ;; Setup auto-completion.
 (defun my-c-mode-common-hook ()
-  (setq-local ac-sources (append '(ac-source-clang) ac-sources)))
+  (setq-local ac-sources (append '(ac-source-clang) ac-sources))
+  (setq-local ac-auto-start nil))
 
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 
