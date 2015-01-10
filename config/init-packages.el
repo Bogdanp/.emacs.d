@@ -44,7 +44,6 @@ list of packages to be instaleld using package.el."
    restclient
    paradox
    diminish
-   vi-tilde-fringe
    dash-at-point
    fuzzy
 

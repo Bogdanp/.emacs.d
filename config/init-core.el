@@ -175,9 +175,6 @@ maximized."
   (browse-url (concat "https://www.google.com/webhp#q="
                       (org-link-escape q))))
 
-;; vi-like tildes after EOF.
-(add-hook 'prog-mode-hook #'vi-tilde-fringe-mode)
-
 
 ;; Compilation mode
 ;; ~~~~~~~~~~~~~~~~
