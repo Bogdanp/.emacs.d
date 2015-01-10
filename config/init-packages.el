@@ -26,7 +26,7 @@
   (add-hook 'evil-mode-hook #'global-evil-surround-mode))
 
 (use-package goto-chg
-  :defer t
+  :commands goto-last-change
   :ensure t)
 
 (use-package undo-tree
@@ -95,7 +95,6 @@
 
 ;;; Org
 (use-package org
-  :defer t
   :ensure t
   :init
   (progn
@@ -210,8 +209,8 @@
         (let ((start-level (bp-org-level-of-heading-at-point)))
           (org-cut-subtree)
 
-          ;; Cutting the subtree might place us on a different
-          ;; level. Account for those cases.
+          ;; Cutting the subtree might place us on a different level.
+          ;; Account for those cases.
           (let ((current-level (bp-org-level-of-heading-at-point)))
             (if (< current-level start-level)
                 (progn
@@ -306,7 +305,6 @@
 ;;; Flycheck
 (use-package flycheck
   :commands (flycheck-mode flycheck-define-checker)
-  :defer t
   :ensure t
   :config
   (progn
@@ -332,7 +330,6 @@
   (add-hook 'haskell-mode-hook #'flycheck-haskell-setup))
 
 (use-package flycheck-irony
-  :defer t
   :ensure t
   :config
   (progn
@@ -436,7 +433,6 @@
 (use-package prodigy
   :bind (("C-c P" . prodigy))
   :commands (prodigy prodigy-define-service)
-  :defer t
   :ensure t
   :config
   (progn
@@ -556,6 +552,7 @@
 ;;; Emacs lisp
 (use-package eldoc
   :commands eldoc-mode
+  :diminish eldoc-mode
   :init
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode))
 
