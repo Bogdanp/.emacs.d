@@ -1,13 +1,16 @@
 ;;; * Setup
-(with-no-warnings
-  (require 'cl)
-  (require 'package))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-(package-initialize)
+(defun my-package-setup-hook ()
+  (with-no-warnings
+    (require 'cl)
+    (require 'package))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+  (package-initialize)
 
-;; Refresh packages on first run.
-(when (not package-archive-contents)
-  (package-refresh-contents))
+  ;; Refresh packages on first run.
+  (when (not package-archive-contents)
+    (package-refresh-contents)))
+
+(add-hook 'after-init-hook #'my-package-setup-hook)
 
 
 ;;; * Theme
