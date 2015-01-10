@@ -38,7 +38,7 @@
 
 ;;; Paths
 ;; Home sweet home.
-(setq default-directory "~/")
+(setq default-directory (expand-file-name "~/"))
 (setq local-temp-dir (expand-file-name (locate-user-emacs-file "temp")))
 
 
