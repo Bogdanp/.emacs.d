@@ -4,3 +4,6 @@
 [submodule "packed"]
 	path = packed
 	url = https://github.com/tarsius/packed
+[submodule "use-package"]
+	path = use-package
+	url = https://github.com/jwiegley/use-package
