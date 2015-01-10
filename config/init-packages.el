@@ -604,47 +604,6 @@
       '((candidates . (ac-haskell-candidates ac-prefix))))
 
 
-    ;;; Pretty symbols
-    (defun my-haskell-mode-prettify-symbols-hook ()
-      (setf prettify-symbols-alist
-            (append '(;;; Syntax
-                      ("forall" . ?∀)
-                      ("::"     . ?∷)
-                      ("\\"     . ?λ)
-                      ("->"     . ?→)
-                      ("=>"     . ?⇒)
-
-                      ;;; Functions
-                      ;; Prefix
-                      ("undefined"   . ?⊥)
-                      ("not"         . ?¬)
-                      ("and"         . ?∧)
-                      ("or"          . ?∨)
-                      ;; Infix
-                      (">>="         . ?↪)
-                      ("=<<"         . ?↩)
-                      ("*"           . ?×)
-                      (":="          . ?≔)
-                      ("|-"          . ?⊢)
-                      ("-|"          . ?⊣)
-                      ("<="          . ?≤)
-                      (">="          . ?≥)
-                      ("=="          . ?≡)
-                      ("/="          . ?≠)
-                      ("&&"          . ?∧)
-                      ("||"          . ?∨)
-                      ("!!"          . ?‼)
-                      ("`div`"       . ?÷)
-                      ("`elem`"      . ?∈)
-                      ("`notElem`"   . ?∉)
-                      ("`union`"     . ?∪)
-                      ("`intersect`" . ?∩))
-                    prettify-symbols-alist)))
-
-    (add-hook 'haskell-mode-hook #'prettify-symbols-mode)
-    (add-hook 'haskell-mode-hook #'my-haskell-mode-prettify-symbols-hook)
-
-
     (defun my-haskell-mode-hook ()
       (add-to-list 'ac-sources 'ac-source-haskell)
 
@@ -684,14 +643,6 @@
   :ensure t
   :init
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
-
-(use-package pretty-lambdada
-  :commands pretty-lambda-mode
-  :ensure t
-  :init
-  (progn
-    (add-hook 'emacs-lisp-mode-hook #'pretty-lambda-mode)
-    (add-hook 'python-mode-hook #'pretty-lambda-mode)))
 
 (use-package rainbow-delimiters
   :commands rainbow-delimiters-mode
@@ -849,21 +800,12 @@
           web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
                                    ("django" . "\\.html\\'")))
 
-    (defun my-web-mode-hook ()
-      (setq-local ac-auto-start nil)
-
-      ;; These things break web-mode so we need to disable them.
-      (remove-hook 'prog-mode-hook 'esk-pretty-lambdas t)
-      (remove-hook 'prog-mode-hook 'esk-add-watchwords t)
-      (remove-hook 'prog-mode-hook 'idle-highlight-mode t))
-
     (defun my-web-mode-hook-for-flycheck ()
       (when (or (equal web-mode-content-type "javascript")
                 (equal web-mode-content-type "jsx"))
         (flycheck-select-checker 'jsxhint-checker)
         (flycheck-mode 1)))
 
-    (add-hook 'web-mode-hook #'my-web-mode-hook)
     (add-hook 'web-mode-hook #'my-web-mode-hook-for-flycheck)))
 
 
