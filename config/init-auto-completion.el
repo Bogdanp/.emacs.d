@@ -1,7 +1,7 @@
 ;; AC
 ;; ~~
 (use-package auto-complete
-  :defer t
+  :diminish auto-complete-mode
   :ensure t
   :init
   (progn
@@ -33,8 +33,8 @@
           ac-use-quick-help t)))
 
 
-;; Clojure completion
-;; ~~~~~~~~~~~~~~~~~~
+;; CIDER completion
+;; ~~~~~~~~~~~~~~~~
 (use-package ac-cider
   :ensure t
   :init

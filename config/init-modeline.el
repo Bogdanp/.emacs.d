@@ -3,17 +3,22 @@
 (line-number-mode +1)
 (column-number-mode +1)
 
-;; Diminish global minor modes.
+
+;; Diminish
+;; ~~~~~~~~
 (defconst my-diminished-minor-modes
-  '(auto-complete-mode
-    eldoc-mode
+  '(eldoc-mode
     git-gutter-mode
     magit-auto-revert-mode
     undo-tree-mode
     yas-minor-mode)
   "A list of minor modes to hide from the modeline.")
 
-(mapc #'diminish my-diminished-minor-modes)
+(use-package diminish
+  :ensure t
+  :config
+  (progn
+    (mapc #'diminish my-diminished-minor-modes)))
 
 
 (provide 'init-modeline)
