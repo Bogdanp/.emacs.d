@@ -1,12 +1,10 @@
 ;; Yasnippet
 ;; ~~~~~~~~~
 (use-package yasnippet
+  :commands yas-reload-all
   :diminish yas-minor-mode
-  :defer t
   :ensure t
-  :idle
-  (progn
-    (yas-reload-all)))
+  :idle (yas-reload-all))
 
 
 (provide 'init-yasnippet)
