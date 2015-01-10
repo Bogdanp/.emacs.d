@@ -48,6 +48,7 @@
     init-core
     init-misc
     init-evil
+    init-git
     init-backup
     init-frame
     init-term

@@ -7,10 +7,7 @@
 ;; Diminish
 ;; ~~~~~~~~
 (defconst my-diminished-minor-modes
-  '(eldoc-mode
-    git-gutter-mode
-    magit-auto-revert-mode
-    undo-tree-mode)
+  '(eldoc-mode)
   "A list of minor modes to hide from the modeline.")
 
 (use-package diminish

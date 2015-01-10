@@ -3,7 +3,6 @@
 ;; Why the fuck would you break newline-and-indent, electric-indent-mode?
 (global-set-key (kbd "C-j") 'newline-and-indent)
 (global-set-key (kbd "C-w") 'backward-kill-word)
-(global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-i") 'imenu)
 (global-set-key (kbd "C-c C-i") 'imenu-anywhere)
@@ -72,10 +71,6 @@
 (define-key evil-normal-state-map (kbd ",s") 'bp-search-google)
 (define-key evil-normal-state-map (kbd ",,") 'evil-ex-nohighlight)
 (define-key evil-normal-state-map (kbd ",x") 'calc)
-
-;; Ace Jump Mode
-(define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode)
-(define-key evil-normal-state-map (kbd "S-SPC") 'ace-jump-char-mode)
 
 ;; Window Management
 (define-key evil-normal-state-map (kbd "C-w f") 'bp-window-toggle-fullscreen)

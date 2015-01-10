@@ -2,6 +2,7 @@
 ;; ~~~~
 (use-package undo-tree
   :commands global-undo-tree-mode
+  :diminish undo-tree-mode
   :ensure t
   :init
   (add-hook 'after-init-hook #'global-undo-tree-mode)

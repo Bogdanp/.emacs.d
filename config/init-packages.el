@@ -49,14 +49,6 @@ list of packages to be instaleld using package.el."
    ;; File management
    dired+
 
-   ;; Movement
-   ace-jump-mode
-
-   ;; Git
-   git-gutter
-   git-timemachine
-   magit
-
    ;; System
    exec-path-from-shell
 
@@ -102,8 +94,10 @@ list of packages to be instaleld using package.el."
          '(ansi-color
            cc-mode
            ffap
+           grep
            python
            saveplace
+           server
            uniquify)))
 
 (append-to-list

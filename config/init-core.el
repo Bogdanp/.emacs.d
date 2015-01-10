@@ -160,12 +160,6 @@ maximized."
 
 ;; Misc
 ;; ~~~~
-;; Enable git-gutter.
-(global-git-gutter-mode t)
-
-;; Hide gutter if there are no changes.
-(setq git-gutter:hide-gutter t)
-
 ;; Search Google and that's about it.
 (defun bp-search-google (q)
   (interactive "sQuery: ")

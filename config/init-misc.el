@@ -1,3 +1,15 @@
+;; ace-jump-mode
+;; ~~~~~~~~~~~~~
+(use-package ace-jump-mode
+  :commands (ace-jump-mode ace-jump-char-mode)
+  :diminish ace-jump-mode
+  :ensure t
+  :init
+  (bind-keys :map evil-normal-state-map
+   ("SPC" . ace-jump-mode)
+   ("S-SPC" . ace-jump-char-mode)))
+
+
 ;; bind-key
 ;; ~~~~~~~~
 ;; This is required by use-package.
