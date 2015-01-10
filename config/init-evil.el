@@ -5,8 +5,6 @@
 (dolist (mode '(calendar-mode
                 comint-mode
                 compilation-mode
-                cider-repl-mode
-                cider-stacktrace-mode
                 debugger-mode
                 diff-mode
                 dired-mode
