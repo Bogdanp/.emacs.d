@@ -90,7 +90,7 @@
   :init
   (smex-initialize)
   :config
-  (setq smex-save-file (concat user-emacs-directory ".smex-items")))
+  (setq smex-save-file (locate-user-emacs-file ".smex-items")))
 
 
 ;;; Org
@@ -667,6 +667,7 @@
 
 (use-package shm
   :commands structured-haskell-mode
+  :ensure t
   :init
   (add-hook 'haskell-mode-hook #'structured-haskell-mode)
   :config
