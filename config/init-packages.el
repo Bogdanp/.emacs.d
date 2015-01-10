@@ -13,7 +13,8 @@
 ;;; * Theme
 (when (display-graphic-p)
   (add-to-list 'load-path (expand-file-name "~/sandbox/twilight-anti-bright-theme"))
-  (require 'twilight-anti-bright-theme))
+  (add-hook 'after-init-hook (lambda ()
+                               (require 'twilight-anti-bright-theme))))
 
 
 ;;; * EVIL
@@ -87,11 +88,7 @@
     (setq ido-enable-flex-matching t
 
           ;; Disable flx's silly underlining.
-          flx-ido-use-faces nil
-
-          ;;; Tune GC
-          ;; 200MB
-          gc-cons-threshold 200000000)))
+          flx-ido-use-faces nil)))
 
 (use-package imenu-anywhere
   :bind ("C-c C-i" . imenu-anywhere)
@@ -102,9 +99,10 @@
 (use-package smex
   :bind (("M-x" . smex)
          ("C-;" . smex))
+  :commands smex-initialize
   :ensure t
   :init
-  (smex-initialize)
+  (add-hook 'after-init-hook #'smex-initialize)
   :config
   (setq smex-save-file (locate-user-emacs-file ".smex-items")))
 
@@ -389,9 +387,10 @@
 
 (when (memq window-system '(mac ns))
   (use-package exec-path-from-shell
+    :commands exec-path-from-shell-initialize
     :ensure t
     :init
-    (exec-path-from-shell-initialize)))
+    (add-hook 'after-init-hook #'exec-path-from-shell-initialize)))
 
 (use-package f
   :defer t

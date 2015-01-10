@@ -133,9 +133,8 @@ of modes."
 ;; Prevent the cursor from blinking.
 (blink-cursor-mode -1)
 
-;; Pretty colors!!
-(if (display-graphic-p)
-    (load-theme 'twilight-anti-bright t)
+;; Pretty terminal colors!!
+(unless (display-graphic-p)
   (load-theme 'wombat t))
 
 
