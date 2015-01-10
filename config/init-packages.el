@@ -97,7 +97,6 @@
 (use-package org
   :defer t
   :ensure t
-  :pin melpa
   :init
   (progn
     (setq
@@ -226,7 +225,7 @@
           (org-goto-first-child)
 
           (let ((archive-level (bp-org-level-of-heading-at-point)))
-            (next-line)
+            (forward-line)
             (org-paste-subtree (+ 1 archive-level))))))
 
 
