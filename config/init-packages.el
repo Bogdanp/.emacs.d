@@ -136,8 +136,6 @@
                ("C-p" . evil-previous-line)
                ("C-n" . evil-next-line))))
 
-
-
 (use-package evil-surround
   :commands evil-surround-mode
   :ensure t
@@ -222,6 +220,12 @@
 
           ;; Disable flx's silly underlining.
           flx-ido-use-faces nil)))
+
+(use-package ibuffer
+  :bind ("C-x C-b" . ibuffer))
+
+(use-package imenu
+  :bind ("C-x C-i" . imenu))
 
 (use-package imenu-anywhere
   :bind ("C-c C-i" . imenu-anywhere)
@@ -975,7 +979,6 @@
 ;;; * End
 ;; Local Variables:
 ;; eval: (orgstruct-mode +1)
-;; eval: (org-overview)
 ;; orgstruct-heading-prefix-regexp: "^;;; +"
 ;; End:
 (provide 'init-packages)

@@ -4,7 +4,6 @@
            ("C--"     . text-scale-decrease)
            ("C-="     . text-scale-increase)
            ("C-+"     . text-scale-increase)
-           ("C-x C-i" . imenu)
            ("C-c M-a" . bp-term-toggle))
 
 
