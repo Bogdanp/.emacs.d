@@ -66,17 +66,32 @@
 
 ;;; * Ido
 (use-package ido-ubiquitous
+  :commands ido-ubiquitous-mode
   :ensure t
   :init
-  (ido-ubiquitous-mode +1))
+  (add-hook 'after-init-hook #'ido-ubiquitous-mode))
 
 (use-package ido-vertical-mode
+  :commands ido-vertical-mode
   :ensure t
   :init
-  (ido-vertical-mode +1))
+  (add-hook 'after-init-hook #'ido-vertical-mode))
 
 (use-package flx-ido
-  :ensure t)
+  :commands flx-ido-mode
+  :ensure t
+  :init
+  (add-hook 'after-init-hook #'flx-ido-mode)
+  :config
+  (progn
+    (setq ido-enable-flex-matching t
+
+          ;; Disable flx's silly underlining.
+          flx-ido-use-faces nil
+
+          ;;; Tune GC
+          ;; 200MB
+          gc-cons-threshold 200000000)))
 
 (use-package imenu-anywhere
   :bind ("C-c C-i" . imenu-anywhere)
@@ -96,6 +111,7 @@
 
 ;;; * Org
 (use-package org
+  :defer t
   :ensure t
   :idle
   (progn
@@ -337,6 +353,7 @@
   (add-hook 'haskell-mode-hook #'flycheck-haskell-setup))
 
 (use-package flycheck-irony
+  :defer t
   :ensure t
   :config
   (progn
@@ -364,8 +381,11 @@
   :commands diminish
   :ensure t)
 
-(use-package dired+
-  :ensure t)
+(use-package dired
+  :commands dired
+  :config
+  (use-package dired+
+    :ensure t))
 
 (when (memq window-system '(mac ns))
   (use-package exec-path-from-shell
@@ -520,7 +540,8 @@
 ;;; * Languages
 ;;; ** C and C++
 (use-package cc-mode
-  :init
+  :commands c-mode
+  :config
   (progn
     (setq c-default-style "bsd"
           c-basic-offset 4 )
