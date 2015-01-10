@@ -47,10 +47,6 @@ list of packages to be instaleld using package.el."
    fuzzy
    yasnippet
 
-   ;; Company
-   company
-   company-irony
-
    ;; EVIL enhancements
    goto-chg
    undo-tree
