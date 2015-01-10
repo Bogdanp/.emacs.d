@@ -2,7 +2,7 @@
 ;; ~~~~~~~~
 ;; This is required by use-package.
 (use-package bind-key
-  :defer t
+  :commands (bind-key bind-key*)
   :ensure t)
 
 
@@ -25,7 +25,7 @@
 ;; restclient
 ;; ~~~~~~~~~~
 (use-package restclient
-  :defer t
+  :commands restclient-mode
   :ensure t)
 
 
@@ -33,7 +33,7 @@
 ;; ~~~~~~~
 ;; A better package management UI.
 (use-package paradox
-  :defer t
+  :commands paradox-list-packages
   :ensure t
   :config
   (progn

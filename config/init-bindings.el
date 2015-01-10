@@ -6,7 +6,6 @@
 (global-set-key (kbd "C-;") 'smex)
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-c m") 'magit-status)
-(global-set-key (kbd "C-c P") 'prodigy)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x C-i") 'imenu)
 (global-set-key (kbd "C-c C-i") 'imenu-anywhere)
@@ -38,16 +37,6 @@
   ",r" 'py-test-run-test-at-point
   ",T" 'py-test-run-directory
   ",t" 'py-test-run-file)
-
-
-;; Prodigy bindings
-;; ~~~~~~~~~~~~~~~~
-(define-key prodigy-view-mode-map (kbd "C-c f") 'bp-python-trace-find-file-at-point)
-
-(defun my-prodigy-view-mode-hook ()
-  (local-set-key (kbd "C-c C-t") 'bp-prodigy-toggle-compilation-mode))
-
-(add-hook 'prodigy-view-mode-hook #'my-prodigy-view-mode-hook)
 
 
 ;; Haskell-mode bindings

@@ -15,57 +15,67 @@
   (if (eq major-mode 'compilation-mode)
       (prodigy-view-mode)
     (compilation-mode))
-  (if (fboundp #'my-prodigy-view-mode-hook)
-      (my-prodigy-view-mode-hook))
+  (if (fboundp #'bp-prodigy-view-mode-hook)
+      (bp-prodigy-view-mode-hook))
   (end-of-buffer))
 
+(defun bp-prodigy-view-mode-hook ()
+  (bind-key "C-c C-t" 'bp-prodigy-toggle-compilation-mode))
 
-;; Services
-;; ~~~~~~~~
-(prodigy-define-service
-  :name "LeadPages Server"
-  :command (expand-file-name "~/Work/lead-pages/runserver")
-  :cwd (expand-file-name "~/Work/lead-pages/")
-  :tags '(work)
-  :stop-signal 'sigterm
-  :kill-process-buffer-on-stop t)
 
-(prodigy-define-service
-  :name "LeadPages AWeber Server"
-  :command (expand-file-name "~/Work/leadpages-integrations/AWeber/runserver")
-  :cwd (expand-file-name "~/Work/leadpages-integrations/AWeber/")
-  :tags '(work)
-  :stop-signal 'sigterm
-  :kill-process-buffer-on-stop t)
+(use-package prodigy
+  :bind (("C-c P" . prodigy))
+  :commands (prodigy prodigy-define-service)
+  :defer t
+  :ensure t
+  :config
+  (progn
+    (add-hook 'prodigy-view-mode-hook #'bp-prodigy-view-mode-hook)
 
-(prodigy-define-service
-  :name "LeadPages Screenshot Service"
-  :command (expand-file-name "~/Work/screenshot-service/venv/bin/python")
-  :cwd (expand-file-name "~/Work/screenshot-service/")
-  :args `(,(expand-file-name "~/Work/screenshot-service/service/app.py") "5000")
-  :env  bp-prodigy-screenshot-service-env
-  :tags '(work)
-  :stop-signal 'sigterm
-  :kill-process-buffer-on-stop t
-  :init-async #'bp-prodigy-start-beanstalk&)
+    (prodigy-define-service
+      :name "LeadPages Server"
+      :command (expand-file-name "~/Work/lead-pages/runserver")
+      :cwd (expand-file-name "~/Work/lead-pages/")
+      :tags '(work)
+      :stop-signal 'sigterm
+      :kill-process-buffer-on-stop t)
 
-(prodigy-define-service
-  :name "LeadPages Screenshot Service Consumer"
-  :command (expand-file-name "~/Work/screenshot-service/venv/bin/python")
-  :cwd (expand-file-name "~/Work/screenshot-service/consumer/")
-  :args `(,(expand-file-name "~/Work/screenshot-service/consumer/consumer.py"))
-  :env bp-prodigy-screenshot-service-env
-  :tags '(work)
-  :stop-signal 'sigterm
-  :kill-process-buffer-on-stop t
-  :init-async #'bp-prodigy-start-beanstalk&)
+    (prodigy-define-service
+      :name "LeadPages AWeber Server"
+      :command (expand-file-name "~/Work/leadpages-integrations/AWeber/runserver")
+      :cwd (expand-file-name "~/Work/leadpages-integrations/AWeber/")
+      :tags '(work)
+      :stop-signal 'sigterm
+      :kill-process-buffer-on-stop t)
 
-(prodigy-define-service
-  :name "beanstalkd"
-  :command "beanstalkd"
-  :tags '(personal work)
-  :stop-signal 'sigterm
-  :kill-process-buffer-on-stop t)
+    (prodigy-define-service
+      :name "LeadPages Screenshot Service"
+      :command (expand-file-name "~/Work/screenshot-service/venv/bin/python")
+      :cwd (expand-file-name "~/Work/screenshot-service/")
+      :args `(,(expand-file-name "~/Work/screenshot-service/service/app.py") "5000")
+      :env  bp-prodigy-screenshot-service-env
+      :tags '(work)
+      :stop-signal 'sigterm
+      :kill-process-buffer-on-stop t
+      :init-async #'bp-prodigy-start-beanstalk&)
+
+    (prodigy-define-service
+      :name "LeadPages Screenshot Service Consumer"
+      :command (expand-file-name "~/Work/screenshot-service/venv/bin/python")
+      :cwd (expand-file-name "~/Work/screenshot-service/consumer/")
+      :args `(,(expand-file-name "~/Work/screenshot-service/consumer/consumer.py"))
+      :env bp-prodigy-screenshot-service-env
+      :tags '(work)
+      :stop-signal 'sigterm
+      :kill-process-buffer-on-stop t
+      :init-async #'bp-prodigy-start-beanstalk&)
+
+    (prodigy-define-service
+      :name "beanstalkd"
+      :command "beanstalkd"
+      :tags '(personal work)
+      :stop-signal 'sigterm
+      :kill-process-buffer-on-stop t)))
 
 
 (provide 'init-prodigy)

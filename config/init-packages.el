@@ -64,7 +64,6 @@ list of packages to be instaleld using package.el."
 
    ;; System
    exec-path-from-shell
-   prodigy
 
    ;; C and C++
    irony
