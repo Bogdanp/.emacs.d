@@ -49,7 +49,6 @@ list of packages to be instaleld using package.el."
 
    ;; EVIL enhancements
    goto-chg
-   undo-tree
 
    ;; Ido
    flx-ido
@@ -145,8 +144,7 @@ list of packages to be instaleld using package.el."
 
 (append-to-list
  my-deferred-packages
- '(evil-surround
-   undo-tree))
+ '(evil-surround))
 
 (mapc 'require
       (set-difference my-required-packages

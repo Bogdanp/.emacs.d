@@ -1,10 +1,15 @@
 ;; Undo
 ;; ~~~~
-(require 'undo-tree)
-(global-undo-tree-mode)
-
-(setq undo-tree-visualizer-timestamps t)
-(setq undo-tree-visualizer-diffs t)
+(use-package undo-tree
+  :defer t
+  :ensure t
+  :init
+  (progn
+    (global-undo-tree-mode +1))
+  :config
+  (progn
+    (setq undo-tree-visualizer-timestamps t)
+    (setq undo-tree-visualizer-diffs t)))
 
 
 ;; Backups
