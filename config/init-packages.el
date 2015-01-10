@@ -38,11 +38,7 @@ list of packages to be instaleld using package.el."
 (append-to-list
  my-packages
  '(;; Misc
-   f
    org
-   htmlize
-   restclient
-   paradox
 
    ;; EVIL enhancements
    goto-chg

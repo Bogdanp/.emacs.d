@@ -36,8 +36,9 @@
 ;; CIDER completion
 ;; ~~~~~~~~~~~~~~~~
 (use-package ac-cider
+  :defer t
   :ensure t
-  :init
+  :config
   (progn
     (add-hook 'cider-mode-hook #'ac-cider-setup)
     (add-hook 'cider-repl-mode-hook #'ac-cider-setup)))
