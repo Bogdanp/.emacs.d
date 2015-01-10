@@ -96,7 +96,7 @@
 ;;; Org
 (use-package org
   :ensure t
-  :init
+  :idle
   (progn
     (setq
      ;;; Misc
@@ -248,7 +248,7 @@
   :commands (ac-define-source auto-complete-mode)
   :diminish auto-complete-mode
   :ensure t
-  :init
+  :idle
   ;; Auto-complete all the programming.
   (add-hook 'prog-mode-hook #'auto-complete-mode)
   :config
@@ -285,7 +285,7 @@
 
 
 (use-package company-irony
-  :commands (company-irony-setup-begin-commands)
+  :commands company-irony-setup-begin-commands
   :ensure t
   :init
   (progn
@@ -375,7 +375,7 @@
   :ensure t)
 
 (use-package grep
-  :init
+  :idle
   (grep-apply-setting 'grep-command "grep -irnHI -e "))
 
 (use-package paradox
