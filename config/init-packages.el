@@ -12,14 +12,128 @@
 
 ;;; * Theme
 (when (display-graphic-p)
-  (add-to-list 'load-path (expand-file-name "~/sandbox/twilight-anti-bright-theme"))
-  (add-hook 'after-init-hook (lambda ()
-                               (require 'twilight-anti-bright-theme))))
+  (defun my-load-theme-hook ()
+    (add-to-list 'load-path (expand-file-name "~/sandbox/twilight-anti-bright-theme"))
+    (require 'twilight-anti-bright-theme))
+
+  (add-hook 'after-init-hook #'my-load-theme-hook))
 
 
 ;;; * EVIL
 (add-to-list 'load-path (expand-file-name "~/sandbox/evil"))
-(require 'evil)
+(use-package evil
+  :commands evil-mode
+  :init
+  (add-hook 'after-init-hook #'evil-mode)
+  :config
+  (progn
+    (use-package ace-jump-mode
+      :commands (ace-jump-mode ace-jump-char-mode)
+      :diminish ace-jump-mode
+      :ensure t
+      :init
+      (bind-keys :map evil-normal-state-map
+                 ("SPC"   . ace-jump-mode)
+                 ("S-SPC" . ace-jump-char-mode)))
+
+    ;;; Fixes
+    ;; Default to EMACS mode in these modes.
+    (dolist (mode '(calendar-mode
+                    comint-mode
+                    compilation-mode
+                    debugger-mode
+                    diff-mode
+                    dired-mode
+                    erc-mode
+                    eshell-mode
+                    eww-mode
+                    eww-bookmark-mode
+                    eww-history-mode
+                    git-commit-mode
+                    grep-mode
+                    haskell-interactive-mode
+                    help-mode
+                    Info-mode
+                    special-mode
+                    paradox-commit-list-mode
+                    paradox-menu-mode
+                    prodigy-mode
+                    sbt-mode
+                    term-mode
+                    undo-tree-visualizer-mode))
+      (evil-set-initial-state mode 'emacs))
+
+    ;; Git-timemachine should default to EMACS mode as well.
+    (defun my-git-timemachine-mode-hook-for-evil ()
+      (evil-emacs-state))
+
+    (add-hook 'git-timemachine-mode-hook #'my-git-timemachine-mode-hook-for-evil)
+
+    ;; Same goes for Flycheck's `C-c ! l'.
+    (defun my-flycheck-error-list-mode-hook-for-evil ()
+      (evil-emacs-state))
+
+    (add-hook 'flycheck-error-list-mode-hook #'my-flycheck-error-list-mode-hook-for-evil)
+
+    ;; Make C-w work in the minibuffer.
+    (defun my-minibuffer-setup-hook-for-evil ()
+      (local-set-key (kbd "C-w") 'backward-kill-word))
+
+    (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook-for-evil)
+
+    ;; Fix clipboard dirtying.
+    (defun my-evil-local-mode-hook ()
+      (setq-local interprogram-cut-function nil)
+      (setq-local interprogram-paste-function nil))
+
+    (add-hook 'evil-local-mode-hook 'my-evil-local-mode-hook)
+
+    ;; Fix copy-on-motion.
+    (defadvice evil-visual-update-x-selection (around clobber-x-select-text activate)
+      (fset 'old-x-select-text (symbol-function 'x-select-text))
+      (fmakunbound 'x-select-text)
+      ad-do-it
+      (fset 'x-select-text (symbol-function 'old-x-select-text)))
+
+
+    ;;; Bindings
+    ;; "localleader"
+    (bind-keys :map evil-normal-state-map
+               ;; Bookmarks
+               (",bb" . bookmark-jump)
+               (",bc" . bookmark-set)
+               (",bl" . list-bookmarks)
+
+               ;; Misc
+               (",," . evil-ex-nohighlight)
+               (",x" . calc))
+
+    ;; NORMAL mode
+    (bind-keys :map evil-normal-state-map
+               ;; Movement
+               ("C-a" . evil-beginning-of-line)
+               ("C-e" . evil-end-of-line)
+               ("C-p" . evil-previous-line)
+               ("C-n" . evil-next-line)
+
+               ;; Windows
+               ("C-w f" . bp-window-toggle-fullscreen))
+
+    ;; INSERT mode
+    (bind-keys :map evil-insert-state-map
+               ("C-a" . beginning-of-line)
+               ("C-e" . end-of-line)
+               ("C-p" . evil-previous-line)
+               ("C-n" . evil-next-line))
+
+    ;; VISUAL mode
+    (bind-keys :map evil-visual-state-map
+               ("C-a" . evil-beginning-of-line)
+               ("C-e" . evil-end-of-line)
+               ("C-p" . evil-previous-line)
+               ("C-n" . evil-next-line))))
+
+
 
 (use-package evil-surround
   :commands evil-surround-mode
@@ -66,11 +180,27 @@
 
 
 ;;; * Ido
-(use-package ido-ubiquitous
-  :commands ido-ubiquitous-mode
-  :ensure t
+(use-package ido
+  :commands ido-mode
   :init
-  (add-hook 'after-init-hook #'ido-ubiquitous-mode))
+  (add-hook 'after-init-hook #'ido-mode)
+  :config
+  (progn
+    (use-package ido-ubiquitous
+      :commands ido-ubiquitous-mode
+      :ensure t
+      :init
+      (add-hook 'after-init-hook #'ido-ubiquitous-mode))
+
+    (setq ido-enable-prefix nil
+          ido-enable-flex-matching t
+          ido-auto-merge-work-directories-length nil
+          ido-create-new-buffer 'always
+          ido-use-filename-at-point 'guess
+          ido-use-virtual-buffers t
+          ido-handle-duplicate-virtual-buffers 2
+          ido-max-prospects 10
+          ido-ignore-extensions t)))
 
 (use-package ido-vertical-mode
   :commands ido-vertical-mode
@@ -362,14 +492,11 @@
 
 
 ;;; * Miscellaneous
-(use-package ace-jump-mode
-  :commands (ace-jump-mode ace-jump-char-mode)
-  :diminish ace-jump-mode
-  :ensure t
+(use-package autorevert
+  :commands global-auto-revert-mode
   :init
-  (bind-keys :map evil-normal-state-map
-             ("SPC"   . ace-jump-mode)
-             ("S-SPC" . ace-jump-char-mode)))
+  ;; Revert files that update on disk automatically. Ignores dirty buffers.
+  (add-hook 'after-init-hook #'global-auto-revert-mode))
 
 (use-package bind-key
   :commands (bind-key bind-key*)
@@ -442,11 +569,13 @@
         history-length 1000))
 
 (use-package saveplace
-  :init
+  :defer t
+  :config
   (setq-default save-place t))
 
 (use-package uniquify
-  :init
+  :defer t
+  :config
   ;; /path/to/buffer instead of buffer<n>.
   (setq uniquify-buffer-name-style 'forward))
 
@@ -529,11 +658,11 @@
 
 
 ;;; * Server
-(when (memq window-system '(mac ns))
-  (use-package server
-    :init
-    (unless (server-running-p)
-      (server-start))))
+(use-package server
+  :defer t
+  :config
+  (unless (server-running-p)
+    (server-start)))
 
 
 ;;; * Languages

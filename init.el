@@ -49,7 +49,6 @@
 (defconst my-modules
   '(init-packages
     init-core
-    init-evil
     init-term
     init-bindings))
 

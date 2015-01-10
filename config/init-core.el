@@ -74,23 +74,6 @@ of modes."
 (setq insert-directory-program "/usr/local/bin/gls")
 (setq dired-listing-switches "--group-directories-first -alh")
 
-;; Revert files that update on disk automatically. Ignores dirty buffers.
-(global-auto-revert-mode 1)
-
-
-;;; Ido
-(ido-mode +1)
-
-(setq ido-enable-prefix nil
-      ido-enable-flex-matching t
-      ido-auto-merge-work-directories-length nil
-      ido-create-new-buffer 'always
-      ido-use-filename-at-point 'guess
-      ido-use-virtual-buffers t
-      ido-handle-duplicate-virtual-buffers 2
-      ido-max-prospects 10
-      ido-ignore-extensions t)
-
 
 ;;; Me
 (setq user-full-name "Bogdan Popa")
