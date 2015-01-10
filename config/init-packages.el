@@ -65,10 +65,6 @@ list of packages to be instaleld using package.el."
    ;; System
    exec-path-from-shell
 
-   ;; C and C++
-   irony
-   irony-eldoc
-
    ;; Haskell
    ghc
    haskell-mode

@@ -1,14 +1,15 @@
 ;; auto-complete
 ;; ~~~~~~~~~~~~~
 (use-package auto-complete
+  :commands auto-complete-mode
   :diminish auto-complete-mode
-  :defer t
   :ensure t
-  :config
+  :init
   (progn
     ;; Auto-complete all the programming.
-    (add-hook 'prog-mode-hook #'auto-complete-mode)
-
+    (add-hook 'prog-mode-hook #'auto-complete-mode))
+  :config
+  (progn
     ;; Load AC's default configs.
     (require 'auto-complete-config)
 
@@ -36,9 +37,9 @@
 ;; CIDER completion
 ;; ~~~~~~~~~~~~~~~~
 (use-package ac-cider
-  :defer t
+  :commands ac-cider-setup
   :ensure t
-  :config
+  :init
   (progn
     (add-hook 'cider-mode-hook #'ac-cider-setup)
     (add-hook 'cider-repl-mode-hook #'ac-cider-setup)))
