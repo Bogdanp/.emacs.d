@@ -45,11 +45,9 @@
          ("C-;" . smex))
   :ensure t
   :init
-  (progn
-    (smex-initialize))
+  (smex-initialize)
   :config
-  (progn
-    (setq smex-save-file (concat user-emacs-directory ".smex-items"))))
+  (setq smex-save-file (concat user-emacs-directory ".smex-items")))
 
 
 (provide 'init-ido)

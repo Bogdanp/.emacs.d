@@ -19,8 +19,7 @@
   :defer t
   :ensure t
   :config
-  (progn
-    (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)))
+  (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
 
 
 ;; Flycheck C and C++

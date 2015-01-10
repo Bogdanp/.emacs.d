@@ -5,9 +5,8 @@
   :diminish auto-complete-mode
   :ensure t
   :init
-  (progn
-    ;; Auto-complete all the programming.
-    (add-hook 'prog-mode-hook #'auto-complete-mode))
+  ;; Auto-complete all the programming.
+  (add-hook 'prog-mode-hook #'auto-complete-mode)
   :config
   (progn
     ;; Load AC's default configs.

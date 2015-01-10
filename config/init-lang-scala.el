@@ -8,7 +8,7 @@
 ;; sbt-mode
 ;; ~~~~~~~~
 (use-package sbt-mode
-  :defer t
+  :commands sbt-mode
   :ensure t)
 
 
@@ -18,8 +18,10 @@
   :bind (("C-c C-." . ensime-edit-definition-other-window)
          ("C-c ." . ensime-edit-definition)
          ("C-c ," . ensime-pop-find-definition-stack))
-  :defer t
+  :commands ensime-scala-mode-hook
   :ensure t
+  :init
+  (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
   :config
   (progn
     (setq ensime-default-scala-version "2.11.2"
@@ -31,8 +33,7 @@
       ;; now.
       (auto-complete-mode -1))
 
-    (add-hook 'ensime-mode-hook #'my-ensime-mode-hook)
-    (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)))
+    (add-hook 'ensime-mode-hook #'my-ensime-mode-hook)))
 
 
 

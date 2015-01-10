@@ -10,8 +10,7 @@
   :commands irony-mode
   :ensure t
   :init
-  (progn
-    (add-hook 'c-mode-common-hook #'irony-mode))
+  (add-hook 'c-mode-common-hook #'irony-mode)
   :config
   (progn
     (defun my-irony-mode-hook ()

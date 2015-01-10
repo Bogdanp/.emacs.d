@@ -4,8 +4,7 @@
   :commands global-undo-tree-mode
   :ensure t
   :init
-  (progn
-    (add-hook 'after-init-hook #'global-undo-tree-mode))
+  (add-hook 'after-init-hook #'global-undo-tree-mode)
   :config
   (progn
     (setq undo-tree-visualizer-timestamps t)

@@ -2,7 +2,6 @@
 ;; ~~~~~~~~
 (use-package markdown-mode
   :commands markdown-mode
-  :defer t
   :ensure t)
 
 
@@ -10,7 +9,6 @@
 ;; ~~~~
 (use-package scss-mode
   :commands scss-mode
-  :defer t
   :ensure t
   :config
   (progn
@@ -27,7 +25,6 @@
 ;; ~~~~~~~~
 (use-package web-mode
   :commands web-mode
-  :defer t
   :ensure t
   :init
   (progn
@@ -75,7 +72,6 @@
 ;; ~~~~
 (use-package yaml-mode
   :commands yaml-mode
-  :defer t
   :ensure t)
 
 
