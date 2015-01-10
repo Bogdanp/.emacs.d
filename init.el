@@ -46,6 +46,7 @@
 
     ;; Core
     init-core
+    init-misc
     init-evil
     init-backup
     init-frame

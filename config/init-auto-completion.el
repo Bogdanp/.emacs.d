@@ -1,14 +1,14 @@
-;; AC
-;; ~~
+;; auto-complete
+;; ~~~~~~~~~~~~~
 (use-package auto-complete
   :diminish auto-complete-mode
+  :defer t
   :ensure t
-  :init
-  (progn
-    ;; Auto-complete all the programming.
-    (add-hook 'prog-mode-hook #'auto-complete-mode))
   :config
   (progn
+    ;; Auto-complete all the programming.
+    (add-hook 'prog-mode-hook #'auto-complete-mode)
+
     ;; Load AC's default configs.
     (require 'auto-complete-config)
 

@@ -44,7 +44,6 @@ list of packages to be instaleld using package.el."
    restclient
    paradox
    dash-at-point
-   fuzzy
 
    ;; EVIL enhancements
    goto-chg
