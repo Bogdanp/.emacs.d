@@ -51,6 +51,7 @@
 
     ;; Misc plugins
     init-auto-completion
+    init-company
     init-flycheck
     init-prodigy
     init-web-mode
