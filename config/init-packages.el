@@ -66,12 +66,6 @@ list of packages to be instaleld using package.el."
    exec-path-from-shell
    prodigy
 
-   ;; Frontend Languages
-   markdown-mode
-   scss-mode
-   web-mode
-   yaml-mode
-
    ;; C and C++
    irony
    irony-eldoc

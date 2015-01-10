@@ -63,19 +63,17 @@
     init-yasnippet
     init-flycheck
     init-prodigy
-    init-web-mode
 
     ;; Languages
     init-lang-c
     init-lang-clojure
     init-lang-elisp
     init-lang-haskell
-    init-lang-javascript
     init-lang-purescript
     init-lang-python
     init-lang-scala
     init-lang-scons
-    init-lang-scss
+    init-lang-web
     init-lang-swift
 
     init-modeline
