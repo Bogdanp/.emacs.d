@@ -183,15 +183,10 @@
 ;;; * Ido
 (use-package ido
   :commands ido-mode
-  :init
-  (add-hook 'after-init-hook #'ido-mode)
   :config
   (progn
-    (use-package ido-ubiquitous
-      :commands ido-ubiquitous-mode
-      :ensure t
-      :init
-      (add-hook 'after-init-hook #'ido-ubiquitous-mode))
+    (ido-mode +1)
+    (ido-ubiquitous-mode +1)
 
     (setq ido-enable-prefix nil
           ido-enable-flex-matching t
@@ -202,6 +197,10 @@
           ido-handle-duplicate-virtual-buffers 2
           ido-max-prospects 10
           ido-ignore-extensions t)))
+
+(use-package ido-ubiquitous
+  :commands ido-ubiquitous-mode
+  :ensure t)
 
 (use-package ido-vertical-mode
   :commands ido-vertical-mode

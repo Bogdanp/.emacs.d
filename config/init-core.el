@@ -22,7 +22,7 @@ of modes."
     (when (not (memq major-mode (list 'eww-mode
                                       'term-mode
                                       'org-agenda-mode)))
-      (hl-line-mode))))
+      (hl-line-mode +1))))
 
 (my-global-hl-line-mode)
 
@@ -30,7 +30,7 @@ of modes."
 (setq-default truncate-lines t)
 
 ;; Highlight matching parens.
-(show-paren-mode 1)
+(show-paren-mode +1)
 
 ;; Fuck electric-indent-mode.
 (electric-indent-mode +1)
@@ -68,7 +68,7 @@ of modes."
 
 ;;; Files
 ;; Delete trailing whitespaces whenever a file gets saved.
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 ;; Make default dired slightly nicer.
 (setq insert-directory-program "/usr/local/bin/gls")
@@ -81,6 +81,7 @@ of modes."
 
 
 ;;; Modeline
+;; Show current (row, col) in modeline.
 (line-number-mode +1)
 (column-number-mode +1)
 
