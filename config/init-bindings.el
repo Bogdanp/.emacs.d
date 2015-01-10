@@ -2,8 +2,6 @@
 ;; ~~~~~~~~~~~~~~
 ;; Why the fuck would you break newline-and-indent, electric-indent-mode?
 (global-set-key (kbd "C-j") 'newline-and-indent)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "C-;") 'smex)
 (global-set-key (kbd "C-w") 'backward-kill-word)
 (global-set-key (kbd "C-c m") 'magit-status)
 (global-set-key (kbd "C-x C-b") 'ibuffer)

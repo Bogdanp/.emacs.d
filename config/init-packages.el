@@ -44,15 +44,10 @@ list of packages to be instaleld using package.el."
    goto-chg
 
    ;; Ido
-   flx-ido
-   ido-ubiquitous
-   ido-vertical-mode
    imenu-anywhere
-   smex
 
    ;; File management
    dired+
-   projectile
 
    ;; Movement
    ace-jump-mode

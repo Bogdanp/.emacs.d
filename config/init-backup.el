@@ -1,11 +1,11 @@
 ;; Undo
 ;; ~~~~
 (use-package undo-tree
-  :defer t
+  :commands global-undo-tree-mode
   :ensure t
   :init
   (progn
-    (global-undo-tree-mode +1))
+    (add-hook 'after-init-hook #'global-undo-tree-mode))
   :config
   (progn
     (setq undo-tree-visualizer-timestamps t)

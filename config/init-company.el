@@ -1,6 +1,7 @@
 ;; Company
 ;; ~~~~~~~
 (use-package company
+  :commands company-mode
   :diminish company
   :ensure t
   :config
@@ -11,9 +12,9 @@
 ;; C and C++ completion
 ;; ~~~~~~~~~~~~~~~~~~~~
 (use-package company-irony
-  :defer t
+  :commands (company-irony-setup-begin-commands)
   :ensure t
-  :config
+  :init
   (progn
     (defun my-company-irony-setup-hook ()
       (add-to-list 'company-backends 'company-irony))

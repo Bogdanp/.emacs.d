@@ -1,8 +1,7 @@
-;; Ido
-;; ~~~
-(ido-mode t)
-(ido-ubiquitous-mode)
-(ido-vertical-mode)
+;; ido-mode
+;; ~~~~~~~~
+;; ido-mode comes with EMACS.
+(ido-mode +1)
 
 (setq ido-enable-prefix nil
       ido-enable-flex-matching t
@@ -15,10 +14,42 @@
       ido-ignore-extensions t)
 
 
+;; ido-ubiquitous
+;; ~~~~~~~~~~~~~~
+;; Use ido-mode everywhere.
+(use-package ido-ubiquitous
+  :ensure t
+  :init
+  (ido-ubiquitous-mode +1))
+
+
+;; ido-vertical-mode
+;; ~~~~~~~~~~~~~~~~~
+(use-package ido-vertical-mode
+  :ensure t
+  :init
+  (ido-vertical-mode +1))
+
+
+;; flx-ido
+;; ~~~~~~~
+;; Used by projectile.
+(use-package flx-ido
+  :ensure t)
+
+
 ;; Smex
 ;; ~~~~
-(setq smex-save-file (concat user-emacs-directory ".smex-items"))
-(smex-initialize)
+(use-package smex
+  :bind (("M-x" . smex)
+         ("C-;" . smex))
+  :ensure t
+  :init
+  (progn
+    (smex-initialize))
+  :config
+  (progn
+    (setq smex-save-file (concat user-emacs-directory ".smex-items"))))
 
 
 (provide 'init-ido)
