@@ -45,7 +45,6 @@ list of packages to be instaleld using package.el."
    paradox
    dash-at-point
    fuzzy
-   yasnippet
 
    ;; EVIL enhancements
    goto-chg
