@@ -107,6 +107,10 @@
 	(setq bp-term-previous-window-configuration nil))
     (bp-term-fullscreen)))
 
+(defun bp-term-clipboard-paste ()
+  (interactive)
+  (term-send-raw-string (get-clipboard-value)))
+
 
 ;;; Server
 (defun my-server-visit-hook-for-term ()
