@@ -19,13 +19,10 @@
 
   (eldoc-mode +1)
   (irony-eldoc +1)
-  (company-mode +1)
-  (add-to-list 'company-backends 'company-irony)
-  (add-to-list 'flycheck-checkers 'irony))
+  (company-mode +1))
 
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 (add-hook 'c-mode-common-hook 'irony-mode)
-(add-hook 'irony-mode-hook 'company-irony-setup-begin-commands)
 
 
 (provide 'init-lang-c)

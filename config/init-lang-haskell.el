@@ -59,7 +59,6 @@
 (add-hook 'haskell-mode-hook #'interactive-haskell-mode)
 (add-hook 'haskell-mode-hook #'haskell-doc-mode)
 (add-hook 'haskell-mode-hook #'my-haskell-mode-hook)
-(add-hook 'flycheck-mode-hook #'flycheck-haskell-setup)
 
 ;; Setup purty symbols.
 (defun my-haskell-mode-prettify-symbols-hook ()

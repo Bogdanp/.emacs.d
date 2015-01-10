@@ -57,11 +57,6 @@ list of packages to be instaleld using package.el."
    imenu-anywhere
    smex
 
-   ;; Code analysis
-   flycheck
-   flycheck-haskell
-   flycheck-irony
-
    ;; File management
    dired+
    projectile
