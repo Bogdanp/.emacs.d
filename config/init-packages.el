@@ -46,12 +46,15 @@ list of packages to be instaleld using package.el."
    diminish
    vi-tilde-fringe
    dash-at-point
+   fuzzy
 
-   ;; Auto completion
-   fuzzy  ;; required by ac-use-fuzzy
+   ;; Auto Complete
    auto-complete
-   auto-complete-clang
    yasnippet
+
+   ;; Company
+   company
+   company-irony
 
    ;; EVIL enhancements
    goto-chg
@@ -67,6 +70,7 @@ list of packages to be instaleld using package.el."
    ;; Code analysis
    flycheck
    flycheck-haskell
+   flycheck-irony
 
    ;; File management
    dired+
@@ -89,6 +93,9 @@ list of packages to be instaleld using package.el."
    scss-mode
    web-mode
    yaml-mode
+
+   ;; C and C++
+   irony
 
    ;; Haskell
    ghc
