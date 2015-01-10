@@ -775,7 +775,7 @@
                ("C-c C-l" . haskell-process-load-or-reload)
                ("C-c C-t" . haskell-process-do-type)
                ("C-c C-i" . haskell-process-do-info)
-               ("C-c v c" . haskell-cabal-visit-file)))
+               ("C-c v c" . haskell-cabal-visit-file))))
 
 (use-package shm
   :commands structured-haskell-mode
@@ -787,7 +787,7 @@
    '(shm-auto-insert-skeletons t)
    '(shm-auto-insert-bangs t)
    '(shm-use-hdevtools nil)
-   '(shm-use-presentation-mode t))))
+   '(shm-use-presentation-mode t)))
 
 
 ;;; ** LISP
