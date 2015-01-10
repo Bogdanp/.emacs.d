@@ -74,7 +74,6 @@
     init-lang-scala
     init-lang-scons
     init-lang-web
-    init-lang-swift
 
     init-modeline
     init-bindings))
