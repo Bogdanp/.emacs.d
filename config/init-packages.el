@@ -248,7 +248,7 @@
   :commands (ac-define-source auto-complete-mode)
   :diminish auto-complete-mode
   :ensure t
-  :idle
+  :init
   ;; Auto-complete all the programming.
   (add-hook 'prog-mode-hook #'auto-complete-mode)
   :config
@@ -268,7 +268,7 @@
                                ac-source-dictionary
                                ac-source-yasnippet))
 
-    (setq ac-auto-start 3
+    (setq ac-auto-start nil
           ac-auto-show-menu 0.25
           ac-quick-help-delay 0.25
 
@@ -299,7 +299,10 @@
   :commands yas-reload-all
   :diminish yas-minor-mode
   :ensure t
-  :idle (yas-reload-all))
+  :idle
+  (progn
+    (add-hook 'python-mode-hook #'yas-minor-mode)
+    (yas-reload-all)))
 
 
 ;;; Flycheck
@@ -677,6 +680,7 @@
 ;;; LISP
 (use-package paredit
   :commands paredit-mode
+  :diminish paredit-mode
   :ensure t
   :init
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
@@ -685,7 +689,9 @@
   :commands pretty-lambda-mode
   :ensure t
   :init
-  (add-hook 'emacs-lisp-mode-hook #'pretty-lambda-mode))
+  (progn
+    (add-hook 'emacs-lisp-mode-hook #'pretty-lambda-mode)
+    (add-hook 'python-mode-hook #'pretty-lambda-mode)))
 
 (use-package rainbow-delimiters
   :commands rainbow-delimiters-mode
@@ -701,32 +707,6 @@
 
 
 ;;; Python
-(use-package jedi
-  :commands jedi:setup
-  :ensure t
-  :init
-  (add-hook 'python-mode-hook #'jedi:setup)
-  :config
-  (progn
-    (bind-keys :map python-mode-map
-               ("TAB" . jedi:complete))
-
-    (defun jedi:workon (path)
-      (interactive "fVirtual env: ")
-      (jedi:stop-server)
-      (setq jedi:server-args
-            `("--virtual-env" ,(expand-file-name path)))
-      (jedi:install-server-block)
-      (jedi:start-server)
-      (jedi:setup))
-
-    (defun jedi:workon-default ()
-      (interactive)
-      (jedi:stop-server)
-      (setq jedi:server-args nil)
-      (jedi:start-server)
-      (jedi:setup))))
-
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode)
@@ -753,22 +733,36 @@
          :base-directory (expand-file-name "~/Work/lead-pages/")
          :test-runner (expand-file-name "~/Work/lead-pages/tests/unit/runner.py")
          :test-runner-arguments '("-sv")
-         :working-directory (expand-file-name "~/Work/lead-pages/tests/unit/"))))
+         :working-directory (expand-file-name "~/Work/lead-pages/tests/unit/"))))))
 
-    (defun my-python-mode-hook ()
-      (pretty-lambda-mode t)
+(use-package jedi
+  :commands jedi:setup
+  :ensure t
+  :init
+  (add-hook 'python-mode-hook #'jedi:setup)
+  :config
+  (progn
+    (bind-keys :map python-mode-map
+               ("TAB" . jedi:complete))
 
-      (jedi:setup)
-      (setq-local jedi:complete-on-dot t)
-      (setq-local jedi:tooltip-method nil)
+    (defun jedi:workon (path)
+      (interactive "fVirtual env: ")
+      (jedi:stop-server)
+      (setq jedi:server-args
+            `("--virtual-env" ,(expand-file-name path)))
+      (jedi:install-server-block)
+      (jedi:start-server)
+      (jedi:setup))
 
-      (yas-minor-mode)
+    (defun jedi:workon-default ()
+      (interactive)
+      (jedi:stop-server)
+      (setq jedi:server-args nil)
+      (jedi:start-server)
+      (jedi:setup))
 
-      ;; Don't start automatically (causes SERIOUS performance issues on
-      ;; large Python files (> 1k LOC)).
-      (setq-local ac-auto-start nil))
-
-    (add-hook 'python-mode-hook 'my-python-mode-hook)))
+    (setq jedi:complete-on-dot t
+          jedi:tooltip-method nil)))
 
 
 ;;; Rust
