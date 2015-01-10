@@ -1,11 +1,6 @@
-;; EVIL
-;; ~~~~
-;; Turn evil-mode on.
-(evil-mode t)
+;;; EVIL
+(evil-mode +1)
 
-
-;; Config
-;; ~~~~~~
 ;; Default to EMACS mode in these modes.
 (dolist (mode '(calendar-mode
                 comint-mode
@@ -47,8 +42,7 @@
 (add-hook 'flycheck-error-list-mode-hook #'my-flycheck-error-list-mode-hook-for-evil)
 
 
-;; Fixes
-;; ~~~~~
+;;; Fixes
 ;; Make C-w work in the minibuffer.
 (defun my-minibuffer-setup-hook-for-evil ()
   (local-set-key (kbd "C-w") 'backward-kill-word))
@@ -68,13 +62,6 @@
   (fmakunbound 'x-select-text)
   ad-do-it
   (fset 'x-select-text (symbol-function 'old-x-select-text)))
-
-
-;; Extras
-;; ~~~~~~
-;; EVIL surround.
-(require 'evil-surround)
-(global-evil-surround-mode 1)
 
 
 (provide 'init-evil)

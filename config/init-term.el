@@ -1,5 +1,4 @@
-;; Zipper
-;; ~~~~~~
+;;; Zipper
 (cl-defstruct zipper lhs curr rhs)
 
 (defun zipper-append (zipper x)
@@ -45,8 +44,9 @@
 (defmover zipper-prev #'zipper-lhs #'zipper-rhs)
 
 
-;; Term
-;; ~~~~
+;;; Term
+(require 'ansi-color)
+
 (defconst bp-term-shell "zsh"
   "The path to the shell that should be run.")
 
@@ -108,8 +108,7 @@
     (bp-term-fullscreen)))
 
 
-;; Server
-;; ~~~~~~
+;;; Server
 (defun my-server-visit-hook-for-term ()
   "Since most of the time I call `emacsclient' I'll be toggled-into my
 `bp-term-**' stuff (see above), I don't want calling `emacsclient' to
