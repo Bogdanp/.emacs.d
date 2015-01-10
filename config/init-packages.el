@@ -742,8 +742,8 @@
 
 (use-package ensime
   :bind (("C-c C-." . ensime-edit-definition-other-window)
-         ("C-c ." . ensime-edit-definition)
-         ("C-c ," . ensime-pop-find-definition-stack))
+         ("C-c ."   . ensime-edit-definition)
+         ("C-c ,"   . ensime-pop-find-definition-stack))
   :commands ensime-scala-mode-hook
   :ensure t
   :init
