@@ -1,6 +1,5 @@
 ;;; init.el --- main config entry point -*- no-byte-compile: t -*-
-;; Auto compile everything
-;; ~~~~~~~~~~~~~~~~~~~~~~~
+;;; auto-compile
 (setq load-prefer-newer t)
 
 (add-to-list 'load-path (locate-user-emacs-file "packed"))
@@ -11,14 +10,12 @@
 (auto-compile-on-save-mode 1)
 
 
-;; use-package
-;; ~~~~~~~~~~~
+;;; use-package
 (add-to-list 'load-path (locate-user-emacs-file "use-package"))
 (require 'use-package)
 
 
-;; UI
-;; ~~
+;;; UI
 ;; Position and resize frame.
 (when (window-system)
   (add-to-list 'default-frame-alist '(font . "Inconsolata-13"))
@@ -35,48 +32,21 @@
 (setq inhibit-startup-message t)
 
 
-;; Config
-;; ~~~~~~
+;;; Paths
+;; Home sweet home.
+(setq default-directory "~/")
+(setq local-temp-dir (expand-file-name (locate-user-emacs-file "temp")))
+
+
+;;; Config
 ;; Initialize all of the other settings.
 (add-to-list 'load-path (locate-user-emacs-file "config"))
 
 (defconst my-modules
-  '(;; Packages
-    init-packages
-
-    ;; Core
+  '(init-packages
     init-core
-    init-misc
     init-evil
-    init-git
-    init-backup
-    init-frame
     init-term
-    init-org
-    init-ido
-    init-erc
-    init-eww
-    init-projectile
-
-    ;; Misc plugins
-    init-auto-completion
-    init-company
-    init-yasnippet
-    init-flycheck
-    init-prodigy
-
-    ;; Languages
-    init-lang-c
-    init-lang-clojure
-    init-lang-elisp
-    init-lang-haskell
-    init-lang-purescript
-    init-lang-python
-    init-lang-scala
-    init-lang-scons
-    init-lang-web
-
-    init-modeline
     init-bindings))
 
 (mapc 'require my-modules)
