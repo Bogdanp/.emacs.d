@@ -46,9 +46,6 @@ list of packages to be instaleld using package.el."
    diminish
    dash-at-point
    fuzzy
-
-   ;; Auto Complete
-   auto-complete
    yasnippet
 
    ;; Company
@@ -122,7 +119,6 @@ list of packages to be instaleld using package.el."
    ;; Clojure
    clojure-mode
    cider
-   ac-cider
 
    ;; Swift
    swift-mode))
