@@ -297,6 +297,7 @@
     (add-hook 'irony-mode-hook #'my-company-irony-setup-hook)
     (add-hook 'irony-mode-hook #'company-irony-setup-begin-commands)))
 
+;;; ** Yasnippet
 (use-package yasnippet
   :commands yas-reload-all
   :diminish yas-minor-mode
@@ -430,7 +431,7 @@
   (setq uniquify-buffer-name-style 'forward))
 
 
-;;; Prodigy
+;;; * Prodigy
 (use-package prodigy
   :bind (("C-c P" . prodigy))
   :commands (prodigy prodigy-define-service)
@@ -821,6 +822,7 @@
 ;;; * End
 ;; Local Variables:
 ;; eval: (orgstruct-mode +1)
+;; eval: (org-overview)
 ;; orgstruct-heading-prefix-regexp: "^;;; +"
 ;; End:
 (provide 'init-packages)
