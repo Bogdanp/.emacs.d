@@ -213,13 +213,7 @@
   :commands flx-ido-mode
   :ensure t
   :init
-  (add-hook 'after-init-hook #'flx-ido-mode)
-  :config
-  (progn
-    (setq ido-enable-flex-matching t
-
-          ;; Disable flx's silly underlining.
-          flx-ido-use-faces nil)))
+  (add-hook 'after-init-hook #'flx-ido-mode))
 
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer))
@@ -246,7 +240,7 @@
 
 ;;; * Org
 (use-package org
-  :defer t
+  :commands org-mode
   :ensure t
   :idle
   (progn
