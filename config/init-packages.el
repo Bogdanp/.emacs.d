@@ -96,6 +96,7 @@ list of packages to be instaleld using package.el."
 
    ;; C and C++
    irony
+   irony-eldoc
 
    ;; Haskell
    ghc

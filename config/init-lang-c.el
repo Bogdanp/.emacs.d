@@ -17,6 +17,8 @@
   ;; Disable AC since its irony mode isn't ready yet.
   (auto-complete-mode -1)
 
+  (eldoc-mode +1)
+  (irony-eldoc +1)
   (company-mode +1)
   (add-to-list 'company-backends 'company-irony)
   (add-to-list 'flycheck-checkers 'irony))
