@@ -43,7 +43,6 @@ list of packages to be instaleld using package.el."
    htmlize
    restclient
    paradox
-   dash-at-point
 
    ;; EVIL enhancements
    goto-chg
