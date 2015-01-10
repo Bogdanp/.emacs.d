@@ -374,10 +374,6 @@
   :defer t
   :ensure t)
 
-(use-package grep
-  :idle
-  (grep-apply-setting 'grep-command "grep -irnHI -e "))
-
 (use-package paradox
   :commands paradox-list-packages
   :ensure t
@@ -700,7 +696,7 @@
 
 ;;; Markdown
 (use-package markdown-mode
-  :commands markdown-mode
+  :mode ("\\.md\\'" . markdown-mode)
   :ensure t)
 
 
@@ -818,7 +814,7 @@
 
 ;;; SCSS
 (use-package scss-mode
-  :commands scss-mode
+  :mode ("\\.scss\\'" . scss-mode)
   :ensure t
   :config
   (progn
@@ -879,7 +875,7 @@
 
 ;;; YAML
 (use-package yaml-mode
-  :commands yaml-mode
+  :mode ("\\.yaml\\'" . yaml-mode)
   :ensure t)
 
 
