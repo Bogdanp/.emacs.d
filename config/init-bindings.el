@@ -27,13 +27,6 @@
 (global-set-key (kbd "C-c M-d") 'delete-frame)
 
 
-;; Scala-mode bindings
-;; ~~~~~~~~~~~~~~~~~~~
-(define-key scala-mode-map (kbd "C-c C-.") 'ensime-edit-definition-other-window)
-(define-key scala-mode-map (kbd "C-c .") 'ensime-edit-definition)
-(define-key scala-mode-map (kbd "C-c ,") 'ensime-pop-find-definition-stack)
-
-
 ;; Python-mode bindings
 ;; ~~~~~~~~~~~~~~~~~~~~
 (define-key python-mode-map (kbd "C-x C-e") 'bp-python-eval-region)

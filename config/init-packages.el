@@ -81,11 +81,6 @@ list of packages to be instaleld using package.el."
    haskell-mode
    shm
 
-   ;; Scala
-   ensime
-   scala-mode2
-   sbt-mode
-
    ;; Lisp
    paredit
    pretty-lambdada
