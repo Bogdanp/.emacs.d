@@ -847,9 +847,6 @@
   (add-hook 'python-mode-hook #'jedi:setup)
   :config
   (progn
-    (bind-keys :map python-mode-map
-               ("TAB" . jedi:complete))
-
     (defun jedi:workon (path)
       (interactive "fVirtual env: ")
       (jedi:stop-server)
@@ -865,6 +862,13 @@
       (setq jedi:server-args nil)
       (jedi:start-server)
       (jedi:setup))
+
+    (bind-keys :map python-mode-map
+               ("TAB" . jedi:complete))
+
+    (bind-keys :map evil-normal-state-map
+               (",jw" . jedi:workon)
+               (",jd" . jedi:default))
 
     (setq jedi:complete-on-dot t
           jedi:tooltip-method nil)))
