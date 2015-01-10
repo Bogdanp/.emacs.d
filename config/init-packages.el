@@ -1,4 +1,4 @@
-;;; Setup
+;;; * Setup
 (with-no-warnings (require 'cl)
                   (require 'package))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
@@ -9,13 +9,13 @@
   (package-refresh-contents))
 
 
-;;; Theme
+;;; * Theme
 (when (display-graphic-p)
   (add-to-list 'load-path (expand-file-name "~/sandbox/twilight-anti-bright-theme"))
   (require 'twilight-anti-bright-theme))
 
 
-;;; EVIL
+;;; * EVIL
 (add-to-list 'load-path (expand-file-name "~/sandbox/evil"))
 (require 'evil)
 
@@ -43,7 +43,7 @@
           undo-tree-auto-save-history t)))
 
 
-;;; Git
+;;; * Git
 (use-package magit
   :bind ("C-c m" . magit-status)
   :diminish magit-auto-revert-mode
@@ -63,7 +63,7 @@
   :ensure t)
 
 
-;;; Ido
+;;; * Ido
 (use-package ido-ubiquitous
   :ensure t
   :init
@@ -93,7 +93,7 @@
   (setq smex-save-file (locate-user-emacs-file ".smex-items")))
 
 
-;;; Org
+;;; * Org
 (use-package org
   :ensure t
   :idle
@@ -243,7 +243,8 @@
                (",ta" . bp-org-archive-task-at-point))))
 
 
-;;; Auto completion
+;;; * Auto completion
+;;; ** AC
 (use-package auto-complete
   :commands (ac-define-source auto-complete-mode)
   :diminish auto-complete-mode
@@ -276,6 +277,7 @@
           ac-use-fuzzy t
           ac-use-quick-help t)))
 
+;;; ** Company
 (use-package company
   :commands company-mode
   :diminish company
@@ -305,7 +307,7 @@
     (yas-reload-all)))
 
 
-;;; Flycheck
+;;; * Flycheck
 (use-package flycheck
   :commands (flycheck-mode flycheck-define-checker)
   :ensure t
@@ -342,7 +344,7 @@
     (add-hook 'irony-mode-hook #'my-flycheck-irony-setup-hook)))
 
 
-;;; Miscellaneous
+;;; * Miscellaneous
 (use-package ace-jump-mode
   :commands (ace-jump-mode ace-jump-char-mode)
   :diminish ace-jump-mode
@@ -505,7 +507,7 @@
       :kill-process-buffer-on-stop t)))
 
 
-;;; Server
+;;; * Server
 (when (memq window-system '(mac ns))
   (use-package server
     :init
@@ -513,7 +515,8 @@
       (server-start))))
 
 
-;;; C and C++
+;;; * Languages
+;;; ** C and C++
 (use-package cc-mode
   :init
   (progn
@@ -548,7 +551,7 @@
   :ensure t)
 
 
-;;; Emacs lisp
+;;; ** Emacs lisp
 (use-package eldoc
   :commands eldoc-mode
   :diminish eldoc-mode
@@ -556,7 +559,7 @@
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode))
 
 
-;;; Haskell
+;;; ** Haskell
 (use-package ghc
   :commands ghc-init
   :ensure t
@@ -636,7 +639,7 @@
    '(shm-use-presentation-mode t))))
 
 
-;;; LISP
+;;; ** LISP
 (use-package paredit
   :commands paredit-mode
   :diminish paredit-mode
@@ -651,13 +654,13 @@
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
 
 
-;;; Markdown
+;;; ** Markdown
 (use-package markdown-mode
   :mode ("\\.md\\'" . markdown-mode)
   :ensure t)
 
 
-;;; Python
+;;; ** Python
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode)
@@ -716,13 +719,13 @@
           jedi:tooltip-method nil)))
 
 
-;;; Rust
+;;; ** Rust
 (use-package rust-mode
   :mode ("\\.rs\\'" . rust-mode)
   :ensure t)
 
 
-;;; Scala
+;;; ** Scala
 (use-package scala-mode2
   :commands scala-mode
   :ensure t
@@ -757,7 +760,7 @@
     (add-hook 'ensime-mode-hook #'my-ensime-mode-hook)))
 
 
-;;; SCSS
+;;; ** SCSS
 (use-package scss-mode
   :mode ("\\.scss\\'" . scss-mode)
   :ensure t
@@ -772,7 +775,7 @@
     (add-hook 'scss-mode-hook 'my-scss-mode-hook)))
 
 
-;;; Web
+;;; ** Web
 (use-package web-mode
   :commands web-mode
   :ensure t
@@ -809,10 +812,15 @@
     (add-hook 'web-mode-hook #'my-web-mode-hook-for-flycheck)))
 
 
-;;; YAML
+;;; ** YAML
 (use-package yaml-mode
   :mode ("\\.yaml\\'" . yaml-mode)
   :ensure t)
 
 
+;;; * End
+;; Local Variables:
+;; eval: (orgstruct-mode +1)
+;; orgstruct-heading-prefix-regexp: "^;;; +"
+;; End:
 (provide 'init-packages)
