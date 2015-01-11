@@ -26,6 +26,7 @@
 (add-to-list 'load-path (expand-file-name "~/sandbox/evil"))
 (use-package evil
   :commands evil-mode
+  :pin manual
   :init
   (add-hook 'after-init-hook #'evil-mode)
   :config
