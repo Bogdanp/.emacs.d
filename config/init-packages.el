@@ -1,23 +1,141 @@
-;;; Setup
-(with-no-warnings (require 'cl)
-                  (require 'package))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-(package-initialize)
+;;; * Setup
+(defun my-package-setup-hook ()
+  (with-no-warnings
+    (require 'cl)
+    (require 'package))
+  (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+  (package-initialize)
 
-;; Refresh packages on first run.
-(when (not package-archive-contents)
-  (package-refresh-contents))
+  ;; Refresh packages on first run.
+  (when (not package-archive-contents)
+    (package-refresh-contents)))
+
+(add-hook 'after-init-hook #'my-package-setup-hook)
 
 
-;;; Theme
+;;; * Theme
 (when (display-graphic-p)
-  (add-to-list 'load-path (expand-file-name "~/sandbox/twilight-anti-bright-theme"))
-  (require 'twilight-anti-bright-theme))
+  (defun my-load-theme-hook ()
+    (add-to-list 'load-path (expand-file-name "~/sandbox/twilight-anti-bright-theme"))
+    (require 'twilight-anti-bright-theme))
+
+  (add-hook 'after-init-hook #'my-load-theme-hook))
 
 
-;;; EVIL
+;;; * EVIL
 (add-to-list 'load-path (expand-file-name "~/sandbox/evil"))
-(require 'evil)
+(use-package evil
+  :commands evil-mode
+  :pin manual
+  :init
+  (add-hook 'after-init-hook #'evil-mode)
+  :config
+  (progn
+    (use-package ace-jump-mode
+      :commands (ace-jump-mode ace-jump-char-mode)
+      :diminish ace-jump-mode
+      :ensure t
+      :init
+      (bind-keys :map evil-normal-state-map
+                 ("SPC"   . ace-jump-mode)
+                 ("S-SPC" . ace-jump-char-mode)))
+
+    ;;; Fixes
+    ;; Default to EMACS mode in these modes.
+    (dolist (mode '(calendar-mode
+                    comint-mode
+                    compilation-mode
+                    debugger-mode
+                    diff-mode
+                    dired-mode
+                    erc-mode
+                    eshell-mode
+                    eww-mode
+                    eww-bookmark-mode
+                    eww-history-mode
+                    git-commit-mode
+                    grep-mode
+                    haskell-interactive-mode
+                    help-mode
+                    Info-mode
+                    special-mode
+                    paradox-commit-list-mode
+                    paradox-menu-mode
+                    prodigy-mode
+                    sbt-mode
+                    term-mode
+                    undo-tree-visualizer-mode))
+      (evil-set-initial-state mode 'emacs))
+
+    ;; Git-timemachine should default to EMACS mode as well.
+    (defun my-git-timemachine-mode-hook-for-evil ()
+      (evil-emacs-state))
+
+    (add-hook 'git-timemachine-mode-hook #'my-git-timemachine-mode-hook-for-evil)
+
+    ;; Same goes for Flycheck's `C-c ! l'.
+    (defun my-flycheck-error-list-mode-hook-for-evil ()
+      (evil-emacs-state))
+
+    (add-hook 'flycheck-error-list-mode-hook #'my-flycheck-error-list-mode-hook-for-evil)
+
+    ;; Make C-w work in the minibuffer.
+    (defun my-minibuffer-setup-hook-for-evil ()
+      (local-set-key (kbd "C-w") 'backward-kill-word))
+
+    (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup-hook-for-evil)
+
+    ;; Fix clipboard dirtying.
+    (defun my-evil-local-mode-hook ()
+      (setq-local interprogram-cut-function nil)
+      (setq-local interprogram-paste-function nil))
+
+    (add-hook 'evil-local-mode-hook 'my-evil-local-mode-hook)
+
+    ;; Fix copy-on-motion.
+    (defadvice evil-visual-update-x-selection (around clobber-x-select-text activate)
+      (fset 'old-x-select-text (symbol-function 'x-select-text))
+      (fmakunbound 'x-select-text)
+      ad-do-it
+      (fset 'x-select-text (symbol-function 'old-x-select-text)))
+
+
+    ;;; Bindings
+    ;; "localleader"
+    (bind-keys :map evil-normal-state-map
+               ;; Bookmarks
+               (",bb" . bookmark-jump)
+               (",bc" . bookmark-set)
+               (",bl" . list-bookmarks)
+
+               ;; Misc
+               (",," . evil-ex-nohighlight)
+               (",x" . calc))
+
+    ;; NORMAL mode
+    (bind-keys :map evil-normal-state-map
+               ;; Movement
+               ("C-a" . evil-beginning-of-line)
+               ("C-e" . evil-end-of-line)
+               ("C-p" . evil-previous-line)
+               ("C-n" . evil-next-line)
+
+               ;; Windows
+               ("C-w f" . bp-window-toggle-fullscreen))
+
+    ;; INSERT mode
+    (bind-keys :map evil-insert-state-map
+               ("C-a" . beginning-of-line)
+               ("C-e" . end-of-line)
+               ("C-p" . evil-previous-line)
+               ("C-n" . evil-next-line))
+
+    ;; VISUAL mode
+    (bind-keys :map evil-visual-state-map
+               ("C-a" . evil-beginning-of-line)
+               ("C-e" . evil-end-of-line)
+               ("C-p" . evil-previous-line)
+               ("C-n" . evil-next-line))))
 
 (use-package evil-surround
   :commands evil-surround-mode
@@ -43,7 +161,7 @@
           undo-tree-auto-save-history t)))
 
 
-;;; Git
+;;; * Git
 (use-package magit
   :bind ("C-c m" . magit-status)
   :diminish magit-auto-revert-mode
@@ -63,19 +181,45 @@
   :ensure t)
 
 
-;;; Ido
+;;; * Ido
+(use-package ido
+  :commands ido-mode
+  :config
+  (progn
+    (ido-mode +1)
+    (ido-ubiquitous-mode +1)
+
+    (setq ido-enable-prefix nil
+          ido-enable-flex-matching t
+          ido-auto-merge-work-directories-length nil
+          ido-create-new-buffer 'always
+          ido-use-filename-at-point 'guess
+          ido-use-virtual-buffers t
+          ido-handle-duplicate-virtual-buffers 2
+          ido-max-prospects 10
+          ido-ignore-extensions t)))
+
 (use-package ido-ubiquitous
-  :ensure t
-  :init
-  (ido-ubiquitous-mode +1))
+  :commands ido-ubiquitous-mode
+  :ensure t)
 
 (use-package ido-vertical-mode
+  :commands ido-vertical-mode
   :ensure t
   :init
-  (ido-vertical-mode +1))
+  (add-hook 'after-init-hook #'ido-vertical-mode))
 
 (use-package flx-ido
-  :ensure t)
+  :commands flx-ido-mode
+  :ensure t
+  :init
+  (add-hook 'after-init-hook #'flx-ido-mode))
+
+(use-package ibuffer
+  :bind ("C-x C-b" . ibuffer))
+
+(use-package imenu
+  :bind ("C-x C-i" . imenu))
 
 (use-package imenu-anywhere
   :bind ("C-c C-i" . imenu-anywhere)
@@ -86,15 +230,17 @@
 (use-package smex
   :bind (("M-x" . smex)
          ("C-;" . smex))
+  :commands smex-initialize
   :ensure t
   :init
-  (smex-initialize)
+  (add-hook 'after-init-hook #'smex-initialize)
   :config
-  (setq smex-save-file (concat user-emacs-directory ".smex-items")))
+  (setq smex-save-file (locate-user-emacs-file ".smex-items")))
 
 
-;;; Org
+;;; * Org
 (use-package org
+  :commands org-mode
   :ensure t
   :idle
   (progn
@@ -243,12 +389,13 @@
                (",ta" . bp-org-archive-task-at-point))))
 
 
-;;; Auto completion
+;;; * Auto completion
+;;; ** AC
 (use-package auto-complete
   :commands (ac-define-source auto-complete-mode)
   :diminish auto-complete-mode
   :ensure t
-  :idle
+  :init
   ;; Auto-complete all the programming.
   (add-hook 'prog-mode-hook #'auto-complete-mode)
   :config
@@ -268,7 +415,7 @@
                                ac-source-dictionary
                                ac-source-yasnippet))
 
-    (setq ac-auto-start 3
+    (setq ac-auto-start nil
           ac-auto-show-menu 0.25
           ac-quick-help-delay 0.25
 
@@ -276,6 +423,7 @@
           ac-use-fuzzy t
           ac-use-quick-help t)))
 
+;;; ** Company
 (use-package company
   :commands company-mode
   :diminish company
@@ -295,14 +443,18 @@
     (add-hook 'irony-mode-hook #'my-company-irony-setup-hook)
     (add-hook 'irony-mode-hook #'company-irony-setup-begin-commands)))
 
+;;; ** Yasnippet
 (use-package yasnippet
   :commands yas-reload-all
   :diminish yas-minor-mode
   :ensure t
-  :idle (yas-reload-all))
+  :idle
+  (progn
+    (add-hook 'python-mode-hook #'yas-minor-mode)
+    (yas-reload-all)))
 
 
-;;; Flycheck
+;;; * Flycheck
 (use-package flycheck
   :commands (flycheck-mode flycheck-define-checker)
   :ensure t
@@ -330,6 +482,7 @@
   (add-hook 'haskell-mode-hook #'flycheck-haskell-setup))
 
 (use-package flycheck-irony
+  :defer t
   :ensure t
   :config
   (progn
@@ -339,15 +492,12 @@
     (add-hook 'irony-mode-hook #'my-flycheck-irony-setup-hook)))
 
 
-;;; Miscellaneous
-(use-package ace-jump-mode
-  :commands (ace-jump-mode ace-jump-char-mode)
-  :diminish ace-jump-mode
-  :ensure t
+;;; * Miscellaneous
+(use-package autorevert
+  :commands global-auto-revert-mode
   :init
-  (bind-keys :map evil-normal-state-map
-             ("SPC"   . ace-jump-mode)
-             ("S-SPC" . ace-jump-char-mode)))
+  ;; Revert files that update on disk automatically. Ignores dirty buffers.
+  (add-hook 'after-init-hook #'global-auto-revert-mode))
 
 (use-package bind-key
   :commands (bind-key bind-key*)
@@ -357,14 +507,18 @@
   :commands diminish
   :ensure t)
 
-(use-package dired+
-  :ensure t)
+(use-package dired
+  :commands dired
+  :config
+  (use-package dired+
+    :ensure t))
 
 (when (memq window-system '(mac ns))
   (use-package exec-path-from-shell
+    :commands exec-path-from-shell-initialize
     :ensure t
     :init
-    (exec-path-from-shell-initialize)))
+    (add-hook 'after-init-hook #'exec-path-from-shell-initialize)))
 
 (use-package f
   :defer t
@@ -373,10 +527,6 @@
 (use-package fuzzy
   :defer t
   :ensure t)
-
-(use-package grep
-  :idle
-  (grep-apply-setting 'grep-command "grep -irnHI -e "))
 
 (use-package paradox
   :commands paradox-list-packages
@@ -420,16 +570,18 @@
         history-length 1000))
 
 (use-package saveplace
-  :init
+  :defer t
+  :config
   (setq-default save-place t))
 
 (use-package uniquify
-  :init
+  :defer t
+  :config
   ;; /path/to/buffer instead of buffer<n>.
   (setq uniquify-buffer-name-style 'forward))
 
 
-;;; Prodigy
+;;; * Prodigy
 (use-package prodigy
   :bind (("C-c P" . prodigy))
   :commands (prodigy prodigy-define-service)
@@ -506,17 +658,19 @@
       :kill-process-buffer-on-stop t)))
 
 
-;;; Server
-(when (memq window-system '(mac ns))
-  (use-package server
-    :init
-    (unless (server-running-p)
-      (server-start))))
+;;; * Server
+(use-package server
+  :defer t
+  :config
+  (unless (server-running-p)
+    (server-start)))
 
 
-;;; C and C++
+;;; * Languages
+;;; ** C and C++
 (use-package cc-mode
-  :init
+  :commands c-mode
+  :config
   (progn
     (setq c-default-style "bsd"
           c-basic-offset 4 )
@@ -549,7 +703,7 @@
   :ensure t)
 
 
-;;; Emacs lisp
+;;; ** Emacs lisp
 (use-package eldoc
   :commands eldoc-mode
   :diminish eldoc-mode
@@ -557,7 +711,7 @@
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode))
 
 
-;;; Haskell
+;;; ** Haskell
 (use-package ghc
   :commands ghc-init
   :ensure t
@@ -605,47 +759,6 @@
       '((candidates . (ac-haskell-candidates ac-prefix))))
 
 
-    ;;; Pretty symbols
-    (defun my-haskell-mode-prettify-symbols-hook ()
-      (setf prettify-symbols-alist
-            (append '(;;; Syntax
-                      ("forall" . ?∀)
-                      ("::"     . ?∷)
-                      ("\\"     . ?λ)
-                      ("->"     . ?→)
-                      ("=>"     . ?⇒)
-
-                      ;;; Functions
-                      ;; Prefix
-                      ("undefined"   . ?⊥)
-                      ("not"         . ?¬)
-                      ("and"         . ?∧)
-                      ("or"          . ?∨)
-                      ;; Infix
-                      (">>="         . ?↪)
-                      ("=<<"         . ?↩)
-                      ("*"           . ?×)
-                      (":="          . ?≔)
-                      ("|-"          . ?⊢)
-                      ("-|"          . ?⊣)
-                      ("<="          . ?≤)
-                      (">="          . ?≥)
-                      ("=="          . ?≡)
-                      ("/="          . ?≠)
-                      ("&&"          . ?∧)
-                      ("||"          . ?∨)
-                      ("!!"          . ?‼)
-                      ("`div`"       . ?÷)
-                      ("`elem`"      . ?∈)
-                      ("`notElem`"   . ?∉)
-                      ("`union`"     . ?∪)
-                      ("`intersect`" . ?∩))
-                    prettify-symbols-alist)))
-
-    (add-hook 'haskell-mode-hook #'prettify-symbols-mode)
-    (add-hook 'haskell-mode-hook #'my-haskell-mode-prettify-symbols-hook)
-
-
     (defun my-haskell-mode-hook ()
       (add-to-list 'ac-sources 'ac-source-haskell)
 
@@ -663,10 +776,11 @@
                ("C-c C-l" . haskell-process-load-or-reload)
                ("C-c C-t" . haskell-process-do-type)
                ("C-c C-i" . haskell-process-do-info)
-               ("C-c v c" . haskell-cabal-visit-file)))
+               ("C-c v c" . haskell-cabal-visit-file))))
 
 (use-package shm
   :commands structured-haskell-mode
+  :ensure t
   :init
   (add-hook 'haskell-mode-hook #'structured-haskell-mode)
   :config
@@ -674,21 +788,16 @@
    '(shm-auto-insert-skeletons t)
    '(shm-auto-insert-bangs t)
    '(shm-use-hdevtools nil)
-   '(shm-use-presentation-mode t))))
+   '(shm-use-presentation-mode t)))
 
 
-;;; LISP
+;;; ** LISP
 (use-package paredit
   :commands paredit-mode
+  :diminish paredit-mode
   :ensure t
   :init
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
-
-(use-package pretty-lambdada
-  :commands pretty-lambda-mode
-  :ensure t
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'pretty-lambda-mode))
 
 (use-package rainbow-delimiters
   :commands rainbow-delimiters-mode
@@ -697,39 +806,13 @@
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
 
 
-;;; Markdown
+;;; ** Markdown
 (use-package markdown-mode
-  :commands markdown-mode
+  :mode ("\\.md\\'" . markdown-mode)
   :ensure t)
 
 
-;;; Python
-(use-package jedi
-  :commands jedi:setup
-  :ensure t
-  :init
-  (add-hook 'python-mode-hook #'jedi:setup)
-  :config
-  (progn
-    (bind-keys :map python-mode-map
-               ("TAB" . jedi:complete))
-
-    (defun jedi:workon (path)
-      (interactive "fVirtual env: ")
-      (jedi:stop-server)
-      (setq jedi:server-args
-            `("--virtual-env" ,(expand-file-name path)))
-      (jedi:install-server-block)
-      (jedi:start-server)
-      (jedi:setup))
-
-    (defun jedi:workon-default ()
-      (interactive)
-      (jedi:stop-server)
-      (setq jedi:server-args nil)
-      (jedi:start-server)
-      (jedi:setup))))
-
+;;; ** Python
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode)
@@ -756,31 +839,49 @@
          :base-directory (expand-file-name "~/Work/lead-pages/")
          :test-runner (expand-file-name "~/Work/lead-pages/tests/unit/runner.py")
          :test-runner-arguments '("-sv")
-         :working-directory (expand-file-name "~/Work/lead-pages/tests/unit/"))))
+         :working-directory (expand-file-name "~/Work/lead-pages/tests/unit/"))))))
 
-    (defun my-python-mode-hook ()
-      (pretty-lambda-mode t)
+(use-package jedi
+  :commands jedi:setup
+  :ensure t
+  :init
+  (add-hook 'python-mode-hook #'jedi:setup)
+  :config
+  (progn
+    (defun jedi:workon (path)
+      (interactive "fVirtual env: ")
+      (jedi:stop-server)
+      (setq jedi:server-args
+            `("--virtual-env" ,(expand-file-name path)))
+      (jedi:install-server-block)
+      (jedi:start-server)
+      (jedi:setup))
 
-      (jedi:setup)
-      (setq-local jedi:complete-on-dot t)
-      (setq-local jedi:tooltip-method nil)
+    (defun jedi:workon-default ()
+      (interactive)
+      (jedi:stop-server)
+      (setq jedi:server-args nil)
+      (jedi:start-server)
+      (jedi:setup))
 
-      (yas-minor-mode)
+    (bind-keys :map python-mode-map
+               ("TAB" . jedi:complete))
 
-      ;; Don't start automatically (causes SERIOUS performance issues on
-      ;; large Python files (> 1k LOC)).
-      (setq-local ac-auto-start nil))
+    (bind-keys :map evil-normal-state-map
+               (",jw" . jedi:workon)
+               (",jd" . jedi:default))
 
-    (add-hook 'python-mode-hook 'my-python-mode-hook)))
+    (setq jedi:complete-on-dot t
+          jedi:tooltip-method nil)))
 
 
-;;; Rust
+;;; ** Rust
 (use-package rust-mode
   :mode ("\\.rs\\'" . rust-mode)
   :ensure t)
 
 
-;;; Scala
+;;; ** Scala
 (use-package scala-mode2
   :commands scala-mode
   :ensure t
@@ -795,8 +896,8 @@
 
 (use-package ensime
   :bind (("C-c C-." . ensime-edit-definition-other-window)
-         ("C-c ." . ensime-edit-definition)
-         ("C-c ," . ensime-pop-find-definition-stack))
+         ("C-c ."   . ensime-edit-definition)
+         ("C-c ,"   . ensime-pop-find-definition-stack))
   :commands ensime-scala-mode-hook
   :ensure t
   :init
@@ -815,9 +916,9 @@
     (add-hook 'ensime-mode-hook #'my-ensime-mode-hook)))
 
 
-;;; SCSS
+;;; ** SCSS
 (use-package scss-mode
-  :commands scss-mode
+  :mode ("\\.scss\\'" . scss-mode)
   :ensure t
   :config
   (progn
@@ -830,7 +931,7 @@
     (add-hook 'scss-mode-hook 'my-scss-mode-hook)))
 
 
-;;; Web
+;;; ** Web
 (use-package web-mode
   :commands web-mode
   :ensure t
@@ -858,28 +959,24 @@
           web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
                                    ("django" . "\\.html\\'")))
 
-    (defun my-web-mode-hook ()
-      (setq-local ac-auto-start nil)
-
-      ;; These things break web-mode so we need to disable them.
-      (remove-hook 'prog-mode-hook 'esk-pretty-lambdas t)
-      (remove-hook 'prog-mode-hook 'esk-add-watchwords t)
-      (remove-hook 'prog-mode-hook 'idle-highlight-mode t))
-
     (defun my-web-mode-hook-for-flycheck ()
       (when (or (equal web-mode-content-type "javascript")
                 (equal web-mode-content-type "jsx"))
         (flycheck-select-checker 'jsxhint-checker)
         (flycheck-mode 1)))
 
-    (add-hook 'web-mode-hook #'my-web-mode-hook)
     (add-hook 'web-mode-hook #'my-web-mode-hook-for-flycheck)))
 
 
-;;; YAML
+;;; ** YAML
 (use-package yaml-mode
-  :commands yaml-mode
+  :mode ("\\.yaml\\'" . yaml-mode)
   :ensure t)
 
 
+;;; * End
+;; Local Variables:
+;; eval: (orgstruct-mode +1)
+;; orgstruct-heading-prefix-regexp: "^;;; +"
+;; End:
 (provide 'init-packages)

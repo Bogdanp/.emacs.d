@@ -22,7 +22,7 @@ of modes."
     (when (not (memq major-mode (list 'eww-mode
                                       'term-mode
                                       'org-agenda-mode)))
-      (hl-line-mode))))
+      (hl-line-mode +1))))
 
 (my-global-hl-line-mode)
 
@@ -30,7 +30,7 @@ of modes."
 (setq-default truncate-lines t)
 
 ;; Highlight matching parens.
-(show-paren-mode 1)
+(show-paren-mode +1)
 
 ;; Fuck electric-indent-mode.
 (electric-indent-mode +1)
@@ -68,28 +68,11 @@ of modes."
 
 ;;; Files
 ;; Delete trailing whitespaces whenever a file gets saved.
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 ;; Make default dired slightly nicer.
 (setq insert-directory-program "/usr/local/bin/gls")
 (setq dired-listing-switches "--group-directories-first -alh")
-
-;; Revert files that update on disk automatically. Ignores dirty buffers.
-(global-auto-revert-mode 1)
-
-
-;;; Ido
-(ido-mode +1)
-
-(setq ido-enable-prefix nil
-      ido-enable-flex-matching t
-      ido-auto-merge-work-directories-length nil
-      ido-create-new-buffer 'always
-      ido-use-filename-at-point 'guess
-      ido-use-virtual-buffers t
-      ido-handle-duplicate-virtual-buffers 2
-      ido-max-prospects 10
-      ido-ignore-extensions t)
 
 
 ;;; Me
@@ -98,6 +81,7 @@ of modes."
 
 
 ;;; Modeline
+;; Show current (row, col) in modeline.
 (line-number-mode +1)
 (column-number-mode +1)
 
@@ -133,9 +117,8 @@ of modes."
 ;; Prevent the cursor from blinking.
 (blink-cursor-mode -1)
 
-;; Pretty colors!!
-(if (display-graphic-p)
-    (load-theme 'twilight-anti-bright t)
+;; Pretty terminal colors!!
+(unless (display-graphic-p)
   (load-theme 'wombat t))
 
 

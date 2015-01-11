@@ -1,4 +1,8 @@
 ;;; init.el --- main config entry point -*- no-byte-compile: t -*-
+;;; GC
+;; EMACS' default GC threshold is <1MB. Give it 200MB instead.
+(setq gc-cons-threshold 200000000)
+
 ;;; auto-compile
 (setq load-prefer-newer t)
 
@@ -14,6 +18,10 @@
 (add-to-list 'load-path (locate-user-emacs-file "use-package"))
 (require 'use-package)
 
+;;; UI
+(when (window-system)
+  (add-to-list 'default-frame-alist '(font . "Terminal")))
+
 
 ;; Remove GUI elements.
 (add-hook 'window-setup-hook
@@ -27,7 +35,7 @@
 
 ;;; Paths
 ;; Home sweet home.
-(setq default-directory "~/")
+(setq default-directory (expand-file-name "~/"))
 (setq local-temp-dir (expand-file-name (locate-user-emacs-file "temp")))
 
 
@@ -38,7 +46,6 @@
 (defconst my-modules
   '(init-packages
     init-core
-    init-evil
     init-bindings))
 
 (mapc 'require my-modules)
