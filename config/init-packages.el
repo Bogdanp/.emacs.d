@@ -63,6 +63,7 @@
                     paradox-menu-mode
                     prodigy-mode
                     sbt-mode
+                    shell-mode
                     term-mode
                     undo-tree-visualizer-mode))
       (evil-set-initial-state mode 'emacs))
@@ -673,7 +674,9 @@
   :config
   (progn
     (setq c-default-style "bsd"
-          c-basic-offset 4 )
+          c-basic-offset 4
+
+          w32-pipe-read-delay 0)
 
     ;; Fix indentation.
     (defun my-c-mode-hook ()
