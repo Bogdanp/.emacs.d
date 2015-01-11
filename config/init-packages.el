@@ -456,24 +456,24 @@
 
 ;;; * Flycheck
 (use-package flycheck
-  :commands (flycheck-mode flycheck-define-checker)
+  :commands flycheck-mode
   :ensure t
   :config
   (progn
-    (add-hook 'prog-mode-hook #'flycheck-mode))
+    (add-hook 'prog-mode-hook #'flycheck-mode)
 
-  (setq-default flycheck-disabled-checkers '(emacs-lisp
-                                             emacs-lisp-checkdoc
-                                             haskell-ghc
-                                             html-tidy))
+    (setq-default flycheck-disabled-checkers '(emacs-lisp
+                                               emacs-lisp-checkdoc
+                                               haskell-ghc
+                                               html-tidy))
 
-  (flycheck-define-checker jsxhint-checker
-    "A JSX syntax and style checker based on JSXHint."
+    (flycheck-define-checker jsxhint-checker
+      "A JSX syntax and style checker based on JSXHint."
 
-    :command ("jsxhint" source-inplace)
-    :error-patterns
-    ((error line-start (1+ nonl) ": line " line ", col " column ", " (message) line-end))
-    :modes (web-mode)) )
+      :command ("jsxhint" source-inplace)
+      :error-patterns
+      ((error line-start (1+ nonl) ": line " line ", col " column ", " (message) line-end))
+      :modes (web-mode))))
 
 (use-package flycheck-haskell
   :commands flycheck-haskell-setup
