@@ -44,6 +44,12 @@ of modes."
 ;; Make fill-paragraph more useful.
 (setq sentence-end-double-space nil)
 
+;; Highlight TODOs.
+(defun my-hl-todos ()
+  (font-lock-add-keywords
+   nil '(("\\<\\(TODO\\|XXX\\):" 1 font-lock-warning-face t))))
+(add-hook 'prog-mode-hook #'my-hl-todos)
+
 
 ;;; ERC
 ;; Default config.
