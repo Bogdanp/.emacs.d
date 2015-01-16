@@ -116,8 +116,8 @@
 (defun my-server-visit-hook-for-term ()
   "Since most of the time I call `emacsclient' I'll be toggled-into my
 `bp-term-**' stuff (see above), I don't want calling `emacsclient' to
-break that configuration so this hooks works around that by toggling out
-of that configuration and switching to the new buffer."
+break that configuration so this hook works around that by toggling out
+of that configuration before switching to the new buffer."
   (let ((buffer (current-buffer)))
     (when bp-term-previous-window-configuration
       (bp-term-toggle)
