@@ -108,6 +108,10 @@
                (",bc" . bookmark-set)
                (",bl" . list-bookmarks)
 
+               ;; Compilation
+               (",r" . bp-compile-with-default-command)
+               (",R" . bp-compile-with-default-command-reset)
+
                ;; Misc
                (",," . evil-ex-nohighlight)
                (",x" . calc))
@@ -384,8 +388,8 @@
 
     ;;; Bindings
     (bind-keys :map evil-normal-state-map
-               (",a" . org-agenda)
-               (",c" . org-capture)
+               (",a"  . org-agenda)
+               (",c"  . org-capture)
                (",ta" . bp-org-archive-task-at-point))))
 
 
