@@ -539,7 +539,7 @@
   :ensure t)
 
 (use-package fullframe
-  :commands fullframe
+  :commands (fullframe fullframe/maybe-restore-configuration)
   :ensure t)
 
 (use-package fuzzy
