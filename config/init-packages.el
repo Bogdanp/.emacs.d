@@ -169,7 +169,9 @@
 (use-package magit
   :bind ("C-c m" . magit-status)
   :diminish magit-auto-revert-mode
-  :ensure t)
+  :ensure t
+  :init
+  (fullframe magit-status magit-mode-quit-window))
 
 (use-package git-gutter
   :commands global-git-gutter-mode
@@ -534,6 +536,10 @@
 
 (use-package f
   :defer t
+  :ensure t)
+
+(use-package fullframe
+  :commands fullframe
   :ensure t)
 
 (use-package fuzzy
