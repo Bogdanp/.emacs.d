@@ -11,7 +11,7 @@
 ;; Make it easier to compile shit in one key press.
 (defconst bp-compile-with-default-command--buffer-name "*bp-default-compilation*"
   "The name of the default-command-compilation buffer.")
-(defconst bp-compile-with-default-command--buffer-delay 1
+(defconst bp-compile-with-default-command--buffer-delay 0.25
   "How long to wait until successful compilation buffers are closed.")
 
 (defvar bp-compile-with-default-command--command nil
