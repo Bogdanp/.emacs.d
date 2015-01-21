@@ -220,7 +220,19 @@
   (add-hook 'after-init-hook #'flx-ido-mode))
 
 (use-package ibuffer
-  :bind ("C-x C-b" . ibuffer))
+  :bind ("C-x C-b" . ibuffer)
+  :init
+  (progn
+    (defun my-ibuffer-hook ()
+      (ibuffer-vc-set-filter-groups-by-vc-root)
+      (unless (eq ibuffer-sorting-mode 'alphabetic)
+        (ibuffer-do-sort-by-alphabetic)))
+
+    (add-hook 'ibuffer-hook #'my-ibuffer-hook)))
+
+(use-package ibuffer-vc
+  :commands ibuffer-vc-set-filter-groups-by-vc-root
+  :ensure t)
 
 (use-package imenu
   :bind ("C-x C-i" . imenu))
