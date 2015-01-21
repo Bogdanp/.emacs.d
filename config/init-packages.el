@@ -534,14 +534,6 @@
   :config
   (setq paradox-github-token t))
 
-(use-package projectile
-  :commands projectile-global-mode
-  :ensure t
-  :init
-  (add-hook 'after-init-hook #'projectile-global-mode)
-  :config
-  (setq projectile-enable-caching t))
-
 (use-package recentf
   :commands recentf-mode
   :init
@@ -583,7 +575,7 @@
 
 ;;; * Prodigy
 (use-package prodigy
-  :bind (("C-c P" . prodigy))
+  :bind (("C-c p" . prodigy))
   :commands (prodigy prodigy-define-service)
   :ensure t
   :config
