@@ -91,7 +91,7 @@ of modes."
 ;; Highlight TODOs.
 (defun my-hl-todos ()
   (font-lock-add-keywords
-   nil '(("\\<\\(TODO\\|XXX\\):" 1 font-lock-warning-face t))))
+   nil '(("\\<\\(TODO\\|NOTE\\|XXX\\):" 1 font-lock-warning-face t))))
 (add-hook 'prog-mode-hook #'my-hl-todos)
 
 
