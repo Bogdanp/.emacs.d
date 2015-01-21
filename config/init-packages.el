@@ -378,10 +378,6 @@
             (org-paste-subtree (+ 1 archive-level))))))
 
 
-    ;;; Habits
-    (require 'org-habit)
-
-
     ;;; Text editing
     (add-hook 'org-mode-hook #'auto-fill-mode)
 
