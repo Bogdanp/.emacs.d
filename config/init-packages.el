@@ -162,7 +162,7 @@
     (setq undo-tree-visualizer-timestamps t
           undo-tree-visualizer-diffs t
           undo-tree-history-directory-alist `((".*" . ,local-temp-dir))
-          undo-tree-auto-save-history nil)))
+          undo-tree-auto-save-history t)))
 
 
 ;;; * Git
