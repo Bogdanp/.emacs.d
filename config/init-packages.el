@@ -171,7 +171,8 @@
   :diminish magit-auto-revert-mode
   :ensure t
   :init
-  (fullframe magit-status magit-mode-quit-window))
+  (progn
+    (fullframe magit-status magit-mode-quit-window)))
 
 (use-package git-gutter
   :commands global-git-gutter-mode
