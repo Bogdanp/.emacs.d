@@ -4,6 +4,7 @@
            ("C--"     . text-scale-decrease)
            ("C-="     . text-scale-increase)
            ("C-+"     . text-scale-increase)
+           ("M-/"     . hippie-expand)
            ("C-c M-a" . bp-term-toggle))
 
 

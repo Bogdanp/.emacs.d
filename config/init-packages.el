@@ -109,6 +109,10 @@
                (",bc" . bookmark-set)
                (",bl" . list-bookmarks)
 
+               ;; Compilation
+               (",r" . bp-compile-with-default-command)
+               (",R" . bp-compile-with-default-command-reset)
+
                ;; Misc
                (",," . evil-ex-nohighlight)
                (",x" . calc))
@@ -166,7 +170,10 @@
 (use-package magit
   :bind ("C-c m" . magit-status)
   :diminish magit-auto-revert-mode
-  :ensure t)
+  :ensure t
+  :init
+  (progn
+    (fullframe magit-status magit-mode-quit-window)))
 
 (use-package git-gutter
   :commands global-git-gutter-mode
@@ -217,7 +224,19 @@
   (add-hook 'after-init-hook #'flx-ido-mode))
 
 (use-package ibuffer
-  :bind ("C-x C-b" . ibuffer))
+  :bind ("C-x C-b" . ibuffer)
+  :init
+  (progn
+    (defun my-ibuffer-hook ()
+      (ibuffer-vc-set-filter-groups-by-vc-root)
+      (unless (eq ibuffer-sorting-mode 'alphabetic)
+        (ibuffer-do-sort-by-alphabetic)))
+
+    (add-hook 'ibuffer-hook #'my-ibuffer-hook)))
+
+(use-package ibuffer-vc
+  :commands ibuffer-vc-set-filter-groups-by-vc-root
+  :ensure t)
 
 (use-package imenu
   :bind ("C-x C-i" . imenu))
@@ -375,18 +394,14 @@
             (org-paste-subtree (+ 1 archive-level))))))
 
 
-    ;;; Habits
-    (require 'org-habit)
-
-
     ;;; Text editing
     (add-hook 'org-mode-hook #'auto-fill-mode)
 
 
     ;;; Bindings
     (bind-keys :map evil-normal-state-map
-               (",a" . org-agenda)
-               (",c" . org-capture)
+               (",a"  . org-agenda)
+               (",c"  . org-capture)
                (",ta" . bp-org-archive-task-at-point))))
 
 
@@ -457,24 +472,24 @@
 
 ;;; * Flycheck
 (use-package flycheck
-  :commands (flycheck-mode flycheck-define-checker)
+  :commands flycheck-mode
   :ensure t
   :config
   (progn
-    (add-hook 'prog-mode-hook #'flycheck-mode))
+    (add-hook 'prog-mode-hook #'flycheck-mode)
 
-  (setq-default flycheck-disabled-checkers '(emacs-lisp
-                                             emacs-lisp-checkdoc
-                                             haskell-ghc
-                                             html-tidy))
+    (setq-default flycheck-disabled-checkers '(emacs-lisp
+                                               emacs-lisp-checkdoc
+                                               haskell-ghc
+                                               html-tidy))
 
-  (flycheck-define-checker jsxhint-checker
-    "A JSX syntax and style checker based on JSXHint."
+    (flycheck-define-checker jsxhint-checker
+      "A JSX syntax and style checker based on JSXHint."
 
-    :command ("jsxhint" source-inplace)
-    :error-patterns
-    ((error line-start (1+ nonl) ": line " line ", col " column ", " (message) line-end))
-    :modes (web-mode)) )
+      :command ("jsxhint" source-inplace)
+      :error-patterns
+      ((error line-start (1+ nonl) ": line " line ", col " column ", " (message) line-end))
+      :modes (web-mode))))
 
 (use-package flycheck-haskell
   :commands flycheck-haskell-setup
@@ -525,6 +540,10 @@
   :defer t
   :ensure t)
 
+(use-package fullframe
+  :commands (fullframe fullframe/maybe-restore-configuration)
+  :ensure t)
+
 (use-package fuzzy
   :defer t
   :ensure t)
@@ -534,14 +553,6 @@
   :ensure t
   :config
   (setq paradox-github-token t))
-
-(use-package projectile
-  :commands projectile-global-mode
-  :ensure t
-  :init
-  (add-hook 'after-init-hook #'projectile-global-mode)
-  :config
-  (setq projectile-enable-caching t))
 
 (use-package recentf
   :commands recentf-mode
@@ -584,7 +595,7 @@
 
 ;;; * Prodigy
 (use-package prodigy
-  :bind (("C-c P" . prodigy))
+  :bind (("C-c p" . prodigy))
   :commands (prodigy prodigy-define-service)
   :ensure t
   :config

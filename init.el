@@ -3,6 +3,7 @@
 ;; EMACS' default GC threshold is <1MB. Give it 200MB instead.
 (setq gc-cons-threshold 200000000)
 
+
 ;;; auto-compile
 (setq load-prefer-newer t)
 

@@ -8,6 +8,50 @@
 ;; Follow compilation output.
 (setq compilation-scroll-output t)
 
+;; Make it easier to compile shit in one key press.
+(defconst bp-compile-with-default-command--buffer-name "*bp-default-compilation*"
+  "The name of the default-command-compilation buffer.")
+(defconst bp-compile-with-default-command--buffer-delay 0.25
+  "How long to wait until successful compilation buffers are closed.")
+
+(defvar bp-compile-with-default-command--command nil
+  "The current compilation command. The user is prompted for a command
+when this is `nil`.")
+
+(defun bp-compile-with-default-command--finish-hook (buffer string)
+  (when (and (string-match "finished" string)
+             (string-equal (buffer-name buffer)
+                           bp-compile-with-default-command--buffer-name)
+             (not (with-current-buffer buffer
+                    (goto-char 1)
+                    (search-forward "warning" nil t))))
+    (run-with-timer bp-compile-with-default-command--buffer-delay nil
+                    (lambda (buffer)
+                      (bury-buffer buffer)
+                      (switch-to-prev-buffer (get-buffer-window buffer) 'kill))
+                    buffer)))
+
+(defun bp-compile-with-default-command--impl ()
+  (let* ((compilation-buffer-name-function
+          (lambda (_)
+            bp-compile-with-default-command--buffer-name)))
+    (compile bp-compile-with-default-command--command)
+    (add-hook 'compilation-finish-functions
+              #'bp-compile-with-default-command--finish-hook)))
+
+(defun bp-compile-with-default-command ()
+  (interactive)
+  (if bp-compile-with-default-command--command
+      (bp-compile-with-default-command--impl)
+    (setq bp-compile-with-default-command--command
+          (read-string "Compilation command: "))
+    (bp-compile-with-default-command--impl)))
+
+(defun bp-compile-with-default-command-reset ()
+  (interactive)
+  (setq bp-compile-with-default-command--command nil)
+  (bp-compile-with-default-command))
+
 
 ;;; Editing
 ;; Never use tabs.
@@ -43,6 +87,12 @@ of modes."
 
 ;; Make fill-paragraph more useful.
 (setq sentence-end-double-space nil)
+
+;; Highlight TODOs.
+(defun my-hl-todos ()
+  (font-lock-add-keywords
+   nil '(("\\<\\(TODO\\|NOTE\\|XXX\\):" 1 font-lock-warning-face t))))
+(add-hook 'prog-mode-hook #'my-hl-todos)
 
 
 ;;; ERC
