@@ -1,0 +1,24 @@
+[submodule "auto-compile"]
+	path = vendor/auto-compile
+	url = https://github.com/tarsius/auto-compile
+[submodule "packed"]
+	path = vendor/packed
+	url = https://github.com/tarsius/packed
+[submodule "use-package"]
+	path = vendor/use-package
+	url = https://github.com/jwiegley/use-package
+[submodule "dash"]
+	path = vendor/dash
+	url = https://github.com/magnars/dash.el
+[submodule "evil"]
+	path = vendor/evil
+	url = https://github.com/Bogdanp/evil.git
+[submodule "robot-mode"]
+	path = vendor/robot-mode
+	url = https://github.com/sakari/robot-mode
+[submodule "better-default-theme"]
+	path = vendor/better-default-theme
+	url = https://github.com/Bogdanp/better-default-theme.el
+[submodule "vendor/twilight-anti-bright-theme"]
+	path = vendor/twilight-anti-bright-theme
+	url = git@github.com:Bogdanp/twilight-anti-bright-theme
