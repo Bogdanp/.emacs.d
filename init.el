@@ -113,12 +113,20 @@
   :config
   (progn
     (use-package ace-jump-mode
+      :disabled t
       :diminish ace-jump-mode
       :ensure t
       :init
       (bind-keys :map evil-normal-state-map
                  ("C-c C-SPC"   . evil-ace-jump-word-mode)
-                 ("C-c C-S-SPC" . evil-ace-jump-char-mode)))
+                 ("C-c M-SPC" . evil-ace-jump-char-mode)))
+
+    (use-package avy
+      :ensure t
+      :init
+      (bind-keys :map evil-normal-state-map
+                 ("C-c C-SPC"   . avy-goto-char)
+                 ("C-c M-SPC" . avy-goto-line)))
 
     ;;; Fixes
     ;; Default to EMACS mode in these modes.
