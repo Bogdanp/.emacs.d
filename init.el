@@ -1182,6 +1182,21 @@
                (",f" . projectile-find-file-dwim)
                (",p" . projectile-switch-project))))
 
+(use-package eshell
+  :preface
+  (progn
+    (defun eshell-clear-buffer ()
+      "Clear terminal"
+      (interactive)
+      (let ((inhibit-read-only t))
+        (erase-buffer)
+        (eshell-send-input)))
+
+    (defun my-eshell-mode-hook ()
+      (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
+  :config
+  (add-hook 'eshell-mode-hook #'my-eshell-mode-hook))
+
 ;;; Config
 ;; Initialize all of the other settings.
 (add-to-list 'load-path (locate-user-emacs-file "config"))
