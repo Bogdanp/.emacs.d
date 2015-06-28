@@ -1197,6 +1197,12 @@
   :config
   (add-hook 'eshell-mode-hook #'my-eshell-mode-hook))
 
+(use-package dash-at-point
+  :ensure t
+  :config
+  (bind-keys :map evil-normal-state-map
+             (",d" . dash-at-point)))
+
 ;;; Config
 ;; Initialize all of the other settings.
 (add-to-list 'load-path (locate-user-emacs-file "config"))
