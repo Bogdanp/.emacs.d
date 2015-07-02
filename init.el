@@ -272,6 +272,7 @@
   :bind ("C-c m" . magit-status)
   :ensure t
   :init
+  (setq magit-revert-buffers t)
   (setq magit-last-seen-setup-instructions "1.4.0")
   :config
   (progn
