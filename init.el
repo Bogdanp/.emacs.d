@@ -102,6 +102,11 @@
     (defun my-default-to-emacs-mode-hook ()
       (evil-emacs-state))
 
+    (defun my-toggle-emacs-mode-hook ()
+      (if (equal evil-state 'emacs)
+          (evil-normal-state)
+        (evil-emacs-state)))
+
     (defun my-minibuffer-setup-hook-for-evil ()
       (local-set-key (kbd "C-w") 'backward-kill-word))
 
@@ -180,6 +185,11 @@
                     git-commit-setup-hook
                     git-timemachine-mode-hook))
       (add-hook hook #'my-default-to-emacs-mode-hook))
+
+
+    ;; Toggle between emacs mode whenever these hooks are invoked.
+    (dolist (hook '(magit-blame-mode-hook))
+      (add-hook hook #'my-toggle-emacs-mode-hook))
 
     ;; Make C-w work in the minibuffer.
     (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook-for-evil)
