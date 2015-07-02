@@ -273,6 +273,7 @@
   :ensure t
   :init
   (setq magit-revert-buffers t)
+  (setq magit-completing-read-function #'magit-ido-completing-read)
   (setq magit-last-seen-setup-instructions "1.4.0")
   :config
   (progn
