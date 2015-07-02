@@ -147,7 +147,18 @@
                     inferior-python-mode
                     Info-mode
                     macrostep-mode
+                    magit-mode
+                    magit-blame-mode
+                    magit-cherry-mode
+                    magit-diff-mode
+                    magit-log-mode
                     magit-popup-mode
+                    magit-reflog-mode
+                    magit-refs-mode
+                    magit-revision-mode
+                    magit-stash-mode
+                    magit-stashes-mode
+                    magit-status-mode
                     monky-mode
                     special-mode
                     paradox-commit-list-mode
