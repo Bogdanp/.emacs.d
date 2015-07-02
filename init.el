@@ -141,14 +141,13 @@
                     eww-mode
                     eww-bookmark-mode
                     eww-history-mode
-                    git-commit-mode
-                    git-rebase-mode
                     grep-mode
                     haskell-interactive-mode
                     help-mode
                     inferior-python-mode
                     Info-mode
                     macrostep-mode
+                    magit-popup-mode
                     monky-mode
                     special-mode
                     paradox-commit-list-mode
@@ -167,6 +166,7 @@
 
     ;; Default to EMACS mode whenever these hooks are invoked.
     (dolist (hook '(flycheck-error-list-mode-hook
+                    git-commit-setup-hook
                     git-timemachine-mode-hook))
       (add-hook hook #'my-default-to-emacs-mode-hook))
 
@@ -249,10 +249,8 @@
 
 (use-package magit
   :bind ("C-c m" . magit-status)
-  :diminish magit-auto-revert-mode
   :ensure t
   :init
-  (setq magit-turn-on-auto-revert-mode nil)
   (setq magit-last-seen-setup-instructions "1.4.0")
   :config
   (progn
