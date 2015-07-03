@@ -1224,6 +1224,12 @@
   (bind-keys :map evil-normal-state-map
              (",d" . dash-at-point)))
 
+(use-package elm-mode
+  :load-path "vendor/elm-mode"
+  :config
+  (progn
+    (setq elm-indent-offset 2)))
+
 ;;; Config
 ;; Initialize all of the other settings.
 (add-to-list 'load-path (locate-user-emacs-file "config"))

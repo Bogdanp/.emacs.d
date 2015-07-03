@@ -22,3 +22,6 @@
 [submodule "vendor/twilight-anti-bright-theme"]
 	path = vendor/twilight-anti-bright-theme
 	url = git@github.com:Bogdanp/twilight-anti-bright-theme
+[submodule "vendor/elm-mode"]
+	path = vendor/elm-mode
+	url = git@github.com:Bogdanp/elm-mode
