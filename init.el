@@ -567,8 +567,8 @@
                                ac-source-dictionary))
 
     (setq ac-auto-start 5
-          ac-auto-show-menu 0.15
-          ac-quick-help-delay 0.15
+          ac-auto-show-menu 0.5
+          ac-quick-help-delay 0.5
 
           ac-use-menu-map t
           ac-use-fuzzy t
