@@ -168,6 +168,7 @@
                     special-mode
                     paradox-commit-list-mode
                     paradox-menu-mode
+                    process-menu-mode
                     prodigy-mode
                     sbt-mode
                     swift-repl-mode
