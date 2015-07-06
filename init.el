@@ -141,11 +141,13 @@
                     debugger-mode
                     diff-mode
                     dired-mode
+                    elm-interactive-mode
                     erc-mode
                     eshell-mode
                     eww-mode
                     eww-bookmark-mode
                     eww-history-mode
+                    git-rebase-mode
                     grep-mode
                     haskell-interactive-mode
                     help-mode
@@ -157,7 +159,10 @@
                     magit-cherry-mode
                     magit-diff-mode
                     magit-log-mode
+                    magit-log-select-mode
                     magit-popup-mode
+                    magit-popup-help-mode
+                    magit-popup-sequence-mode
                     magit-reflog-mode
                     magit-refs-mode
                     magit-revision-mode
