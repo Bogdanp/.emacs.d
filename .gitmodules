@@ -25,3 +25,6 @@
 [submodule "vendor/elm-mode"]
 	path = vendor/elm-mode
 	url = git@github.com:Bogdanp/elm-mode
+[submodule "vendor/emms"]
+	path = vendor/emms
+	url = git://git.sv.gnu.org/emms.git

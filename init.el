@@ -142,6 +142,8 @@
                     diff-mode
                     dired-mode
                     elm-interactive-mode
+                    emms-browser-mode
+                    emms-playlist-mode
                     erc-mode
                     eshell-mode
                     eww-mode
@@ -1231,10 +1233,31 @@
              (",d" . dash-at-point)))
 
 (use-package elm-mode
-  :load-path "vendor/elm-mode"
+  :load-path "vendor/elm-mode")
+
+(use-package hydra
+  :ensure t
+  :commands (defhydra))
+
+(use-package emms
+  :load-path "vendor/emms/lisp"
   :config
   (progn
-    (setq elm-indent-offset 2)))
+    (require 'emms-setup)
+    (require 'emms-info-libtag)
+
+    (setq emms-info-functions '(emms-info-libtag))
+
+    (emms-all)
+    (emms-default-players)
+
+    (defhydra hydra-emms (global-map "C-c M-e")
+      "emms"
+      ("b" emms-smart-browse "browse")
+      ("N" emms-next "next")
+      ("P" emms-prev "prev")
+      ("p" emms-pause "play/pause")
+      ("c" nil "cancel"))))
 
 ;;; Config
 ;; Initialize all of the other settings.
