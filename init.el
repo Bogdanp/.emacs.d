@@ -1253,9 +1253,9 @@
 
     (defhydra hydra-emms (global-map "C-c M-e")
       "emms"
-      ("b" emms-smart-browse "browse")
+      ("b" emms-smart-browse "browse" :exit t)
       ("N" emms-next "next")
-      ("P" emms-prev "prev")
+      ("P" emms-previous "prev")
       ("p" emms-pause "play/pause")
       ("c" nil "cancel"))))
 
