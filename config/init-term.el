@@ -134,8 +134,7 @@ G is where data gets moved from."
 (defun bp-term-clipboard-paste ()
   "Paste the contents of the clipboard into the current term."
   (interactive)
-  (term-send-raw-string (get-clipboard-value)))
-
+  (term-send-raw-string (x-get-clipboard)))
 
 ;;; Server
 (defun my-server-visit-hook-for-term ()
