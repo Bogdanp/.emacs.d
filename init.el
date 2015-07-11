@@ -1235,30 +1235,6 @@
 (use-package elm-mode
   :load-path "vendor/elm-mode")
 
-(use-package hydra
-  :ensure t
-  :commands (defhydra))
-
-(use-package emms
-  :load-path "vendor/emms/lisp"
-  :config
-  (progn
-    (require 'emms-setup)
-    (require 'emms-info-libtag)
-
-    (setq emms-info-functions '(emms-info-libtag))
-
-    (emms-all)
-    (emms-default-players)
-
-    (defhydra hydra-emms (global-map "C-c M-e")
-      "emms"
-      ("b" emms-smart-browse "browse" :exit t)
-      ("N" emms-next "next")
-      ("P" emms-previous "prev")
-      ("p" emms-pause "play/pause")
-      ("c" nil "cancel"))))
-
 ;;; Config
 ;; Initialize all of the other settings.
 (add-to-list 'load-path (locate-user-emacs-file "config"))
