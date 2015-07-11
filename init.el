@@ -52,6 +52,7 @@
 (with-no-warnings
   (require 'cl)
   (require 'package))
+
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (add-to-list 'package-archives '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
 (package-initialize)
@@ -59,20 +60,21 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
+(defun bp-remove-themes ()
+  "Remove all of the themes that are currently enabled."
+  (interactive)
+  (mapcar #'disable-theme custom-enabled-themes))
+
+(defun bp-load-theme ()
+  "Load a theme interactively, removing all other themese first."
+  (interactive)
+  (bp-remove-themes)
+  (call-interactively #'load-theme))
 
 (when (display-graphic-p)
   (use-package server
     :unless server-running-p
     :config (server-start))
-
-  (defun bp-remove-themes ()
-    (interactive)
-    (mapcar #'disable-theme custom-enabled-themes))
-
-  (defun bp-load-theme ()
-    (interactive)
-    (bp-remove-themes)
-    (call-interactively #'load-theme))
 
   (use-package twilight-anti-bright-theme
     :load-path "vendor/twilight-anti-bright-theme"
@@ -81,18 +83,18 @@
   (use-package better-default-theme
     :disabled t
     :load-path "vendor/better-default-theme"
-    :config (load-theme 'better-default t))
+    :config (load-theme 'better-default t)))
 
-  (use-package smart-mode-line
-    :commands (sml/setup)
-    :ensure t
-    :init
-    (progn
-      (setq sml/no-confirm-load-theme t)
-      (sml/setup)
+(use-package smart-mode-line
+  :commands (sml/setup)
+  :ensure t
+  :init
+  (progn
+    (setq sml/no-confirm-load-theme t)
+    (sml/setup)
 
-      (add-to-list 'sml/replacer-regexp-list '("^~/Work/" ":W:") t)
-      (add-to-list 'sml/replacer-regexp-list '("^~/sandbox/" ":s:") t))))
+    (add-to-list 'sml/replacer-regexp-list '("^~/Work/" ":W:") t)
+    (add-to-list 'sml/replacer-regexp-list '("^~/sandbox/" ":s:") t)))
 
 (use-package evil
   :load-path "vendor/evil"
@@ -117,15 +119,6 @@
   (add-hook 'after-init-hook #'evil-mode)
   :config
   (progn
-    (use-package ace-jump-mode
-      :disabled t
-      :diminish ace-jump-mode
-      :ensure t
-      :init
-      (bind-keys :map evil-normal-state-map
-                 ("C-c C-SPC"   . evil-ace-jump-word-mode)
-                 ("C-c M-SPC" . evil-ace-jump-char-mode)))
-
     (use-package avy
       :ensure t
       :init
@@ -286,23 +279,8 @@
       :config
       (fullframe magit-status magit-mode-quit-window))))
 
-(use-package git-gutter
-  :disabled t
-  :commands global-git-gutter-mode
-  :diminish git-gutter-mode
-  :ensure t
-  :init
-  (add-hook 'after-init-hook #'global-git-gutter-mode)
-  :config
-  (setq git-gutter:hide-gutter t))
-
 (use-package git-timemachine
   :commands git-timemachine
-  :ensure t)
-
-(use-package monky
-  :disabled t
-  :commands monky-status
   :ensure t)
 
 (use-package erc
@@ -576,14 +554,6 @@
   :ensure t
   :config
   (setq company-idle-delay 0.25))
-
-(use-package yasnippet
-  :disabled t
-  :commands (yas-minor-mode yas-reload-all)
-  :diminish yas-minor-mode
-  :ensure t
-  :config
-  (yas-reload-all))
 
 (use-package flycheck
   :commands flycheck-mode
@@ -864,10 +834,6 @@
    '(shm-use-hdevtools nil)
    '(shm-use-presentation-mode t)))
 
-(use-package purescript-mode
-  :ensure t
-  :mode "\\.purs\\'")
-
 (use-package paredit
   :diminish paredit-mode
   :ensure t
@@ -882,17 +848,6 @@
 (use-package markdown-mode
   :mode "\\.md\\'"
   :ensure t)
-
-(use-package nim-mode
-  :disabled t
-  :mode "\\.nim\\'"
-  :ensure t
-  :config
-  (progn
-    (use-package ac-nim
-      :commands ac-nim-enable
-      :ensure t)
-    (add-hook 'nim-mode-hook #'ac-nim-enable)))
 
 (use-package tuareg
   :mode ("\\.mli?\\'" . tuareg-mode)
@@ -980,43 +935,6 @@
 
     (add-hook 'python-mode-hook #'my-python-mode-hook)))
 
-(use-package jedi
-  :disabled t
-  :commands jedi:setup
-  :ensure t
-  :preface
-  (eval-when-compile
-    (declare-function jedi:start-server "jedi-core")
-    (declare-function jedi:stop-server "jedi-core"))
-  :init
-  (add-hook 'python-mode-hook #'jedi:setup)
-  :config
-  (progn
-    (defun jedi:workon (path)
-      (interactive "fVirtual env: ")
-      (jedi:stop-server)
-      (setq jedi:server-args
-            `("--virtual-env" ,(expand-file-name path)))
-      (jedi:install-server-block)
-      (jedi:start-server)
-      (jedi:setup))
-
-    (defun jedi:workon-default ()
-      (interactive)
-      (jedi:stop-server)
-      (setq jedi:server-args nil)
-      (jedi:start-server)
-      (jedi:setup))
-
-    (bind-keys :map python-mode-map
-               ("TAB" . jedi:complete))
-
-    (bind-keys :map evil-normal-state-map
-               (",jw" . jedi:workon)
-               (",jd" . jedi:default))
-
-    (setq jedi:complete-on-dot t
-          jedi:tooltip-method nil)))
 
 (use-package scala-mode2
   :mode (("\\.scala\\'" . scala-mode)
@@ -1043,18 +961,6 @@
                ("C-c ."   . ensime-edit-definition)
                ("C-c ,"   . ensime-pop-find-definition-stack))))
 
-(use-package sml-mode
-  :mode "\\.\\(sml\\|sig\\)\\'"
-  :ensure t)
-
-(use-package swift-mode
-  :disabled t
-  :mode "\\.swift\\'"
-  :ensure t
-  :config
-  (progn
-    (add-to-list 'flycheck-checkers 'swift)))
-
 (use-package less-css-mode
   :mode "\\.less\\'"
   :ensure t
@@ -1077,10 +983,6 @@
       (setq-local css-indent-offset 2))
 
     (add-hook 'scss-mode-hook 'my-scss-mode-hook)))
-
-(use-package urweb-mode
-  :load-path "/usr/local/share/emacs/site-lisp/urweb-mode"
-  :mode "\\.ur[ps]?\\'")
 
 (use-package web-mode
   :ensure t
@@ -1221,6 +1123,56 @@
 (use-package elm-mode
   :load-path "vendor/elm-mode"
   :mode ("\\.elm\\'" . elm-mode))
+
+
+;;; Disabled packages
+(use-package monky
+  :disabled t
+  :commands monky-status
+  :ensure t)
+
+(use-package nim-mode
+  :disabled t
+  :mode "\\.nim\\'"
+  :ensure t
+  :config
+  (progn
+    (use-package ac-nim
+      :commands ac-nim-enable
+      :ensure t)
+    (add-hook 'nim-mode-hook #'ac-nim-enable)))
+
+(use-package purescript-mode
+  :disabled t
+  :ensure t
+  :mode "\\.purs\\'")
+
+(use-package sml-mode
+  :disabled t
+  :mode "\\.\\(sml\\|sig\\)\\'"
+  :ensure t)
+
+(use-package swift-mode
+  :disabled t
+  :mode "\\.swift\\'"
+  :ensure t
+  :config
+  (progn
+    (add-to-list 'flycheck-checkers 'swift)))
+
+(use-package urweb-mode
+  :disabled t
+  :load-path "/usr/local/share/emacs/site-lisp/urweb-mode"
+  :mode "\\.ur[ps]?\\'")
+
+(use-package yasnippet
+  :disabled t
+  :commands (yas-minor-mode yas-reload-all)
+  :diminish yas-minor-mode
+  :ensure t
+  :config
+  (yas-reload-all))
+
 
 ;;; Config
 ;; Initialize all of the other settings.
