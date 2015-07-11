@@ -272,19 +272,15 @@
             undo-tree-history-directory-alist `((".*" . ,local-temp-dir))
             undo-tree-auto-save-history t))))
 
-(use-package macrostep
-  :bind ("C-c e m" . macrostep-expand)
-  :ensure t)
-
 (use-package magit
   :bind ("C-c m" . magit-status)
   :ensure t
-  :init
-  (setq magit-revert-buffers t)
-  (setq magit-completing-read-function #'magit-ido-completing-read)
-  (setq magit-last-seen-setup-instructions "1.4.0")
   :config
   (progn
+    (setq magit-revert-buffers t)
+    (setq magit-completing-read-function #'magit-ido-completing-read)
+    (setq magit-last-seen-setup-instructions "1.4.0")
+
     (use-package fullframe
       :ensure t
       :config
@@ -337,33 +333,25 @@
   :init
   (add-hook 'after-init-hook #'ido-mode)
   :config
-  (setq ido-enable-prefix nil
-        ido-auto-merge-work-directories-length nil
-        ido-create-new-buffer 'always
-        ido-use-filename-at-point 'guess
-        ido-use-virtual-buffers t
-        ido-handle-duplicate-virtual-buffers 2
-        ido-max-prospects 10
-        ido-ignore-extensions t))
+  (progn
+    (use-package ido-ubiquitous
+      :ensure t)
 
-(use-package ido-ubiquitous
-  :commands ido-ubiquitous-mode
-  :ensure t
-  :init
-  (add-hook 'after-init-hook #'ido-ubiquitous-mode))
+    (use-package ido-vertical-mode
+      :ensure t)
 
-(use-package ido-vertical-mode
-  :commands ido-vertical-mode
-  :ensure t
-  :init
-  (add-hook 'after-init-hook #'ido-vertical-mode))
+    (setq ido-enable-prefix nil
+          ido-auto-merge-work-directories-length nil
+          ido-create-new-buffer 'always
+          ido-use-filename-at-point 'guess
+          ido-use-virtual-buffers t
+          ido-handle-duplicate-virtual-buffers 2
+          ido-max-prospects 10
+          ido-ignore-extensions t)
 
-(use-package flx-ido
-  :disabled t
-  :commands flx-ido-mode
-  :ensure t
-  :init
-  (add-hook 'after-init-hook #'flx-ido-mode))
+
+    (ido-ubiquitous-mode +1)
+    (ido-vertical-mode +1)))
 
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer)
@@ -667,13 +655,14 @@
   :config
   (progn
     (setq recentf-save-file (locate-user-emacs-file "recentf")
-          recentf-max-saved-items 1000
-          recentf-max-menu-items 500)
+          recentf-max-saved-items 100
+          recentf-max-menu-items 50
+          recentf-auto-cleanup 60)
 
     (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")))
 
 (use-package restclient
-  :commands restclient-mode
+  :mode ("\\.http\\'" . restclient-mode)
   :ensure t)
 
 (use-package savehist
@@ -685,17 +674,14 @@
         savehist-additional-variables '(search ring regexp-search-ring)
         savehist-autosave-interval 60
 
-        history-length 1000))
+        history-length 10000))
 
 (use-package saveplace
-  :defer t
   :config
   (setq-default save-place t))
 
 (use-package uniquify
-  :defer t
   :config
-  ;; /path/to/buffer instead of buffer<n>.
   (setq uniquify-buffer-name-style 'forward))
 
 (use-package prodigy
@@ -1233,7 +1219,8 @@
              (",d" . dash-at-point)))
 
 (use-package elm-mode
-  :load-path "vendor/elm-mode")
+  :load-path "vendor/elm-mode"
+  :mode ("\\.elm\\'" . elm-mode))
 
 ;;; Config
 ;; Initialize all of the other settings.
