@@ -28,11 +28,11 @@
 ;;; UI
 ;; Position and resize frame.
 (when (window-system)
-  (add-to-list 'default-frame-alist '(font . "Fira Mono-10:antialias=none"))
+  (add-to-list 'default-frame-alist '(font . "Fira Mono-12:antialias=none"))
   (add-to-list 'default-frame-alist '(top . 32))
   (add-to-list 'default-frame-alist '(left . 10))
-  (add-to-list 'default-frame-alist '(width . 233))
-  (add-to-list 'default-frame-alist '(height . 69)))
+  (add-to-list 'default-frame-alist '(width . 199))
+  (add-to-list 'default-frame-alist '(height . 59)))
 
 ;; Remove GUI elements.
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
@@ -76,7 +76,12 @@
     :unless server-running-p
     :config (server-start))
 
+  (use-package twilight-bright-theme
+    :ensure t
+    :config (load-theme 'twilight-bright t))
+
   (use-package twilight-anti-bright-theme
+    :disabled t
     :load-path "vendor/twilight-anti-bright-theme"
     :config (load-theme 'twilight-anti-bright t))
 
@@ -91,6 +96,7 @@
   :init
   (progn
     (setq sml/no-confirm-load-theme t)
+    (setq sml/theme nil)
     (sml/setup)
 
     (add-to-list 'sml/replacer-regexp-list '("^~/Work/" ":W:") t)
