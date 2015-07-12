@@ -141,6 +141,7 @@
                     diff-mode
                     dired-mode
                     elm-interactive-mode
+                    elm-package-mode
                     erc-mode
                     eshell-mode
                     eww-mode
@@ -549,7 +550,7 @@
           ac-quick-help-delay 0.5
 
           ac-use-menu-map t
-          ac-use-fuzzy t
+          ac-use-fuzzy nil
           ac-use-quick-help t)))
 
 (use-package company
@@ -1214,27 +1215,8 @@ switching to the new buffer."
 
     (bind-keys ("C-c M-a" . bp-term-toggle))))
 
-(use-package go-mode
-  :disabled t
-  :mode ("\\.go\\'" . go-mode)
-  :ensure t
-  :preface
-  (defun my-go-mode-hook ()
-    (use-package go-autocomplete
-      :ensure t
-      :init
-      (add-to-list 'ac-sources 'ac-source-go))
-
-    (setq gofmt-command "goimports")
-    (add-hook 'before-save-hook #'gofmt-before-save))
-  :config
-  (progn
-    (add-hook 'go-mode-hook #'my-go-mode-hook)
-
-    (bind-keys :map go-mode-map
-               ("C-c C-d" . godoc)
-               ("C-c C-f" . gofmt)
-               ("C-c C-g" . go-goto-imports))))
+(use-package cask
+  :ensure t)
 
 (use-package hippie-expand
   :bind (("M-/" . hippie-expand)))
@@ -1282,6 +1264,28 @@ switching to the new buffer."
 
 
 ;;; Disabled packages
+(use-package go-mode
+  :disabled t
+  :mode ("\\.go\\'" . go-mode)
+  :ensure t
+  :preface
+  (defun my-go-mode-hook ()
+    (use-package go-autocomplete
+      :ensure t
+      :init
+      (add-to-list 'ac-sources 'ac-source-go))
+
+    (setq gofmt-command "goimports")
+    (add-hook 'before-save-hook #'gofmt-before-save))
+  :config
+  (progn
+    (add-hook 'go-mode-hook #'my-go-mode-hook)
+
+    (bind-keys :map go-mode-map
+               ("C-c C-d" . godoc)
+               ("C-c C-f" . gofmt)
+               ("C-c C-g" . go-goto-imports))))
+
 (use-package monky
   :disabled t
   :commands monky-status
