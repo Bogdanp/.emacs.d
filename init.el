@@ -129,7 +129,7 @@
       :ensure t
       :init
       (bind-keys :map evil-normal-state-map
-                 ("C-c C-SPC"   . avy-goto-char)
+                 ("C-c C-SPC" . avy-goto-char)
                  ("C-c M-SPC" . avy-goto-line)))
 
     ;;; Fixes
@@ -662,23 +662,8 @@
 (use-package prodigy
   :bind (("C-c p" . prodigy))
   :ensure t
-  :preface
-  (eval-when-compile
-    (declare-function prodigy-find-service "prodigy")
-    (declare-function prodigy-start-service "prodigy")
-    (declare-function prodigy-service-started-p "prodigy"))
   :config
   (progn
-    (setq bp-prodigy-screenshot-service-env
-          `(("PHANTOMJS_BIN_PATH" "/usr/local/bin/phantomjs")
-            ("PHANTOMJS_CAPTURE_PATH" ,(expand-file-name "~/Work/screenshot-service/phantomjs/capture.js"))))
-
-    (defun bp-prodigy-start-beanstalk& (k)
-      (let ((beanstalkd (prodigy-find-service "beanstalkd")))
-        (if (prodigy-service-started-p beanstalkd)
-            (funcall k)
-          (prodigy-start-service beanstalkd k))))
-
     (defun bp-prodigy-toggle-compilation-mode ()
       (interactive)
       (if (eq major-mode 'compilation-mode)
@@ -700,7 +685,7 @@
   :config
   (progn
     (setq c-default-style "bsd"
-          c-basic-offset 4 )
+          c-basic-offset 4)
 
     ;; Fix indentation.
     (defun my-c-mode-hook ()
