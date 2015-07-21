@@ -1248,6 +1248,10 @@ switching to the new buffer."
   :load-path "vendor/elm-mode"
   :mode ("\\.elm\\'" . elm-mode))
 
+(use-package terraform-mode
+  :ensure t
+  :mode "\\.tf\\'")
+
 
 ;;; Disabled packages
 (use-package go-mode
