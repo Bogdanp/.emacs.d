@@ -437,7 +437,8 @@
      '((haskell . t)
        (latex   . t)
        (python  . t)
-       (sh      . t)))
+       (sh      . t)
+       (dot     . t)))
 
     ;; Make org-babel work w/ these languages.
     (require 'ob-haskell)
