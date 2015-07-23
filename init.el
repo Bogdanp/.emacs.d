@@ -451,8 +451,16 @@
 
 
     ;;; Beamer
+    ;; Based on http://orgmode.org/worg/exporters/beamer/ox-beamer.html
     (require 'ox-beamer)
 
+    (add-to-list 'org-latex-classes
+                 '("beamer"
+                   "\\documentclass\[10pt\]\{beamer\}"
+                   ("\\plain\{%s\}" . "\\plain\{%s\}")
+                   ("\\section\{%s\}" . "\\section*\{%s\}")
+                   ("\\subsection\{%s\}" . "\\subsection*\{%s\}")
+                   ("\\subsubsection\{%s\}" . "\\subsubsection*\{%s\}")))
 
     ;;; Capture
     ;; Where to put captured stuff.
