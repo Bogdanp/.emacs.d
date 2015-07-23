@@ -769,6 +769,9 @@
     (defun my-haskell-mode-hook ()
       (add-to-list 'ac-sources 'ac-source-haskell)
 
+      (set-face-attribute 'shm-current-face nil :background "#EEE")
+      (set-face-attribute 'shm-quarantine-face nil :background "#DDD")
+
       (setq-local indent-line-function #'indent-relative)))
   :config
   (progn
