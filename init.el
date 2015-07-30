@@ -817,6 +817,7 @@
     (add-hook 'haskell-mode-hook #'my-haskell-mode-hook)
     (add-hook 'haskell-mode-hook #'flycheck-haskell-setup)
 
+
     ;;; Bindings
     (bind-keys :map haskell-mode-map
                ("TAB"     . ac-complete)
@@ -991,8 +992,7 @@
   :ensure t
   :mode (("\\.html?\\'" . web-mode)
          ("\\.php\\'"   . web-mode)
-         ("\\.hbs\\'"   . web-mode)
-         ("\\.js\\'"    . web-mode))
+         ("\\.hbs\\'"   . web-mode))
   :config
   (progn
     (setq web-mode-code-indent-offset 4
@@ -1018,6 +1018,10 @@
         (flycheck-mode 1)))
 
     (add-hook 'web-mode-hook #'my-web-mode-hook-for-flycheck)))
+
+(use-package js2-mode
+  :ensure t
+  :mode "\\.js\\'")
 
 (use-package yaml-mode
   :mode "\\.yaml\\'"
