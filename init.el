@@ -1419,8 +1419,8 @@ of modes."
 
 (my-global-hl-line-mode)
 
-;; Don't wrap long lines.
-(setq-default truncate-lines t)
+;; Wrap long lines.
+(setq-default truncate-lines nil)
 
 ;; Highlight matching parens.
 (show-paren-mode +1)
