@@ -278,6 +278,7 @@
     (setq magit-revert-buffers t)
     (setq magit-completing-read-function #'magit-ido-completing-read)
     (setq magit-last-seen-setup-instructions "1.4.0")
+    (setq magit-push-always-verify nil)
 
     (use-package fullframe
       :ensure t
