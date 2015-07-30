@@ -1262,7 +1262,9 @@ switching to the new buffer."
 
 (use-package elm-mode
   :load-path "vendor/elm-mode"
-  :mode ("\\.elm\\'" . elm-mode))
+  :mode ("\\.elm\\'" . elm-mode)
+  :config
+  (add-hook 'elm-mode-hook #'elm-oracle-setup-ac))
 
 (use-package terraform-mode
   :ensure t
