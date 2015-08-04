@@ -125,13 +125,6 @@
   (add-hook 'after-init-hook #'evil-mode)
   :config
   (progn
-    (use-package avy
-      :ensure t
-      :init
-      (bind-keys :map evil-normal-state-map
-                 ("C-c C-SPC" . avy-goto-char)
-                 ("C-c M-SPC" . avy-goto-line)))
-
     ;;; Fixes
     ;; Default to EMACS mode in these modes.
     (dolist (mode '(calendar-mode
@@ -252,6 +245,13 @@
   :ensure t
   :init
   (add-hook 'evil-mode-hook #'global-evil-surround-mode))
+
+(use-package avy
+  :ensure t
+  :config
+  (bind-keys :map evil-normal-state-map
+             ("C-c C-SPC" . avy-goto-char)
+             ("C-c M-SPC" . avy-goto-line)))
 
 (use-package goto-chg
   :commands goto-last-change
@@ -691,7 +691,7 @@
     (use-package bp-prodigy-services)))
 
 (use-package cc-mode
-  :commands c-mode
+  :mode ("\\.c\\'" . c-mode)
   :config
   (progn
     (setq c-default-style "bsd"
@@ -701,48 +701,48 @@
     (defun my-c-mode-hook ()
       (c-set-offset 'arglist-intro '+))
 
-    (add-hook 'c-mode-hook 'my-c-mode-hook)))
-
-(use-package irony
-  :ensure t
-  :preface
-  (progn
-    (defun my-irony-mode-hook ()
-      ;; Disable AC since its irony mode isn't ready yet.
-      (auto-complete-mode -1)
-
-      (eldoc-mode +1)
-      (irony-eldoc +1)
-      (company-mode +1)))
-  :init
-  (add-hook 'c-mode-hook #'irony-mode)
-  :config
-  (progn
-    (use-package company-irony
+    (use-package irony
       :ensure t
+      :commands irony-mode
       :preface
       (progn
-        (defun my-company-irony-setup-hook ()
-          (add-to-list 'company-backends 'company-irony)))
-      :init
+        (defun my-irony-mode-hook ()
+          ;; Disable AC since its irony mode isn't ready yet.
+          (auto-complete-mode -1)
+
+          (eldoc-mode +1)
+          (irony-eldoc +1)
+          (company-mode +1)))
+      :config
       (progn
-        (add-hook 'irony-mode-hook #'my-company-irony-setup-hook)
-        (add-hook 'irony-mode-hook #'company-irony-setup-begin-commands)))
+        (use-package company-irony
+          :ensure t
+          :preface
+          (progn
+            (defun my-company-irony-setup-hook ()
+              (add-to-list 'company-backends 'company-irony)))
+          :init
+          (progn
+            (add-hook 'irony-mode-hook #'my-company-irony-setup-hook)
+            (add-hook 'irony-mode-hook #'company-irony-setup-begin-commands)))
 
-    (use-package flycheck-irony
-      :ensure t
-      :preface
-      (progn
-        (defun my-flycheck-irony-setup-hook ()
-          (add-to-list 'flycheck-checkers 'irony)))
-      :init
-      (add-hook 'irony-mode-hook #'my-flycheck-irony-setup-hook))
+        (use-package flycheck-irony
+          :ensure t
+          :preface
+          (progn
+            (defun my-flycheck-irony-setup-hook ()
+              (add-to-list 'flycheck-checkers 'irony)))
+          :init
+          (add-hook 'irony-mode-hook #'my-flycheck-irony-setup-hook))
 
-    (use-package irony-eldoc
-      :commands irony-eldoc
-      :ensure t)
+        (use-package irony-eldoc
+          :commands irony-eldoc
+          :ensure t)
 
-    (add-hook 'irony-mode-hook #'my-irony-mode-hook)))
+        (add-hook 'irony-mode-hook #'my-irony-mode-hook)))
+
+    (add-hook 'c-mode-hook #'my-c-mode-hook)
+    (add-hook 'c-mode-hook #'irony-mode)))
 
 (use-package dockerfile-mode
   :mode "\\Dockerfile\\'"
