@@ -1217,9 +1217,6 @@ switching to the new buffer."
 
     (bind-keys ("C-c M-a" . bp-term-toggle))))
 
-(use-package cask
-  :ensure t)
-
 (use-package hippie-expand
   :bind (("M-/" . hippie-expand)))
 
@@ -1239,21 +1236,6 @@ switching to the new buffer."
                (",f" . projectile-find-file-dwim)
                (",p" . projectile-switch-project))))
 
-(use-package eshell
-  :preface
-  (progn
-    (defun eshell-clear-buffer ()
-      "Clear terminal"
-      (interactive)
-      (let ((inhibit-read-only t))
-        (erase-buffer)
-        (eshell-send-input)))
-
-    (defun my-eshell-mode-hook ()
-      (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
-  :config
-  (add-hook 'eshell-mode-hook #'my-eshell-mode-hook))
-
 (use-package dash-at-point
   :ensure t
   :config
@@ -1272,6 +1254,26 @@ switching to the new buffer."
 
 
 ;;; Disabled packages
+(use-package eshell
+  :disabled t
+  :preface
+  (progn
+    (defun eshell-clear-buffer ()
+      "Clear terminal"
+      (interactive)
+      (let ((inhibit-read-only t))
+        (erase-buffer)
+        (eshell-send-input)))
+
+    (defun my-eshell-mode-hook ()
+      (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
+  :config
+  (add-hook 'eshell-mode-hook #'my-eshell-mode-hook))
+
+(use-package cask
+  :disabled t
+  :ensure t)
+
 (use-package go-mode
   :disabled t
   :mode ("\\.go\\'" . go-mode)
