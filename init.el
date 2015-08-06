@@ -1118,7 +1118,7 @@ G is where data gets moved from."
     ;;; Term
     (require 'ansi-color)
 
-    (defconst bp-term-shell "zsh"
+    (defconst bp-term-shell "fish"
       "The path to the shell that should be run.")
 
     (defvar bp-term-previous-window-configuration nil
@@ -1251,6 +1251,10 @@ switching to the new buffer."
 (use-package terraform-mode
   :ensure t
   :mode "\\.tf\\'")
+
+(use-package fish-mode
+  :ensure t
+  :mode "\\.fish\\'")
 
 
 ;;; Disabled packages
