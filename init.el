@@ -953,12 +953,18 @@
 (use-package ensime
   :commands ensime-scala-mode-hook
   :ensure t
+  :preface
+  (defun my-scala-mode-hook ()
+    (auto-complete-mode -1)
+    (yas-minor-mode -1)
+    (company-mode +1))
   :init
-  (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
+  (progn
+    (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
+    (add-hook 'scala-mode-hook #'my-scala-mode-hook))
   :config
   (progn
-    (setq ensime-completion-style 'auto-complete
-          ensime-default-java-flags '("-Xms512M" "-Xmx1G")
+    (setq ensime-default-java-flags '("-Xms512M" "-Xmx1G")
           ensime-sbt-command "activator")
 
     (bind-keys :map ensime-mode-map
