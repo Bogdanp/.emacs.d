@@ -1118,7 +1118,7 @@ G is where data gets moved from."
     ;;; Term
     (require 'ansi-color)
 
-    (defconst bp-term-shell "fish"
+    (defconst bp-term-shell "zsh"
       "The path to the shell that should be run.")
 
     (defvar bp-term-previous-window-configuration nil
@@ -1253,6 +1253,7 @@ switching to the new buffer."
   :mode "\\.tf\\'")
 
 (use-package fish-mode
+  :disabled t
   :ensure t
   :mode "\\.fish\\'")
 
