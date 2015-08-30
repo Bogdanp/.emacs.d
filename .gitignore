@@ -1,6 +1,7 @@
 *.elc
 *~undo-tree~
 /*.html
+/*.log
 /*.tex
 /.litable-lists.el
 /.org-id-locations
