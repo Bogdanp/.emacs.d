@@ -755,6 +755,7 @@
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode))
 
 (use-package ghc
+  :disabled t
   :ensure t
   :init
   (add-hook 'haskell-mode-hook #'ghc-init))
@@ -764,34 +765,27 @@
   :ensure t
   :preface
   (progn
-    (eval-when-compile
-      (declare-function haskell-process "haskell-process")
-      (declare-function haskell-process-get-repl-completions "haskell-process"))
-
     (defun my-haskell-mode-hook ()
-      (add-to-list 'ac-sources 'ac-source-haskell)
-
       (set-face-attribute 'shm-current-face nil :background "#EEE")
       (set-face-attribute 'shm-quarantine-face nil :background "#DDD")
 
       (setq-local indent-line-function #'indent-relative)))
   :config
   (progn
-    ;;; Config
-    (setq haskell-process-common-args '("--ghc-option=-ferror-spans"
-                                        "--ghc-option=-fno-warn-name-shadowing"
-                                        "--ghc-option=-fno-warn-orphans"))
+    (require 'haskell-interactive-mode)
+    (require 'haskell-process)
 
     (custom-set-variables
      ;; Haskell Process
-     '(haskell-process-type 'cabal-repl)
-     '(haskell-process-args-cabal-repl `(,@haskell-process-common-args))
+     '(haskell-process-type 'stack-ghci)
+     '(haskell-process-args-stack-ghci
+       '("--ghc-options=-ferror-spans"
+         "--ghc-options=-fno-warn-name-shadowing"
+         "--ghc-options=-fno-warn-orphans"))
+
      '(haskell-process-suggest-remove-import-lines t)
      '(haskell-process-auto-import-loaded-modules t)
      '(haskell-process-log t)
-     '(haskell-process-reload-with-fbytecode nil)
-     '(haskell-process-use-presentation-mode t)
-     '(haskell-process-show-debug-tips nil)
 
      ;; Haskell Interactive
      '(haskell-interactive-mode-do-fast-keys t)
@@ -803,30 +797,10 @@
      '(haskell-notify-p t)
      '(haskell-tags-on-save t))
 
-
-    ;;; Auto complete
-    (defun ac-haskell-candidates (prefix)
-      (when (fboundp #'haskell-process-get-repl-completions)
-        (let ((cs (haskell-process-get-repl-completions (haskell-process) prefix)))
-          (-select (lambda (c) (not (string= "" c))) cs))))
-
-    (ac-define-source haskell
-      '((candidates . (ac-haskell-candidates ac-prefix))))
-
-    (add-hook 'haskell-mode-hook #'interactive-haskell-mode)
     (add-hook 'haskell-mode-hook #'haskell-doc-mode)
-    (add-hook 'haskell-mode-hook #'my-haskell-mode-hook)
-    (add-hook 'haskell-mode-hook #'flycheck-haskell-setup)
-
-
-    ;;; Bindings
-    (bind-keys :map haskell-mode-map
-               ("TAB"     . ac-complete)
-               ("C-c C-z" . haskell-interactive-switch)
-               ("C-c C-l" . haskell-process-load-or-reload)
-               ("C-c C-t" . haskell-process-do-type)
-               ("C-c C-i" . haskell-process-do-info)
-               ("C-c v c" . haskell-cabal-visit-file))))
+    (add-hook 'haskell-mode-hook #'haskell-decl-scan-mode)
+    (add-hook 'haskell-mode-hook #'interactive-haskell-mode)
+    (add-hook 'haskell-mode-hook #'my-haskell-mode-hook)))
 
 (use-package shm
   :ensure t
@@ -836,7 +810,6 @@
   (custom-set-variables
    '(shm-auto-insert-skeletons t)
    '(shm-auto-insert-bangs t)
-   '(shm-use-hdevtools nil)
    '(shm-use-presentation-mode t)))
 
 (use-package paredit
