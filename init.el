@@ -812,6 +812,9 @@
    '(shm-auto-insert-bangs t)
    '(shm-use-presentation-mode t)))
 
+(use-package shakespeare-mode
+  :ensure t)
+
 (use-package paredit
   :diminish paredit-mode
   :ensure t
