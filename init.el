@@ -1250,15 +1250,7 @@ switching to the new buffer."
   (progn
     (require 'calfw-ical)
     (require 'calfw-org)
-
-    (defun bp-open-calendar ()
-      (interactive)
-      (cfw:open-calendar-buffer
-       :contents-sources
-       (list
-        (cfw:org-create-source "DarkGreen")
-        (cfw:ical-create-source "work" (expand-file-name "~/Documents/bogdan@ave81.com.ics") "IndianRed")
-        )))
+    (require 'bp-calfw)
 
     (bind-keys :map evil-normal-state-map
                (",k"  . bp-open-calendar))))
