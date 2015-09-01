@@ -800,7 +800,10 @@
     (add-hook 'haskell-mode-hook #'haskell-doc-mode)
     (add-hook 'haskell-mode-hook #'haskell-decl-scan-mode)
     (add-hook 'haskell-mode-hook #'interactive-haskell-mode)
-    (add-hook 'haskell-mode-hook #'my-haskell-mode-hook)))
+    (add-hook 'haskell-mode-hook #'my-haskell-mode-hook)
+
+    (bind-keys :map haskell-mode-map
+               ("C-c M-l" . haskell-process-reload-devel-main))))
 
 (use-package shm
   :ensure t
