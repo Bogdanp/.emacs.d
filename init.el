@@ -163,6 +163,7 @@
                     magit-stash-mode
                     magit-stashes-mode
                     magit-status-mode
+                    message-mode
                     monky-mode
                     special-mode
                     paradox-commit-list-mode
