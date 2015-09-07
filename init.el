@@ -1244,7 +1244,6 @@ switching to the new buffer."
   :ensure t
   :mode "\\.fish\\'")
 
-
 (use-package calfw
   :ensure t
   :config
@@ -1255,6 +1254,19 @@ switching to the new buffer."
 
     (bind-keys :map evil-normal-state-map
                (",k"  . bp-open-calendar))))
+
+(use-package smtpmail
+  :init
+  (progn
+    (setq starttls-use-gnutls t)
+    (setq send-mail-function 'smtpmail-send-it
+          message-send-mail-function 'smtpmail-send-it
+          smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+          smtpmail-auth-credentials (expand-file-name "~/.authinfo")
+          smtpmail-default-smtp-server "smtp.gmail.com"
+          smtpmail-smtp-server "smtp.gmail.com"
+          smtpmail-smtp-service 587
+          smtpmail-debug-info t)))
 
 
 ;;; Disabled packages
