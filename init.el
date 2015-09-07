@@ -887,7 +887,8 @@
         (elpy-module-company
          elpy-module-eldoc
          elpy-module-pyvenv
-         elpy-module-sane-defaults))))))
+         elpy-module-sane-defaults
+         elpy-module-yasnippet))))))
 
 (use-package python
   :mode (("\\.py\\'"   . python-mode)
@@ -1338,7 +1339,6 @@ switching to the new buffer."
   :mode "\\.ur[ps]?\\'")
 
 (use-package yasnippet
-  :disabled t
   :commands (yas-minor-mode yas-reload-all)
   :diminish yas-minor-mode
   :ensure t
