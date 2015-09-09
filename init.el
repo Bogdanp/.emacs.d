@@ -38,8 +38,12 @@
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
   (when (fboundp mode) (funcall mode -1)))
 
-;; Disable welcome screen.
-(setq inhibit-startup-message t)
+(setq
+ ;; Disable welcome screen.
+ inhibit-startup-message t
+
+ ;; Display glyphs in the fringe signifying empty lines in the buffer.
+ indicate-empty-lines t)
 
 
 ;;; Paths
