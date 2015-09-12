@@ -650,7 +650,7 @@
   :config
   (progn
     (setq recentf-save-file (locate-user-emacs-file "recentf")
-          recentf-max-saved-items 100
+          recentf-max-saved-items 1000
           recentf-max-menu-items 50
           recentf-auto-cleanup 60)
 
