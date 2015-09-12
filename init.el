@@ -1007,6 +1007,9 @@
           web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
                                    ("django" . "\\.html\\'")))
 
+    (set-face-attribute 'web-mode-current-column-highlight-face nil :background "#EEE")
+    (set-face-attribute 'web-mode-current-element-highlight-face nil :background "#EEE")
+
     (defun my-web-mode-hook-for-flycheck ()
       (when (or (equal web-mode-content-type "javascript")
                 (equal web-mode-content-type "jsx"))
