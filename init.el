@@ -1558,5 +1558,14 @@ of modes."
            ("C-+" . text-scale-increase))
 
 
+;;; Speech
+(defun bp-listen ()
+  "Recognize some speech and insert it into the current buffer."
+  (interactive)
+  (call-process "python" nil t nil (expand-file-name "~/sandbox/speech.py")))
+
+(bind-keys ("C-c M-s" . bp-listen))
+
+
 (provide 'init)
 ;;; init.el ends here
