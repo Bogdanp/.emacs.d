@@ -956,6 +956,11 @@
     (setq ensime-default-java-flags '("-Xms512M" "-Xmx1G")
           ensime-sbt-command "activator")
 
+    (let* ((faces ensime-sem-high-faces)
+           (faces (assq-delete-all 'implicitConversion faces))
+           (faces (assq-delete-all 'implicitParams faces)))
+      (setq ensime-sem-high-faces faces))
+
     (bind-keys :map ensime-mode-map
                ("C-c C-." . ensime-edit-definition-other-window)
                ("C-c ."   . ensime-edit-definition)
