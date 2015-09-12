@@ -599,8 +599,8 @@
       :modes (web-mode))))
 
 (use-package flycheck-haskell
-    :commands flycheck-haskell-setup
-    :ensure t)
+  :commands flycheck-haskell-setup
+  :ensure t)
 
 (use-package autorevert
   :commands global-auto-revert-mode
@@ -1543,8 +1543,8 @@ of modes."
   (interactive)
   (if bp-window-previous-window-configuration
       (progn
-	(set-window-configuration bp-window-previous-window-configuration)
-	(setq bp-window-previous-window-configuration nil))
+        (set-window-configuration bp-window-previous-window-configuration)
+        (setq bp-window-previous-window-configuration nil))
     (progn
       (setq bp-window-previous-window-configuration (current-window-configuration))
       (delete-other-windows))))
