@@ -278,13 +278,17 @@
 
 (use-package magit
   :bind ("C-c m" . magit-status)
+  :commands (magit-status git-commit-mode)
   :ensure t
+  :preface
+  (add-to-list 'auto-mode-alist
+               '("COMMIT_EDITMSG\\'" . git-commit-mode))
   :config
   (progn
-    (setq magit-revert-buffers t)
-    (setq magit-completing-read-function #'magit-ido-completing-read)
-    (setq magit-last-seen-setup-instructions "1.4.0")
-    (setq magit-push-always-verify nil)
+    (setq magit-revert-buffers t
+          magit-completing-read-function #'magit-ido-completing-read
+          magit-last-seen-setup-instructions "1.4.0"
+          magit-push-always-verify nil)
 
     (use-package fullframe
       :ensure t
