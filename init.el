@@ -1045,6 +1045,12 @@
 (use-package grep
   :config
   (progn
+    ;; Fish compatibility
+    (grep-apply-setting
+     'grep-find-command '("find . -type f -exec grep -nH -e  \\{\\} \\+" . 34))
+    (grep-apply-setting
+     'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+")
+
     (bind-keys :map evil-normal-state-map
                (",S" . rgrep))))
 
