@@ -946,7 +946,10 @@
   (defun my-scala-mode-hook ()
     (auto-complete-mode -1)
     (yas-minor-mode -1)
-    (company-mode +1))
+    (company-mode +1)
+
+    (if (equal "build.sbt" (buffer-name))
+        (flycheck-mode -1)))
   :init
   (progn
     (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
