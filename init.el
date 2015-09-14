@@ -965,9 +965,8 @@
       (setq ensime-sem-high-faces faces))
 
     (bind-keys :map ensime-mode-map
-               ("C-c C-." . ensime-edit-definition-other-window)
-               ("C-c ."   . ensime-edit-definition)
-               ("C-c ,"   . ensime-pop-find-definition-stack))))
+               ("C-c ." . ensime-edit-definition)
+               ("C-c ," . ensime-pop-find-definition-stack))))
 
 (use-package less-css-mode
   :mode "\\.less\\'"
