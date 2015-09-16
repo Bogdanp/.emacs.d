@@ -588,15 +588,10 @@
     (add-hook 'prog-mode-hook #'flycheck-mode)
 
     (setq-default flycheck-disabled-checkers '(haskell-ghc
-                                               html-tidy))
+                                               html-tidy
+                                               javascript-jshint))
 
-    (flycheck-define-checker jsxhint-checker
-      "A JSX syntax and style checker based on JSXHint."
-
-      :command ("jsxhint" source-inplace)
-      :error-patterns
-      ((error line-start (1+ nonl) ": line " line ", col " column ", " (message) line-end))
-      :modes (web-mode))))
+    (flycheck-add-mode 'javascript-eslint 'web-mode)))
 
 (use-package flycheck-haskell
   :commands flycheck-haskell-setup
@@ -991,20 +986,24 @@
 
     (add-hook 'scss-mode-hook 'my-scss-mode-hook)))
 
+(use-package json-mode
+  :ensure t)
+
 (use-package web-mode
   :ensure t
   :mode (("\\.html?\\'" . web-mode)
          ("\\.php\\'"   . web-mode)
-         ("\\.hbs\\'"   . web-mode))
+         ("\\.hbs\\'"   . web-mode)
+         ("\\.jsx?\\'"  . web-mode))
   :config
   (progn
-    (setq web-mode-code-indent-offset 4
-          web-mode-style-indent-offset 4
-          web-mode-script-indent-offset 4
-          web-mode-markup-indent-offset 4
+    (setq web-mode-code-indent-offset 2
+          web-mode-style-indent-offset 2
+          web-mode-script-indent-offset 2
+          web-mode-markup-indent-offset 2
 
-          web-mode-style-padding 4
-          web-mode-script-padding 4
+          web-mode-style-padding 2
+          web-mode-script-padding 2
 
           web-mode-enable-auto-closing t
           web-mode-enable-auto-expanding t
@@ -1015,17 +1014,10 @@
                                    ("django" . "\\.html\\'")))
 
     (set-face-attribute 'web-mode-current-column-highlight-face nil :background "#EEE")
-    (set-face-attribute 'web-mode-current-element-highlight-face nil :background "#EEE")
-
-    (defun my-web-mode-hook-for-flycheck ()
-      (when (or (equal web-mode-content-type "javascript")
-                (equal web-mode-content-type "jsx"))
-        (flycheck-select-checker 'jsxhint-checker)
-        (flycheck-mode 1)))
-
-    (add-hook 'web-mode-hook #'my-web-mode-hook-for-flycheck)))
+    (set-face-attribute 'web-mode-current-element-highlight-face nil :background "#EEE")))
 
 (use-package js2-mode
+  :disabled t
   :ensure t
   :mode "\\.js\\'")
 
