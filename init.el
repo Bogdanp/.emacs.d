@@ -227,8 +227,6 @@
                ;; Movement
                ("C-a" . evil-beginning-of-line)
                ("C-e" . evil-end-of-line)
-               ("C-p" . evil-previous-line)
-               ("C-n" . evil-next-line)
 
                ;; Windows
                ("C-w f" . bp-window-toggle-fullscreen))
@@ -236,9 +234,7 @@
     ;; INSERT mode
     (bind-keys :map evil-insert-state-map
                ("C-a" . beginning-of-line)
-               ("C-e" . end-of-line)
-               ("C-p" . evil-previous-line)
-               ("C-n" . evil-next-line))
+               ("C-e" . end-of-line))
 
     ;; VISUAL mode
     (bind-keys :map evil-visual-state-map
