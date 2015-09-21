@@ -430,6 +430,7 @@
     ;; Paths to my org files
     (defvar bp-org-dir (expand-file-name "~/Dropbox/Documents/Personal"))
     (defvar bp-org-main-file (expand-file-name (concat bp-org-dir "/Bogdan.org")))
+    (defvar bp-org-journal-file (expand-file-name (concat bp-org-dir "/Journal.org")))
 
 
     ;;; Code blocks
