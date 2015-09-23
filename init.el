@@ -279,6 +279,8 @@
   :preface
   (add-to-list 'auto-mode-alist
                '("COMMIT_EDITMSG\\'" . git-commit-mode))
+  (add-to-list 'auto-mode-alist
+               '("MERGE_MSG\\'" . git-commit-mode))
   :config
   (progn
     (setq magit-revert-buffers t
