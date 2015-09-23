@@ -70,7 +70,7 @@
   (mapcar #'disable-theme custom-enabled-themes))
 
 (defun bp-load-theme ()
-  "Load a theme interactively, removing all other themese first."
+  "Load a theme interactively, removing all other themes first."
   (interactive)
   (bp-remove-themes)
   (call-interactively #'load-theme))
