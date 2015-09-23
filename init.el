@@ -1557,5 +1557,10 @@ of modes."
            ("C-+" . text-scale-increase))
 
 
+;;; Tags
+;; Never append tags lists together.
+(setq tags-add-tables nil)
+
+
 (provide 'init)
 ;;; init.el ends here
