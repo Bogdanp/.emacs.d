@@ -260,45 +260,7 @@
                ("C-p" . evil-previous-line)
                ("C-n" . evil-next-line))
 
-    (evil-mode)))
-
-
-;;; UI Packages
-(use-package smart-mode-line
-  :commands (sml/setup)
-  :ensure t
-  :init
-  (progn
-    (setq sml/no-confirm-load-theme t)
-    (setq sml/theme nil)
-    (sml/setup)
-
-    (add-to-list 'sml/replacer-regexp-list '("^~/Work/" ":W:") t)
-    (add-to-list 'sml/replacer-regexp-list '("^~/sandbox/" ":s:") t)))
-
-
-;;; Git
-(use-package magit
-  :ensure t
-  :commands (magit-status git-commit-mode)
-  :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
-         ("MERGE_MSG"         . git-commit-mode))
-  :bind ("C-c m" . magit-status)
-  :config
-  (progn
-    (setq magit-revert-buffers t
-          magit-completing-read-function #'magit-ido-completing-read
-          magit-last-seen-setup-instructions "1.4.0"
-          magit-push-always-verify nil)
-
-    (use-package fullframe
-      :ensure t
-      :config
-      (fullframe magit-status magit-mode-quit-window))))
-
-(use-package git-timemachine
-  :commands git-timemachine
-  :ensure t)
+    (evil-mode +1)))
 
 
 ;;; Builtins
@@ -332,6 +294,29 @@
           erc-kill-queries-on-quit t
           erc-kill-server-buffer-on-quit t)))
 
+(use-package ido
+  :config
+  (progn
+    (use-package ido-ubiquitous
+      :ensure t)
+
+    (use-package ido-vertical-mode
+      :ensure t)
+
+    (setq ido-enable-prefix nil
+          ido-auto-merge-work-directories-length nil
+          ido-create-new-buffer 'always
+          ido-use-filename-at-point 'guess
+          ido-use-virtual-buffers t
+          ido-handle-duplicate-virtual-buffers 2
+          ido-max-prospects 10
+          ido-ignore-extensions t)
+
+
+    (ido-mode +1)
+    (ido-ubiquitous-mode +1)
+    (ido-vertical-mode +1)))
+
 (use-package grep
   :config
   (progn
@@ -358,7 +343,7 @@
     (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
     (add-to-list 'recentf-exclude "MERGE_MSG\\'")
 
-    (recentf-mode)))
+    (recentf-mode +1)))
 
 (use-package savehist
   :config
@@ -369,7 +354,7 @@
 
           history-length 10000)
 
-    (savehist-mode)))
+    (savehist-mode +1)))
 
 (use-package saveplace
   :config
@@ -555,7 +540,7 @@ switching to the new buffer."
   (setq uniquify-buffer-name-style 'forward))
 
 
-;;; Buffers
+;;; Buffers and buffer navigation
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer)
   :preface
@@ -575,33 +560,6 @@ switching to the new buffer."
 
     (add-hook 'ibuffer-hook #'my-ibuffer-hook)))
 
-
-;;; Minibuffer completion
-(use-package ido
-  :commands ido-mode
-  :init
-  (add-hook 'after-init-hook #'ido-mode)
-  :config
-  (progn
-    (use-package ido-ubiquitous
-      :ensure t)
-
-    (use-package ido-vertical-mode
-      :ensure t)
-
-    (setq ido-enable-prefix nil
-          ido-auto-merge-work-directories-length nil
-          ido-create-new-buffer 'always
-          ido-use-filename-at-point 'guess
-          ido-use-virtual-buffers t
-          ido-handle-duplicate-virtual-buffers 2
-          ido-max-prospects 10
-          ido-ignore-extensions t)
-
-
-    (ido-ubiquitous-mode +1)
-    (ido-vertical-mode +1)))
-
 (use-package imenu
   :bind ("C-x C-i" . imenu))
 
@@ -618,6 +576,49 @@ switching to the new buffer."
     (setq smex-save-file (locate-user-emacs-file ".smex-items"))
 
     (smex-initialize)))
+
+(use-package swiper
+  :commands (ivy-read)
+  :bind (("C-s" . swiper))
+  :ensure t)
+
+
+;;; UI
+(use-package smart-mode-line
+  :commands (sml/setup)
+  :ensure t
+  :init
+  (progn
+    (setq sml/no-confirm-load-theme t)
+    (setq sml/theme nil)
+    (sml/setup)
+
+    (add-to-list 'sml/replacer-regexp-list '("^~/Work/" ":W:") t)
+    (add-to-list 'sml/replacer-regexp-list '("^~/sandbox/" ":s:") t)))
+
+
+;;; Git
+(use-package magit
+  :ensure t
+  :commands (magit-status git-commit-mode)
+  :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
+         ("MERGE_MSG"         . git-commit-mode))
+  :bind ("C-c m" . magit-status)
+  :config
+  (progn
+    (setq magit-revert-buffers t
+          magit-completing-read-function #'magit-ido-completing-read
+          magit-last-seen-setup-instructions "1.4.0"
+          magit-push-always-verify nil)
+
+    (use-package fullframe
+      :ensure t
+      :config
+      (fullframe magit-status magit-mode-quit-window))))
+
+(use-package git-timemachine
+  :commands git-timemachine
+  :ensure t)
 
 
 ;;; Org
@@ -852,32 +853,6 @@ switching to the new buffer."
     (flycheck-add-mode 'javascript-eslint 'web-mode)))
 
 
-;;; Miscellaneous
-(use-package dash-at-point
-  :ensure t
-  :config
-  (bind-keys :map evil-normal-state-map
-             (",d" . dash-at-point)))
-
-(use-package diminish
-  :commands diminish
-  :ensure t)
-
-(when (memq window-system '(mac ns))
-  (use-package exec-path-from-shell
-    :commands exec-path-from-shell-initialize
-    :ensure t
-    :init
-    (add-hook 'after-init-hook #'exec-path-from-shell-initialize)))
-
-
-;;; Buffer navigation
-(use-package swiper
-  :commands (ivy-read)
-  :bind (("C-s" . swiper))
-  :ensure t)
-
-
 ;;; File navigation
 (use-package counsel
   :commands (counsel-git-grep)
@@ -932,6 +907,25 @@ switching to the new buffer."
     (add-hook 'prodigy-view-mode-hook #'bp-prodigy-view-mode-hook)
 
     (use-package bp-prodigy-services)))
+
+
+;;; Miscellaneous
+(use-package dash-at-point
+  :ensure t
+  :config
+  (bind-keys :map evil-normal-state-map
+             (",d" . dash-at-point)))
+
+(use-package diminish
+  :commands diminish
+  :ensure t)
+
+(when (memq window-system '(mac ns))
+  (use-package exec-path-from-shell
+    :commands exec-path-from-shell-initialize
+    :ensure t
+    :init
+    (add-hook 'after-init-hook #'exec-path-from-shell-initialize)))
 
 
 ;;; C
