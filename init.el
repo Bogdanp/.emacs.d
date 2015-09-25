@@ -297,12 +297,6 @@
 (use-package ido
   :config
   (progn
-    (use-package ido-ubiquitous
-      :ensure t)
-
-    (use-package ido-vertical-mode
-      :ensure t)
-
     (setq ido-enable-prefix nil
           ido-auto-merge-work-directories-length nil
           ido-create-new-buffer 'always
@@ -312,10 +306,19 @@
           ido-max-prospects 10
           ido-ignore-extensions t)
 
-
     (ido-mode +1)
-    (ido-ubiquitous-mode +1)
-    (ido-vertical-mode +1)))
+
+    (use-package ido-ubiquitous
+      :ensure t
+      :config
+      (ido-ubiquitous-mode +1))
+
+    (use-package ido-vertical-mode
+      :ensure t
+      :config
+      (progn
+        (setq ido-vertical-show-count t)
+        (ido-vertical-mode +1)))))
 
 (use-package grep
   :config
@@ -578,9 +581,8 @@ switching to the new buffer."
     (smex-initialize)))
 
 (use-package swiper
-  :commands (ivy-read)
-  :bind (("C-s" . swiper))
-  :ensure t)
+  :ensure t
+  :bind (("C-s" . swiper)))
 
 
 ;;; UI
@@ -862,20 +864,19 @@ switching to the new buffer."
              (",C" . counsel-git-grep)))
 
 (use-package projectile
-  :commands (projectile-global-mode)
   :diminish projectile-mode
+  :load-path "vendor/smex"
   :ensure t
-  :init
+  :config
   (progn
     (setq projectile-keymap-prefix (kbd "C-c M-p")
           projectile-enable-caching t)
 
-    (add-hook 'after-init-hook #'projectile-global-mode))
-  :config
-  (progn
     (bind-keys :map evil-normal-state-map
                (",f" . projectile-find-file-dwim)
-               (",p" . projectile-switch-project))))
+               (",p" . projectile-switch-project))
+
+    (projectile-global-mode)))
 
 
 ;;; Package management
