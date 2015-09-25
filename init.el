@@ -36,14 +36,11 @@
 
 ;; Remove GUI elements.
 (dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
-  (when (fboundp mode) (funcall mode -1)))
+  (when (fboundp mode)
+    (funcall mode -1)))
 
-(setq
- ;; Disable welcome screen.
- inhibit-startup-message t
-
- ;; Display glyphs in the fringe signifying empty lines in the buffer.
- indicate-empty-lines t)
+;; Disable welcome screen.
+(setq inhibit-startup-message t)
 
 
 ;;; Paths
@@ -64,6 +61,8 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
+
+;;; Themes
 (defun bp-remove-themes ()
   "Remove all of the themes that are currently enabled."
   (interactive)
@@ -75,37 +74,31 @@
   (bp-remove-themes)
   (call-interactively #'load-theme))
 
-(when (display-graphic-p)
-  (use-package server
-    :unless server-running-p
-    :config (server-start))
+(if (display-graphic-p)
+    (progn
+      (use-package server
+        :unless server-running-p
+        :config (server-start))
 
-  (use-package twilight-bright-theme
-    :ensure t
-    :config (load-theme 'twilight-bright t))
+      (use-package twilight-bright-theme
+        :ensure t
+        :config (load-theme 'twilight-bright t))
 
-  (use-package twilight-anti-bright-theme
-    :disabled t
-    :load-path "vendor/twilight-anti-bright-theme"
-    :config (load-theme 'twilight-anti-bright t))
+      ;;; Disabled
+      (use-package twilight-anti-bright-theme
+        :disabled t
+        :load-path "vendor/twilight-anti-bright-theme"
+        :config (load-theme 'twilight-anti-bright t))
 
-  (use-package better-default-theme
-    :disabled t
-    :load-path "vendor/better-default-theme"
-    :config (load-theme 'better-default t)))
+      (use-package better-default-theme
+        :disabled t
+        :load-path "vendor/better-default-theme"
+        :config (load-theme 'better-default t)))
 
-(use-package smart-mode-line
-  :commands (sml/setup)
-  :ensure t
-  :init
-  (progn
-    (setq sml/no-confirm-load-theme t)
-    (setq sml/theme nil)
-    (sml/setup)
+  (load-theme 'wombat t))
 
-    (add-to-list 'sml/replacer-regexp-list '("^~/Work/" ":W:") t)
-    (add-to-list 'sml/replacer-regexp-list '("^~/sandbox/" ":s:") t)))
 
+;;; EVIL
 (use-package evil
   :load-path "vendor/evil"
   :pin manual
@@ -125,10 +118,34 @@
     (defun my-evil-local-mode-hook ()
       (setq-local interprogram-cut-function nil)
       (setq-local interprogram-paste-function nil)))
-  :init
-  (add-hook 'after-init-hook #'evil-mode)
   :config
   (progn
+    ;;; Dependencies
+    (use-package goto-chg
+      :commands goto-last-change
+      :ensure t)
+
+    (use-package undo-tree
+      :diminish undo-tree-mode
+      :ensure t
+      :init
+      (add-hook 'after-init-hook #'global-undo-tree-mode)
+      :config
+      (progn
+        (with-no-warnings
+          (setq undo-tree-visualizer-timestamps t
+                undo-tree-visualizer-diffs t
+                undo-tree-history-directory-alist `((".*" . ,local-temp-dir))
+                undo-tree-auto-save-history t))))
+
+
+    ;;; Plugins
+    (use-package evil-surround
+      :ensure t
+      :init
+      (add-hook 'evil-mode-hook #'global-evil-surround-mode))
+
+
     ;;; Fixes
     ;; Default to EMACS mode in these modes.
     (dolist (mode '(calendar-mode
@@ -241,46 +258,32 @@
                ("C-a" . evil-beginning-of-line)
                ("C-e" . evil-end-of-line)
                ("C-p" . evil-previous-line)
-               ("C-n" . evil-next-line))))
+               ("C-n" . evil-next-line))
 
-(use-package evil-surround
+    (evil-mode)))
+
+
+;;; UI Packages
+(use-package smart-mode-line
+  :commands (sml/setup)
   :ensure t
   :init
-  (add-hook 'evil-mode-hook #'global-evil-surround-mode))
-
-(use-package avy
-  :ensure t
-  :config
-  (bind-keys :map evil-normal-state-map
-             ("C-c C-SPC" . avy-goto-char)
-             ("C-c M-SPC" . avy-goto-line)))
-
-(use-package goto-chg
-  :commands goto-last-change
-  :ensure t)
-
-(use-package undo-tree
-  :diminish undo-tree-mode
-  :ensure t
-  :init
-  (add-hook 'after-init-hook #'global-undo-tree-mode)
-  :config
   (progn
-    (with-no-warnings
-      (setq undo-tree-visualizer-timestamps t
-            undo-tree-visualizer-diffs t
-            undo-tree-history-directory-alist `((".*" . ,local-temp-dir))
-            undo-tree-auto-save-history t))))
+    (setq sml/no-confirm-load-theme t)
+    (setq sml/theme nil)
+    (sml/setup)
 
+    (add-to-list 'sml/replacer-regexp-list '("^~/Work/" ":W:") t)
+    (add-to-list 'sml/replacer-regexp-list '("^~/sandbox/" ":s:") t)))
+
+
+;;; Git
 (use-package magit
-  :bind ("C-c m" . magit-status)
-  :commands (magit-status git-commit-mode)
   :ensure t
-  :preface
-  (add-to-list 'auto-mode-alist
-               '("COMMIT_EDITMSG\\'" . git-commit-mode))
-  (add-to-list 'auto-mode-alist
-               '("MERGE_MSG\\'" . git-commit-mode))
+  :commands (magit-status git-commit-mode)
+  :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
+         ("MERGE_MSG"         . git-commit-mode))
+  :bind ("C-c m" . magit-status)
   :config
   (progn
     (setq magit-revert-buffers t
@@ -296,6 +299,15 @@
 (use-package git-timemachine
   :commands git-timemachine
   :ensure t)
+
+
+;;; Builtins
+;; Revert files that update on disk automatically. Ignores dirty buffers.
+(use-package autorevert
+  :config
+  (global-auto-revert-mode))
+
+(use-package dired)
 
 (use-package erc
   :commands erc
@@ -320,733 +332,6 @@
           erc-kill-queries-on-quit t
           erc-kill-server-buffer-on-quit t)))
 
-(use-package ido
-  :commands ido-mode
-  :init
-  (add-hook 'after-init-hook #'ido-mode)
-  :config
-  (progn
-    (use-package ido-ubiquitous
-      :ensure t)
-
-    (use-package ido-vertical-mode
-      :ensure t)
-
-    (setq ido-enable-prefix nil
-          ido-auto-merge-work-directories-length nil
-          ido-create-new-buffer 'always
-          ido-use-filename-at-point 'guess
-          ido-use-virtual-buffers t
-          ido-handle-duplicate-virtual-buffers 2
-          ido-max-prospects 10
-          ido-ignore-extensions t)
-
-
-    (ido-ubiquitous-mode +1)
-    (ido-vertical-mode +1)))
-
-(use-package ibuffer
-  :bind ("C-x C-b" . ibuffer)
-  :preface
-  (progn
-    (eval-when-compile
-      (declare-function ibuffer-do-sort-by-alphabetic "ibuf-ext"))
-
-    (defun my-ibuffer-hook ()
-      (ibuffer-vc-set-filter-groups-by-vc-root)
-      (unless (eq ibuffer-sorting-mode 'alphabetic)
-        (ibuffer-do-sort-by-alphabetic))))
-  :init
-  (add-hook 'ibuffer-hook #'my-ibuffer-hook))
-
-(use-package ibuffer-vc
-  :commands ibuffer-vc-set-filter-groups-by-vc-root
-  :ensure t)
-
-(use-package imenu
-  :bind ("C-x C-i" . imenu))
-
-(use-package imenu-anywhere
-  :bind ("C-c C-i" . imenu-anywhere)
-  :ensure t
-  :config
-  (require 'imenu))
-
-(use-package smex
-  :bind (("M-x" . smex)
-         ("C-;" . smex))
-  :commands smex-initialize
-  :ensure t
-  :init
-  (add-hook 'after-init-hook #'smex-initialize)
-  :config
-  (setq smex-save-file (locate-user-emacs-file ".smex-items")))
-
-(use-package org
-  :commands org-mode
-  :ensure t
-  :defer 2
-  :preface
-  (progn
-    (eval-when-compile
-      (declare-function org-cut-subtree "org")
-      (declare-function org-end-of-subtree "org")
-      (declare-function org-goto-first-child "org")
-      (declare-function org-goto-sibling "org")
-      (declare-function org-paste-subtree "org")
-      (declare-function outline-up-heading "outline"))
-
-    ;;; Archiving
-    (defun bp-org-level-of-heading-at-point ()
-      "Returns the level of the headline at point."
-      (length (car (split-string (thing-at-point 'line t) " "))))
-
-    (defun bp-org-archive-task-at-point ()
-      "Moves the task at point into the first heading of its parent
-    (which, by convention, should be an Archive heading)."
-      (interactive)
-      (save-excursion
-        (let ((start-level (bp-org-level-of-heading-at-point)))
-          (org-cut-subtree)
-
-          ;; Cutting the subtree might place us on a different level.
-          ;; Account for those cases.
-          (let ((current-level (bp-org-level-of-heading-at-point)))
-            (if (< current-level start-level)
-                (progn
-                  (org-goto-sibling 'previous)
-                  (dotimes (number (- start-level current-level 1))
-                    (org-end-of-subtree)
-                    (org-goto-first-child)))
-              (outline-up-heading (+ 1 (- current-level start-level)))))
-
-          ;; TODO: Turn this into a heading search?
-          (org-goto-first-child)
-
-          (let ((archive-level (bp-org-level-of-heading-at-point)))
-            (forward-line)
-            (org-paste-subtree (+ 1 archive-level)))))))
-  :config
-  (progn
-    ;;; Misc
-    ;; Paths to my org files
-    (defvar bp-org-dir (expand-file-name "~/Dropbox/Documents/Personal"))
-    (defvar bp-org-main-file (expand-file-name (concat bp-org-dir "/Bogdan.org")))
-    (defvar bp-org-journal-file (expand-file-name (concat bp-org-dir "/Journal.org")))
-
-
-    ;;; Code blocks
-    ;; Highlight code in BEGIN_SRC-END_SRC blocks.
-    (setq org-src-fontify-natively t)
-
-
-    ;;; Babel
-    ;; Allow these languages to be executed in org code blocks.
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((haskell . t)
-       (latex   . t)
-       (python  . t)
-       (sh      . t)
-       (dot     . t)))
-
-    ;; Make org-babel work w/ these languages.
-    (require 'ob-haskell)
-    (require 'ob-latex)
-
-
-    ;; Evaluate code in org files w/o asking for confirmation. Potentially
-    ;; dangerous but meh.
-    (setq org-confirm-babel-evaluate nil)
-
-
-    ;;; Beamer
-    ;; Based on http://orgmode.org/worg/exporters/beamer/ox-beamer.html
-    (require 'ox-beamer)
-
-    (add-to-list 'org-latex-classes
-                 '("beamer"
-                   "\\documentclass\[10pt\]\{beamer\}"
-                   ("\\plain\{%s\}" . "\\plain\{%s\}")
-                   ("\\section\{%s\}" . "\\section*\{%s\}")
-                   ("\\subsection\{%s\}" . "\\subsection*\{%s\}")
-                   ("\\subsubsection\{%s\}" . "\\subsubsection*\{%s\}")))
-
-    ;;; Capture
-    ;; Where to put captured stuff.
-    (setq org-default-notes-file bp-org-main-file)
-
-    ;; Capture templates.
-    (use-package bp-org-capture-templates)
-
-
-    ;;; Agenda
-    ;; Set up path to agenda files.
-    (defvar bp-org-agenda-files-path bp-org-dir)
-    (when (file-exists-p bp-org-agenda-files-path)
-      (setq org-agenda-files `(,bp-org-agenda-files-path)))
-
-    ;; Custom commands for easy filtering.
-    (use-package bp-org-agenda-commands)
-
-
-    ;;; TODOs
-    ;; Log the closing time of TODO items.
-    (setq org-log-done 'time)
-
-    ;; Better todo states.
-    (setq org-todo-keywords
-          '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
-
-    ;; Refile anywhere.
-    (setq org-refile-targets '((nil :maxlevel . 9)))
-
-
-    ;;; Reminders
-    ;; Code below mostly stolen from http://doc.norang.ca/org-mode.html#Reminders
-    (defun bp-org-agenda-to-appt ()
-      "Erase all current reminders and rebuild the list from the
-    current agenda."
-      (interactive)
-      (setq appt-time-msg-list nil)
-      (org-agenda-to-appt))
-
-    ;; Plz don't ruin my window setup, org-agenda.
-    (setq org-agenda-window-setup 'current-window)
-
-    ;; Display appointment info in the modeline.
-    (setq appt-display-mode-line t)
-    (setq appt-display-format 'echo)
-
-    ;; Rebuild reminders each time the agenda is displayed.
-    (add-hook 'org-finalize-agenda-hook #'bp-org-agenda-to-appt 'append)
-
-    ;; Activate appointments.
-    (appt-activate t)
-
-    ;; Reset appointments 1 minute after midnight.
-    (run-at-time "24:01" nil #'bp-org-agenda-to-appt)
-
-    ;; Setup appointments at startup.
-    (bp-org-agenda-to-appt)
-
-
-    ;;; Text editing
-    (add-hook 'org-mode-hook #'auto-fill-mode)
-
-
-    ;;; Bindings
-    (bind-keys :map evil-normal-state-map
-               (",a"  . org-agenda)
-               (",c"  . org-capture)
-               (",ta" . bp-org-archive-task-at-point))))
-
-(use-package auto-complete
-  :commands (ac-define-source auto-complete-mode)
-  :diminish auto-complete-mode
-  :ensure t
-  :init
-  ;; Auto-complete all the programming.
-  (add-hook 'prog-mode-hook #'auto-complete-mode)
-  :config
-  (progn
-    ;; Load AC's default configs.
-    (require 'auto-complete-config)
-
-    (ac-config-default)
-    (ac-set-trigger-key "TAB")
-
-    ;; Source ALL THE THINGS.
-    (setq-default ac-sources '(ac-source-filename
-                               ac-source-imenu
-                               ac-source-features
-                               ac-source-abbrev
-                               ac-source-words-in-same-mode-buffers
-                               ac-source-dictionary))
-
-    (setq ac-auto-start 5
-          ac-auto-show-menu 0.5
-          ac-quick-help-delay 0.5
-
-          ac-use-menu-map t
-          ac-use-fuzzy nil
-          ac-use-quick-help t)))
-
-(use-package company
-  :commands company-mode
-  :diminish company-mode
-  :ensure t
-  :config
-  (setq company-idle-delay 0.25))
-
-(use-package flycheck
-  :commands flycheck-mode
-  :ensure t
-  :config
-  (progn
-    (add-hook 'prog-mode-hook #'flycheck-mode)
-
-    (setq-default flycheck-disabled-checkers '(haskell-ghc
-                                               html-tidy
-                                               javascript-jshint))
-
-    (flycheck-add-mode 'javascript-eslint 'web-mode)))
-
-(use-package flycheck-haskell
-  :commands flycheck-haskell-setup
-  :ensure t)
-
-(use-package autorevert
-  :commands global-auto-revert-mode
-  :init
-  ;; Revert files that update on disk automatically. Ignores dirty buffers.
-  (add-hook 'after-init-hook #'global-auto-revert-mode))
-
-(use-package diminish
-  :commands diminish
-  :ensure t)
-
-(use-package dired
-  :commands dired
-  :config
-  (use-package dired+
-    :ensure t))
-
-(when (memq window-system '(mac ns))
-  (use-package exec-path-from-shell
-    :commands exec-path-from-shell-initialize
-    :ensure t
-    :preface
-    (defun my-shell-hook ()
-      (exec-path-from-shell-initialize)
-      (exec-path-from-shell-copy-env "GOPATH"))
-    :init
-    (add-hook 'after-init-hook #'my-shell-hook)))
-
-(use-package f
-  :defer t
-  :ensure t)
-
-(use-package fuzzy
-  :defer t
-  :ensure t)
-
-(use-package paradox
-  :commands paradox-list-packages
-  :ensure t
-  :config
-  (setq paradox-github-token t))
-
-(use-package recentf
-  :commands recentf-mode
-  :init
-  (add-hook 'after-init-hook #'recentf-mode)
-  :config
-  (progn
-    (setq recentf-save-file (locate-user-emacs-file "recentf")
-          recentf-max-saved-items 1000
-          recentf-max-menu-items 50
-          recentf-auto-cleanup 60)
-
-    (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")))
-
-(use-package restclient
-  :mode ("\\.http\\'" . restclient-mode)
-  :ensure t)
-
-(use-package savehist
-  :commands savehist-mode
-  :init
-  (add-hook 'after-init-hook #'savehist-mode)
-  :config
-  (setq savehist-file (locate-user-emacs-file "savehist")
-        savehist-additional-variables '(search ring regexp-search-ring)
-        savehist-autosave-interval 60
-
-        history-length 10000))
-
-(use-package saveplace
-  :config
-  (setq-default save-place t))
-
-(use-package uniquify
-  :config
-  (setq uniquify-buffer-name-style 'forward))
-
-(use-package prodigy
-  :bind (("C-c p" . prodigy))
-  :ensure t
-  :config
-  (progn
-    (defun bp-prodigy-toggle-compilation-mode ()
-      (interactive)
-      (if (eq major-mode 'compilation-mode)
-          (prodigy-view-mode)
-        (compilation-mode))
-      (if (fboundp #'bp-prodigy-view-mode-hook)
-          (bp-prodigy-view-mode-hook))
-      (goto-char (point-max)))
-
-    (defun bp-prodigy-view-mode-hook ()
-      (bind-key "C-c C-t" 'bp-prodigy-toggle-compilation-mode))
-
-    (add-hook 'prodigy-view-mode-hook #'bp-prodigy-view-mode-hook)
-
-    (use-package bp-prodigy-services)))
-
-(use-package cc-mode
-  :mode ("\\.c\\'" . c-mode)
-  :config
-  (progn
-    (setq c-default-style "bsd"
-          c-basic-offset 4)
-
-    ;; Fix indentation.
-    (defun my-c-mode-hook ()
-      (c-set-offset 'arglist-intro '+))
-
-    (use-package irony
-      :ensure t
-      :commands irony-mode
-      :preface
-      (progn
-        (defun my-irony-mode-hook ()
-          ;; Disable AC since its irony mode isn't ready yet.
-          (auto-complete-mode -1)
-
-          (eldoc-mode +1)
-          (irony-eldoc +1)
-          (company-mode +1)))
-      :config
-      (progn
-        (use-package company-irony
-          :ensure t
-          :preface
-          (progn
-            (defun my-company-irony-setup-hook ()
-              (add-to-list 'company-backends 'company-irony)))
-          :init
-          (progn
-            (add-hook 'irony-mode-hook #'my-company-irony-setup-hook)
-            (add-hook 'irony-mode-hook #'company-irony-setup-begin-commands)))
-
-        (use-package flycheck-irony
-          :ensure t
-          :preface
-          (progn
-            (defun my-flycheck-irony-setup-hook ()
-              (add-to-list 'flycheck-checkers 'irony)))
-          :init
-          (add-hook 'irony-mode-hook #'my-flycheck-irony-setup-hook))
-
-        (use-package irony-eldoc
-          :commands irony-eldoc
-          :ensure t)
-
-        (add-hook 'irony-mode-hook #'my-irony-mode-hook)))
-
-    (add-hook 'c-mode-hook #'my-c-mode-hook)
-    (add-hook 'c-mode-hook #'irony-mode)))
-
-(use-package dockerfile-mode
-  :mode "\\Dockerfile\\'"
-  :ensure t)
-
-(use-package eldoc
-  :diminish eldoc-mode
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'eldoc-mode))
-
-(use-package ghc
-  :disabled t
-  :ensure t
-  :init
-  (add-hook 'haskell-mode-hook #'ghc-init))
-
-(use-package haskell-mode
-  :mode "\\.l?hs\\'"
-  :ensure t
-  :preface
-  (progn
-    (defun my-haskell-mode-hook ()
-      (set-face-attribute 'shm-current-face nil :background "#EEE")
-      (set-face-attribute 'shm-quarantine-face nil :background "#DDD")
-
-      (setq-local indent-line-function #'indent-relative)))
-  :config
-  (progn
-    (require 'haskell-interactive-mode)
-    (require 'haskell-process)
-
-    (custom-set-variables
-     ;; Haskell Process
-     '(haskell-process-type 'stack-ghci)
-     '(haskell-process-args-stack-ghci
-       '("--ghc-options=-ferror-spans"
-         "--ghc-options=-fno-warn-name-shadowing"
-         "--ghc-options=-fno-warn-orphans"))
-
-     '(haskell-process-suggest-remove-import-lines t)
-     '(haskell-process-auto-import-loaded-modules t)
-     '(haskell-process-log t)
-
-     ;; Haskell Interactive
-     '(haskell-interactive-mode-do-fast-keys t)
-     '(haskell-interactive-mode-eval-pretty nil)
-     '(haskell-interactive-mode-include-file-name nil)
-
-     ;; Misc
-     '(haskell-stylish-on-save t)
-     '(haskell-notify-p t)
-     '(haskell-tags-on-save t))
-
-    (add-hook 'haskell-mode-hook #'haskell-doc-mode)
-    (add-hook 'haskell-mode-hook #'haskell-decl-scan-mode)
-    (add-hook 'haskell-mode-hook #'interactive-haskell-mode)
-    (add-hook 'haskell-mode-hook #'my-haskell-mode-hook)
-
-    (bind-keys :map haskell-mode-map
-               ("C-c M-l" . haskell-process-reload-devel-main))))
-
-(use-package shm
-  :ensure t
-  :init
-  (add-hook 'haskell-mode-hook #'structured-haskell-mode)
-  :config
-  (custom-set-variables
-   '(shm-auto-insert-skeletons t)
-   '(shm-auto-insert-bangs t)
-   '(shm-use-presentation-mode t)))
-
-(use-package shakespeare-mode
-  :ensure t)
-
-(use-package paredit
-  :diminish paredit-mode
-  :ensure t
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
-
-(use-package rainbow-delimiters
-  :ensure t
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
-
-(use-package markdown-mode
-  :mode "\\.md\\'"
-  :ensure t)
-
-(use-package tuareg
-  :mode ("\\.mli?\\'" . tuareg-mode)
-  :ensure t
-  :config
-  (progn
-    (setq opam-share (substring (shell-command-to-string "opam config var share 2> /dev/null") 0 -1))
-    (setq opam-lisp (concat opam-share "/emacs/site-lisp"))
-
-    (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
-      (setenv (car var) (cadr var)))
-
-    (setq exec-path (append (parse-colon-path (getenv "PATH"))
-                            (list exec-directory)))
-
-    (use-package utop
-      :ensure t)
-
-    (use-package merlin
-      :pin manual
-      :load-path opam-lisp
-      :commands (merlin-mode)
-      :config
-      (progn
-        (setq merlin-use-auto-complete-mode 'easy)
-        (setq merlin-command 'opam)))
-
-    (use-package ocp-indent
-      :pin manual
-      :load-path opam-lisp
-      :config
-      (progn
-        (setq ocp-indent-syntax '("lwt"))))
-
-    (add-hook 'tuareg-mode-hook #'merlin-mode)
-    (add-hook 'tuareg-mode-hook #'utop-minor-mode)))
-
-(use-package elpy
-  :commands (elpy-enable)
-  :ensure t
-  :init
-  (with-eval-after-load 'python (elpy-enable))
-  :config
-  (progn
-    (bind-keys :map python-mode-map
-               ("C-c v" . pyvenv-workon)
-               ("C-c ." . elpy-goto-definition)
-               ("C-c ," . pop-tag-mark))
-
-    (custom-set-variables
-     '(elpy-modules
-       (quote
-        (elpy-module-company
-         elpy-module-eldoc
-         elpy-module-pyvenv
-         elpy-module-sane-defaults
-         elpy-module-yasnippet))))))
-
-(use-package python
-  :mode (("\\.py\\'"   . python-mode)
-         ("SConstruct" . python-mode))
-  :interpreter ("python" . python-mode)
-  :preface
-  (progn
-    (eval-when-compile
-      (declare-function py-test-define-project "py-test"))
-
-    (defun my-python-mode-hook ()
-      (auto-complete-mode -1)))
-  :config
-  (progn
-    (use-package py-test
-      :ensure t
-      :config
-      (progn
-        (evil-define-key 'normal python-mode-map
-          ",r" 'py-test-run-test-at-point
-          ",T" 'py-test-run-directory
-          ",t" 'py-test-run-file)
-
-        ;; Purty mode-line.
-        (setq py-test-*mode-line-face-shenanigans-on* t)
-        (setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec")
-
-        (use-package bp-py-test-projects)))
-
-    (add-hook 'python-mode-hook #'my-python-mode-hook)))
-
-
-(use-package scala-mode2
-  :mode (("\\.scala\\'" . scala-mode)
-         ("\\.sbt\\'"   . scala-mode))
-  :ensure t)
-
-(use-package sbt-mode
-  :commands sbt-mode
-  :ensure t)
-
-(use-package ensime
-  :commands ensime-scala-mode-hook
-  :ensure t
-  :preface
-  (defun my-scala-mode-hook ()
-    (auto-complete-mode -1)
-    (yas-minor-mode -1)
-    (company-mode +1)
-
-    (if (equal "build.sbt" (buffer-name))
-        (flycheck-mode -1)))
-  :init
-  (progn
-    (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
-    (add-hook 'scala-mode-hook #'my-scala-mode-hook))
-  :config
-  (progn
-    (setq ensime-default-java-flags '("-Xms512M" "-Xmx1G")
-          ensime-sbt-command "activator")
-
-    (let* ((faces ensime-sem-high-faces)
-           (faces (assq-delete-all 'implicitConversion faces))
-           (faces (assq-delete-all 'implicitParams faces)))
-      (setq ensime-sem-high-faces faces))
-
-    (bind-keys :map ensime-mode-map
-               ("C-c ." . ensime-edit-definition)
-               ("C-c ," . ensime-pop-find-definition-stack))))
-
-(use-package less-css-mode
-  :mode "\\.less\\'"
-  :ensure t
-  :config
-  (progn
-    (defun my-scss-mode-hook ()
-      (setq-local css-indent-offset 2))
-
-    (add-hook 'less-css-mode-hook 'my-scss-mode-hook)))
-
-(use-package scss-mode
-  :mode "\\.scss\\'"
-  :ensure t
-  :config
-  (progn
-    ;; Stupid functionality is stupid.
-    (setq scss-compile-at-save nil)
-
-    (defun my-scss-mode-hook ()
-      (setq-local css-indent-offset 2))
-
-    (add-hook 'scss-mode-hook 'my-scss-mode-hook)))
-
-(use-package json-mode
-  :ensure t)
-
-(use-package web-mode
-  :ensure t
-  :mode (("\\.html?\\'" . web-mode)
-         ("\\.php\\'"   . web-mode)
-         ("\\.hbs\\'"   . web-mode)
-         ("\\.jsx?\\'"  . web-mode))
-  :config
-  (progn
-    (setq web-mode-code-indent-offset 2
-          web-mode-style-indent-offset 2
-          web-mode-script-indent-offset 2
-          web-mode-markup-indent-offset 2
-
-          web-mode-style-padding 2
-          web-mode-script-padding 2
-
-          web-mode-enable-auto-closing t
-          web-mode-enable-auto-expanding t
-          web-mode-enable-auto-pairing t
-          web-mode-enable-current-element-highlight t
-
-          web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
-                                   ("django" . "\\.html\\'")))
-
-    (set-face-attribute 'web-mode-current-column-highlight-face nil :background "#EEE")
-    (set-face-attribute 'web-mode-current-element-highlight-face nil :background "#EEE")))
-
-(use-package js2-mode
-  :disabled t
-  :ensure t
-  :mode "\\.js\\'")
-
-(use-package yaml-mode
-  :mode "\\.yaml\\'"
-  :ensure t)
-
-(use-package robot-mode
-  :load-path "vendor/robot-mode"
-  :mode "\\.robot\\'")
-
-(use-package swiper
-  :commands (ivy-read)
-  :bind (("C-s" . swiper))
-  :ensure t)
-
-(use-package counsel
-  :commands (counsel-git-grep)
-  :ensure t
-  :init
-  (bind-keys :map evil-normal-state-map
-             (",C" . counsel-git-grep)))
-
-(use-package find-file-in-project
-  :commands (find-file-in-project)
-  :ensure t
-  :init
-  (bind-keys :map evil-normal-state-map
-             (",F" . find-file-in-project)))
-
 (use-package grep
   :config
   (progn
@@ -1058,6 +343,51 @@
 
     (bind-keys :map evil-normal-state-map
                (",S" . rgrep))))
+
+(use-package hippie-expand
+  :bind (("M-/" . hippie-expand)))
+
+(use-package recentf
+  :config
+  (progn
+    (setq recentf-save-file (locate-user-emacs-file "recentf")
+          recentf-max-saved-items 1000
+          recentf-max-menu-items 50
+          recentf-auto-cleanup 60)
+
+    (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
+    (add-to-list 'recentf-exclude "MERGE_MSG\\'")
+
+    (recentf-mode)))
+
+(use-package savehist
+  :config
+  (progn
+    (setq savehist-file (locate-user-emacs-file "savehist")
+          savehist-additional-variables '(search ring regexp-search-ring)
+          savehist-autosave-interval 60
+
+          history-length 10000)
+
+    (savehist-mode)))
+
+(use-package saveplace
+  :config
+  (setq-default save-place t))
+
+(use-package smtpmail
+  :preface
+  (setq starttls-use-gnutls t
+
+        send-mail-function 'smtpmail-send-it
+        message-send-mail-function 'smtpmail-send-it
+
+        smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+        smtpmail-auth-credentials (expand-file-name "~/.authinfo")
+        smtpmail-default-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-service 587
+        smtpmail-debug-info t))
 
 (use-package term
   :config
@@ -1220,8 +550,341 @@ switching to the new buffer."
 
     (bind-keys ("C-c M-a" . bp-term-toggle))))
 
-(use-package hippie-expand
-  :bind (("M-/" . hippie-expand)))
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'forward))
+
+
+;;; Buffers
+(use-package ibuffer
+  :bind ("C-x C-b" . ibuffer)
+  :preface
+  (progn
+    (eval-when-compile
+      (declare-function ibuffer-do-sort-by-alphabetic "ibuf-ext"))
+
+    (defun my-ibuffer-hook ()
+      (ibuffer-vc-set-filter-groups-by-vc-root)
+      (unless (eq ibuffer-sorting-mode 'alphabetic)
+        (ibuffer-do-sort-by-alphabetic))))
+  :config
+  (progn
+    (use-package ibuffer-vc
+      :commands ibuffer-vc-set-filter-groups-by-vc-root
+      :ensure t)
+
+    (add-hook 'ibuffer-hook #'my-ibuffer-hook)))
+
+
+;;; Minibuffer completion
+(use-package ido
+  :commands ido-mode
+  :init
+  (add-hook 'after-init-hook #'ido-mode)
+  :config
+  (progn
+    (use-package ido-ubiquitous
+      :ensure t)
+
+    (use-package ido-vertical-mode
+      :ensure t)
+
+    (setq ido-enable-prefix nil
+          ido-auto-merge-work-directories-length nil
+          ido-create-new-buffer 'always
+          ido-use-filename-at-point 'guess
+          ido-use-virtual-buffers t
+          ido-handle-duplicate-virtual-buffers 2
+          ido-max-prospects 10
+          ido-ignore-extensions t)
+
+
+    (ido-ubiquitous-mode +1)
+    (ido-vertical-mode +1)))
+
+(use-package imenu
+  :bind ("C-x C-i" . imenu))
+
+(use-package imenu-anywhere
+  :bind ("C-c C-i" . imenu-anywhere)
+  :ensure t)
+
+(use-package smex
+  :bind (("M-x" . smex)
+         ("C-;" . smex))
+  :ensure t
+  :config
+  (progn
+    (setq smex-save-file (locate-user-emacs-file ".smex-items"))
+
+    (smex-initialize)))
+
+
+;;; Org
+(use-package org
+  :commands org-mode
+  :ensure t
+  :defer 2
+  :preface
+  (progn
+    (eval-when-compile
+      (declare-function org-cut-subtree "org")
+      (declare-function org-end-of-subtree "org")
+      (declare-function org-goto-first-child "org")
+      (declare-function org-goto-sibling "org")
+      (declare-function org-paste-subtree "org")
+      (declare-function outline-up-heading "outline"))
+
+    ;;; Archiving
+    (defun bp-org-level-of-heading-at-point ()
+      "Returns the level of the headline at point."
+      (length (car (split-string (thing-at-point 'line t) " "))))
+
+    (defun bp-org-archive-task-at-point ()
+      "Moves the task at point into the first heading of its parent
+    (which, by convention, should be an Archive heading)."
+      (interactive)
+      (save-excursion
+        (let ((start-level (bp-org-level-of-heading-at-point)))
+          (org-cut-subtree)
+
+          ;; Cutting the subtree might place us on a different level.
+          ;; Account for those cases.
+          (let ((current-level (bp-org-level-of-heading-at-point)))
+            (if (< current-level start-level)
+                (progn
+                  (org-goto-sibling 'previous)
+                  (dotimes (number (- start-level current-level 1))
+                    (org-end-of-subtree)
+                    (org-goto-first-child)))
+              (outline-up-heading (+ 1 (- current-level start-level)))))
+
+          ;; TODO: Turn this into a heading search?
+          (org-goto-first-child)
+
+          (let ((archive-level (bp-org-level-of-heading-at-point)))
+            (forward-line)
+            (org-paste-subtree (+ 1 archive-level)))))))
+  :config
+  (progn
+    ;;; Misc
+    ;; Paths to my org files
+    (defvar bp-org-dir (expand-file-name "~/Dropbox/Documents/Personal"))
+    (defvar bp-org-main-file (expand-file-name (concat bp-org-dir "/Bogdan.org")))
+    (defvar bp-org-journal-file (expand-file-name (concat bp-org-dir "/Journal.org")))
+
+
+    ;;; Code blocks
+    ;; Highlight code in BEGIN_SRC-END_SRC blocks.
+    (setq org-src-fontify-natively t)
+
+
+    ;;; Babel
+    ;; Allow these languages to be executed in org code blocks.
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((haskell . t)
+       (latex   . t)
+       (python  . t)
+       (sh      . t)
+       (dot     . t)))
+
+    ;; Make org-babel work w/ these languages.
+    (require 'ob-haskell)
+    (require 'ob-latex)
+
+
+    ;; Evaluate code in org files w/o asking for confirmation. Potentially
+    ;; dangerous but meh.
+    (setq org-confirm-babel-evaluate nil)
+
+
+    ;;; Beamer
+    ;; Based on http://orgmode.org/worg/exporters/beamer/ox-beamer.html
+    (require 'ox-beamer)
+
+    (add-to-list 'org-latex-classes
+                 '("beamer"
+                   "\\documentclass\[10pt\]\{beamer\}"
+                   ("\\plain\{%s\}" . "\\plain\{%s\}")
+                   ("\\section\{%s\}" . "\\section*\{%s\}")
+                   ("\\subsection\{%s\}" . "\\subsection*\{%s\}")
+                   ("\\subsubsection\{%s\}" . "\\subsubsection*\{%s\}")))
+
+    ;;; Capture
+    ;; Where to put captured stuff.
+    (setq org-default-notes-file bp-org-main-file)
+
+    ;; Capture templates.
+    (use-package bp-org-capture-templates)
+
+
+    ;;; Agenda
+    ;; Set up path to agenda files.
+    (defvar bp-org-agenda-files-path bp-org-dir)
+    (when (file-exists-p bp-org-agenda-files-path)
+      (setq org-agenda-files `(,bp-org-agenda-files-path)))
+
+    ;; Custom commands for easy filtering.
+    (use-package bp-org-agenda-commands)
+
+
+    ;;; TODOs
+    ;; Log the closing time of TODO items.
+    (setq org-log-done 'time)
+
+    ;; Better todo states.
+    (setq org-todo-keywords
+          '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
+
+    ;; Refile anywhere.
+    (setq org-refile-targets '((nil :maxlevel . 9)))
+
+
+    ;;; Reminders
+    ;; Code below mostly stolen from http://doc.norang.ca/org-mode.html#Reminders
+    (defun bp-org-agenda-to-appt ()
+      "Erase all current reminders and rebuild the list from the
+    current agenda."
+      (interactive)
+      (setq appt-time-msg-list nil)
+      (org-agenda-to-appt))
+
+    ;; Plz don't ruin my window setup, org-agenda.
+    (setq org-agenda-window-setup 'current-window)
+
+    ;; Display appointment info in the modeline.
+    (setq appt-display-mode-line t)
+    (setq appt-display-format 'echo)
+
+    ;; Rebuild reminders each time the agenda is displayed.
+    (add-hook 'org-finalize-agenda-hook #'bp-org-agenda-to-appt 'append)
+
+    ;; Activate appointments.
+    (appt-activate t)
+
+    ;; Reset appointments 1 minute after midnight.
+    (run-at-time "24:01" nil #'bp-org-agenda-to-appt)
+
+    ;; Setup appointments at startup.
+    (bp-org-agenda-to-appt)
+
+
+    ;;; Text editing
+    (add-hook 'org-mode-hook #'auto-fill-mode)
+
+
+    ;;; Bullets
+    (use-package org-bullets
+      :ensure t
+      :commands (org-bullets-mode)
+      :preface
+      (add-hook 'org-mode-hook #'org-bullets-mode))
+
+
+    ;;; Bindings
+    (bind-keys :map evil-normal-state-map
+               (",a"  . org-agenda)
+               (",c"  . org-capture)
+               (",ta" . bp-org-archive-task-at-point))))
+
+
+;;; Code completion
+(use-package auto-complete
+  :commands (ac-define-source auto-complete-mode)
+  :diminish auto-complete-mode
+  :ensure t
+  :init
+  ;; Auto-complete all the programming.
+  (add-hook 'prog-mode-hook #'auto-complete-mode)
+  :config
+  (progn
+    ;; Load AC's default configs.
+    (require 'auto-complete-config)
+
+    (ac-config-default)
+    (ac-set-trigger-key "TAB")
+
+    ;; Source ALL THE THINGS.
+    (setq-default ac-sources '(ac-source-filename
+                               ac-source-imenu
+                               ac-source-features
+                               ac-source-abbrev
+                               ac-source-words-in-same-mode-buffers
+                               ac-source-dictionary
+                               ac-source-yasnippet))
+
+    (setq ac-auto-start 5
+          ac-auto-show-menu 0.5
+          ac-quick-help-delay 0.5
+
+          ac-use-menu-map t
+          ac-use-fuzzy nil
+          ac-use-quick-help t)))
+
+(use-package company
+  :commands company-mode
+  :diminish company-mode
+  :ensure t
+  :config
+  (setq company-idle-delay 0.25))
+
+(use-package yasnippet
+  :commands (yas-minor-mode yas-reload-all)
+  :diminish yas-minor-mode
+  :ensure t
+  :config
+  (yas-reload-all))
+
+
+;;; Linting
+(use-package flycheck
+  :commands flycheck-mode
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook #'flycheck-mode)
+  :config
+  (progn
+    (setq-default flycheck-disabled-checkers '(haskell-ghc
+                                               html-tidy
+                                               javascript-jshint))
+
+    (flycheck-add-mode 'javascript-eslint 'web-mode)))
+
+
+;;; Miscellaneous
+(use-package dash-at-point
+  :ensure t
+  :config
+  (bind-keys :map evil-normal-state-map
+             (",d" . dash-at-point)))
+
+(use-package diminish
+  :commands diminish
+  :ensure t)
+
+(when (memq window-system '(mac ns))
+  (use-package exec-path-from-shell
+    :commands exec-path-from-shell-initialize
+    :ensure t
+    :init
+    (add-hook 'after-init-hook #'exec-path-from-shell-initialize)))
+
+
+;;; Buffer navigation
+(use-package swiper
+  :commands (ivy-read)
+  :bind (("C-s" . swiper))
+  :ensure t)
+
+
+;;; File navigation
+(use-package counsel
+  :commands (counsel-git-grep)
+  :ensure t
+  :init
+  (bind-keys :map evil-normal-state-map
+             (",C" . counsel-git-grep)))
 
 (use-package projectile
   :commands (projectile-global-mode)
@@ -1239,143 +902,419 @@ switching to the new buffer."
                (",f" . projectile-find-file-dwim)
                (",p" . projectile-switch-project))))
 
-(use-package dash-at-point
+
+;;; Package management
+(use-package paradox
+  :commands paradox-list-packages
   :ensure t
   :config
-  (bind-keys :map evil-normal-state-map
-             (",d" . dash-at-point)))
+  (setq paradox-github-token t))
 
+
+;;; Process management
+(use-package prodigy
+  :bind (("C-c p" . prodigy))
+  :ensure t
+  :config
+  (progn
+    (defun bp-prodigy-toggle-compilation-mode ()
+      (interactive)
+      (if (eq major-mode 'compilation-mode)
+          (prodigy-view-mode)
+        (compilation-mode))
+      (if (fboundp #'bp-prodigy-view-mode-hook)
+          (bp-prodigy-view-mode-hook))
+      (goto-char (point-max)))
+
+    (defun bp-prodigy-view-mode-hook ()
+      (bind-key "C-c C-t" 'bp-prodigy-toggle-compilation-mode))
+
+    (add-hook 'prodigy-view-mode-hook #'bp-prodigy-view-mode-hook)
+
+    (use-package bp-prodigy-services)))
+
+
+;;; C
+(use-package cc-mode
+  :mode ("\\.c\\'" . c-mode)
+  :config
+  (progn
+    (setq c-default-style "bsd"
+          c-basic-offset 4)
+
+    ;; Fix indentation.
+    (defun my-c-mode-hook ()
+      (c-set-offset 'arglist-intro '+))
+
+    (use-package irony
+      :ensure t
+      :commands irony-mode
+      :preface
+      (progn
+        (defun my-irony-mode-hook ()
+          ;; Disable AC since its irony mode isn't ready yet.
+          (auto-complete-mode -1)
+
+          (eldoc-mode +1)
+          (irony-eldoc +1)
+          (company-mode +1)))
+      :config
+      (progn
+        (use-package company-irony
+          :ensure t
+          :preface
+          (progn
+            (defun my-company-irony-setup-hook ()
+              (add-to-list 'company-backends 'company-irony)))
+          :init
+          (progn
+            (add-hook 'irony-mode-hook #'my-company-irony-setup-hook)
+            (add-hook 'irony-mode-hook #'company-irony-setup-begin-commands)))
+
+        (use-package flycheck-irony
+          :ensure t
+          :preface
+          (progn
+            (defun my-flycheck-irony-setup-hook ()
+              (add-to-list 'flycheck-checkers 'irony)))
+          :init
+          (add-hook 'irony-mode-hook #'my-flycheck-irony-setup-hook))
+
+        (use-package irony-eldoc
+          :commands irony-eldoc
+          :ensure t)
+
+        (add-hook 'irony-mode-hook #'my-irony-mode-hook)))
+
+    (add-hook 'c-mode-hook #'my-c-mode-hook)
+    (add-hook 'c-mode-hook #'irony-mode)))
+
+
+;;; Docker
+(use-package dockerfile-mode
+  :mode "\\Dockerfile\\'"
+  :ensure t)
+
+
+;;; Elm
 (use-package elm-mode
   :load-path "vendor/elm-mode"
   :mode ("\\.elm\\'" . elm-mode)
   :config
   (add-hook 'elm-mode-hook #'elm-oracle-setup-ac))
 
-(use-package terraform-mode
-  :ensure t
-  :mode "\\.tf\\'")
 
+;;; Emacs lisp
+(use-package eldoc
+  :diminish eldoc-mode
+  :init
+  (add-hook 'emacs-lisp-mode-hook #'eldoc-mode))
+
+(use-package paredit
+  :diminish paredit-mode
+  :ensure t
+  :init
+  (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :init
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
+
+
+;;; Fish
 (use-package fish-mode
   :ensure t
   :mode "\\.fish\\'")
 
-(use-package calfw
+
+;;; Haskell
+(use-package haskell-mode
+  :mode "\\.l?hs\\'"
+  :ensure t
+  :preface
+  (progn
+    (defun my-haskell-mode-hook ()
+      (set-face-attribute 'shm-current-face nil :background "#EEE")
+      (set-face-attribute 'shm-quarantine-face nil :background "#DDD")
+
+      (setq-local indent-line-function #'indent-relative)))
+  :config
+  (progn
+    (require 'haskell-interactive-mode)
+    (require 'haskell-process)
+
+    (use-package shm
+      :ensure t
+      :init
+      (add-hook 'haskell-mode-hook #'structured-haskell-mode)
+      :config
+      (custom-set-variables
+       '(shm-auto-insert-skeletons t)
+       '(shm-auto-insert-bangs t)
+       '(shm-use-presentation-mode t)))
+
+    (use-package shakespeare-mode
+      :ensure t)
+
+    (custom-set-variables
+     ;; Haskell Process
+     '(haskell-process-type 'stack-ghci)
+     '(haskell-process-args-stack-ghci
+       '("--ghc-options=-ferror-spans"
+         "--ghc-options=-fno-warn-name-shadowing"
+         "--ghc-options=-fno-warn-orphans"))
+
+     '(haskell-process-suggest-remove-import-lines t)
+     '(haskell-process-auto-import-loaded-modules t)
+     '(haskell-process-log t)
+
+     ;; Haskell Interactive
+     '(haskell-interactive-mode-do-fast-keys t)
+     '(haskell-interactive-mode-eval-pretty nil)
+     '(haskell-interactive-mode-include-file-name nil)
+
+     ;; Misc
+     '(haskell-stylish-on-save t)
+     '(haskell-notify-p t)
+     '(haskell-tags-on-save t))
+
+    (add-hook 'haskell-mode-hook #'haskell-doc-mode)
+    (add-hook 'haskell-mode-hook #'haskell-decl-scan-mode)
+    (add-hook 'haskell-mode-hook #'interactive-haskell-mode)
+    (add-hook 'haskell-mode-hook #'my-haskell-mode-hook)
+
+    (bind-keys :map haskell-mode-map
+               ("C-c M-l" . haskell-process-reload-devel-main))))
+
+
+;;; JSON
+(use-package json-mode
+  :mode "\\.json\\'"
+  :ensure t)
+
+
+;;; LaTeX
+(use-package auctex
+  :ensure t
+  :mode ("\\.tex\\'" . LaTeX-mode))
+
+
+;;; LESS
+(use-package less-css-mode
+  :mode "\\.less\\'"
   :ensure t
   :config
   (progn
-    (require 'calfw-ical)
-    (require 'calfw-org)
-    (require 'bp-calfw)
+    (defun my-scss-mode-hook ()
+      (setq-local css-indent-offset 2))
 
-    (bind-keys :map evil-normal-state-map
-               (",k"  . bp-open-calendar))))
+    (add-hook 'less-css-mode-hook 'my-scss-mode-hook)))
 
-(use-package smtpmail
+
+;;; Markdown
+(use-package markdown-mode
+  :mode "\\.md\\'"
+  :ensure t)
+
+
+;;; OCaml
+(use-package tuareg
+  :mode ("\\.mli?\\'" . tuareg-mode)
+  :ensure t
+  :config
+  (progn
+    (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
+      (setenv (car var) (cadr var)))
+
+    (use-package utop
+      :ensure t)
+
+    (use-package merlin
+      :pin manual
+      :load-path "~/.opam/system/share/emacs/site-lisp"
+      :commands (merlin-mode)
+      :config
+      (progn
+        (setq merlin-use-auto-complete-mode 'easy)
+        (setq merlin-command 'opam)))
+
+    (use-package ocp-indent
+      :pin manual
+      :load-path "~/.opam/system/share/emacs/site-lisp"
+      :config
+      (progn
+        (setq ocp-indent-syntax '("lwt"))))
+
+    (add-hook 'tuareg-mode-hook #'merlin-mode)
+    (add-hook 'tuareg-mode-hook #'utop-minor-mode)))
+
+
+;;; Python
+(use-package python
+  :mode (("\\.py\\'"   . python-mode)
+         ("SConstruct" . python-mode))
+  :interpreter ("python" . python-mode)
+  :preface
+  (progn
+    (eval-when-compile
+      (declare-function py-test-define-project "py-test"))
+
+    (defun my-python-mode-hook ()
+      (auto-complete-mode -1)))
+  :config
+  (progn
+    (use-package elpy
+      :commands (elpy-enable)
+      :ensure t
+      :init
+      (with-eval-after-load 'python (elpy-enable))
+      :config
+      (progn
+        (bind-keys :map python-mode-map
+                   ("C-c v" . pyvenv-workon)
+                   ("C-c ." . elpy-goto-definition)
+                   ("C-c ," . pop-tag-mark))
+
+        (custom-set-variables
+         '(elpy-modules
+           (quote
+            (elpy-module-company
+             elpy-module-eldoc
+             elpy-module-pyvenv
+             elpy-module-sane-defaults
+             elpy-module-yasnippet))))))
+
+    (use-package py-test
+      :ensure t
+      :config
+      (progn
+        (evil-define-key 'normal python-mode-map
+          ",r" 'py-test-run-test-at-point
+          ",T" 'py-test-run-directory
+          ",t" 'py-test-run-file)
+
+        ;; Purty mode-line.
+        (setq py-test-*mode-line-face-shenanigans-on* t)
+        (setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec")
+
+        (use-package bp-py-test-projects)))
+
+    (add-hook 'python-mode-hook #'my-python-mode-hook)))
+
+
+;;; REST
+(use-package restclient
+  :mode ("\\.http\\'" . restclient-mode)
+  :ensure t)
+
+
+;;; Robot
+(use-package robot-mode
+  :load-path "vendor/robot-mode"
+  :mode "\\.robot\\'")
+
+
+;;; Scala
+(use-package scala-mode2
+  :mode (("\\.scala\\'" . scala-mode)
+         ("\\.sbt\\'"   . scala-mode))
+  :ensure t)
+
+(use-package ensime
+  :commands ensime-scala-mode-hook
+  :ensure t
+  :preface
+  (defun my-scala-mode-hook ()
+    (auto-complete-mode -1)
+    (yas-minor-mode -1)
+    (company-mode +1)
+
+    (if (equal "build.sbt" (buffer-name))
+        (flycheck-mode -1)))
   :init
   (progn
-    (setq starttls-use-gnutls t)
-    (setq send-mail-function 'smtpmail-send-it
-          message-send-mail-function 'smtpmail-send-it
-          smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-          smtpmail-auth-credentials (expand-file-name "~/.authinfo")
-          smtpmail-default-smtp-server "smtp.gmail.com"
-          smtpmail-smtp-server "smtp.gmail.com"
-          smtpmail-smtp-service 587
-          smtpmail-debug-info t)))
+    (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
+    (add-hook 'scala-mode-hook #'my-scala-mode-hook))
+  :config
+  (progn
+    (setq ensime-default-java-flags '("-Xms512M" "-Xmx1G")
+          ensime-sbt-command "activator")
+
+    (let* ((faces ensime-sem-high-faces)
+           (faces (assq-delete-all 'implicitConversion faces))
+           (faces (assq-delete-all 'implicitParams faces)))
+      (setq ensime-sem-high-faces faces))
+
+    (bind-keys :map ensime-mode-map
+               ("C-c ." . ensime-edit-definition)
+               ("C-c ," . ensime-pop-find-definition-stack))))
+
+
+;;; SCSS
+(use-package scss-mode
+  :mode "\\.scss\\'"
+  :ensure t
+  :config
+  (progn
+    ;; Stupid functionality is stupid.
+    (setq scss-compile-at-save nil)
+
+    (defun my-scss-mode-hook ()
+      (setq-local css-indent-offset 2))
+
+    (add-hook 'scss-mode-hook 'my-scss-mode-hook)))
+
+
+;;; Terraform
+(use-package terraform-mode
+  :ensure t
+  :mode "\\.tf\\'")
+
+
+;;; Web
+(use-package web-mode
+  :ensure t
+  :mode (("\\.html?\\'" . web-mode)
+         ("\\.php\\'"   . web-mode)
+         ("\\.hbs\\'"   . web-mode)
+         ("\\.jsx?\\'"  . web-mode))
+  :config
+  (progn
+    (setq web-mode-code-indent-offset 2
+          web-mode-style-indent-offset 2
+          web-mode-script-indent-offset 2
+          web-mode-markup-indent-offset 2
+
+          web-mode-style-padding 2
+          web-mode-script-padding 2
+
+          web-mode-enable-auto-closing t
+          web-mode-enable-auto-expanding t
+          web-mode-enable-auto-pairing t
+          web-mode-enable-current-element-highlight t
+
+          web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
+                                   ("django" . "\\.html\\'")))
+
+    (set-face-attribute 'web-mode-current-column-highlight-face nil :background "#EEE")
+    (set-face-attribute 'web-mode-current-element-highlight-face nil :background "#EEE")))
+
+
+;;; Yaml
+(use-package yaml-mode
+  :mode "\\.yaml\\'"
+  :ensure t)
 
 
 ;;; Disabled packages
-(use-package eshell
-  :disabled t
-  :preface
-  (progn
-    (defun eshell-clear-buffer ()
-      "Clear terminal"
-      (interactive)
-      (let ((inhibit-read-only t))
-        (erase-buffer)
-        (eshell-send-input)))
-
-    (defun my-eshell-mode-hook ()
-      (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
-  :config
-  (add-hook 'eshell-mode-hook #'my-eshell-mode-hook))
-
-(use-package cask
-  :disabled t
-  :ensure t)
-
-(use-package go-mode
-  :disabled t
-  :mode ("\\.go\\'" . go-mode)
-  :ensure t
-  :preface
-  (defun my-go-mode-hook ()
-    (use-package go-autocomplete
-      :ensure t
-      :init
-      (add-to-list 'ac-sources 'ac-source-go))
-
-    (setq gofmt-command "goimports")
-    (add-hook 'before-save-hook #'gofmt-before-save))
-  :config
-  (progn
-    (add-hook 'go-mode-hook #'my-go-mode-hook)
-
-    (bind-keys :map go-mode-map
-               ("C-c C-d" . godoc)
-               ("C-c C-f" . gofmt)
-               ("C-c C-g" . go-goto-imports))))
-
-(use-package monky
-  :disabled t
-  :commands monky-status
-  :ensure t)
-
-(use-package nim-mode
-  :disabled t
-  :mode "\\.nim\\'"
-  :ensure t
-  :config
-  (progn
-    (use-package ac-nim
-      :commands ac-nim-enable
-      :ensure t)
-    (add-hook 'nim-mode-hook #'ac-nim-enable)))
-
-(use-package purescript-mode
-  :disabled t
-  :ensure t
-  :mode "\\.purs\\'")
-
-(use-package sml-mode
-  :disabled t
-  :mode "\\.\\(sml\\|sig\\)\\'"
-  :ensure t)
-
-(use-package swift-mode
-  :disabled t
-  :mode "\\.swift\\'"
-  :ensure t
-  :config
-  (progn
-    (add-to-list 'flycheck-checkers 'swift)))
-
 (use-package urweb-mode
   :disabled t
   :load-path "/usr/local/share/emacs/site-lisp/urweb-mode"
   :mode "\\.ur[ps]?\\'")
 
-(use-package yasnippet
-  :commands (yas-minor-mode yas-reload-all)
-  :diminish yas-minor-mode
-  :ensure t
-  :config
-  (yas-reload-all))
-
 
 ;;; Backups
-(defvar local-temp-dir)
 (setq auto-save-file-name-transforms `((".*"   ,local-temp-dir t))
       backup-directory-alist         `((".*" . ,local-temp-dir))
       backup-by-copying t)
@@ -1529,10 +1468,6 @@ of modes."
 
 ;; Prevent the cursor from blinking.
 (blink-cursor-mode -1)
-
-;; Pretty terminal colors!!
-(unless (display-graphic-p)
-  (load-theme 'wombat t))
 
 
 ;;; Windows
