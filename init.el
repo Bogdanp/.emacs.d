@@ -1392,7 +1392,7 @@ of modes."
 ;; Highlight matching parens.
 (show-paren-mode +1)
 
-;; Fuck electric-indent-mode.
+;; Electric indent.
 (electric-indent-mode +1)
 
 ;; Prefer utf-8.
