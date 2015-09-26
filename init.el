@@ -891,7 +891,7 @@ switching to the new buffer."
 
 ;;; Process management
 (use-package prodigy
-  :bind (("C-c p" . prodigy))
+  :bind (("C-c P" . prodigy))
   :ensure t
   :config
   (progn
