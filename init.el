@@ -81,7 +81,6 @@
         :config (server-start))
 
       (use-package twilight-bright-theme
-        :disabled t
         :ensure t
         :config (load-theme 'twilight-bright t))
 
