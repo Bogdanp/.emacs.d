@@ -105,18 +105,18 @@
   :pin manual
   :preface
   (progn
-    (defun my-default-to-emacs-mode-hook ()
+    (defun bp-default-to-emacs-mode-hook ()
       (evil-emacs-state))
 
-    (defun my-toggle-emacs-mode-hook ()
+    (defun bp-toggle-emacs-mode-hook ()
       (if (equal evil-state 'emacs)
           (evil-normal-state)
         (evil-emacs-state)))
 
-    (defun my-minibuffer-setup-hook-for-evil ()
+    (defun bp-minibuffer-setup-hook-for-evil ()
       (local-set-key (kbd "C-w") 'backward-kill-word))
 
-    (defun my-evil-local-mode-hook ()
+    (defun bp-evil-local-mode-hook ()
       (setq-local interprogram-cut-function nil)
       (setq-local interprogram-paste-function nil)))
   :config
@@ -129,6 +129,7 @@
     (use-package undo-tree
       :diminish undo-tree-mode
       :ensure t
+      :commands (global-undo-tree-mode)
       :init
       (add-hook 'after-init-hook #'global-undo-tree-mode)
       :config
@@ -143,6 +144,7 @@
     ;;; Plugins
     (use-package evil-surround
       :ensure t
+      :commands (global-evil-surround-mode)
       :init
       (add-hook 'evil-mode-hook #'global-evil-surround-mode))
 
@@ -207,18 +209,18 @@
     (dolist (hook '(flycheck-error-list-mode-hook
                     git-commit-setup-hook
                     git-timemachine-mode-hook))
-      (add-hook hook #'my-default-to-emacs-mode-hook))
+      (add-hook hook #'bp-default-to-emacs-mode-hook))
 
 
     ;; Toggle between emacs mode whenever these hooks are invoked.
     (dolist (hook '(magit-blame-mode-hook))
-      (add-hook hook #'my-toggle-emacs-mode-hook))
+      (add-hook hook #'bp-toggle-emacs-mode-hook))
 
     ;; Make C-w work in the minibuffer.
-    (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook-for-evil)
+    (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook-for-evil)
 
     ;; Fix clipboard dirtying.
-    (add-hook 'evil-local-mode-hook #'my-evil-local-mode-hook)
+    (add-hook 'evil-local-mode-hook #'bp-evil-local-mode-hook)
 
     ;; Fix copy-on-motion.
     (defadvice evil-visual-update-x-selection (around clobber-x-select-text activate)
@@ -270,9 +272,11 @@
   :config
   (global-auto-revert-mode))
 
-(use-package dired)
-(use-package dired+
-  :ensure t)
+(use-package dired
+  :commands (dired)
+  :config
+  (use-package dired+
+    :ensure t))
 
 (use-package erc
   :commands erc
@@ -519,7 +523,7 @@ G is where data gets moved from."
                                 "")))
 
     ;;; Server
-    (defun my-server-visit-hook-for-term ()
+    (defun bp-server-visit-hook-for-term ()
       "Most of the time I call `emacsclient' I'll be toggled-into `bp-term-**'.
 
 I don't want calling `emacsclient' to break that configuration so this
@@ -530,7 +534,7 @@ switching to the new buffer."
           (bp-term-toggle)
           (switch-to-buffer buffer))))
 
-    (add-hook 'server-visit-hook #'my-server-visit-hook-for-term)
+    (add-hook 'server-visit-hook #'bp-server-visit-hook-for-term)
 
     (bind-keys :map term-raw-escape-map
                ("c"    . bp-term-add)
@@ -554,7 +558,7 @@ switching to the new buffer."
     (eval-when-compile
       (declare-function ibuffer-do-sort-by-alphabetic "ibuf-ext"))
 
-    (defun my-ibuffer-hook ()
+    (defun bp-ibuffer-hook ()
       (ibuffer-vc-set-filter-groups-by-vc-root)
       (unless (eq ibuffer-sorting-mode 'alphabetic)
         (ibuffer-do-sort-by-alphabetic))))
@@ -564,7 +568,7 @@ switching to the new buffer."
       :commands ibuffer-vc-set-filter-groups-by-vc-root
       :ensure t)
 
-    (add-hook 'ibuffer-hook #'my-ibuffer-hook)))
+    (add-hook 'ibuffer-hook #'bp-ibuffer-hook)))
 
 (use-package imenu
   :bind ("C-x C-i" . imenu))
@@ -941,7 +945,7 @@ switching to the new buffer."
           c-basic-offset 4)
 
     ;; Fix indentation.
-    (defun my-c-mode-hook ()
+    (defun bp-c-mode-hook ()
       (c-set-offset 'arglist-intro '+))
 
     (use-package irony
@@ -949,7 +953,7 @@ switching to the new buffer."
       :commands irony-mode
       :preface
       (progn
-        (defun my-irony-mode-hook ()
+        (defun bp-irony-mode-hook ()
           ;; Disable AC since its irony mode isn't ready yet.
           (auto-complete-mode -1)
 
@@ -962,29 +966,29 @@ switching to the new buffer."
           :ensure t
           :preface
           (progn
-            (defun my-company-irony-setup-hook ()
+            (defun bp-company-irony-setup-hook ()
               (add-to-list 'company-backends 'company-irony)))
           :init
           (progn
-            (add-hook 'irony-mode-hook #'my-company-irony-setup-hook)
+            (add-hook 'irony-mode-hook #'bp-company-irony-setup-hook)
             (add-hook 'irony-mode-hook #'company-irony-setup-begin-commands)))
 
         (use-package flycheck-irony
           :ensure t
           :preface
           (progn
-            (defun my-flycheck-irony-setup-hook ()
+            (defun bp-flycheck-irony-setup-hook ()
               (add-to-list 'flycheck-checkers 'irony)))
           :init
-          (add-hook 'irony-mode-hook #'my-flycheck-irony-setup-hook))
+          (add-hook 'irony-mode-hook #'bp-flycheck-irony-setup-hook))
 
         (use-package irony-eldoc
           :commands irony-eldoc
           :ensure t)
 
-        (add-hook 'irony-mode-hook #'my-irony-mode-hook)))
+        (add-hook 'irony-mode-hook #'bp-irony-mode-hook)))
 
-    (add-hook 'c-mode-hook #'my-c-mode-hook)
+    (add-hook 'c-mode-hook #'bp-c-mode-hook)
     (add-hook 'c-mode-hook #'irony-mode)))
 
 
@@ -1032,7 +1036,7 @@ switching to the new buffer."
   :ensure t
   :preface
   (progn
-    (defun my-haskell-mode-hook ()
+    (defun bp-haskell-mode-hook ()
       (set-face-attribute 'shm-current-face nil :background "#EEE")
       (set-face-attribute 'shm-quarantine-face nil :background "#DDD")
 
@@ -1080,7 +1084,7 @@ switching to the new buffer."
     (add-hook 'haskell-mode-hook #'haskell-doc-mode)
     (add-hook 'haskell-mode-hook #'haskell-decl-scan-mode)
     (add-hook 'haskell-mode-hook #'interactive-haskell-mode)
-    (add-hook 'haskell-mode-hook #'my-haskell-mode-hook)
+    (add-hook 'haskell-mode-hook #'bp-haskell-mode-hook)
 
     (bind-keys :map haskell-mode-map
                ("C-c M-l" . haskell-process-reload-devel-main))))
@@ -1104,10 +1108,10 @@ switching to the new buffer."
   :ensure t
   :config
   (progn
-    (defun my-scss-mode-hook ()
+    (defun bp-scss-mode-hook ()
       (setq-local css-indent-offset 2))
 
-    (add-hook 'less-css-mode-hook 'my-scss-mode-hook)))
+    (add-hook 'less-css-mode-hook 'bp-scss-mode-hook)))
 
 
 ;;; Markdown
@@ -1158,7 +1162,7 @@ switching to the new buffer."
     (eval-when-compile
       (declare-function py-test-define-project "py-test"))
 
-    (defun my-python-mode-hook ()
+    (defun bp-python-mode-hook ()
       (auto-complete-mode -1)))
   :config
   (progn
@@ -1198,7 +1202,7 @@ switching to the new buffer."
 
         (use-package bp-py-test-projects)))
 
-    (add-hook 'python-mode-hook #'my-python-mode-hook)))
+    (add-hook 'python-mode-hook #'bp-python-mode-hook)))
 
 
 ;;; REST
@@ -1223,7 +1227,7 @@ switching to the new buffer."
   :commands ensime-scala-mode-hook
   :ensure t
   :preface
-  (defun my-scala-mode-hook ()
+  (defun bp-scala-mode-hook ()
     (auto-complete-mode -1)
     (yas-minor-mode -1)
     (company-mode +1)
@@ -1233,7 +1237,7 @@ switching to the new buffer."
   :init
   (progn
     (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
-    (add-hook 'scala-mode-hook #'my-scala-mode-hook))
+    (add-hook 'scala-mode-hook #'bp-scala-mode-hook))
   :config
   (progn
     (setq ensime-default-java-flags '("-Xms512M" "-Xmx1G")
@@ -1258,10 +1262,10 @@ switching to the new buffer."
     ;; Stupid functionality is stupid.
     (setq scss-compile-at-save nil)
 
-    (defun my-scss-mode-hook ()
+    (defun bp-scss-mode-hook ()
       (setq-local css-indent-offset 2))
 
-    (add-hook 'scss-mode-hook 'my-scss-mode-hook)))
+    (add-hook 'scss-mode-hook 'bp-scss-mode-hook)))
 
 
 ;;; Terraform
@@ -1378,7 +1382,7 @@ switching to the new buffer."
 (setq-default indent-tabs-mode nil)
 
 ;; Highlight current line.
-(define-global-minor-mode my-global-hl-line-mode global-hl-line-mode
+(define-global-minor-mode bp-global-hl-line-mode global-hl-line-mode
   (lambda ()
     "You can't turn off global-hl-line-mode on a per-buffer basis so we
 can just build up our own version that doesn't activate for a given list
@@ -1388,7 +1392,7 @@ of modes."
                                       'org-agenda-mode)))
       (hl-line-mode +1))))
 
-(my-global-hl-line-mode)
+(bp-global-hl-line-mode)
 
 ;; Wrap long lines.
 (setq-default truncate-lines nil)
@@ -1409,11 +1413,11 @@ of modes."
 (setq sentence-end-double-space nil)
 
 ;; Highlight TODOs.
-(defun my-hl-todos ()
+(defun bp-hl-todos ()
   "Highlight TODO items in comments."
   (font-lock-add-keywords
    nil '(("\\<\\(TODO\\|NOTE\\|XXX\\):" 1 font-lock-warning-face t))))
-(add-hook 'prog-mode-hook #'my-hl-todos)
+(add-hook 'prog-mode-hook #'bp-hl-todos)
 
 
 ;;; Files
