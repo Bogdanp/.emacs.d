@@ -270,6 +270,8 @@
   (global-auto-revert-mode))
 
 (use-package dired)
+(use-package dired+
+  :ensure t)
 
 (use-package erc
   :commands erc
