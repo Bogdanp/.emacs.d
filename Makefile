@@ -6,7 +6,7 @@ all: clean
 		-batch \
 		-L ${vendors} . \
 		-L ${elpa} . \
-		-f batch-byte-compile ./elpa/**/*.el
+		-f batch-byte-compile ./elpa/**/*.el ./vendor/**/*.el
 
 clean:
 	find . -name "*.elc" -delete
