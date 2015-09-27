@@ -154,7 +154,15 @@
     (use-package evil-jumper
       :load-path "vendor/evil-jumper"
       :config
-      (add-hook 'evil-mode-hook #'evil-jumper-mode))
+      (add-hook 'evil-mode-hook #'global-evil-jumper-mode))
+
+    (use-package evil-visualstar
+      :load-path "vendor/evil-visualstar"
+      :config
+      (progn
+        (setq evil-visualstar/persistent t)
+
+        (add-hook 'evil-mode-hook #'global-evil-visualstar-mode)))
 
 
     ;;; Fixes

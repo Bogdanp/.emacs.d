@@ -31,3 +31,6 @@
 [submodule "vendor/evil-jumper"]
 	path = vendor/evil-jumper
 	url = https://github.com/bling/evil-jumper
+[submodule "vendor/evil-visualstar"]
+	path = vendor/evil-visualstar
+	url = https://github.com/bling/evil-visualstar
