@@ -151,6 +151,11 @@
       :config
       (add-hook 'evil-mode-hook #'evil-commentary-mode))
 
+    (use-package evil-jumper
+      :load-path "vendor/evil-jumper"
+      :config
+      (add-hook 'evil-mode-hook #'evil-jumper-mode))
+
 
     ;;; Fixes
     ;; Default to EMACS mode in these modes.
