@@ -720,8 +720,8 @@ switching to the new buffer."
     (require 'ob-latex)
 
 
-    ;; Evaluate code in org files w/o asking for confirmation. Potentially
-    ;; dangerous but meh.
+    ;; Evaluate code in org files w/o asking for confirmation.
+    ;; Potentially dangerous but meh.
     (setq org-confirm-babel-evaluate nil)
 
 
@@ -756,32 +756,32 @@ switching to the new buffer."
 
 
     ;;; TODOs
-    ;; Log the closing time of TODO items.
-    (setq org-log-done 'time)
+    (setq
+     ;; Log the closing time of TODO items.
+     org-log-done 'time
 
-    ;; Better todo states.
-    (setq org-todo-keywords
-          '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)")))
+     ;; Better todo states.
+     org-todo-keywords '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)"))
 
-    ;; Refile anywhere.
-    (setq org-refile-targets '((nil :maxlevel . 9)))
+     ;; Refile anywhere.
+     org-refile-targets '((nil :maxlevel . 9)))
 
 
     ;;; Reminders
     ;; Code below mostly stolen from http://doc.norang.ca/org-mode.html#Reminders
     (defun bp-org-agenda-to-appt ()
-      "Erase all current reminders and rebuild the list from the
-    current agenda."
+      "Erase all current reminders and rebuild the list from the current agenda."
       (interactive)
       (setq appt-time-msg-list nil)
       (org-agenda-to-appt))
 
-    ;; Plz don't ruin my window setup, org-agenda.
-    (setq org-agenda-window-setup 'current-window)
+    (setq
+     ;; Plz don't ruin my window setup, org-agenda.
+     org-agenda-window-setup 'current-window
 
-    ;; Display appointment info in the modeline.
-    (setq appt-display-mode-line t)
-    (setq appt-display-format 'echo)
+     ;; Display appointment info in the modeline.
+     appt-display-mode-line t
+     appt-display-format 'echo)
 
     ;; Rebuild reminders each time the agenda is displayed.
     (add-hook 'org-finalize-agenda-hook #'bp-org-agenda-to-appt 'append)
@@ -803,8 +803,7 @@ switching to the new buffer."
     ;;; Bullets
     (use-package org-bullets
       :ensure t
-      :commands (org-bullets-mode)
-      :preface
+      :config
       (add-hook 'org-mode-hook #'org-bullets-mode))
 
 
