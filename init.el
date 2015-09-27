@@ -143,9 +143,13 @@
     ;;; Plugins
     (use-package evil-surround
       :ensure t
-      :commands (global-evil-surround-mode)
-      :init
+      :config
       (add-hook 'evil-mode-hook #'global-evil-surround-mode))
+
+    (use-package evil-commentary
+      :load-path "vendor/evil-commentary"
+      :config
+      (add-hook 'evil-mode-hook #'evil-commentary-mode))
 
 
     ;;; Fixes

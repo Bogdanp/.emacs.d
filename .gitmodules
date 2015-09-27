@@ -25,3 +25,6 @@
 [submodule "vendor/elm-mode"]
 	path = vendor/elm-mode
 	url = git@github.com:Bogdanp/elm-mode
+[submodule "vendor/evil-commentary"]
+	path = vendor/evil-commentary
+	url = https://github.com/linktohack/evil-commentary
