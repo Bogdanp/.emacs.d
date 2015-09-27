@@ -261,24 +261,7 @@
 
     ;; NORMAL mode
     (bind-keys :map evil-normal-state-map
-               ;; Movement
-               ("C-a" . evil-beginning-of-line)
-               ("C-e" . evil-end-of-line)
-
-               ;; Windows
                ("C-w f" . bp-window-toggle-fullscreen))
-
-    ;; INSERT mode
-    (bind-keys :map evil-insert-state-map
-               ("C-a" . beginning-of-line)
-               ("C-e" . end-of-line))
-
-    ;; VISUAL mode
-    (bind-keys :map evil-visual-state-map
-               ("C-a" . evil-beginning-of-line)
-               ("C-e" . evil-end-of-line)
-               ("C-p" . evil-previous-line)
-               ("C-n" . evil-next-line))
 
     (evil-mode +1)))
 
@@ -351,10 +334,7 @@
     (grep-apply-setting
      'grep-find-command '("find . -type f -exec grep -nH -e  \\{\\} \\+" . 34))
     (grep-apply-setting
-     'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+")
-
-    (bind-keys :map evil-normal-state-map
-               (",S" . rgrep))))
+     'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+")))
 
 (use-package hippie-expand
   :bind (("M-/" . hippie-expand)))
@@ -897,20 +877,21 @@ switching to the new buffer."
 (use-package prodigy
   :bind (("C-c P" . prodigy))
   :ensure t
+  :preface
+  (defun bp-prodigy-toggle-compilation-mode ()
+    (interactive)
+    (if (eq major-mode 'compilation-mode)
+        (prodigy-view-mode)
+      (compilation-mode))
+    (if (fboundp #'bp-prodigy-view-mode-hook)
+        (bp-prodigy-view-mode-hook))
+    (goto-char (point-max)))
+
+  (defun bp-prodigy-view-mode-hook ()
+    (bind-key "C-c C-t" 'bp-prodigy-toggle-compilation-mode))
+
   :config
   (progn
-    (defun bp-prodigy-toggle-compilation-mode ()
-      (interactive)
-      (if (eq major-mode 'compilation-mode)
-          (prodigy-view-mode)
-        (compilation-mode))
-      (if (fboundp #'bp-prodigy-view-mode-hook)
-          (bp-prodigy-view-mode-hook))
-      (goto-char (point-max)))
-
-    (defun bp-prodigy-view-mode-hook ()
-      (bind-key "C-c C-t" 'bp-prodigy-toggle-compilation-mode))
-
     (add-hook 'prodigy-view-mode-hook #'bp-prodigy-view-mode-hook)
 
     (use-package bp-prodigy-services)))
