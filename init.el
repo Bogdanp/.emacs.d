@@ -879,12 +879,7 @@ switching to the new buffer."
   :ensure t
   :config
   (progn
-    (setq projectile-keymap-prefix (kbd "C-c M-p")
-          projectile-enable-caching t)
-
-    (bind-keys :map evil-normal-state-map
-               (",f" . projectile-find-file-dwim)
-               (",p" . projectile-switch-project))
+    (setq projectile-enable-caching t)
 
     (projectile-global-mode)))
 
