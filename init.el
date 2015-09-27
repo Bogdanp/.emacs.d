@@ -148,6 +148,7 @@
 
     (use-package evil-commentary
       :load-path "vendor/evil-commentary"
+      :diminish evil-commentary-mode
       :config
       (add-hook 'evil-mode-hook #'evil-commentary-mode))
 
