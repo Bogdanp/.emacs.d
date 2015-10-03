@@ -169,6 +169,11 @@
     ;;; Fixes
     ;; Default to EMACS mode in these modes.
     (dolist (mode '(calendar-mode
+                    cider-docview-mode
+                    cider-macroexpansion-mode
+                    cider-popup-buffer-mode
+                    cider-repl-mode
+                    cider-stacktrace-mode
                     cfw:details-mode
                     comint-mode
                     compilation-mode
@@ -344,7 +349,7 @@
   (progn
     (setq recentf-save-file (locate-user-emacs-file "recentf")
           recentf-max-saved-items 1000
-          recentf-max-menu-items 50
+          recentf-max-menu-items 10
           recentf-auto-cleanup 60)
 
     (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
@@ -970,6 +975,37 @@ switching to the new buffer."
 
     (add-hook 'c-mode-hook #'bp-c-mode-hook)
     (add-hook 'c-mode-hook #'irony-mode)))
+
+
+;;; Clojure
+(use-package clojure-mode
+  :ensure t
+  :mode (("\\.cljs?\\'" . clojure-mode)
+         ("\\.boot\\'"  . clojure-mode))
+  :config
+  (add-hook 'clojure-mode-hook #'cider-mode))
+
+(use-package cider
+  :ensure t
+  :commands (cider-mode)
+  :preface
+  (defun my-cider-mode-hook ()
+    (auto-complete -1))
+  :config
+  (progn
+    (add-hook 'cider-repl-mode-hook #'my-cider-mode-hook)
+    (add-hook 'cider-repl-mode-hook #'company-mode)
+    (add-hook 'cider-repl-mode-hook #'paredit-mode)
+    (add-hook 'cider-repl-mode-hook #'rainbow-delimiters-mode)
+    (add-hook 'cider-mode-hook #'my-cider-mode-hook)
+    (add-hook 'cider-mode-hook #'company-mode)
+    (add-hook 'cider-mode-hook #'eldoc-mode)
+    (add-hook 'cider-mode-hook #'paredit-mode)
+    (add-hook 'cider-mode-hook #'rainbow-delimiters-mode)
+
+    (bind-keys :map cider-mode-map
+               ("C-c ." . cider-jump-to-var)
+               ("C-c ," . cider-pop-back))))
 
 
 ;;; Docker
