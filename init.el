@@ -590,6 +590,7 @@ switching to the new buffer."
     (smex-initialize)))
 
 (use-package swiper
+  :disabled t
   :ensure t
   :bind (("C-s" . swiper)))
 
@@ -853,6 +854,7 @@ switching to the new buffer."
 
 ;;; File navigation
 (use-package counsel
+  :disabled t
   :commands (counsel-git-grep)
   :ensure t
   :init
