@@ -3,23 +3,23 @@
 ;;; Code:
 ;;; Misc. builtin options
 (setq
- ;;; GC
- ;; EMACS' default GC threshold is <1MB. Give it 200MB instead.
- gc-cons-threshold 200000000
-
  ;;; Me
  user-full-name "Bogdan Popa"
  user-mail-address "popa.bogdanp@gmail.com"
+
+ ;;; GC
+ ;; EMACS' default GC threshold is <1MB. Give it 200MB instead.
+ gc-cons-threshold 200000000
 
  ;;; Editing
  ;; Never use tabs.
  indent-tabs-mode nil
 
  ;; Wrap long lines
- truncate-lines nil)
+ truncate-lines nil
 
-;;; auto-compile
-(setq load-prefer-newer t)
+ ;;; auto-compile
+ load-prefer-newer t)
 
 (add-to-list 'load-path (locate-user-emacs-file "vendor/dash"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/packed"))
@@ -391,8 +391,7 @@
 
 (use-package files
   :init
-  (setq auto-save-file-name-transforms `(("\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'"
-					  ,(concat local-temp-dir "/\\2") t))
+  (setq auto-save-file-name-transforms `((".*" ,(concat local-temp-dir "/\\1") t))
         backup-directory-alist         `((".*" . ,local-temp-dir))
         backup-by-copying t))
 
