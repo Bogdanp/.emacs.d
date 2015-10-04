@@ -1075,6 +1075,7 @@ switching to the new buffer."
        '(shm-use-presentation-mode t)))
 
     (use-package shakespeare-mode
+      :disabled t
       :ensure t)
 
     (custom-set-variables
