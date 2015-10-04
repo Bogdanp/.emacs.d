@@ -510,6 +510,14 @@
 	smtpmail-debug-info t))
 
 (use-package term
+  :init
+  (defadvice term-line-mode (after enable-hl-line-in-term-line-mode)
+    (hl-line-mode 1)
+    (evil-normal-state))
+
+  (defadvice term-char-mode (after disable-hl-line-in-term-char-mode)
+    (hl-line-mode 0)
+    (evil-emacs-state))
   :config
   (progn
     ;;; Zipper
