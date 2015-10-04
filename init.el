@@ -89,7 +89,7 @@
 ;; Home sweet home.
 (setq default-directory (expand-file-name "~/"))
 
-(defvar local-temp-dir (expand-file-name (locate-user-emacs-file "temp"))
+(defconst local-temp-dir (expand-file-name (locate-user-emacs-file "temp"))
   "The folder in which temp files should be stored.")
 
 
@@ -344,15 +344,13 @@
   (setq compilation-scroll-output t))
 
 (use-package dired
-  :commands (dired)
+  :commands dired
+  :init
+  (setq insert-directory-program "/usr/local/bin/gls"
+	dired-listing-switches "--group-directories-first -alh")
   :config
-  (progn
-    ;; Make default dired slightly nicer.
-    (setq insert-directory-program "/usr/local/bin/gls"
-          dired-listing-switches "--group-directories-first -alh")
-
-    (use-package dired+
-      :ensure t)))
+  (use-package dired+
+    :ensure t))
 
 (use-package electric
   :config
@@ -360,26 +358,25 @@
 
 (use-package erc
   :commands erc
-  :config
-  (progn
-    ;; Default config.
-    (setq erc-server "irc.freenode.net"
-          erc-port 6667
-          erc-nick "bogdanp"
-          erc-user-full-name user-full-name)
+  :init
+  (setq
+   ;; Default config.
+   erc-server "irc.freenode.net"
+   erc-port 6667
+   erc-nick "bogdanp"
+   erc-user-full-name user-full-name
 
-    ;; Highlight these things in incoming messages.
-    (setq erc-keywords '("bogdanp"))
+   ;; Highlight these things in incoming messages.
+   erc-keywords '("bogdanp")
 
-    ;; Autojoin these channels on freenode.
-    (setq erc-autojoin-channels-alist
-          '(("freenode.net" "#emacs" "#erc" "#haskell" "#python" "#scala"
-             "#purescript" "#pixie-lang")))
+   ;; Autojoin these channels on freenode.
+   erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#erc" "#haskell" "#python" "#scala"
+				  "#purescript" "#pixie-lang"))
 
-    ;; Behave like a "normal" IRC client.
-    (setq erc-kill-buffer-on-part t
-          erc-kill-queries-on-quit t
-          erc-kill-server-buffer-on-quit t)))
+   ;; Behave like a "normal" IRC client.
+   erc-kill-buffer-on-part t
+   erc-kill-queries-on-quit t
+   erc-kill-server-buffer-on-quit t))
 
 (use-package etags
   :init
@@ -425,13 +422,13 @@ of modes."
 (use-package ido
   :init
   (setq ido-enable-prefix nil
-          ido-auto-merge-work-directories-length nil
-          ido-create-new-buffer 'always
-          ido-use-filename-at-point 'guess
-          ido-use-virtual-buffers t
-          ido-handle-duplicate-virtual-buffers 2
-          ido-max-prospects 10
-          ido-ignore-extensions t)
+	ido-auto-merge-work-directories-length nil
+	ido-create-new-buffer 'always
+	ido-use-filename-at-point 'guess
+	ido-use-virtual-buffers t
+	ido-handle-duplicate-virtual-buffers 2
+	ido-max-prospects 10
+	ido-ignore-extensions t)
   :config
   (progn
     (use-package ido-ubiquitous
@@ -463,7 +460,8 @@ of modes."
   (show-paren-mode +1))
 
 (use-package re-builder
-  :config
+  :commands re-builder
+  :init
   (setq reb-re-syntax 'rx))
 
 (use-package recentf
@@ -480,18 +478,17 @@ of modes."
     (recentf-mode +1)))
 
 (use-package savehist
+  :init
+  (setq savehist-file (locate-user-emacs-file "savehist")
+	savehist-additional-variables '(search ring regexp-search-ring)
+	savehist-autosave-interval 60
+
+	history-length 10000)
   :config
-  (progn
-    (setq savehist-file (locate-user-emacs-file "savehist")
-          savehist-additional-variables '(search ring regexp-search-ring)
-          savehist-autosave-interval 60
-
-          history-length 10000)
-
-    (savehist-mode +1)))
+  (savehist-mode +1))
 
 (use-package saveplace
-  :config
+  :init
   (setq-default save-place t))
 
 (use-package simple
@@ -675,7 +672,7 @@ switching to the new buffer."
     (bind-keys ("C-c M-a" . bp-term-toggle))))
 
 (use-package uniquify
-  :config
+  :init
   (setq uniquify-buffer-name-style 'forward))
 
 
@@ -710,11 +707,10 @@ switching to the new buffer."
   :bind (("M-x" . smex)
          ("C-;" . smex))
   :ensure t
+  :init
+  (setq smex-save-file (locate-user-emacs-file ".smex-items"))
   :config
-  (progn
-    (setq smex-save-file (locate-user-emacs-file ".smex-items"))
-
-    (smex-initialize)))
+  (smex-initialize))
 
 
 ;;; UI
@@ -736,19 +732,18 @@ switching to the new buffer."
   :ensure t
   :commands (magit-status git-commit-mode)
   :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
-         ("MERGE_MSG"         . git-commit-mode))
+	 ("MERGE_MSG"         . git-commit-mode))
   :bind ("C-c m" . magit-status)
+  :init
+  (setq magit-revert-buffers t
+	magit-completing-read-function #'magit-ido-completing-read
+	magit-last-seen-setup-instructions "1.4.0"
+	magit-push-always-verify nil)
   :config
-  (progn
-    (setq magit-revert-buffers t
-          magit-completing-read-function #'magit-ido-completing-read
-          magit-last-seen-setup-instructions "1.4.0"
-          magit-push-always-verify nil)
-
-    (use-package fullframe
-      :ensure t
-      :config
-      (fullframe magit-status magit-mode-quit-window))))
+  (use-package fullframe
+    :ensure t
+    :config
+    (fullframe magit-status magit-mode-quit-window)))
 
 (use-package git-timemachine
   :commands git-timemachine
@@ -937,8 +932,8 @@ switching to the new buffer."
                                ac-source-yasnippet))
 
     (setq ac-auto-start 5
-          ac-auto-show-menu 0.5
-          ac-quick-help-delay 0.5
+          ac-auto-show-menu 1
+          ac-quick-help-delay 1
 
           ac-use-menu-map t
           ac-use-fuzzy nil
@@ -948,8 +943,8 @@ switching to the new buffer."
   :commands company-mode
   :diminish company-mode
   :ensure t
-  :config
-  (setq company-idle-delay 0.25))
+  :init
+  (setq company-idle-delay 1))
 
 (use-package yasnippet
   :commands (yas-minor-mode yas-reload-all)
