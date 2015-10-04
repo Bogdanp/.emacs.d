@@ -21,18 +21,22 @@
  ;;; auto-compile
  load-prefer-newer t)
 
+
+;;; Vendored libs
 (add-to-list 'load-path (locate-user-emacs-file "vendor/dash"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/packed"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/auto-compile"))
+(add-to-list 'load-path (locate-user-emacs-file "vendor/use-package"))
 (add-to-list 'load-path (locate-user-emacs-file "private"))
 
+
+;;; auto-compile
 (require 'auto-compile)
 (auto-compile-on-load-mode 1)
 (auto-compile-on-save-mode 1)
 
 
 ;;; use-package
-(add-to-list 'load-path (locate-user-emacs-file "vendor/use-package"))
 (require 'use-package)
 
 
@@ -1437,24 +1441,24 @@
 	 ("\\.php\\'"   . web-mode)
 	 ("\\.hbs\\'"   . web-mode)
 	 ("\\.jsx?\\'"  . web-mode))
+  :init
+  (setq web-mode-code-indent-offset 2
+	web-mode-style-indent-offset 2
+	web-mode-script-indent-offset 2
+	web-mode-markup-indent-offset 2
+
+	web-mode-style-padding 2
+	web-mode-script-padding 2
+
+	web-mode-enable-auto-closing t
+	web-mode-enable-auto-expanding t
+	web-mode-enable-auto-pairing t
+	web-mode-enable-current-element-highlight t
+
+	web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
+				 ("django" . "\\.html\\'")))
   :config
   (progn
-    (setq web-mode-code-indent-offset 2
-	  web-mode-style-indent-offset 2
-	  web-mode-script-indent-offset 2
-	  web-mode-markup-indent-offset 2
-
-	  web-mode-style-padding 2
-	  web-mode-script-padding 2
-
-	  web-mode-enable-auto-closing t
-	  web-mode-enable-auto-expanding t
-	  web-mode-enable-auto-pairing t
-	  web-mode-enable-current-element-highlight t
-
-	  web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
-				   ("django" . "\\.html\\'")))
-
     (set-face-attribute 'web-mode-current-column-highlight-face nil :background "#EEE")
     (set-face-attribute 'web-mode-current-element-highlight-face nil :background "#EEE")))
 
