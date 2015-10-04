@@ -47,10 +47,10 @@
 
 ;; Remove GUI elements.
 (dolist (mode '(blink-cursor-mode
-                menu-bar-mode
-                tool-bar-mode
-                tooltip-mode
-                scroll-bar-mode))
+		menu-bar-mode
+		tool-bar-mode
+		tooltip-mode
+		scroll-bar-mode))
   (when (fboundp mode)
     (funcall mode -1)))
 
@@ -121,23 +121,23 @@
 (if (display-graphic-p)
     (progn
       (use-package server
-        :unless server-running-p
-        :config (server-start))
+	:unless server-running-p
+	:config (server-start))
 
       (use-package twilight-bright-theme
-        :ensure t
-        :config (load-theme 'twilight-bright t))
+	:ensure t
+	:config (load-theme 'twilight-bright t))
 
       ;;; Disabled
       (use-package twilight-anti-bright-theme
-        :disabled t
-        :load-path "vendor/twilight-anti-bright-theme"
-        :config (load-theme 'twilight-anti-bright t))
+	:disabled t
+	:load-path "vendor/twilight-anti-bright-theme"
+	:config (load-theme 'twilight-anti-bright t))
 
       (use-package better-default-theme
-        :disabled t
-        :load-path "vendor/better-default-theme"
-        :config (load-theme 'better-default t)))
+	:disabled t
+	:load-path "vendor/better-default-theme"
+	:config (load-theme 'better-default t)))
 
   (load-theme 'wombat t))
 
@@ -163,8 +163,8 @@
 
     (defun bp-toggle-emacs-mode-hook ()
       (if (equal evil-state 'emacs)
-          (evil-normal-state)
-        (evil-emacs-state)))
+	  (evil-normal-state)
+	(evil-emacs-state)))
 
     (defun bp-minibuffer-setup-hook-for-evil ()
       (local-set-key (kbd "C-w") 'backward-kill-word))
@@ -187,11 +187,11 @@
       (add-hook 'after-init-hook #'global-undo-tree-mode)
       :config
       (progn
-        (with-no-warnings
-          (setq undo-tree-visualizer-timestamps t
-                undo-tree-visualizer-diffs t
-                undo-tree-history-directory-alist `((".*" . ,local-temp-dir))
-                undo-tree-auto-save-history t))))
+	(with-no-warnings
+	  (setq undo-tree-visualizer-timestamps t
+		undo-tree-visualizer-diffs t
+		undo-tree-history-directory-alist `((".*" . ,local-temp-dir))
+		undo-tree-auto-save-history t))))
 
 
     ;;; Plugins
@@ -215,76 +215,76 @@
       :load-path "vendor/evil-visualstar"
       :config
       (progn
-        (setq evil-visualstar/persistent t)
+	(setq evil-visualstar/persistent t)
 
-        (add-hook 'evil-mode-hook #'global-evil-visualstar-mode)))
+	(add-hook 'evil-mode-hook #'global-evil-visualstar-mode)))
 
 
     ;;; Fixes
     ;; Default to EMACS mode in these modes.
     (dolist (mode '(calendar-mode
-                    cider-docview-mode
-                    cider-macroexpansion-mode
-                    cider-popup-buffer-mode
-                    cider-repl-mode
-                    cider-stacktrace-mode
-                    cfw:details-mode
-                    comint-mode
-                    compilation-mode
-                    debugger-mode
-                    diff-mode
-                    dired-mode
-                    elm-interactive-mode
-                    elm-package-mode
-                    erc-mode
-                    eshell-mode
-                    eww-mode
-                    eww-bookmark-mode
-                    eww-history-mode
-                    git-rebase-mode
-                    grep-mode
-                    haskell-interactive-mode
-                    help-mode
-                    inferior-python-mode
-                    Info-mode
-                    macrostep-mode
-                    magit-mode
-                    magit-blame-mode
-                    magit-cherry-mode
-                    magit-diff-mode
-                    magit-log-mode
-                    magit-log-select-mode
-                    magit-popup-mode
-                    magit-popup-help-mode
-                    magit-popup-sequence-mode
-                    magit-reflog-mode
-                    magit-refs-mode
-                    magit-revision-mode
-                    magit-stash-mode
-                    magit-stashes-mode
-                    magit-status-mode
-                    message-mode
-                    monky-mode
-                    special-mode
-                    paradox-commit-list-mode
-                    paradox-menu-mode
-                    process-menu-mode
-                    prodigy-mode
-                    sbt-mode
-                    swift-repl-mode
-                    sx-compose-mode
-                    sx-inbox-mode
-                    sx-question-mode
-                    sx-question-list-mode
-                    term-mode
-                    undo-tree-visualizer-mode
-                    utop-mode))
+		    cider-docview-mode
+		    cider-macroexpansion-mode
+		    cider-popup-buffer-mode
+		    cider-repl-mode
+		    cider-stacktrace-mode
+		    cfw:details-mode
+		    comint-mode
+		    compilation-mode
+		    debugger-mode
+		    diff-mode
+		    dired-mode
+		    elm-interactive-mode
+		    elm-package-mode
+		    erc-mode
+		    eshell-mode
+		    eww-mode
+		    eww-bookmark-mode
+		    eww-history-mode
+		    git-rebase-mode
+		    grep-mode
+		    haskell-interactive-mode
+		    help-mode
+		    inferior-python-mode
+		    Info-mode
+		    macrostep-mode
+		    magit-mode
+		    magit-blame-mode
+		    magit-cherry-mode
+		    magit-diff-mode
+		    magit-log-mode
+		    magit-log-select-mode
+		    magit-popup-mode
+		    magit-popup-help-mode
+		    magit-popup-sequence-mode
+		    magit-reflog-mode
+		    magit-refs-mode
+		    magit-revision-mode
+		    magit-stash-mode
+		    magit-stashes-mode
+		    magit-status-mode
+		    message-mode
+		    monky-mode
+		    special-mode
+		    paradox-commit-list-mode
+		    paradox-menu-mode
+		    process-menu-mode
+		    prodigy-mode
+		    sbt-mode
+		    swift-repl-mode
+		    sx-compose-mode
+		    sx-inbox-mode
+		    sx-question-mode
+		    sx-question-list-mode
+		    term-mode
+		    undo-tree-visualizer-mode
+		    utop-mode))
       (evil-set-initial-state mode 'emacs))
 
     ;; Default to EMACS mode whenever these hooks are invoked.
     (dolist (hook '(flycheck-error-list-mode-hook
-                    git-commit-setup-hook
-                    git-timemachine-mode-hook))
+		    git-commit-setup-hook
+		    git-timemachine-mode-hook))
       (add-hook hook #'bp-default-to-emacs-mode-hook))
 
 
@@ -309,25 +309,25 @@
     ;;; Bindings
     ;; "localleader"
     (bind-keys :map evil-normal-state-map
-               ;; Misc
-               (",," . evil-ex-nohighlight)
-               (",x" . calc)
-               (",v" . set-selective-display))
+	       ;; Misc
+	       (",," . evil-ex-nohighlight)
+	       (",x" . calc)
+	       (",v" . set-selective-display))
 
     ;; NORMAL mode
     (bind-keys :map evil-normal-state-map
-               ("C-a" . evil-beginning-of-line)
-               ("C-e" . evil-end-of-line))
+	       ("C-a" . evil-beginning-of-line)
+	       ("C-e" . evil-end-of-line))
 
     ;; INSERT mode
     (bind-keys :map evil-insert-state-map
-               ("C-a" . evil-beginning-of-line)
-               ("C-e" . evil-end-of-line))
+	       ("C-a" . evil-beginning-of-line)
+	       ("C-e" . evil-end-of-line))
 
     ;; VISUAL mode
     (bind-keys :map evil-visual-state-map
-               ("C-a" . evil-beginning-of-line)
-               ("C-e" . evil-end-of-line))
+	       ("C-a" . evil-beginning-of-line)
+	       ("C-e" . evil-end-of-line))
 
     (evil-mode +1)))
 
@@ -389,8 +389,8 @@
 (use-package files
   :init
   (setq auto-save-file-name-transforms `((".*" ,(concat local-temp-dir "/\\1") t))
-        backup-directory-alist         `((".*" . ,local-temp-dir))
-        backup-by-copying t))
+	backup-directory-alist         `((".*" . ,local-temp-dir))
+	backup-by-copying t))
 
 (use-package grep
   :config
@@ -409,13 +409,13 @@
   (progn
     (define-global-minor-mode bp-global-hl-line-mode global-hl-line-mode
       (lambda ()
-        "You can't turn off global-hl-line-mode on a per-buffer basis so we
+	"You can't turn off global-hl-line-mode on a per-buffer basis so we
 can just build up our own version that doesn't activate for a given list
 of modes."
-        (when (not (memq major-mode (list 'eww-mode
-                                          'term-mode
-                                          'org-agenda-mode)))
-          (hl-line-mode +1))))
+	(when (not (memq major-mode (list 'eww-mode
+					  'term-mode
+					  'org-agenda-mode)))
+	  (hl-line-mode +1))))
 
     (bp-global-hl-line-mode)))
 
@@ -443,7 +443,7 @@ of modes."
       (setq ido-vertical-show-count t)
       :config
       (progn
-        (ido-vertical-mode +1)))
+	(ido-vertical-mode +1)))
 
     (ido-mode +1)))
 
@@ -500,15 +500,15 @@ of modes."
   :init
   (setq starttls-use-gnutls t
 
-        send-mail-function 'smtpmail-send-it
-        message-send-mail-function 'smtpmail-send-it
+	send-mail-function 'smtpmail-send-it
+	message-send-mail-function 'smtpmail-send-it
 
-        smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-        smtpmail-auth-credentials (expand-file-name "~/.authinfo")
-        smtpmail-default-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-service 587
-        smtpmail-debug-info t))
+	smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+	smtpmail-auth-credentials (expand-file-name "~/.authinfo")
+	smtpmail-default-smtp-server "smtp.gmail.com"
+	smtpmail-smtp-server "smtp.gmail.com"
+	smtpmail-smtp-service 587
+	smtpmail-debug-info t))
 
 (use-package term
   :config
@@ -519,7 +519,7 @@ of modes."
     (defun zipper-append (zipper x)
       "Append to ZIPPER the value of X."
       (setf (zipper-rhs zipper)
-            (reverse (cons x (reverse (zipper-rhs zipper))))))
+	    (reverse (cons x (reverse (zipper-rhs zipper))))))
 
     (defun zipper-drop (zipper)
       "Drop the current element from ZIPPER."
@@ -529,23 +529,23 @@ of modes."
     (defun zipper-beginning (zipper)
       "Goto the beginning of ZIPPER."
       (setf (zipper-rhs zipper)
-            (append (reverse (cons (zipper-curr zipper)
-                                   (zipper-lhs zipper)))
-                    (zipper-rhs zipper)))
+	    (append (reverse (cons (zipper-curr zipper)
+				   (zipper-lhs zipper)))
+		    (zipper-rhs zipper)))
       (setf (zipper-curr zipper) nil)
       (setf (zipper-lhs zipper) nil))
 
     (defun zipper-end (zipper)
       "Goto the end of ZIPPER."
       (setf (zipper-lhs zipper)
-            (append (reverse (cons (zipper-curr zipper)
-                                   (zipper-rhs zipper)))
-                    (zipper-lhs zipper)))
+	    (append (reverse (cons (zipper-curr zipper)
+				   (zipper-rhs zipper)))
+		    (zipper-lhs zipper)))
       (setf (zipper-rhs zipper) nil)
       (setf (zipper-curr zipper)
-            (car (zipper-lhs zipper)))
+	    (car (zipper-lhs zipper)))
       (setf (zipper-lhs zipper)
-            (cdr (zipper-lhs zipper))))
+	    (cdr (zipper-lhs zipper))))
 
     (defmacro defmover (name f g)
       "Define a zipper modifier function called NAME.
@@ -553,18 +553,18 @@ of modes."
 F is where data gets moved to.
 G is where data gets moved from."
       `(defun ,name (zipper)
-         (when (funcall ,f zipper)
-           (let ((x  (car (funcall ,f zipper)))
-                 (xs (cdr (funcall ,f zipper))))
+	 (when (funcall ,f zipper)
+	   (let ((x  (car (funcall ,f zipper)))
+		 (xs (cdr (funcall ,f zipper))))
 
-             (when (zipper-curr zipper)
-               (setf (,(cadr g) zipper)
-                     (cons (zipper-curr zipper)
-                           (funcall ,g zipper))))
+	     (when (zipper-curr zipper)
+	       (setf (,(cadr g) zipper)
+		     (cons (zipper-curr zipper)
+			   (funcall ,g zipper))))
 
-             (setf (zipper-curr zipper) x)
-             (setf (,(cadr f) zipper) xs)))
-         (zipper-curr zipper)))
+	     (setf (zipper-curr zipper) x)
+	     (setf (,(cadr f) zipper) xs)))
+	 (zipper-curr zipper)))
 
     (defmover zipper-next #'zipper-rhs #'zipper-lhs)
     (defmover zipper-prev #'zipper-lhs #'zipper-rhs)
@@ -583,14 +583,14 @@ G is where data gets moved from."
 
     (defvar bp-term-terms
       (make-zipper :lhs  nil
-                   :rhs  nil
-                   :curr nil)
+		   :rhs  nil
+		   :curr nil)
       "A zipper for all of the existing terms.")
 
     (defun bp-maybe-switch-to-buffer (buffer)
       "Switch to BUFFER iff it is non-nil."
       (when buffer
-        (switch-to-buffer buffer)))
+	(switch-to-buffer buffer)))
 
     (defun bp-term-add ()
       "Add a new terminal and jump to it."
@@ -603,50 +603,50 @@ G is where data gets moved from."
       "Kill the current terminal."
       (interactive)
       (when (>= (length (zipper-rhs bp-term-terms)) 1)
-        (let ((buffer (zipper-drop bp-term-terms)))
-          (kill-buffer bp-term-current-term-buffer)
-          (setq bp-term-current-term-buffer buffer)
-          (bp-maybe-switch-to-buffer buffer))))
+	(let ((buffer (zipper-drop bp-term-terms)))
+	  (kill-buffer bp-term-current-term-buffer)
+	  (setq bp-term-current-term-buffer buffer)
+	  (bp-maybe-switch-to-buffer buffer))))
 
     (defun bp-term-next ()
       "Goto the next terminal in the zipper."
       (interactive)
       (let ((buffer (zipper-next bp-term-terms)))
-        (setq bp-term-current-term-buffer buffer)
-        (bp-maybe-switch-to-buffer buffer)))
+	(setq bp-term-current-term-buffer buffer)
+	(bp-maybe-switch-to-buffer buffer)))
 
     (defun bp-term-prev ()
       "Goto the previous terminal in the zipper."
       (interactive)
       (let ((buffer (zipper-prev bp-term-terms)))
-        (setq bp-term-current-term-buffer buffer)
-        (bp-maybe-switch-to-buffer buffer)))
+	(setq bp-term-current-term-buffer buffer)
+	(bp-maybe-switch-to-buffer buffer)))
 
     (defun bp-term-fullscreen ()
       "Make the term fullscreen."
       (setq bp-term-previous-window-configuration (current-window-configuration))
       (delete-other-windows)
       (if bp-term-current-term-buffer
-          (bp-maybe-switch-to-buffer bp-term-current-term-buffer)
-        (bp-term-add)
-        (setq bp-term-current-term-buffer (zipper-curr bp-term-terms))))
+	  (bp-maybe-switch-to-buffer bp-term-current-term-buffer)
+	(bp-term-add)
+	(setq bp-term-current-term-buffer (zipper-curr bp-term-terms))))
 
     (defun bp-term-toggle ()
       "Toggle between the current window config and a terminal."
       (interactive)
       (if bp-term-previous-window-configuration
-          (progn
-            (set-window-configuration bp-term-previous-window-configuration)
-            (setq bp-term-previous-window-configuration nil))
-        (bp-term-fullscreen)))
+	  (progn
+	    (set-window-configuration bp-term-previous-window-configuration)
+	    (setq bp-term-previous-window-configuration nil))
+	(bp-term-fullscreen)))
 
     (defun bp-term-clipboard-paste ()
       "Paste the contents of the clipboard into the current term."
       (interactive)
       (term-send-raw-string (or (if (fboundp #'bp-clipboard-value)
-                                    (bp-clipboard-value)
-                                  (x-get-clipboard))
-                                "")))
+				    (bp-clipboard-value)
+				  (x-get-clipboard))
+				"")))
 
     ;;; Server
     (defun bp-server-visit-hook-for-term ()
@@ -656,18 +656,18 @@ I don't want calling `emacsclient' to break that configuration so this
 hook works around that by toggling out of that configuration before
 switching to the new buffer."
       (let ((buffer (current-buffer)))
-        (when bp-term-previous-window-configuration
-          (bp-term-toggle)
-          (switch-to-buffer buffer))))
+	(when bp-term-previous-window-configuration
+	  (bp-term-toggle)
+	  (switch-to-buffer buffer))))
 
     (add-hook 'server-visit-hook #'bp-server-visit-hook-for-term)
 
     (bind-keys :map term-raw-escape-map
-               ("c"    . bp-term-add)
-               ("\C-k" . bp-term-kill)
-               ("\C-n" . bp-term-next)
-               ("\C-p" . bp-term-prev)
-               ("\C-y" . bp-term-clipboard-paste))
+	       ("c"    . bp-term-add)
+	       ("\C-k" . bp-term-kill)
+	       ("\C-n" . bp-term-next)
+	       ("\C-p" . bp-term-prev)
+	       ("\C-y" . bp-term-clipboard-paste))
 
     (bind-keys ("C-c M-a" . bp-term-toggle))))
 
@@ -687,7 +687,7 @@ switching to the new buffer."
     (defun bp-ibuffer-hook ()
       (ibuffer-vc-set-filter-groups-by-vc-root)
       (unless (eq ibuffer-sorting-mode 'alphabetic)
-        (ibuffer-do-sort-by-alphabetic))))
+	(ibuffer-do-sort-by-alphabetic))))
   :config
   (progn
     (use-package ibuffer-vc
@@ -705,7 +705,7 @@ switching to the new buffer."
 
 (use-package smex
   :bind (("M-x" . smex)
-         ("C-;" . smex))
+	 ("C-;" . smex))
   :ensure t
   :init
   (setq smex-save-file (locate-user-emacs-file ".smex-items"))
@@ -775,26 +775,26 @@ switching to the new buffer."
     (which, by convention, should be an Archive heading)."
       (interactive)
       (save-excursion
-        (let ((start-level (bp-org-level-of-heading-at-point)))
-          (org-cut-subtree)
+	(let ((start-level (bp-org-level-of-heading-at-point)))
+	  (org-cut-subtree)
 
-          ;; Cutting the subtree might place us on a different level.
-          ;; Account for those cases.
-          (let ((current-level (bp-org-level-of-heading-at-point)))
-            (if (< current-level start-level)
-                (progn
-                  (org-goto-sibling 'previous)
-                  (dotimes (number (- start-level current-level 1))
-                    (org-end-of-subtree)
-                    (org-goto-first-child)))
-              (outline-up-heading (+ 1 (- current-level start-level)))))
+	  ;; Cutting the subtree might place us on a different level.
+	  ;; Account for those cases.
+	  (let ((current-level (bp-org-level-of-heading-at-point)))
+	    (if (< current-level start-level)
+		(progn
+		  (org-goto-sibling 'previous)
+		  (dotimes (number (- start-level current-level 1))
+		    (org-end-of-subtree)
+		    (org-goto-first-child)))
+	      (outline-up-heading (+ 1 (- current-level start-level)))))
 
-          ;; TODO: Turn this into a heading search?
-          (org-goto-first-child)
+	  ;; TODO: Turn this into a heading search?
+	  (org-goto-first-child)
 
-          (let ((archive-level (bp-org-level-of-heading-at-point)))
-            (forward-line)
-            (org-paste-subtree (+ 1 archive-level)))))))
+	  (let ((archive-level (bp-org-level-of-heading-at-point)))
+	    (forward-line)
+	    (org-paste-subtree (+ 1 archive-level)))))))
   :config
   (progn
     ;;; Misc
@@ -901,9 +901,9 @@ switching to the new buffer."
 
     ;;; Bindings
     (bind-keys :map evil-normal-state-map
-               (",a"  . org-agenda)
-               (",c"  . org-capture)
-               (",ta" . bp-org-archive-task-at-point))))
+	       (",a"  . org-agenda)
+	       (",c"  . org-capture)
+	       (",ta" . bp-org-archive-task-at-point))))
 
 
 ;;; Code completion
@@ -924,20 +924,20 @@ switching to the new buffer."
 
     ;; Source ALL THE THINGS.
     (setq-default ac-sources '(ac-source-filename
-                               ac-source-imenu
-                               ac-source-features
-                               ac-source-abbrev
-                               ac-source-words-in-same-mode-buffers
-                               ac-source-dictionary
-                               ac-source-yasnippet))
+			       ac-source-imenu
+			       ac-source-features
+			       ac-source-abbrev
+			       ac-source-words-in-same-mode-buffers
+			       ac-source-dictionary
+			       ac-source-yasnippet))
 
     (setq ac-auto-start 5
-          ac-auto-show-menu 1
-          ac-quick-help-delay 1
+	  ac-auto-show-menu 1
+	  ac-quick-help-delay 1
 
-          ac-use-menu-map t
-          ac-use-fuzzy nil
-          ac-use-quick-help t)))
+	  ac-use-menu-map t
+	  ac-use-fuzzy nil
+	  ac-use-quick-help t)))
 
 (use-package company
   :commands company-mode
@@ -963,8 +963,8 @@ switching to the new buffer."
   :config
   (progn
     (setq-default flycheck-disabled-checkers '(haskell-ghc
-                                               html-tidy
-                                               javascript-jshint))
+					       html-tidy
+					       javascript-jshint))
 
     (flycheck-add-mode 'javascript-eslint 'web-mode)))
 
@@ -996,10 +996,10 @@ switching to the new buffer."
   (defun bp-prodigy-toggle-compilation-mode ()
     (interactive)
     (if (eq major-mode 'compilation-mode)
-        (prodigy-view-mode)
+	(prodigy-view-mode)
       (compilation-mode))
     (if (fboundp #'bp-prodigy-view-mode-hook)
-        (bp-prodigy-view-mode-hook))
+	(bp-prodigy-view-mode-hook))
     (goto-char (point-max)))
 
   (defun bp-prodigy-view-mode-hook ()
@@ -1017,7 +1017,7 @@ switching to the new buffer."
   :ensure t
   :config
   (bind-keys :map evil-normal-state-map
-             (",d" . dash-at-point)))
+	     (",d" . dash-at-point)))
 
 (use-package diminish
   :commands diminish
@@ -1036,10 +1036,10 @@ switching to the new buffer."
   (progn
     (setq hl-todo-activate-in-modes '(c-mode
 				      emacs-lisp-mode
-                                      elm-mode
-                                      haskell-mode
-                                      python-mode
-                                      scala-mode))
+				      elm-mode
+				      haskell-mode
+				      python-mode
+				      scala-mode))
 
     (global-hl-todo-mode)))
 
@@ -1050,7 +1050,7 @@ switching to the new buffer."
   :config
   (progn
     (setq c-default-style "bsd"
-          c-basic-offset 4)
+	  c-basic-offset 4)
 
     ;; Fix indentation.
     (defun bp-c-mode-hook ()
@@ -1061,40 +1061,40 @@ switching to the new buffer."
       :commands irony-mode
       :preface
       (progn
-        (defun bp-irony-mode-hook ()
-          ;; Disable AC since its irony mode isn't ready yet.
-          (auto-complete-mode -1)
+	(defun bp-irony-mode-hook ()
+	  ;; Disable AC since its irony mode isn't ready yet.
+	  (auto-complete-mode -1)
 
-          (eldoc-mode +1)
-          (irony-eldoc +1)
-          (company-mode +1)))
+	  (eldoc-mode +1)
+	  (irony-eldoc +1)
+	  (company-mode +1)))
       :config
       (progn
-        (use-package company-irony
-          :ensure t
-          :preface
-          (progn
-            (defun bp-company-irony-setup-hook ()
-              (add-to-list 'company-backends 'company-irony)))
-          :init
-          (progn
-            (add-hook 'irony-mode-hook #'bp-company-irony-setup-hook)
-            (add-hook 'irony-mode-hook #'company-irony-setup-begin-commands)))
+	(use-package company-irony
+	  :ensure t
+	  :preface
+	  (progn
+	    (defun bp-company-irony-setup-hook ()
+	      (add-to-list 'company-backends 'company-irony)))
+	  :init
+	  (progn
+	    (add-hook 'irony-mode-hook #'bp-company-irony-setup-hook)
+	    (add-hook 'irony-mode-hook #'company-irony-setup-begin-commands)))
 
-        (use-package flycheck-irony
-          :ensure t
-          :preface
-          (progn
-            (defun bp-flycheck-irony-setup-hook ()
-              (add-to-list 'flycheck-checkers 'irony)))
-          :init
-          (add-hook 'irony-mode-hook #'bp-flycheck-irony-setup-hook))
+	(use-package flycheck-irony
+	  :ensure t
+	  :preface
+	  (progn
+	    (defun bp-flycheck-irony-setup-hook ()
+	      (add-to-list 'flycheck-checkers 'irony)))
+	  :init
+	  (add-hook 'irony-mode-hook #'bp-flycheck-irony-setup-hook))
 
-        (use-package irony-eldoc
-          :commands irony-eldoc
-          :ensure t)
+	(use-package irony-eldoc
+	  :commands irony-eldoc
+	  :ensure t)
 
-        (add-hook 'irony-mode-hook #'bp-irony-mode-hook)))
+	(add-hook 'irony-mode-hook #'bp-irony-mode-hook)))
 
     (add-hook 'c-mode-hook #'bp-c-mode-hook)
     (add-hook 'c-mode-hook #'irony-mode)))
@@ -1104,7 +1104,7 @@ switching to the new buffer."
 (use-package clojure-mode
   :ensure t
   :mode (("\\.cljs?\\'" . clojure-mode)
-         ("\\.boot\\'"  . clojure-mode))
+	 ("\\.boot\\'"  . clojure-mode))
   :config
   (add-hook 'clojure-mode-hook #'cider-mode))
 
@@ -1127,8 +1127,8 @@ switching to the new buffer."
     (add-hook 'cider-mode-hook #'rainbow-delimiters-mode)
 
     (bind-keys :map cider-mode-map
-               ("C-c ." . cider-jump-to-var)
-               ("C-c ," . cider-pop-back))))
+	       ("C-c ." . cider-jump-to-var)
+	       ("C-c ," . cider-pop-back))))
 
 
 ;;; Docker
@@ -1204,8 +1204,8 @@ switching to the new buffer."
      '(haskell-process-type 'stack-ghci)
      '(haskell-process-args-stack-ghci
        '("--ghc-options=-ferror-spans"
-         "--ghc-options=-fno-warn-name-shadowing"
-         "--ghc-options=-fno-warn-orphans"))
+	 "--ghc-options=-fno-warn-name-shadowing"
+	 "--ghc-options=-fno-warn-orphans"))
 
      '(haskell-process-suggest-remove-import-lines t)
      '(haskell-process-auto-import-loaded-modules t)
@@ -1227,7 +1227,7 @@ switching to the new buffer."
     (add-hook 'haskell-mode-hook #'bp-haskell-mode-hook)
 
     (bind-keys :map haskell-mode-map
-               ("C-c M-l" . haskell-process-reload-devel-main))))
+	       ("C-c M-l" . haskell-process-reload-devel-main))))
 
 
 ;;; JSON
@@ -1279,15 +1279,15 @@ switching to the new buffer."
       :commands (merlin-mode)
       :config
       (progn
-        (setq merlin-use-auto-complete-mode 'easy)
-        (setq merlin-command 'opam)))
+	(setq merlin-use-auto-complete-mode 'easy)
+	(setq merlin-command 'opam)))
 
     (use-package ocp-indent
       :pin manual
       :load-path "~/.opam/system/share/emacs/site-lisp"
       :config
       (progn
-        (setq ocp-indent-syntax '("lwt"))))
+	(setq ocp-indent-syntax '("lwt"))))
 
     (add-hook 'tuareg-mode-hook #'merlin-mode)
     (add-hook 'tuareg-mode-hook #'utop-minor-mode)))
@@ -1296,7 +1296,7 @@ switching to the new buffer."
 ;;; Python
 (use-package python
   :mode (("\\.py\\'"   . python-mode)
-         ("SConstruct" . python-mode))
+	 ("SConstruct" . python-mode))
   :interpreter ("python" . python-mode)
   :preface
   (progn
@@ -1314,34 +1314,34 @@ switching to the new buffer."
       (with-eval-after-load 'python (elpy-enable))
       :config
       (progn
-        (bind-keys :map python-mode-map
-                   ("C-c v" . pyvenv-workon)
-                   ("C-c ." . elpy-goto-definition)
-                   ("C-c ," . pop-tag-mark))
+	(bind-keys :map python-mode-map
+		   ("C-c v" . pyvenv-workon)
+		   ("C-c ." . elpy-goto-definition)
+		   ("C-c ," . pop-tag-mark))
 
-        (custom-set-variables
-         '(elpy-modules
-           (quote
-            (elpy-module-company
-             elpy-module-eldoc
-             elpy-module-pyvenv
-             elpy-module-sane-defaults
-             elpy-module-yasnippet))))))
+	(custom-set-variables
+	 '(elpy-modules
+	   (quote
+	    (elpy-module-company
+	     elpy-module-eldoc
+	     elpy-module-pyvenv
+	     elpy-module-sane-defaults
+	     elpy-module-yasnippet))))))
 
     (use-package py-test
       :ensure t
       :config
       (progn
-        (evil-define-key 'normal python-mode-map
-          ",r" 'py-test-run-test-at-point
-          ",T" 'py-test-run-directory
-          ",t" 'py-test-run-file)
+	(evil-define-key 'normal python-mode-map
+	  ",r" 'py-test-run-test-at-point
+	  ",T" 'py-test-run-directory
+	  ",t" 'py-test-run-file)
 
-        ;; Purty mode-line.
-        (setq py-test-*mode-line-face-shenanigans-on* t)
-        (setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec")
+	;; Purty mode-line.
+	(setq py-test-*mode-line-face-shenanigans-on* t)
+	(setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec")
 
-        (use-package bp-py-test-projects)))
+	(use-package bp-py-test-projects)))
 
     (add-hook 'python-mode-hook #'bp-python-mode-hook)))
 
@@ -1361,7 +1361,7 @@ switching to the new buffer."
 ;;; Scala
 (use-package scala-mode2
   :mode (("\\.scala\\'" . scala-mode)
-         ("\\.sbt\\'"   . scala-mode))
+	 ("\\.sbt\\'"   . scala-mode))
   :ensure t)
 
 (use-package ensime
@@ -1373,7 +1373,7 @@ switching to the new buffer."
     (company-mode +1)
 
     (if (equal "build.sbt" (buffer-name))
-        (flycheck-mode -1)))
+	(flycheck-mode -1)))
   :init
   (progn
     (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
@@ -1381,16 +1381,16 @@ switching to the new buffer."
   :config
   (progn
     (setq ensime-default-java-flags '("-Xms512M" "-Xmx1G")
-          ensime-sbt-command "activator")
+	  ensime-sbt-command "activator")
 
     (let* ((faces ensime-sem-high-faces)
-           (faces (assq-delete-all 'implicitConversion faces))
-           (faces (assq-delete-all 'implicitParams faces)))
+	   (faces (assq-delete-all 'implicitConversion faces))
+	   (faces (assq-delete-all 'implicitParams faces)))
       (setq ensime-sem-high-faces faces))
 
     (bind-keys :map ensime-mode-map
-               ("C-c ." . ensime-edit-definition)
-               ("C-c ," . ensime-pop-find-definition-stack))))
+	       ("C-c ." . ensime-edit-definition)
+	       ("C-c ," . ensime-pop-find-definition-stack))))
 
 
 ;;; SCSS
@@ -1427,26 +1427,26 @@ switching to the new buffer."
 (use-package web-mode
   :ensure t
   :mode (("\\.html?\\'" . web-mode)
-         ("\\.php\\'"   . web-mode)
-         ("\\.hbs\\'"   . web-mode)
-         ("\\.jsx?\\'"  . web-mode))
+	 ("\\.php\\'"   . web-mode)
+	 ("\\.hbs\\'"   . web-mode)
+	 ("\\.jsx?\\'"  . web-mode))
   :config
   (progn
     (setq web-mode-code-indent-offset 2
-          web-mode-style-indent-offset 2
-          web-mode-script-indent-offset 2
-          web-mode-markup-indent-offset 2
+	  web-mode-style-indent-offset 2
+	  web-mode-script-indent-offset 2
+	  web-mode-markup-indent-offset 2
 
-          web-mode-style-padding 2
-          web-mode-script-padding 2
+	  web-mode-style-padding 2
+	  web-mode-script-padding 2
 
-          web-mode-enable-auto-closing t
-          web-mode-enable-auto-expanding t
-          web-mode-enable-auto-pairing t
-          web-mode-enable-current-element-highlight t
+	  web-mode-enable-auto-closing t
+	  web-mode-enable-auto-expanding t
+	  web-mode-enable-auto-pairing t
+	  web-mode-enable-current-element-highlight t
 
-          web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
-                                   ("django" . "\\.html\\'")))
+	  web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
+				   ("django" . "\\.html\\'")))
 
     (set-face-attribute 'web-mode-current-column-highlight-face nil :background "#EEE")
     (set-face-attribute 'web-mode-current-element-highlight-face nil :background "#EEE")))
