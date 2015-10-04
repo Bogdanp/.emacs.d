@@ -1,10 +1,22 @@
 ;;; init.el --- main config entry point -*- no-byte-compile: t -*-
 ;;; Commentary:
 ;;; Code:
-;;; GC
-;; EMACS' default GC threshold is <1MB. Give it 200MB instead.
-(setq gc-cons-threshold 200000000)
+;;; Misc. builtin options
+(setq
+ ;;; GC
+ ;; EMACS' default GC threshold is <1MB. Give it 200MB instead.
+ gc-cons-threshold 200000000
 
+ ;;; Me
+ user-full-name "Bogdan Popa"
+ user-mail-address "popa.bogdanp@gmail.com"
+
+ ;;; Editing
+ ;; Never use tabs.
+ indent-tabs-mode nil
+
+ ;; Wrap long lines
+ truncate-lines nil)
 
 ;;; auto-compile
 (setq load-prefer-newer t)
@@ -22,7 +34,6 @@
 ;;; use-package
 (add-to-list 'load-path (locate-user-emacs-file "vendor/use-package"))
 (require 'use-package)
-(require 'bind-key)
 
 
 ;;; UI
@@ -35,18 +46,51 @@
   (add-to-list 'default-frame-alist '(height . 59)))
 
 ;; Remove GUI elements.
-(dolist (mode '(menu-bar-mode tool-bar-mode scroll-bar-mode))
+(dolist (mode '(blink-cursor-mode
+                menu-bar-mode
+                tool-bar-mode
+                tooltip-mode
+                scroll-bar-mode))
   (when (fboundp mode)
     (funcall mode -1)))
 
-;; Disable welcome screen.
-(setq inhibit-startup-message t)
+(setq
+ ;; Disable welcome screen.
+ inhibit-startup-message t
+
+ ;; No bell of any kind.
+ ring-bell-function (lambda ())
+ visible-bell nil
+
+ ;; Make scrolling behave like it does in VIM.
+ scroll-margin 0
+ scroll-step 1
+ scroll-conservatively 10000
+ scroll-preserve-screen-position 1
+
+ ;; Improved scrolling when using the trackpad.
+ mouse-wheel-follow-mouse 't
+ mouse-wheel-scroll-amount '(1 ((shift) . 1))
+
+ sentence-end-double-space nil)
+
+
+;; Use y and n instead of yes and no.
+(defalias 'yes-or-no-p 'y-or-n-p)
+
+
+;;; Modeline
+;; Show current (row, col) in modeline.
+(column-number-mode +1)
+(line-number-mode +1)
 
 
 ;;; Paths
 ;; Home sweet home.
 (setq default-directory (expand-file-name "~/"))
-(setq local-temp-dir (expand-file-name (locate-user-emacs-file "temp")))
+
+(defvar local-temp-dir (expand-file-name (locate-user-emacs-file "temp"))
+  "The folder in which temp files should be stored.")
 
 
 ;;; Packages
@@ -96,6 +140,16 @@
         :config (load-theme 'better-default t)))
 
   (load-theme 'wombat t))
+
+
+;;; Keybindings
+(use-package bind-key
+  :init
+  (bind-keys ("C-j" . newline-and-indent)
+	     ("C-w" . backward-kill-word)
+	     ("C--" . text-scale-decrease)
+	     ("C-=" . text-scale-increase)
+	     ("C-+" . text-scale-increase)))
 
 
 ;;; EVIL
@@ -255,10 +309,6 @@
     ;;; Bindings
     ;; "localleader"
     (bind-keys :map evil-normal-state-map
-               ;; Compilation
-               (",r" . bp-compile-with-default-command)
-               (",R" . bp-compile-with-default-command-reset)
-
                ;; Misc
                (",," . evil-ex-nohighlight)
                (",x" . calc)
@@ -266,22 +316,47 @@
 
     ;; NORMAL mode
     (bind-keys :map evil-normal-state-map
-               ("C-w f" . bp-window-toggle-fullscreen))
+               ("C-a" . evil-beginning-of-line)
+               ("C-e" . evil-end-of-line))
+
+    ;; INSERT mode
+    (bind-keys :map evil-insert-state-map
+               ("C-a" . evil-beginning-of-line)
+               ("C-e" . evil-end-of-line))
+
+    ;; VISUAL mode
+    (bind-keys :map evil-visual-state-map
+               ("C-a" . evil-beginning-of-line)
+               ("C-e" . evil-end-of-line))
 
     (evil-mode +1)))
 
 
 ;;; Builtins
-;; Revert files that update on disk automatically. Ignores dirty buffers.
 (use-package autorevert
   :config
+  ;; Revert files that update on disk automatically. Ignores dirty
+  ;; buffers.
   (global-auto-revert-mode))
+
+(use-package compile
+  :init
+  (setq compilation-scroll-output t))
 
 (use-package dired
   :commands (dired)
   :config
-  (use-package dired+
-    :ensure t))
+  (progn
+    ;; Make default dired slightly nicer.
+    (setq insert-directory-program "/usr/local/bin/gls"
+          dired-listing-switches "--group-directories-first -alh")
+
+    (use-package dired+
+      :ensure t)))
+
+(use-package electric
+  :config
+  (electric-indent-mode +1))
 
 (use-package erc
   :commands erc
@@ -306,32 +381,20 @@
           erc-kill-queries-on-quit t
           erc-kill-server-buffer-on-quit t)))
 
-(use-package ido
-  :config
-  (progn
-    (setq ido-enable-prefix nil
-          ido-auto-merge-work-directories-length nil
-          ido-create-new-buffer 'always
-          ido-use-filename-at-point 'guess
-          ido-use-virtual-buffers t
-          ido-handle-duplicate-virtual-buffers 2
-          ido-max-prospects 10
-          ido-ignore-extensions t)
+(use-package etags
+  :init
+  ;; Never append tags lists together.
+  (setq tags-add-tables nil))
 
-    (ido-mode +1)
+(use-package ffap
+  :commands ffap-other-window)
 
-    (use-package ido-ubiquitous
-      :ensure t
-      :config
-      (ido-ubiquitous-mode +1))
-
-    (use-package ido-vertical-mode
-      :disabled t
-      :ensure t
-      :config
-      (progn
-        (setq ido-vertical-show-count t)
-        (ido-vertical-mode +1)))))
+(use-package files
+  :init
+  (setq auto-save-file-name-transforms `(("\\`/[^/]*:\\([^/]*/\\)*\\([^/]*\\)\\'"
+					  ,(concat local-temp-dir "/\\2") t))
+        backup-directory-alist         `((".*" . ,local-temp-dir))
+        backup-by-copying t))
 
 (use-package grep
   :config
@@ -345,14 +408,73 @@
 (use-package hippie-expand
   :bind (("M-/" . hippie-expand)))
 
-(use-package recentf
+(use-package hl-line
   :config
   (progn
-    (setq recentf-save-file (locate-user-emacs-file "recentf")
-          recentf-max-saved-items 1000
-          recentf-max-menu-items 10
-          recentf-auto-cleanup 60)
+    (define-global-minor-mode bp-global-hl-line-mode global-hl-line-mode
+      (lambda ()
+        "You can't turn off global-hl-line-mode on a per-buffer basis so we
+can just build up our own version that doesn't activate for a given list
+of modes."
+        (when (not (memq major-mode (list 'eww-mode
+                                          'term-mode
+                                          'org-agenda-mode)))
+          (hl-line-mode +1))))
 
+    (bp-global-hl-line-mode)))
+
+(use-package ido
+  :init
+  (setq ido-enable-prefix nil
+          ido-auto-merge-work-directories-length nil
+          ido-create-new-buffer 'always
+          ido-use-filename-at-point 'guess
+          ido-use-virtual-buffers t
+          ido-handle-duplicate-virtual-buffers 2
+          ido-max-prospects 10
+          ido-ignore-extensions t)
+  :config
+  (progn
+    (use-package ido-ubiquitous
+      :ensure t
+      :config
+      (ido-ubiquitous-mode +1))
+
+    (use-package ido-vertical-mode
+      :disabled t
+      :ensure t
+      :init
+      (setq ido-vertical-show-count t)
+      :config
+      (progn
+        (ido-vertical-mode +1)))
+
+    (ido-mode +1)))
+
+(use-package mule
+  :config
+  (progn
+    (set-terminal-coding-system 'utf-8)
+    (set-keyboard-coding-system 'utf-8)
+    (set-selection-coding-system 'utf-8)
+    (prefer-coding-system 'utf-8)))
+
+(use-package paren
+  :config
+  (show-paren-mode +1))
+
+(use-package re-builder
+  :config
+  (setq reb-re-syntax 'rx))
+
+(use-package recentf
+  :init
+  (setq recentf-save-file (locate-user-emacs-file "recentf")
+	recentf-max-saved-items 1000
+	recentf-max-menu-items 10
+	recentf-auto-cleanup 60)
+  :config
+  (progn
     (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
     (add-to-list 'recentf-exclude "MERGE_MSG\\'")
 
@@ -373,8 +495,13 @@
   :config
   (setq-default save-place t))
 
+(use-package simple
+  :init
+  ;; Delete trailing whitespace whenever a file gets saved.
+  (add-hook 'before-save-hook #'delete-trailing-whitespace))
+
 (use-package smtpmail
-  :preface
+  :init
   (setq starttls-use-gnutls t
 
         send-mail-function 'smtpmail-send-it
@@ -590,20 +717,15 @@ switching to the new buffer."
 
     (smex-initialize)))
 
-(use-package swiper
-  :disabled t
-  :ensure t
-  :bind (("C-s" . swiper)))
-
 
 ;;; UI
 (use-package smart-mode-line
-  :commands (sml/setup)
   :ensure t
   :init
+  (setq sml/no-confirm-load-theme t
+	sml/theme nil)
+  :config
   (progn
-    (setq sml/no-confirm-load-theme t)
-    (setq sml/theme nil)
     (sml/setup)
 
     (add-to-list 'sml/replacer-regexp-list '("^~/Work/" ":W:") t)
@@ -854,23 +976,14 @@ switching to the new buffer."
 
 
 ;;; File navigation
-(use-package counsel
-  :disabled t
-  :commands (counsel-git-grep)
-  :ensure t
-  :init
-  (bind-keys :map evil-normal-state-map
-             (",C" . counsel-git-grep)))
-
 (use-package projectile
   :diminish projectile-mode
   :load-path "vendor/smex"
   :ensure t
+  :init
+  (setq projectile-enable-caching t)
   :config
-  (progn
-    (setq projectile-enable-caching t)
-
-    (projectile-global-mode)))
+  (projectile-global-mode))
 
 
 ;;; Package management
@@ -922,6 +1035,19 @@ switching to the new buffer."
     :ensure t
     :init
     (add-hook 'after-init-hook #'exec-path-from-shell-initialize)))
+
+(use-package hl-todo
+  :ensure t
+  :config
+  (progn
+    (setq hl-todo-activate-in-modes '(c-mode
+				      emacs-lisp-mode
+                                      elm-mode
+                                      haskell-mode
+                                      python-mode
+                                      scala-mode))
+
+    (global-hl-todo-mode)))
 
 
 ;;; C
@@ -1124,6 +1250,7 @@ switching to the new buffer."
 
 ;;; LESS
 (use-package less-css-mode
+  :disabled t
   :mode "\\.less\\'"
   :ensure t
   :config
@@ -1249,7 +1376,6 @@ switching to the new buffer."
   :preface
   (defun bp-scala-mode-hook ()
     (auto-complete-mode -1)
-    (yas-minor-mode -1)
     (company-mode +1)
 
     (if (equal "build.sbt" (buffer-name))
@@ -1275,6 +1401,7 @@ switching to the new buffer."
 
 ;;; SCSS
 (use-package scss-mode
+  :disabled t
   :mode "\\.scss\\'"
   :ensure t
   :config
@@ -1290,8 +1417,16 @@ switching to the new buffer."
 
 ;;; Terraform
 (use-package terraform-mode
+  :disabled t
   :ensure t
   :mode "\\.tf\\'")
+
+
+;;; UrWeb
+(use-package urweb-mode
+  :disabled t
+  :load-path "/usr/local/share/emacs/site-lisp/urweb-mode"
+  :mode "\\.ur[ps]?\\'")
 
 
 ;;; Web
@@ -1327,198 +1462,6 @@ switching to the new buffer."
 (use-package yaml-mode
   :mode "\\.yaml\\'"
   :ensure t)
-
-
-;;; Disabled packages
-(use-package urweb-mode
-  :disabled t
-  :load-path "/usr/local/share/emacs/site-lisp/urweb-mode"
-  :mode "\\.ur[ps]?\\'")
-
-
-;;; Backups
-(setq auto-save-file-name-transforms `((".*"   ,local-temp-dir t))
-      backup-directory-alist         `((".*" . ,local-temp-dir))
-      backup-by-copying t)
-
-
-;;; Compilation
-;; Follow compilation output.
-(require 'compile)
-(setq compilation-scroll-output t)
-
-;; Make it easier to compile shit in one key press.
-(defconst bp-compile-with-default-command--buffer-name "*bp-default-compilation*"
-  "The name of the default-command-compilation buffer.")
-(defconst bp-compile-with-default-command--buffer-delay 0.25
-  "How long to wait until successful compilation buffers are closed.")
-
-(defvar bp-compile-with-default-command--command nil
-  "The current compilation command.
-
-  The user is prompted for a command when this is `nil`.")
-
-(defun bp-compile-with-default-command--finish-hook (buffer string)
-  "Hides BUFFER if STRING is 'finished' and there were no warnings."
-  (when (and (string-match "finished" string)
-             (string-equal (buffer-name buffer)
-                           bp-compile-with-default-command--buffer-name)
-             (not (with-current-buffer buffer
-                    (goto-char 1)
-                    (search-forward "warning" nil t))))
-    (run-with-timer bp-compile-with-default-command--buffer-delay nil
-                    (lambda (buffer)
-                      (bury-buffer buffer)
-                      (switch-to-prev-buffer (get-buffer-window buffer) 'kill))
-                    buffer)))
-
-(defun bp-compile-with-default-command--impl ()
-  "Handle compilation with default command."
-  (let* ((compilation-buffer-name-function
-          (lambda (_)
-            bp-compile-with-default-command--buffer-name)))
-    (compile bp-compile-with-default-command--command)
-    (add-hook 'compilation-finish-functions
-              #'bp-compile-with-default-command--finish-hook)))
-
-(defun bp-compile-with-default-command ()
-  "Compile with the default command."
-  (interactive)
-  (if bp-compile-with-default-command--command
-      (bp-compile-with-default-command--impl)
-    (setq bp-compile-with-default-command--command
-          (read-string "Compilation command: "))
-    (bp-compile-with-default-command--impl)))
-
-(defun bp-compile-with-default-command-reset ()
-  "Reset the default compilation command."
-  (interactive)
-  (setq bp-compile-with-default-command--command nil)
-  (bp-compile-with-default-command))
-
-
-;;; Editing
-;; Never use tabs.
-(setq-default indent-tabs-mode nil)
-
-;; Highlight current line.
-(define-global-minor-mode bp-global-hl-line-mode global-hl-line-mode
-  (lambda ()
-    "You can't turn off global-hl-line-mode on a per-buffer basis so we
-can just build up our own version that doesn't activate for a given list
-of modes."
-    (when (not (memq major-mode (list 'eww-mode
-                                      'term-mode
-                                      'org-agenda-mode)))
-      (hl-line-mode +1))))
-
-(bp-global-hl-line-mode)
-
-;; Wrap long lines.
-(setq-default truncate-lines nil)
-
-;; Highlight matching parens.
-(show-paren-mode +1)
-
-;; Electric indent.
-(electric-indent-mode +1)
-
-;; Prefer utf-8.
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-selection-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-
-;; Make fill-paragraph more useful.
-(setq sentence-end-double-space nil)
-
-;; Highlight TODOs.
-(defun bp-hl-todos ()
-  "Highlight TODO items in comments."
-  (font-lock-add-keywords
-   nil '(("\\<\\(TODO\\|NOTE\\|XXX\\):" 1 font-lock-warning-face t))))
-(add-hook 'prog-mode-hook #'bp-hl-todos)
-
-
-;;; Files
-;; Delete trailing whitespaces whenever a file gets saved.
-(add-hook 'before-save-hook #'delete-trailing-whitespace)
-
-;; Make default dired slightly nicer.
-(setq insert-directory-program "/usr/local/bin/gls")
-(setq dired-listing-switches "--group-directories-first -alh")
-
-
-;;; Me
-(setq user-full-name "Bogdan Popa")
-(setq user-mail-address "popa.bogdanp@gmail.com")
-
-
-;;; Modeline
-;; Show current (row, col) in modeline.
-(line-number-mode +1)
-(column-number-mode +1)
-
-
-;;; Regexps
-(require 're-builder)
-(setq reb-re-syntax 'rx)
-
-
-;;; Scrolling
-;; Make scrolling behave like it does in VIM.
-(setq scroll-margin 0
-      scroll-step 1
-      scroll-conservatively 10000
-      scroll-preserve-screen-position 1)
-
-;; Improved scrolling when using the trackpad.
-(setq mouse-wheel-follow-mouse 't)
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-
-
-;;; UI
-;; Use y and n instead of yes and no.
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-;; No bell of any kind.
-(setq visible-bell nil)
-(setq ring-bell-function (lambda ()))
-
-;; Disable tooltips.
-(tooltip-mode -1)
-
-;; Prevent the cursor from blinking.
-(blink-cursor-mode -1)
-
-
-;;; Windows
-(defvar bp-window-previous-window-configuration nil
-  "Holds the previous window configuration.")
-
-(defun bp-window-toggle-fullscreen ()
-  "Toggle between whether or not the current window should be maximized."
-  (interactive)
-  (if bp-window-previous-window-configuration
-      (progn
-        (set-window-configuration bp-window-previous-window-configuration)
-        (setq bp-window-previous-window-configuration nil))
-    (progn
-      (setq bp-window-previous-window-configuration (current-window-configuration))
-      (delete-other-windows))))
-
-
-;;; Random bindings
-(bind-keys ("C-j" . newline-and-indent)
-           ("C-w" . backward-kill-word)
-           ("C--" . text-scale-decrease)
-           ("C-=" . text-scale-increase)
-           ("C-+" . text-scale-increase))
-
-
-;;; Tags
-;; Never append tags lists together.
-(setq tags-add-tables nil)
 
 
 (provide 'init)
