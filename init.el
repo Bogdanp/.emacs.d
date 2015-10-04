@@ -1460,7 +1460,7 @@ of modes."
 
 ;;; Regexps
 (require 're-builder)
-(setq reb-re-syntax 'string)
+(setq reb-re-syntax 'rx)
 
 
 ;;; Scrolling
