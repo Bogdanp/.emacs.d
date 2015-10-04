@@ -326,6 +326,7 @@
       (ido-ubiquitous-mode +1))
 
     (use-package ido-vertical-mode
+      :disabled t
       :ensure t
       :config
       (progn
