@@ -125,6 +125,7 @@
 	:config (server-start))
 
       (use-package twilight-bright-theme
+	:disabled t
 	:ensure t
 	:config (load-theme 'twilight-bright t))
 
@@ -135,7 +136,6 @@
 	:config (load-theme 'twilight-anti-bright t))
 
       (use-package better-default-theme
-	:disabled t
 	:load-path "vendor/better-default-theme"
 	:config (load-theme 'better-default t)))
 
@@ -287,7 +287,6 @@
 		    git-timemachine-mode-hook))
       (add-hook hook #'bp-default-to-emacs-mode-hook))
 
-
     ;; Toggle between emacs mode whenever these hooks are invoked.
     (dolist (hook '(magit-blame-mode-hook))
       (add-hook hook #'bp-toggle-emacs-mode-hook))
@@ -409,9 +408,9 @@
   (progn
     (define-global-minor-mode bp-global-hl-line-mode global-hl-line-mode
       (lambda ()
-	"You can't turn off global-hl-line-mode on a per-buffer basis so we
-can just build up our own version that doesn't activate for a given list
-of modes."
+	;; XXX: You can't turn off global-hl-line-mode on a per-buffer
+	;; basis so we can just build up our own version that doesn't
+	;; activate for a given list of modes.
 	(when (not (memq major-mode (list 'eww-mode
 					  'term-mode
 					  'org-agenda-mode)))
@@ -550,8 +549,8 @@ of modes."
     (defmacro defmover (name f g)
       "Define a zipper modifier function called NAME.
 
-F is where data gets moved to.
-G is where data gets moved from."
+      F is where data gets moved to.
+      G is where data gets moved from."
       `(defun ,name (zipper)
 	 (when (funcall ,f zipper)
 	   (let ((x  (car (funcall ,f zipper)))
@@ -652,9 +651,9 @@ G is where data gets moved from."
     (defun bp-server-visit-hook-for-term ()
       "Most of the time I call `emacsclient' I'll be toggled-into `bp-term-**'.
 
-I don't want calling `emacsclient' to break that configuration so this
-hook works around that by toggling out of that configuration before
-switching to the new buffer."
+      I don't want calling `emacsclient' to break that configuration
+      so this hook works around that by toggling out of that
+      configuration before switching to the new buffer."
       (let ((buffer (current-buffer)))
 	(when bp-term-previous-window-configuration
 	  (bp-term-toggle)
