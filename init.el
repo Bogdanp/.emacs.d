@@ -319,18 +319,18 @@
 
     ;; NORMAL mode
     (bind-keys :map evil-normal-state-map
-	       ("C-a" . evil-beginning-of-line)
-	       ("C-e" . evil-end-of-line))
+	       ("C-a" . beginning-of-line)
+	       ("C-e" . end-of-line))
 
     ;; INSERT mode
     (bind-keys :map evil-insert-state-map
-	       ("C-a" . evil-beginning-of-line)
-	       ("C-e" . evil-end-of-line))
+	       ("C-a" . beginning-of-line)
+	       ("C-e" . end-of-line))
 
     ;; VISUAL mode
     (bind-keys :map evil-visual-state-map
-	       ("C-a" . evil-beginning-of-line)
-	       ("C-e" . evil-end-of-line))
+	       ("C-a" . beginning-of-line)
+	       ("C-e" . end-of-line))
 
     (evil-mode +1)))
 
