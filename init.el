@@ -135,11 +135,11 @@
 
       ;;; Disabled
       (use-package twilight-anti-bright-theme
-	:disabled t
 	:load-path "vendor/twilight-anti-bright-theme"
 	:config (load-theme 'twilight-anti-bright t))
 
       (use-package better-default-theme
+	:disabled t
 	:load-path "vendor/better-default-theme"
 	:config (load-theme 'better-default t)))
 
