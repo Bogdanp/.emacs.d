@@ -686,6 +686,15 @@
   :init
   (setq uniquify-buffer-name-style 'forward))
 
+(use-package winner
+  :config
+  (progn
+    (winner-mode +1)
+
+    (bind-keys :map evil-normal-state-map
+               (",ww" . winner-undo)
+               (",wr" . winner-redo))))
+
 
 ;;; Buffers and buffer navigation
 (use-package ibuffer
