@@ -448,6 +448,11 @@
       (progn
 	(ido-vertical-mode +1)))
 
+    (use-package ido-clever-match
+      :load-path "vendor/ido-clever-match"
+      :config
+      (ido-clever-match-enable))
+
     (ido-mode +1)))
 
 (use-package mule
