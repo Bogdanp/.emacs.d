@@ -210,6 +210,14 @@
       :config
       (add-hook 'evil-mode-hook #'evil-commentary-mode))
 
+    (use-package evil-indent-textobject
+      :load-path "vendor/evil-indent-textobject")
+
+    (use-package evil-visual-mark-mode
+      :load-path "vendor/evil-visual-mark-mode"
+      :config
+      (add-hook 'evil-mode-hook #'evil-visual-mark-mode))
+
     (use-package evil-jumper
       :load-path "vendor/evil-jumper"
       :config
