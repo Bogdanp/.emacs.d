@@ -254,6 +254,7 @@
 		    eww-mode
 		    eww-bookmark-mode
 		    eww-history-mode
+                    geiser-repl-mode
 		    git-rebase-mode
 		    grep-mode
 		    haskell-interactive-mode
@@ -1424,6 +1425,21 @@
     (bind-keys :map ensime-mode-map
 	       ("C-c ." . ensime-edit-definition)
 	       ("C-c ," . ensime-pop-find-definition-stack))))
+
+
+;;; Scheme
+(use-package geiser
+  :ensure t
+  :preface
+  (defun bp-geiser-mode-hook ()
+    (auto-complete-mode -1)
+    (company-mode +1))
+  :init
+  (progn
+    (add-hook 'geiser-mode-hook #'paredit-mode)
+    (add-hook 'geiser-mode-hook #'rainbow-delimiters-mode)
+    (add-hook 'geiser-mode-hook #'bp-geiser-mode-hook)
+    (setq geiser-active-implementations '(chicken))))
 
 
 ;;; SCSS
