@@ -978,7 +978,7 @@
   :diminish company-mode
   :ensure t
   :init
-  (setq company-idle-delay 1))
+  (setq company-idle-delay 0.25))
 
 (use-package yasnippet
   :commands (yas-minor-mode yas-reload-all)
