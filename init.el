@@ -11,15 +11,16 @@
  ;; EMACS' default GC threshold is <1MB. Give it 200MB instead.
  gc-cons-threshold 200000000
 
+ ;;; auto-compile
+ load-prefer-newer t)
+
+(setq-default
  ;;; Editing
  ;; Never use tabs.
  indent-tabs-mode nil
 
  ;; Wrap long lines
- truncate-lines nil
-
- ;;; auto-compile
- load-prefer-newer t)
+ truncate-lines nil)
 
 
 ;;; Vendored libs
