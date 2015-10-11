@@ -450,7 +450,8 @@
       :config
       (ido-clever-match-enable))
 
-    (ido-mode +1)))
+    (ido-mode +1)
+    (ido-everywhere +1)))
 
 (use-package mule
   :config
