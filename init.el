@@ -75,9 +75,7 @@
 
  ;; Improved scrolling when using the trackpad.
  mouse-wheel-follow-mouse 't
- mouse-wheel-scroll-amount '(1 ((shift) . 1))
-
- sentence-end-double-space nil)
+ mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 
 
 ;; Use y and n instead of yes and no.
