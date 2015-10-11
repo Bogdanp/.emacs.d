@@ -920,13 +920,6 @@
     (add-hook 'org-mode-hook #'auto-fill-mode)
 
 
-    ;;; Bullets
-    (use-package org-bullets
-      :ensure t
-      :config
-      (add-hook 'org-mode-hook #'org-bullets-mode))
-
-
     ;;; Bindings
     (bind-keys :map evil-normal-state-map
 	       (",a"  . org-agenda)
