@@ -241,7 +241,6 @@
 		    cider-popup-buffer-mode
 		    cider-repl-mode
 		    cider-stacktrace-mode
-		    cfw:details-mode
 		    comint-mode
 		    compilation-mode
 		    debugger-mode
@@ -251,9 +250,6 @@
 		    elm-package-mode
 		    erc-mode
 		    eshell-mode
-		    eww-mode
-		    eww-bookmark-mode
-		    eww-history-mode
                     geiser-repl-mode
 		    git-rebase-mode
 		    grep-mode
@@ -285,11 +281,6 @@
 		    process-menu-mode
 		    prodigy-mode
 		    sbt-mode
-		    swift-repl-mode
-		    sx-compose-mode
-		    sx-inbox-mode
-		    sx-question-mode
-		    sx-question-list-mode
 		    term-mode
 		    undo-tree-visualizer-mode
 		    utop-mode))
