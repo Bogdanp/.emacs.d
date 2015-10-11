@@ -423,9 +423,7 @@
 
 (use-package ido
   :init
-  (setq ido-enable-prefix nil
-	ido-auto-merge-work-directories-length nil
-	ido-create-new-buffer 'always
+  (setq ido-create-new-buffer 'always
 	ido-use-filename-at-point 'guess
 	ido-use-virtual-buffers t
 	ido-handle-duplicate-virtual-buffers 2
@@ -729,6 +727,7 @@
 
 (use-package smex
   :bind (("M-x" . smex)
+         ("M-X" . smex-major-mode-commands)
 	 ("C-;" . smex))
   :ensure t
   :init
@@ -825,6 +824,11 @@
     (defvar bp-org-dir (expand-file-name "~/Dropbox/Documents/Personal"))
     (defvar bp-org-main-file (expand-file-name (concat bp-org-dir "/Bogdan.org")))
     (defvar bp-org-journal-file (expand-file-name (concat bp-org-dir "/Journal.org")))
+
+
+    ;;; Completion
+    (setq org-completion-use-ido t
+          org-outline-path-complete-in-steps nil)
 
 
     ;;; Code blocks
