@@ -722,10 +722,6 @@
 (use-package imenu
   :bind ("C-x C-i" . imenu))
 
-(use-package imenu-anywhere
-  :bind ("C-c C-i" . imenu-anywhere)
-  :ensure t)
-
 (use-package smex
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands)
