@@ -244,6 +244,8 @@
 		    debugger-mode
 		    diff-mode
 		    dired-mode
+                    elfeed-search-mode
+                    elfeed-show-mode
 		    elm-interactive-mode
 		    elm-package-mode
 		    erc-mode
@@ -1039,6 +1041,13 @@
 (use-package diminish
   :commands diminish
   :ensure t)
+
+(use-package elfeed
+  :ensure t
+  :config
+  (setq elfeed-feeds '("http://jaspervdj.be/rss.xml"
+                       "http://nullprogram.com/feed/"
+                       "http://defn.io/atom.xml")))
 
 (when (memq window-system '(mac ns))
   (use-package exec-path-from-shell
