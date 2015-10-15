@@ -501,7 +501,6 @@
 
 (use-package simple
   :init
-  ;; Delete trailing whitespace whenever a file gets saved.
   (add-hook 'before-save-hook #'delete-trailing-whitespace))
 
 (use-package smtpmail
