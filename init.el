@@ -1044,6 +1044,7 @@
 
 (use-package elfeed
   :ensure t
+  :commands elfeed
   :config
   (setq elfeed-feeds '("http://jaspervdj.be/rss.xml"
                        "http://nullprogram.com/feed/"
