@@ -1437,8 +1437,8 @@
 ;;; SCSS
 (use-package scss-mode
   :disabled t
-  :mode "\\.scss\\'"
   :ensure t
+  :mode "\\.scss\\'"
   :config
   (progn
     ;; Stupid functionality is stupid.
@@ -1495,8 +1495,8 @@
 
 ;;; Yaml
 (use-package yaml-mode
-  :mode "\\.yaml\\'"
-  :ensure t)
+  :ensure t
+  :mode "\\.yaml\\'")
 
 
 (provide 'init)
