@@ -1218,7 +1218,6 @@
       :config
       (custom-set-variables
        '(shm-auto-insert-skeletons t)
-       '(shm-auto-insert-bangs t)
        '(shm-use-presentation-mode t)))
 
     (use-package shakespeare-mode
