@@ -224,14 +224,10 @@
       :config
       (add-hook 'evil-mode-hook #'global-evil-jumper-mode))
 
-    ;; Toggle between emacs mode whenever these hooks are invoked.
     (dolist (hook bp-emacs-state-minor-modes)
       (add-hook hook #'bp-toggle-emacs-state))
 
-    ;; Make C-w work in the minibuffer.
     (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook)
-
-    ;; Selectively apply evil mode to various modes.
     (add-hook 'after-change-major-mode-hook #'bp-apply-evil-mode-hook)
     (evil-mode +1)))
 
