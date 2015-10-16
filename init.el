@@ -1204,8 +1204,8 @@
     (defun bp-haskell-mode-hook ()
       ;; (set-face-attribute 'shm-current-face nil :background "#EEE")
       ;; (set-face-attribute 'shm-quarantine-face nil :background "#DDD")
-
-      (setq-local indent-line-function #'indent-relative)))
+      (auto-complete-mode -1)
+      (company-mode +1)))
   :config
   (progn
     (require 'haskell-interactive-mode)
