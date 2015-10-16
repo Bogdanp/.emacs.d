@@ -318,21 +318,6 @@
 	       (",x" . calc)
 	       (",v" . set-selective-display))
 
-    ;; NORMAL mode
-    (bind-keys :map evil-normal-state-map
-	       ("C-a" . beginning-of-line)
-	       ("C-e" . end-of-line))
-
-    ;; INSERT mode
-    (bind-keys :map evil-insert-state-map
-	       ("C-a" . beginning-of-line)
-	       ("C-e" . end-of-line))
-
-    ;; VISUAL mode
-    (bind-keys :map evil-visual-state-map
-	       ("C-a" . beginning-of-line)
-	       ("C-e" . end-of-line))
-
     (evil-mode +1)))
 
 
@@ -926,7 +911,7 @@
 
 ;;; Code completion
 (use-package auto-complete
-  :commands (ac-define-source auto-complete-mode)
+  :commands auto-complete-mode
   :diminish auto-complete-mode
   :ensure t
   :init
