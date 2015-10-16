@@ -1000,14 +1000,6 @@
   :commands diminish
   :ensure t)
 
-(use-package elfeed
-  :ensure t
-  :commands elfeed
-  :config
-  (setq elfeed-feeds '("http://jaspervdj.be/rss.xml"
-                       "http://nullprogram.com/feed/"
-                       "http://defn.io/atom.xml")))
-
 (when (memq window-system '(mac ns))
   (use-package exec-path-from-shell
     :commands exec-path-from-shell-initialize
