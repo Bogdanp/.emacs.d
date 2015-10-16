@@ -219,26 +219,10 @@
       :config
       (add-hook 'evil-mode-hook #'evil-commentary-mode))
 
-    (use-package evil-indent-textobject
-      :load-path "vendor/evil-indent-textobject")
-
-    (use-package evil-visual-mark-mode
-      :load-path "vendor/evil-visual-mark-mode"
-      :config
-      (add-hook 'evil-mode-hook #'evil-visual-mark-mode))
-
     (use-package evil-jumper
       :load-path "vendor/evil-jumper"
       :config
       (add-hook 'evil-mode-hook #'global-evil-jumper-mode))
-
-    (use-package evil-visualstar
-      :load-path "vendor/evil-visualstar"
-      :config
-      (progn
-	(setq evil-visualstar/persistent t)
-
-	(add-hook 'evil-mode-hook #'global-evil-visualstar-mode)))
 
     ;; Toggle between emacs mode whenever these hooks are invoked.
     (dolist (hook bp-emacs-state-minor-modes)
