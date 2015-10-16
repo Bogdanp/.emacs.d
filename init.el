@@ -164,6 +164,7 @@
     (defvar bp-evil-state-modes '(fundamental-mode
                                   conf-mode
                                   prog-mode
+                                  restclient-mode
                                   text-mode
                                   web-mode
                                   yaml-mode))
