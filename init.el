@@ -161,33 +161,50 @@
   :pin manual
   :preface
   (progn
-    (defun bp-toggle-emacs-mode-hook ()
+    (defvar bp-evil-state-modes '(fundamental-mode
+                                  conf-mode
+                                  prog-mode
+                                  text-mode
+                                  web-mode
+                                  yaml-mode))
+
+    (defvar bp-emacs-state-minor-modes '(git-commit-setup-hook
+                                         git-timemachine-mode-hook
+                                         magit-blame-mode-hook
+                                         org-capture-mode-hook
+                                         org-log-buffer-setup-hook))
+
+    (defun bp-apply-evil-mode-hook ()
+      (if (apply #'derived-mode-p bp-evil-state-modes)
+          (evil-normal-state)
+        (evil-emacs-state)))
+
+    (defun bp-toggle-emacs-state ()
       (if (equal evil-state 'emacs)
 	  (evil-normal-state)
 	(evil-emacs-state)))
 
-    (defun bp-minibuffer-setup-hook-for-evil ()
+    (defun bp-minibuffer-setup-hook ()
       (local-set-key (kbd "C-w") 'backward-kill-word)))
   :config
   (progn
     ;;; Dependencies
     (use-package goto-chg
-      :commands goto-last-change
-      :ensure t)
+      :ensure t
+      :commands goto-last-change)
 
     (use-package undo-tree
-      :diminish undo-tree-mode
       :ensure t
-      :commands (global-undo-tree-mode)
+      :diminish undo-tree-mode
+      :commands global-undo-tree-mode
       :init
       (add-hook 'after-init-hook #'global-undo-tree-mode)
       :config
-      (progn
-	(with-no-warnings
-	  (setq undo-tree-visualizer-timestamps t
-		undo-tree-visualizer-diffs t
-		undo-tree-history-directory-alist `((".*" . ,local-temp-dir))
-		undo-tree-auto-save-history t))))
+      (with-no-warnings
+        (setq undo-tree-visualizer-timestamps t
+              undo-tree-visualizer-diffs t
+              undo-tree-history-directory-alist `((".*" . ,local-temp-dir))
+              undo-tree-auto-save-history t)))
 
 
     ;;; Plugins
@@ -223,75 +240,15 @@
 
 	(add-hook 'evil-mode-hook #'global-evil-visualstar-mode)))
 
-
-    ;;; Fixes
-    ;; Default to EMACS mode in these modes.
-    (dolist (mode '(calendar-mode
-		    cider-docview-mode
-		    cider-macroexpansion-mode
-		    cider-popup-buffer-mode
-		    cider-repl-mode
-		    cider-stacktrace-mode
-		    comint-mode
-		    compilation-mode
-		    debugger-mode
-		    diff-mode
-		    dired-mode
-                    elfeed-search-mode
-                    elfeed-show-mode
-		    elm-interactive-mode
-		    elm-package-mode
-		    erc-mode
-		    eshell-mode
-                    geiser-repl-mode
-		    git-rebase-mode
-		    grep-mode
-		    haskell-interactive-mode
-		    help-mode
-		    inferior-python-mode
-		    Info-mode
-		    macrostep-mode
-		    magit-mode
-		    magit-blame-mode
-		    magit-cherry-mode
-		    magit-diff-mode
-		    magit-log-mode
-		    magit-log-select-mode
-		    magit-popup-mode
-		    magit-popup-help-mode
-		    magit-popup-sequence-mode
-		    magit-reflog-mode
-		    magit-refs-mode
-		    magit-revision-mode
-		    magit-stash-mode
-		    magit-stashes-mode
-		    magit-status-mode
-		    message-mode
-		    monky-mode
-		    special-mode
-		    paradox-commit-list-mode
-		    paradox-menu-mode
-		    process-menu-mode
-		    prodigy-mode
-		    sbt-mode
-		    term-mode
-		    undo-tree-visualizer-mode
-		    utop-mode))
-      (evil-set-initial-state mode 'emacs))
-
-    ;; Default to EMACS mode whenever these hooks are invoked.
-    (dolist (hook '(flycheck-error-list-mode-hook
-		    git-commit-setup-hook
-		    git-timemachine-mode-hook))
-      (add-hook hook #'evil-emacs-state))
-
     ;; Toggle between emacs mode whenever these hooks are invoked.
-    (dolist (hook '(magit-blame-mode-hook))
-      (add-hook hook #'bp-toggle-emacs-mode-hook))
+    (dolist (hook bp-emacs-state-minor-modes)
+      (add-hook hook #'bp-toggle-emacs-state))
 
     ;; Make C-w work in the minibuffer.
-    (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook-for-evil)
+    (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook)
 
+    ;; Selectively apply evil mode to various modes.
+    (add-hook 'after-change-major-mode-hook #'bp-apply-evil-mode-hook)
     (evil-mode +1)))
 
 
