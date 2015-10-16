@@ -161,20 +161,13 @@
   :pin manual
   :preface
   (progn
-    (defun bp-default-to-emacs-mode-hook ()
-      (evil-emacs-state))
-
     (defun bp-toggle-emacs-mode-hook ()
       (if (equal evil-state 'emacs)
 	  (evil-normal-state)
 	(evil-emacs-state)))
 
     (defun bp-minibuffer-setup-hook-for-evil ()
-      (local-set-key (kbd "C-w") 'backward-kill-word))
-
-    (defun bp-evil-local-mode-hook ()
-      (setq-local interprogram-cut-function nil)
-      (setq-local interprogram-paste-function nil)))
+      (local-set-key (kbd "C-w") 'backward-kill-word)))
   :config
   (progn
     ;;; Dependencies
@@ -290,7 +283,7 @@
     (dolist (hook '(flycheck-error-list-mode-hook
 		    git-commit-setup-hook
 		    git-timemachine-mode-hook))
-      (add-hook hook #'bp-default-to-emacs-mode-hook))
+      (add-hook hook #'evil-emacs-state))
 
     ;; Toggle between emacs mode whenever these hooks are invoked.
     (dolist (hook '(magit-blame-mode-hook))
@@ -298,25 +291,6 @@
 
     ;; Make C-w work in the minibuffer.
     (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook-for-evil)
-
-    ;; Fix clipboard dirtying.
-    (add-hook 'evil-local-mode-hook #'bp-evil-local-mode-hook)
-
-    ;; Fix copy-on-motion.
-    (defadvice evil-visual-update-x-selection (around clobber-x-select-text activate)
-      (fset 'old-x-select-text (symbol-function 'x-select-text))
-      (fmakunbound 'x-select-text)
-      ad-do-it
-      (fset 'x-select-text (symbol-function 'old-x-select-text)))
-
-
-    ;;; Bindings
-    ;; "localleader"
-    (bind-keys :map evil-normal-state-map
-	       ;; Misc
-	       (",," . evil-ex-nohighlight)
-	       (",x" . calc)
-	       (",v" . set-selective-display))
 
     (evil-mode +1)))
 
