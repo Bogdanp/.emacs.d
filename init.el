@@ -160,22 +160,12 @@
   :pin manual
   :preface
   (progn
-    (defvar bp-evil-state-modes '(fundamental-mode
-                                  conf-mode
-                                  prog-mode
-                                  restclient-mode
-                                  text-mode
-                                  web-mode
-                                  yaml-mode))
-
-    (defvar bp-emacs-state-minor-modes '(git-commit-setup-hook
-                                         git-timemachine-mode-hook
-                                         magit-blame-mode-hook
-                                         org-capture-mode-hook
-                                         org-log-buffer-setup-hook))
-
     (defun bp-apply-evil-mode-hook ()
-      (if (apply #'derived-mode-p bp-evil-state-modes)
+      (if (apply #'derived-mode-p '(fundamental-mode
+                                    conf-mode prog-mode
+                                    restclient-mode
+                                    text-mode web-mode
+                                    yaml-mode))
           (evil-normal-state)
         (evil-emacs-state)))
 
@@ -227,7 +217,11 @@
       :config
       (add-hook 'evil-mode-hook #'global-evil-jumper-mode))
 
-    (dolist (hook bp-emacs-state-minor-modes)
+    (dolist (hook '(git-commit-setup-hook
+                    git-timemachine-mode-hook
+                    magit-blame-mode-hook
+                    org-capture-mode-hook
+                    org-log-buffer-setup-hook))
       (add-hook hook #'bp-toggle-emacs-state))
 
     (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook)
@@ -651,7 +645,7 @@
   :ensure t
   :commands (magit-status git-commit-mode)
   :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
-	 ("MERGE_MSG"         . git-commit-mode))
+	 ("MERGE_MSG\\'"      . git-commit-mode))
   :bind ("C-c m" . magit-status)
   :init
   (setq magit-revert-buffers t
@@ -829,7 +823,6 @@
   :diminish auto-complete-mode
   :ensure t
   :init
-  ;; Auto-complete all the programming.
   (add-hook 'prog-mode-hook #'auto-complete-mode)
   :config
   (progn
