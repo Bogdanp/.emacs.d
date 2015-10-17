@@ -186,6 +186,9 @@
 
     (defun bp-minibuffer-setup-hook ()
       (local-set-key (kbd "C-w") 'backward-kill-word)))
+  :init
+  (setq evil-search-module #'evil-search
+        evil-magic 'very-magic)
   :config
   (progn
     ;;; Dependencies
