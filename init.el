@@ -105,7 +105,7 @@
 (add-to-list 'package-archives '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
 (package-initialize)
 
-(when (not package-archive-contents)
+(unless package-archive-contents
   (package-refresh-contents))
 
 
@@ -312,9 +312,9 @@
 	;; XXX: You can't turn off global-hl-line-mode on a per-buffer
 	;; basis so we can just build up our own version that doesn't
 	;; activate for a given list of modes.
-	(when (not (memq major-mode (list 'eww-mode
-					  'term-mode
-					  'org-agenda-mode)))
+	(unless (memq major-mode (list 'eww-mode
+                                       'term-mode
+                                       'org-agenda-mode))
 	  (hl-line-mode +1))))
 
     (bp-global-hl-line-mode)))
