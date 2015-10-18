@@ -1322,11 +1322,7 @@
   (progn
     ;; Stupid functionality is stupid.
     (setq scss-compile-at-save nil)
-
-    (defun bp-scss-mode-hook ()
-      (setq-local css-indent-offset 2))
-
-    (add-hook 'scss-mode-hook 'bp-scss-mode-hook)))
+    (setq-default css-indent-offset 2)))
 
 
 ;;; Terraform
