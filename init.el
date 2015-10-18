@@ -523,7 +523,10 @@
 
        (t
         (zipper-drop bp-term-terms)
-        (bp-term-prev))))
+        (kill-buffer bp-term-current-term-buffer)
+        (bp-term-prev)
+        (unless bp-term-current-term-buffer
+          (bp-term-toggle)))))
 
     (defun bp-term-next ()
       "Goto the next terminal in the zipper."
