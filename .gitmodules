@@ -31,9 +31,6 @@
 [submodule "vendor/evil-jumper"]
 	path = vendor/evil-jumper
 	url = https://github.com/bling/evil-jumper
-[submodule "vendor/evil-visualstar"]
-	path = vendor/evil-visualstar
-	url = https://github.com/bling/evil-visualstar
 [submodule "vendor/ido-clever-match"]
 	path = vendor/ido-clever-match
 	url = https://github.com/Bogdanp/ido-clever-match
