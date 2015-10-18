@@ -226,7 +226,10 @@
 
     (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook)
     (add-hook 'after-change-major-mode-hook #'bp-apply-evil-mode-hook)
-    (evil-mode +1)))
+    (evil-mode +1)
+
+    (bind-keys :map evil-normal-state-map
+               ("\\\\" . evil-ex-nohighlight))))
 
 
 ;;; Builtins
@@ -601,8 +604,8 @@
     (winner-mode +1)
 
     (bind-keys :map evil-normal-state-map
-               (",ww" . winner-undo)
-               (",wr" . winner-redo))))
+               ("\\ww" . winner-undo)
+               ("\\wr" . winner-redo))))
 
 
 ;;; Buffers and buffer navigation
@@ -824,9 +827,9 @@
 
     ;;; Bindings
     (bind-keys :map evil-normal-state-map
-	       (",a"  . org-agenda)
-	       (",c"  . org-capture)
-	       (",ta" . bp-org-archive-task-at-point))))
+	       ("\\a"  . org-agenda)
+	       ("\\c"  . org-capture)
+	       ("\\ta" . bp-org-archive-task-at-point))))
 
 
 ;;; Code completion
@@ -939,7 +942,7 @@
   :ensure t
   :config
   (bind-keys :map evil-normal-state-map
-	     (",d" . dash-at-point)))
+	     ("\\d" . dash-at-point)))
 
 (use-package diminish
   :commands diminish
@@ -1255,9 +1258,9 @@
       :config
       (progn
 	(evil-define-key 'normal python-mode-map
-	  ",r" 'py-test-run-test-at-point
-	  ",T" 'py-test-run-directory
-	  ",t" 'py-test-run-file)
+	  "\\r" 'py-test-run-test-at-point
+	  "\\T" 'py-test-run-directory
+	  "\\t" 'py-test-run-file)
 
 	;; Purty mode-line.
 	(setq py-test-*mode-line-face-shenanigans-on* t)
