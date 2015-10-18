@@ -1101,8 +1101,6 @@
   :preface
   (progn
     (defun bp-haskell-mode-hook ()
-      (set-face-attribute 'shm-current-face nil :background "#EEE")
-      (set-face-attribute 'shm-quarantine-face nil :background "#DDD")
       (auto-complete-mode -1)
       (company-mode +1)))
   :config
