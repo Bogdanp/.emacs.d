@@ -905,14 +905,6 @@
   (projectile-global-mode))
 
 
-;;; Package management
-(use-package paradox
-  :commands paradox-list-packages
-  :ensure t
-  :config
-  (setq paradox-github-token t))
-
-
 ;;; Process management
 (use-package prodigy
   :bind (("C-c P" . prodigy))
