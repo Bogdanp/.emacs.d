@@ -37,6 +37,3 @@
 [submodule "vendor/ido-clever-match"]
 	path = vendor/ido-clever-match
 	url = https://github.com/Bogdanp/ido-clever-match
-[submodule "vendor/evil-indent-textobject"]
-	path = vendor/evil-indent-textobject
-	url = https://github.com/cofi/evil-indent-textobject
