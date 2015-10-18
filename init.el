@@ -947,6 +947,7 @@
 
 ;;; C
 (use-package cc-mode
+  :disabled t
   :mode ("\\.c\\'" . c-mode)
   :config
   (progn
@@ -1003,6 +1004,7 @@
 
 ;;; Clojure
 (use-package clojure-mode
+  :disabled t
   :ensure t
   :mode (("\\.cljs?\\'" . clojure-mode)
 	 ("\\.boot\\'"  . clojure-mode))
@@ -1010,6 +1012,7 @@
   (add-hook 'clojure-mode-hook #'cider-mode))
 
 (use-package cider
+  :disabled t
   :ensure t
   :commands (cider-mode)
   :preface
@@ -1254,6 +1257,7 @@
 
 ;;; Robot
 (use-package robot-mode
+  :disabled t
   :load-path "vendor/robot-mode"
   :mode "\\.robot\\'")
 
@@ -1295,6 +1299,7 @@
 
 ;;; Scheme
 (use-package geiser
+  :disabled t
   :ensure t
   :preface
   (defun bp-geiser-mode-hook ()
