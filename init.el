@@ -917,24 +917,8 @@
 (use-package prodigy
   :bind (("C-c P" . prodigy))
   :ensure t
-  :preface
-  (defun bp-prodigy-toggle-compilation-mode ()
-    (interactive)
-    (if (eq major-mode 'compilation-mode)
-	(prodigy-view-mode)
-      (compilation-mode))
-    (if (fboundp #'bp-prodigy-view-mode-hook)
-	(bp-prodigy-view-mode-hook))
-    (goto-char (point-max)))
-
-  (defun bp-prodigy-view-mode-hook ()
-    (bind-key "C-c C-t" 'bp-prodigy-toggle-compilation-mode))
-
   :config
-  (progn
-    (add-hook 'prodigy-view-mode-hook #'bp-prodigy-view-mode-hook)
-
-    (use-package bp-prodigy-services)))
+  (use-package bp-prodigy-services))
 
 
 ;;; Miscellaneous
@@ -1038,7 +1022,8 @@
   :commands (cider-mode)
   :preface
   (defun my-cider-mode-hook ()
-    (auto-complete -1))
+    (auto-complete -1)
+    (company-mode +1))
   :config
   (progn
     (add-hook 'cider-repl-mode-hook #'my-cider-mode-hook)
