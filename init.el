@@ -162,8 +162,8 @@
   (progn
     (defun bp-apply-evil-mode-hook ()
       (if (apply #'derived-mode-p '(fundamental-mode
-                                    conf-mode prog-mode
-                                    restclient-mode
+                                    conf-mode haskell-mode
+                                    prog-mode restclient-mode
                                     text-mode web-mode
                                     yaml-mode))
           (evil-normal-state)
@@ -1101,8 +1101,8 @@
   :preface
   (progn
     (defun bp-haskell-mode-hook ()
-      ;; (set-face-attribute 'shm-current-face nil :background "#EEE")
-      ;; (set-face-attribute 'shm-quarantine-face nil :background "#DDD")
+      (set-face-attribute 'shm-current-face nil :background "#EEE")
+      (set-face-attribute 'shm-quarantine-face nil :background "#DDD")
       (auto-complete-mode -1)
       (company-mode +1)))
   :config
