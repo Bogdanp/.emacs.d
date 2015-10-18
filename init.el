@@ -495,6 +495,9 @@
 		   :curr nil)
       "A zipper for all of the existing terms.")
 
+    (defun bp-term-sentinel (process event)
+      (bp-term-kill))
+
     (defun bp-maybe-switch-to-buffer (buffer)
       "Switch to BUFFER iff it is non-nil."
       (when buffer
@@ -505,16 +508,22 @@
       (interactive)
       (zipper-end bp-term-terms)
       (zipper-append bp-term-terms (ansi-term bp-term-shell))
-      (bp-term-next))
+      (bp-term-next)
+      (set-process-sentinel (get-buffer-process bp-term-current-term-buffer) #'bp-term-sentinel))
 
     (defun bp-term-kill ()
       "Kill the current terminal."
       (interactive)
-      (when (>= (length (zipper-rhs bp-term-terms)) 1)
-	(let ((buffer (zipper-drop bp-term-terms)))
-	  (kill-buffer bp-term-current-term-buffer)
-	  (setq bp-term-current-term-buffer buffer)
-	  (bp-maybe-switch-to-buffer buffer))))
+      (cond
+       ((>= (length (zipper-rhs bp-term-terms)) 1)
+        (let ((buffer (zipper-drop bp-term-terms)))
+          (kill-buffer bp-term-current-term-buffer)
+          (setq bp-term-current-term-buffer buffer)
+          (bp-maybe-switch-to-buffer buffer)))
+
+       (t
+        (zipper-drop bp-term-terms)
+        (bp-term-prev))))
 
     (defun bp-term-next ()
       "Goto the next terminal in the zipper."
