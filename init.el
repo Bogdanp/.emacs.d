@@ -44,11 +44,11 @@
 ;;; UI
 ;; Position and resize frame.
 (when (window-system)
-  (add-to-list 'default-frame-alist '(font . "Fira Mono-12"))
+  (add-to-list 'default-frame-alist '(font . "Fira Mono-13"))
   (add-to-list 'default-frame-alist '(top . 32))
   (add-to-list 'default-frame-alist '(left . 10))
-  (add-to-list 'default-frame-alist '(width . 199))
-  (add-to-list 'default-frame-alist '(height . 59)))
+  (add-to-list 'default-frame-alist '(width . 175))
+  (add-to-list 'default-frame-alist '(height . 55)))
 
 ;; Remove GUI elements.
 (dolist (mode '(blink-cursor-mode
