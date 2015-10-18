@@ -1157,7 +1157,7 @@
 
 ;;; Markdown
 (use-package markdown-mode
-  :mode "\\.md\\'"
+  :mode ("\\.md\\'" . gfm-mode)
   :ensure t)
 
 
