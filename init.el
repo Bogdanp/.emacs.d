@@ -12,7 +12,10 @@
  gc-cons-threshold 200000000
 
  ;;; auto-compile
- load-prefer-newer t)
+ load-prefer-newer t
+
+ ;;; Don't warn on redefinition
+ ad-redefinition-action 'accept)
 
 (setq-default
  ;;; Editing
