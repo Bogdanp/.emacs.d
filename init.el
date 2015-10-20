@@ -1051,9 +1051,7 @@
 ;;; Elm
 (use-package elm-mode
   :load-path "vendor/elm-mode"
-  :mode ("\\.elm\\'" . elm-mode)
-  :config
-  (add-hook 'elm-mode-hook #'elm-oracle-setup-ac))
+  :mode ("\\.elm\\'" . elm-mode))
 
 
 ;;; Emacs lisp
