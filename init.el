@@ -167,8 +167,8 @@
       (if (apply #'derived-mode-p '(fundamental-mode
                                     conf-mode haskell-mode
                                     prog-mode restclient-mode
-                                    text-mode web-mode
-                                    yaml-mode))
+                                    text-mode tuareg-mode
+                                    web-mode yaml-mode))
           (evil-normal-state)
         (evil-emacs-state)))
 
@@ -1178,22 +1178,24 @@
       :ensure t)
 
     (use-package merlin
-      :pin manual
       :load-path "~/.opam/system/share/emacs/site-lisp"
       :commands (merlin-mode)
-      :config
-      (progn
-	(setq merlin-use-auto-complete-mode 'easy)
-	(setq merlin-command 'opam)))
+      :init
+      (setq merlin-error-after-save t
+            merlin-use-auto-complete-mode 'easy
+            merlin-command 'opam))
 
     (use-package ocp-indent
-      :pin manual
       :load-path "~/.opam/system/share/emacs/site-lisp"
       :config
-      (progn
-	(setq ocp-indent-syntax '("lwt"))))
+      (setq ocp-indent-syntax '("lwt")))
+
+    (use-package flycheck-ocaml
+      :load-path "vendor/flycheck-ocaml"
+      :commands (flycheck-ocaml-setup))
 
     (add-hook 'tuareg-mode-hook #'merlin-mode)
+    (add-hook 'tuareg-mode-hook #'flycheck-ocaml-setup)
     (add-hook 'tuareg-mode-hook #'utop-minor-mode)))
 
 

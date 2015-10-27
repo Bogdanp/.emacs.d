@@ -34,3 +34,6 @@
 [submodule "vendor/ido-clever-match"]
 	path = vendor/ido-clever-match
 	url = https://github.com/Bogdanp/ido-clever-match
+[submodule "vendor/flycheck-ocaml"]
+	path = vendor/flycheck-ocaml
+	url = https://github.com/flycheck/flycheck-ocaml
