@@ -23,10 +23,7 @@
  indent-tabs-mode nil
 
  ;; Wrap long lines
- truncate-lines nil
-
- ;; Indicate empty lines in left fringe
- indicate-empty-lines t)
+ truncate-lines nil)
 
 
 ;;; Vendored libs
