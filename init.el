@@ -296,13 +296,17 @@
 	backup-by-copying t))
 
 (use-package grep
+  :commands (grep rgrep)
   :config
   (progn
     ;; Fish compatibility
     (grep-apply-setting
      'grep-find-command '("find . -type f -exec grep -nH -e  \\{\\} \\+" . 34))
     (grep-apply-setting
-     'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+")))
+     'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+")
+
+    (use-package wgrep
+      :ensure t)))
 
 (use-package hippie-expand
   :bind (("M-/" . hippie-expand)))
