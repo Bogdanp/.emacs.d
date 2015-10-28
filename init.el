@@ -1093,6 +1093,11 @@
     (require 'haskell-interactive-mode)
     (require 'haskell-process)
 
+    (use-package company-ghc
+      :ensure t
+      :config
+      (add-to-list 'company-backends 'company-ghc))
+
     (use-package shm
       :ensure t
       :init
