@@ -670,9 +670,8 @@
 	 ("MERGE_MSG\\'"      . git-commit-mode))
   :bind ("C-c m" . magit-status)
   :init
-  (setq magit-revert-buffers t
+  (setq magit-revert-buffers 'silent
 	magit-completing-read-function #'magit-ido-completing-read
-	magit-last-seen-setup-instructions "1.4.0"
 	magit-push-always-verify nil)
   :config
   (use-package fullframe
