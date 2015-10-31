@@ -1077,11 +1077,33 @@
   :ensure t
   :commands smartparens-mode
   :init
-  (add-hook 'python-mode-hook #'smartparens-mode)
+  (add-hook 'python-mode-hook #'turn-on-smartparens-strict-mode)
+  (add-hook 'org-mode-hook #'turn-on-smartparens-strict-mode)
   :config
   (progn
     (require 'smartparens-config)
-    (setq smartparens-strict-mode t)))
+
+    (sp-with-modes 'org-mode
+      (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
+      (sp-local-pair "/" "/" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
+      (sp-local-pair "~" "~" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
+      (sp-local-pair "=" "=" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC"))))
+
+    (bind-keys :map smartparens-mode-map
+               ("C-M-a" . sp-beginning-of-sexp)
+               ("C-M-e" . sp-end-of-sexp)
+               ("C-M-u" . sp-backward-up-sexp)
+               ("C-M-d" . sp-down-sexp)
+               ("C-M-b" . sp-backward-sexp)
+               ("C-M-f" . sp-forward-sexp)
+               ("C-M-n" . sp-next-sexp)
+               ("C-M-p" . sp-previous-sexp)
+               ("C-M-k" . sp-kill-sexp)
+               ("C-M-t" . sp-transpose-sexp)
+               ("C-("   . sp-backward-slurp-sexp)
+               ("C-)"   . sp-forward-slurp-sexp)
+               ("C-{"   . sp-backward-barf-sexp)
+               ("C-}"   . sp-forward-barf-sexp))))
 
 
 ;;; Fish
