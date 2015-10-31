@@ -1072,6 +1072,18 @@
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
 
 
+(use-package smartparens
+  :diminish smartparens-mode
+  :ensure t
+  :commands smartparens-mode
+  :init
+  (add-hook 'python-mode-hook #'smartparens-mode)
+  :config
+  (progn
+    (require 'smartparens-config)
+    (setq smartparens-strict-mode t)))
+
+
 ;;; Fish
 (use-package fish-mode
   :ensure t
