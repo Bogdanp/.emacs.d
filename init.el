@@ -1258,7 +1258,8 @@
       (declare-function py-test-define-project "py-test"))
 
     (defun bp-python-mode-hook ()
-      (auto-complete-mode -1)))
+      (auto-complete-mode -1)
+      (company-mode +1)))
   :config
   (progn
     (use-package elpy
@@ -1269,9 +1270,10 @@
       :config
       (progn
 	(bind-keys :map python-mode-map
-		   ("C-c v" . pyvenv-workon)
-		   ("C-c ." . elpy-goto-definition)
-		   ("C-c ," . pop-tag-mark))
+		   ("C-c v"   . pyvenv-workon)
+		   ("C-c ."   . elpy-goto-definition)
+		   ("C-c ,"   . pop-tag-mark)
+                   ("C-c C-y" . company-yasnippet))
 
 	(custom-set-variables
 	 '(elpy-modules
