@@ -654,7 +654,8 @@
 (use-package smart-mode-line
   :ensure t
   :init
-  (setq sml/no-confirm-load-theme t)
+  (setq sml/no-confirm-load-theme t
+        sml/theme nil)
   :config
   (progn
     (sml/setup)
