@@ -166,6 +166,7 @@
     (defun bp-apply-evil-mode-hook ()
       (if (apply #'derived-mode-p '(fundamental-mode
                                     conf-mode haskell-mode
+                                    json-mode
                                     prog-mode restclient-mode
                                     text-mode tuareg-mode
                                     web-mode yaml-mode))
@@ -1203,7 +1204,7 @@
     (defun bp-scss-mode-hook ()
       (setq-local css-indent-offset 2))
 
-    (add-hook 'less-css-mode-hook 'bp-scss-mode-hook)))
+    (add-hook 'less-css-mode-hook #'bp-scss-mode-hook)))
 
 
 ;;; Markdown
