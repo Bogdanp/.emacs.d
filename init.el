@@ -1050,6 +1050,24 @@
   :ensure t)
 
 
+;;; Elixir
+(use-package alchemist
+  :mode ("\\.exs?\\'" . elixir-mode)
+  :ensure t
+  :preface
+  (defun bp-alchemist-mode-hook ()
+    (auto-complete -1)
+    (company-mode +1))
+  :init
+  (add-hook 'elixir-mode-hook #'alchemist-mode)
+  (add-hook 'elixir-mode-hook #'bp-alchemist-mode-hook)
+  :config
+  (progn
+    (bind-keys :map elixir-mode-map
+               ("C-c ." . alchemist-goto-definition-at-point)
+               ("C-c ," . alchemist-goto-jump-back))))
+
+
 ;;; Elm
 (use-package elm-mode
   :load-path "vendor/elm-mode"
@@ -1085,6 +1103,7 @@
   :ensure t
   :commands smartparens-mode
   :init
+  (add-hook 'elixir-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'python-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'org-mode-hook #'turn-on-smartparens-strict-mode)
   :config
