@@ -1281,7 +1281,6 @@
 	   (quote
 	    (elpy-module-company
 	     elpy-module-eldoc
-             elpy-module-highlight-indentation
 	     elpy-module-pyvenv
 	     elpy-module-sane-defaults
 	     elpy-module-yasnippet))))))
