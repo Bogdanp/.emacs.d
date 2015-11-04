@@ -1063,6 +1063,9 @@
   (add-hook 'elixir-mode-hook #'bp-alchemist-mode-hook)
   :config
   (progn
+    (setq alchemist-goto-erlang-source-dir (expand-file-name "~/sandbox/erlang-otp")
+          alchemist-goto-elixir-source-dir (expand-file-name "~/sandbox/elixir"))
+
     (bind-keys :map elixir-mode-map
                ("C-c ." . alchemist-goto-definition-at-point))))
 
