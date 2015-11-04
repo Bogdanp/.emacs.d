@@ -1064,8 +1064,7 @@
   :config
   (progn
     (bind-keys :map elixir-mode-map
-               ("C-c ." . alchemist-goto-definition-at-point)
-               ("C-c ," . alchemist-goto-jump-back))))
+               ("C-c ." . alchemist-goto-definition-at-point))))
 
 
 ;;; Elm
