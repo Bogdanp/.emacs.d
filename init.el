@@ -1268,7 +1268,12 @@
 ;;; REST
 (use-package restclient
   :mode ("\\.http\\'" . restclient-mode)
-  :ensure t)
+  :ensure t
+  :config
+  (use-package company-restclient
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-restclient)))
 
 
 ;;; Robot
