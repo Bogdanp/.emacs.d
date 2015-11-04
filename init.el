@@ -165,8 +165,8 @@
   (progn
     (defun bp-apply-evil-mode-hook ()
       (if (apply #'derived-mode-p '(fundamental-mode
-                                    conf-mode haskell-mode
-                                    json-mode
+                                    conf-mode erlang-mode
+                                    haskell-mode json-mode
                                     prog-mode restclient-mode
                                     text-mode tuareg-mode
                                     web-mode yaml-mode))
@@ -1050,7 +1050,11 @@
   :ensure t)
 
 
-;;; Elixir
+;;; Erlang and Elixir
+(use-package erlang
+  :mode ("\\.erl\\'" . erlang-mode)
+  :ensure t)
+
 (use-package alchemist
   :mode ("\\.exs?\\'" . elixir-mode)
   :ensure t
