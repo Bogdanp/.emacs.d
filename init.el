@@ -841,43 +841,13 @@
 
 
 ;;; Code completion
-(use-package auto-complete
-  :commands auto-complete-mode
-  :diminish auto-complete-mode
-  :ensure t
-  :init
-  (add-hook 'prog-mode-hook #'auto-complete-mode)
-  :config
-  (progn
-    ;; Load AC's default configs.
-    (require 'auto-complete-config)
-
-    (ac-config-default)
-    (ac-set-trigger-key "TAB")
-
-    ;; Source ALL THE THINGS.
-    (setq-default ac-sources '(ac-source-filename
-			       ac-source-imenu
-			       ac-source-features
-			       ac-source-abbrev
-			       ac-source-words-in-same-mode-buffers
-			       ac-source-dictionary
-			       ac-source-yasnippet))
-
-    (setq ac-auto-start 5
-	  ac-auto-show-menu 1
-	  ac-quick-help-delay 1
-
-	  ac-use-menu-map t
-	  ac-use-fuzzy nil
-	  ac-use-quick-help t)))
-
 (use-package company
-  :commands company-mode
   :diminish company-mode
   :ensure t
   :init
-  (setq company-idle-delay 0.25))
+  (add-hook 'after-init-hook #'global-company-mode)
+  :config
+  (bind-key "C-c C-y" #'company-yasnippet))
 
 (use-package yasnippet
   :commands (yas-minor-mode yas-reload-all)
@@ -972,12 +942,8 @@
       :preface
       (progn
 	(defun bp-irony-mode-hook ()
-	  ;; Disable AC since its irony mode isn't ready yet.
-	  (auto-complete-mode -1)
-
 	  (eldoc-mode +1)
-	  (irony-eldoc +1)
-	  (company-mode +1)))
+	  (irony-eldoc +1)))
       :config
       (progn
 	(use-package company-irony
@@ -1023,18 +989,12 @@
   :disabled t
   :ensure t
   :commands (cider-mode)
-  :preface
-  (defun my-cider-mode-hook ()
-    (auto-complete -1)
-    (company-mode +1))
   :config
   (progn
     (add-hook 'cider-repl-mode-hook #'my-cider-mode-hook)
-    (add-hook 'cider-repl-mode-hook #'company-mode)
     (add-hook 'cider-repl-mode-hook #'paredit-mode)
     (add-hook 'cider-repl-mode-hook #'rainbow-delimiters-mode)
     (add-hook 'cider-mode-hook #'my-cider-mode-hook)
-    (add-hook 'cider-mode-hook #'company-mode)
     (add-hook 'cider-mode-hook #'eldoc-mode)
     (add-hook 'cider-mode-hook #'paredit-mode)
     (add-hook 'cider-mode-hook #'rainbow-delimiters-mode)
@@ -1058,13 +1018,8 @@
 (use-package alchemist
   :mode ("\\.exs?\\'" . elixir-mode)
   :ensure t
-  :preface
-  (defun bp-alchemist-mode-hook ()
-    (auto-complete -1)
-    (company-mode +1))
   :init
   (add-hook 'elixir-mode-hook #'alchemist-mode)
-  (add-hook 'elixir-mode-hook #'bp-alchemist-mode-hook)
   :config
   (progn
     (setq alchemist-goto-erlang-source-dir (expand-file-name "~/sandbox/erlang-otp")
@@ -1078,12 +1033,8 @@
 (use-package elm-mode
   :load-path "vendor/elm-mode"
   :mode ("\\.elm\\'" . elm-mode)
-  :preface
-  (defun bp-elm-mode-hook ()
-    (elm-oracle-setup-ac)
-    (setq-local ac-auto-start nil))
   :init
-  (add-hook 'elm-mode-hook #'bp-elm-mode-hook))
+  (add-hook 'elm-mode-hook #'elm-oracle-setup-completion))
 
 
 ;;; Emacs lisp
@@ -1149,11 +1100,6 @@
 (use-package haskell-mode
   :mode "\\.l?hs\\'"
   :ensure t
-  :preface
-  (progn
-    (defun bp-haskell-mode-hook ()
-      (auto-complete-mode -1)
-      (company-mode +1)))
   :config
   (progn
     (require 'haskell-interactive-mode)
@@ -1256,7 +1202,6 @@
       :commands (merlin-mode)
       :init
       (setq merlin-error-after-save t
-            merlin-use-auto-complete-mode 'easy
             merlin-command 'opam))
 
     (use-package ocp-indent
@@ -1279,13 +1224,8 @@
 	 ("SConstruct" . python-mode))
   :interpreter ("python" . python-mode)
   :preface
-  (progn
-    (eval-when-compile
-      (declare-function py-test-define-project "py-test"))
-
-    (defun bp-python-mode-hook ()
-      (auto-complete-mode -1)
-      (company-mode +1)))
+  (eval-when-compile
+    (declare-function py-test-define-project "py-test"))
   :config
   (progn
     (use-package elpy
@@ -1296,10 +1236,9 @@
       :config
       (progn
 	(bind-keys :map python-mode-map
-		   ("C-c v"   . pyvenv-workon)
-		   ("C-c ."   . elpy-goto-definition)
-		   ("C-c ,"   . pop-tag-mark)
-                   ("C-c C-y" . company-yasnippet))
+		   ("C-c v" . pyvenv-workon)
+		   ("C-c ." . elpy-goto-definition)
+		   ("C-c ," . pop-tag-mark))
 
 	(custom-set-variables
 	 '(elpy-modules
@@ -1323,9 +1262,7 @@
 	(setq py-test-*mode-line-face-shenanigans-on* t)
 	(setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec")
 
-	(use-package bp-py-test-projects)))
-
-    (add-hook 'python-mode-hook #'bp-python-mode-hook)))
+	(use-package bp-py-test-projects)))))
 
 
 ;;; REST
@@ -1352,9 +1289,6 @@
   :ensure t
   :preface
   (defun bp-scala-mode-hook ()
-    (auto-complete-mode -1)
-    (company-mode +1)
-
     (if (equal "build.sbt" (buffer-name))
 	(flycheck-mode -1)))
   :init
@@ -1380,15 +1314,10 @@
 (use-package geiser
   :disabled t
   :ensure t
-  :preface
-  (defun bp-geiser-mode-hook ()
-    (auto-complete-mode -1)
-    (company-mode +1))
   :init
   (progn
     (add-hook 'geiser-mode-hook #'paredit-mode)
     (add-hook 'geiser-mode-hook #'rainbow-delimiters-mode)
-    (add-hook 'geiser-mode-hook #'bp-geiser-mode-hook)
     (setq geiser-active-implementations '(chicken))))
 
 
