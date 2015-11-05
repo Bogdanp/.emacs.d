@@ -275,7 +275,7 @@
 
    ;; Autojoin these channels on freenode.
    erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#erc" "#haskell" "#python" "#scala"
-				  "#purescript" "#pixie-lang" "#elm"))
+				  "#purescript" "#pixie-lang" "#elm" "#elixir-lang"))
 
    ;; Behave like a "normal" IRC client.
    erc-kill-buffer-on-part t
