@@ -926,19 +926,13 @@
     (use-package irony
       :ensure t
       :commands irony-mode
-      :preface
-      (progn
-	(defun bp-irony-mode-hook ()
-	  (eldoc-mode +1)
-	  (irony-eldoc +1)))
       :config
       (progn
 	(use-package company-irony
 	  :ensure t
 	  :preface
-	  (progn
-	    (defun bp-company-irony-setup-hook ()
-	      (add-to-list 'company-backends 'company-irony)))
+          (defun bp-company-irony-setup-hook ()
+            (add-to-list 'company-backends 'company-irony))
 	  :init
 	  (progn
 	    (add-hook 'irony-mode-hook #'bp-company-irony-setup-hook)
@@ -947,9 +941,8 @@
 	(use-package flycheck-irony
 	  :ensure t
 	  :preface
-	  (progn
-	    (defun bp-flycheck-irony-setup-hook ()
-	      (add-to-list 'flycheck-checkers 'irony)))
+          (defun bp-flycheck-irony-setup-hook ()
+            (add-to-list 'flycheck-checkers 'irony))
 	  :init
 	  (add-hook 'irony-mode-hook #'bp-flycheck-irony-setup-hook))
 
@@ -957,7 +950,8 @@
 	  :commands irony-eldoc
 	  :ensure t)
 
-	(add-hook 'irony-mode-hook #'bp-irony-mode-hook)))
+        (add-hook 'irony-mode-hook #'eldoc-mode)
+        (add-hook 'irony-mode-hook #'irony-eldoc)))
 
     (add-hook 'c-mode-hook #'bp-c-mode-hook)
     (add-hook 'c-mode-hook #'irony-mode)))
@@ -1040,7 +1034,6 @@
   :ensure t
   :init
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
-
 
 (use-package smartparens
   :diminish smartparens-mode
