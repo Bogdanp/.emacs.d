@@ -22,8 +22,8 @@
  ;; Never use tabs.
  indent-tabs-mode nil
 
- ;; Wrap long lines
- truncate-lines nil)
+ ;; Don't wrap long lines
+ truncate-lines t)
 
 
 ;;; Vendored libs
