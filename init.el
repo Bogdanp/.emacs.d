@@ -1024,12 +1024,6 @@
   :init
   (add-hook 'emacs-lisp-mode-hook #'eldoc-mode))
 
-(use-package paredit
-  :diminish paredit-mode
-  :ensure t
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
-
 (use-package rainbow-delimiters
   :ensure t
   :init
@@ -1040,9 +1034,8 @@
   :ensure t
   :commands smartparens-mode
   :init
-  (add-hook 'elixir-mode-hook #'turn-on-smartparens-strict-mode)
-  (add-hook 'python-mode-hook #'turn-on-smartparens-strict-mode)
-  (add-hook 'org-mode-hook #'turn-on-smartparens-strict-mode)
+  (add-hook 'org-mode-hook #'turn-on-smartparens-mode)
+  (add-hook 'prog-mode-hook #'turn-on-smartparens-mode)
   :config
   (progn
     (require 'smartparens-config)
