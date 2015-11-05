@@ -909,19 +909,6 @@
     :init
     (add-hook 'after-init-hook #'exec-path-from-shell-initialize)))
 
-(use-package hl-todo
-  :ensure t
-  :config
-  (progn
-    (setq hl-todo-activate-in-modes '(c-mode
-				      emacs-lisp-mode
-				      elm-mode
-				      haskell-mode
-				      python-mode
-				      scala-mode))
-
-    (global-hl-todo-mode)))
-
 
 ;;; C
 (use-package cc-mode
