@@ -864,12 +864,10 @@
   :init
   (add-hook 'prog-mode-hook #'flycheck-mode)
   :config
-  (progn
-    (setq-default flycheck-disabled-checkers '(haskell-ghc
-					       html-tidy
-					       javascript-jshint))
-
-    (flycheck-add-mode 'javascript-eslint 'web-mode)))
+  (setq-default flycheck-disabled-checkers '(haskell-ghc
+                                             html-tidy
+                                             javascript-jshint
+                                             javascript-eslint)))
 
 
 ;;; File navigation
@@ -1008,7 +1006,6 @@
 
     (bind-keys :map elixir-mode-map
                ("C-c ." . alchemist-goto-definition-at-point))))
-
 
 ;;; Elm
 (use-package elm-mode
