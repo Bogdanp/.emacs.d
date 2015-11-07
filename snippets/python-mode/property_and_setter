@@ -1,0 +1,13 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: property
+# key: prs
+# binding: direct-keybinding
+# --
+@property
+def ${1:name}(self):
+    ${2:return self._$1}
+
+
+@$1.setter
+def $1(self, ${3:value}):
+    ${4:self._$1 = ${5:$3}}
