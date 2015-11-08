@@ -868,9 +868,7 @@
     (setq-default flycheck-disabled-checkers '(haskell-ghc
                                                html-tidy
                                                javascript-jshint
-                                               json-jsonlint))
-
-    (flycheck-add-mode 'javascript-eslint 'web-mode)))
+                                               json-jsonlint))))
 
 
 ;;; File navigation
@@ -1136,9 +1134,9 @@
 	       ("C-c M-l" . haskell-process-reload-devel-main))))
 
 
-;;; JSON
-(use-package json-mode
-  :mode "\\.json\\'"
+;;; Javascript
+(use-package js2-mode
+  :mode "\..jsx?\\'"
   :ensure t)
 
 
