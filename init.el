@@ -864,10 +864,13 @@
   :init
   (add-hook 'prog-mode-hook #'flycheck-mode)
   :config
-  (setq-default flycheck-disabled-checkers '(haskell-ghc
-                                             html-tidy
-                                             javascript-jshint
-                                             javascript-eslint)))
+  (progn
+    (setq-default flycheck-disabled-checkers '(haskell-ghc
+                                               html-tidy
+                                               javascript-jshint
+                                               json-jsonlint))
+
+    (flycheck-add-mode 'javascript-eslint 'web-mode)))
 
 
 ;;; File navigation
