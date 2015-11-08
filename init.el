@@ -999,6 +999,7 @@
   :ensure t
   :init
   (add-hook 'elixir-mode-hook #'alchemist-mode)
+  (add-hook 'elixir-mode-hook #'yas-minor-mode)
   :config
   (progn
     (setq alchemist-goto-erlang-source-dir (expand-file-name "~/sandbox/erlang-otp")
@@ -1006,6 +1007,7 @@
 
     (bind-keys :map elixir-mode-map
                ("C-c ." . alchemist-goto-definition-at-point))))
+
 
 ;;; Elm
 (use-package elm-mode
