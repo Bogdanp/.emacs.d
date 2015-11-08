@@ -1340,7 +1340,7 @@
   :mode (("\\.html?\\'" . web-mode)
 	 ("\\.php\\'"   . web-mode)
 	 ("\\.hbs\\'"   . web-mode)
-	 ("\\.jsx?\\'"  . web-mode))
+         ("\\.eex\\'"   . web-mode))
   :init
   (setq web-mode-code-indent-offset 2
 	web-mode-style-indent-offset 2
@@ -1356,7 +1356,8 @@
 	web-mode-enable-current-element-highlight t
 
 	web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
-				 ("django" . "\\.html\\'")))
+				 ("django" . "\\.html\\'")
+                                 ("elixir" . "\\.eex\\'")))
   :config
   (progn
     (set-face-attribute 'web-mode-current-column-highlight-face nil :background "#EEE")
