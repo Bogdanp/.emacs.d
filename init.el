@@ -165,11 +165,12 @@
   (progn
     (defun bp-apply-evil-mode-hook ()
       (if (apply #'derived-mode-p '(fundamental-mode
-                                    conf-mode erlang-mode
-                                    haskell-mode json-mode
-                                    prog-mode restclient-mode
-                                    text-mode tuareg-mode
-                                    web-mode yaml-mode))
+                                    conf-mode css-mode
+                                    erlang-mode haskell-mode
+                                    json-mode prog-mode
+                                    restclient-mode text-mode
+                                    tuareg-mode web-mode
+                                    yaml-mode))
           (evil-normal-state)
         (evil-emacs-state)))
 
@@ -864,11 +865,10 @@
   :init
   (add-hook 'prog-mode-hook #'flycheck-mode)
   :config
-  (progn
-    (setq-default flycheck-disabled-checkers '(haskell-ghc
-                                               html-tidy
-                                               javascript-jshint
-                                               json-jsonlint))))
+  (setq-default flycheck-disabled-checkers '(haskell-ghc
+                                             html-tidy
+                                             javascript-jshint
+                                             json-jsonlint)))
 
 
 ;;; File navigation
