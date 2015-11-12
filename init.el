@@ -1362,11 +1362,7 @@
 
 	web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
 				 ("django" . "\\.html\\'")
-                                 ("elixir" . "\\.eex\\'")))
-  :config
-  (progn
-    (set-face-attribute 'web-mode-current-column-highlight-face nil :background "#EEE")
-    (set-face-attribute 'web-mode-current-element-highlight-face nil :background "#EEE")))
+                                 ("elixir" . "\\.eex\\'"))))
 
 
 ;;; Yaml
