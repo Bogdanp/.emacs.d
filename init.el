@@ -124,27 +124,26 @@
   (bp-remove-themes)
   (call-interactively #'load-theme))
 
-(if (display-graphic-p)
-    (progn
-      (use-package server
-	:unless server-running-p
-	:config (server-start))
+(if (not (display-graphic-p))
+    (load-theme 'wombat t)
 
-      (use-package twilight-bright-theme
-	:disabled t
-	:ensure t
-	:config (load-theme 'twilight-bright t))
+  (use-package server
+    :unless server-running-p
+    :config (server-start))
 
-      (use-package twilight-anti-bright-theme
-	:load-path "vendor/twilight-anti-bright-theme"
-	:config (load-theme 'twilight-anti-bright t))
+  (use-package twilight-bright-theme
+    :disabled t
+    :ensure t
+    :config (load-theme 'twilight-bright t))
 
-      (use-package better-default-theme
-        :disabled t
-	:load-path "vendor/better-default-theme"
-	:config (load-theme 'better-default t)))
+  (use-package twilight-anti-bright-theme
+    :load-path "vendor/twilight-anti-bright-theme"
+    :config (load-theme 'twilight-anti-bright t))
 
-  (load-theme 'wombat t))
+  (use-package better-default-theme
+    :disabled t
+    :load-path "vendor/better-default-theme"
+    :config (load-theme 'better-default t)))
 
 
 ;;; Keybindings
@@ -1281,8 +1280,8 @@
   :ensure t
   :preface
   (defun bp-scala-mode-hook ()
-    (if (equal "build.sbt" (buffer-name))
-	(flycheck-mode -1)))
+    (when (equal "build.sbt" (buffer-name))
+      (flycheck-mode -1)))
   :init
   (progn
     (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
