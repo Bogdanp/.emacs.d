@@ -909,7 +909,6 @@
 
 ;;; C
 (use-package cc-mode
-  :disabled t
   :mode ("\\.c\\'" . c-mode)
   :config
   (progn
@@ -956,7 +955,6 @@
 
 ;;; Clojure
 (use-package clojure-mode
-  :disabled t
   :ensure t
   :mode (("\\.cljs?\\'" . clojure-mode)
 	 ("\\.boot\\'"  . clojure-mode))
@@ -964,7 +962,6 @@
   (add-hook 'clojure-mode-hook #'cider-mode))
 
 (use-package cider
-  :disabled t
   :ensure t
   :commands (cider-mode)
   :config
@@ -1098,7 +1095,6 @@
        '(shm-use-presentation-mode t)))
 
     (use-package shakespeare-mode
-      :disabled t
       :ensure t)
 
     (custom-set-variables
@@ -1154,7 +1150,6 @@
 
 ;;; LESS
 (use-package less-css-mode
-  :disabled t
   :mode "\\.less\\'"
   :ensure t
   :config
@@ -1264,7 +1259,6 @@
 
 ;;; Robot
 (use-package robot-mode
-  :disabled t
   :load-path "vendor/robot-mode"
   :mode "\\.robot\\'")
 
@@ -1303,7 +1297,6 @@
 
 ;;; Scheme
 (use-package geiser
-  :disabled t
   :ensure t
   :init
   (progn
@@ -1314,7 +1307,6 @@
 
 ;;; SCSS
 (use-package scss-mode
-  :disabled t
   :ensure t
   :mode "\\.scss\\'"
   :config
@@ -1326,14 +1318,12 @@
 
 ;;; Terraform
 (use-package terraform-mode
-  :disabled t
   :ensure t
   :mode "\\.tf\\'")
 
 
 ;;; UrWeb
 (use-package urweb-mode
-  :disabled t
   :load-path "/usr/local/share/emacs/site-lisp/urweb-mode"
   :mode "\\.ur[ps]?\\'")
 
