@@ -552,6 +552,8 @@
 	(setq bp-term-current-term-buffer buffer)
 	(bp-maybe-switch-to-buffer buffer)))
 
+    (defvar bp-term-string " T")
+
     (defun bp-term-fullscreen ()
       "Make the term fullscreen."
       (setq bp-term-previous-window-configuration (current-window-configuration))
@@ -559,7 +561,8 @@
       (if bp-term-current-term-buffer
 	  (bp-maybe-switch-to-buffer bp-term-current-term-buffer)
 	(bp-term-add)
-	(setq bp-term-current-term-buffer (zipper-curr bp-term-terms))))
+	(setq bp-term-current-term-buffer (zipper-curr bp-term-terms)))
+      (add-to-list 'global-mode-string bp-term-string))
 
     (defun bp-term-toggle ()
       "Toggle between the current window config and a terminal."
@@ -567,7 +570,8 @@
       (if bp-term-previous-window-configuration
 	  (progn
 	    (set-window-configuration bp-term-previous-window-configuration)
-	    (setq bp-term-previous-window-configuration nil))
+	    (setq bp-term-previous-window-configuration nil)
+            (setq global-mode-string (delq bp-term-string global-mode-string)))
 	(bp-term-fullscreen)))
 
     (defun bp-term-clipboard-paste ()
