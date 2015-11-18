@@ -1130,7 +1130,7 @@
 
 ;;; Javascript
 (use-package js2-mode
-  :mode "\.jsx?\\'"
+  :mode ("\.jsx?\\'" . js2-jsx-mode)
   :ensure t
   :config
   (setq js2-strict-missing-semi-warning nil))
