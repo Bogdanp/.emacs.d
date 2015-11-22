@@ -1013,8 +1013,8 @@
 (use-package elm-mode
   :load-path "vendor/elm-mode"
   :mode ("\\.elm\\'" . elm-mode)
-  :init
-  (add-hook 'elm-mode-hook #'elm-oracle-setup-completion))
+  :config
+  (add-to-list 'company-backends 'company-elm))
 
 
 ;;; Emacs lisp
