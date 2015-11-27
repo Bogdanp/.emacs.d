@@ -1040,6 +1040,7 @@
   :commands smartparens-mode
   :init
   (add-hook 'elixir-mode-hook #'turn-on-smartparens-strict-mode)
+  (add-hook 'irony-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'python-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'org-mode-hook #'turn-on-smartparens-strict-mode)
   :config
