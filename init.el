@@ -1204,6 +1204,11 @@
     (add-hook 'tuareg-mode-hook #'utop-minor-mode)))
 
 
+;;; Perl 6
+(use-package perl6-mode
+  :ensure t)
+
+
 ;;; Python
 (use-package python
   :mode (("\\.py\\'"   . python-mode)
