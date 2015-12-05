@@ -983,6 +983,15 @@
 	       ("C-c ," . cider-pop-back))))
 
 
+;;; Common Lisp
+(use-package slime
+  :ensure t
+  :init
+  (add-hook 'slime-mode-hook #'paredit-mode)
+  :config
+  (setq inferior-lisp-program "/usr/local/bin/sbcl"))
+
+
 ;;; Docker
 (use-package dockerfile-mode
   :mode "\\Dockerfile\\'"
