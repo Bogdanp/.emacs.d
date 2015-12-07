@@ -989,7 +989,8 @@
   :init
   (add-hook 'slime-mode-hook #'paredit-mode)
   :config
-  (setq inferior-lisp-program "/usr/local/bin/sbcl"))
+  (setq inferior-lisp-program "/usr/local/bin/sbcl")
+  (setq slime-contribs '(slime-fancy)))
 
 
 ;;; Docker
