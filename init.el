@@ -1380,44 +1380,5 @@
   :mode "\\.yaml\\'")
 
 
-;;; Gnus
-(use-package gnus
-  :commands gnus
-  :config
-  (progn
-    (require 'gnus-demon)
-    (require 'nnir)
-
-    (setq gnus-select-method '(nnimap "personal"
-                                      (nnimap-address "imap.gmail.com")
-                                      (nnimap-server-port "imaps")
-                                      (nnimap-stream ssl)
-                                      (nnir-search-engine imap)
-                                      (nnmail-expiry-target "nnimap+gmail:[Gmail]/Trash")
-                                      (nnmail-expiry-wait 90))
-
-          gnus-secondary-select-methods '((nntp "news.gwene.org"))
-
-          gnus-message-archive-method '(nnimap "imap.gmail.com")
-          gnus-message-archive-group "[Gmail]/Sent Mail"
-
-          gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]"
-          gnus-large-newsgroup 10000
-
-          gnus-thread-ignore-subject t
-          gnus-thread-sort-functions '((not gnus-thread-sort-by-date)
-                                       (not gnus-thread-sort-by-number))
-
-          gnus-use-cache t)
-
-    (add-to-list 'mm-discouraged-alternatives "text/html")
-    (add-to-list 'mm-discouraged-alternatives "text/richtext")
-
-    (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
-
-    (gnus-demon-add-handler 'gnus-demon-scan-news 1 1)
-    (gnus-demon-init)))
-
-
 (provide 'init)
 ;;; init.el ends here
