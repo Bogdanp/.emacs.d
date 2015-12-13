@@ -1385,24 +1385,28 @@
   :ensure t
   :commands notmuch
   :preface
-  (defun bp-build-unread-string (count)
-    (concat "@[" count "]"))
+  (defun bp-build-unread-string (unread-count inbox-count)
+    (concat "@[" unread-count "/" inbox-count "]"))
 
-  (defvar bp-notmuch-unread-string (bp-build-unread-string "0"))
+  (defvar bp-notmuch-unread-string (bp-build-unread-string "0" "0"))
+
+  (defun bp-notmuch-inbox-count ()
+    (s-trim (shell-command-to-string "notmuch count tag:inbox")))
 
   (defun bp-notmuch-unread-count ()
-    (shell-command-to-string "notmuch count tag:unread"))
+    (s-trim (shell-command-to-string "notmuch count tag:unread")))
 
   (defun bp-notmuch-display-unread ()
     (interactive)
     (setq global-mode-string (delq bp-notmuch-unread-string global-mode-string))
-    (setq bp-notmuch-unread-string (bp-build-unread-string (s-trim (bp-notmuch-unread-count))))
+    (setq bp-notmuch-unread-string (bp-build-unread-string (bp-notmuch-unread-count) (bp-notmuch-inbox-count)))
     (add-to-list 'global-mode-string bp-notmuch-unread-string))
   :config
   (progn
     (require 'bp-notmuch)
+    (require 'gnus-art)
 
-    (run-at-time "1 min" 600 #'bp-notmuch-display-unread)
+    (run-at-time "1 min" 300 #'bp-notmuch-display-unread)
 
     (setq notmuch-hello-sections
           '(notmuch-hello-insert-search
