@@ -1380,5 +1380,20 @@
   :mode "\\.yaml\\'")
 
 
+;;; Notmuch
+(use-package notmuch
+  :ensure t
+  :commands notmuch
+  :config
+  (progn
+    (require 'bp-notmuch)
+
+    (setq notmuch-hello-sections
+          '(notmuch-hello-insert-search
+            notmuch-hello-insert-recent-searches
+            notmuch-hello-insert-saved-searches
+            notmuch-hello-insert-alltags))))
+
+
 (provide 'init)
 ;;; init.el ends here
