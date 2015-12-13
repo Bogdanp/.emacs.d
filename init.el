@@ -1384,9 +1384,25 @@
 (use-package notmuch
   :ensure t
   :commands notmuch
+  :preface
+  (defun bp-build-unread-string (count)
+    (concat "@[" count "]"))
+
+  (defvar bp-notmuch-unread-string (bp-build-unread-string "0"))
+
+  (defun bp-notmuch-unread-count ()
+    (shell-command-to-string "notmuch count tag:unread"))
+
+  (defun bp-notmuch-display-unread ()
+    (interactive)
+    (setq global-mode-string (delq bp-notmuch-unread-string global-mode-string))
+    (setq bp-notmuch-unread-string (bp-build-unread-string (s-trim (bp-notmuch-unread-count))))
+    (add-to-list 'global-mode-string bp-notmuch-unread-string))
   :config
   (progn
     (require 'bp-notmuch)
+
+    (run-at-time "1 min" 600 #'bp-notmuch-display-unread)
 
     (setq notmuch-hello-sections
           '(notmuch-hello-insert-search
