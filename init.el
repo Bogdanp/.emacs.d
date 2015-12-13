@@ -1406,9 +1406,19 @@
     (require 'bp-notmuch)
     (require 'gnus-art)
 
-    (run-at-time "1 min" 300 #'bp-notmuch-display-unread)
+    (run-at-time "1 min" 180 #'bp-notmuch-display-unread)
 
-    (setq notmuch-hello-sections
+    (setq notmuch-saved-searches
+          '((:name "inbox" :query "tag:inbox" :key "i")
+            (:name "unread" :query "tag:unread" :key "u")
+            (:name "flagged" :query "tag:flagged" :key "f")
+            (:name "sent" :query "tag:sent" :key "s")
+            (:name "drafts" :query "tag:draft" :key "d")
+            (:name "all mail" :query "*" :key "a"))
+
+          notmuch-search-oldest-first nil
+
+          notmuch-hello-sections
           '(notmuch-hello-insert-search
             notmuch-hello-insert-recent-searches
             notmuch-hello-insert-saved-searches
