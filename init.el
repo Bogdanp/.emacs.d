@@ -1388,7 +1388,8 @@
   (defun bp-build-unread-string (unread-count inbox-count)
     (concat "@[" unread-count "/" inbox-count "]"))
 
-  (defvar bp-notmuch-unread-string (bp-build-unread-string "0" "0"))
+  (defvar bp-notmuch-unread-string
+    (bp-build-unread-string "0" "0"))
 
   (defun bp-notmuch-inbox-count ()
     (s-trim (shell-command-to-string "notmuch count tag:inbox")))
