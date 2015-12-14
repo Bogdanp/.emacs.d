@@ -1404,6 +1404,12 @@
     (setq global-mode-string (delq bp-notmuch-unread-string global-mode-string))
     (setq bp-notmuch-unread-string (bp-build-unread-string (bp-notmuch-unread-count) (bp-notmuch-inbox-count)))
     (add-to-list 'global-mode-string bp-notmuch-unread-string))
+
+  (defun mimedown ()
+    (interactive)
+    (save-excursion
+      (message-goto-body)
+      (shell-command-on-region (point) (point-max) (concat "mimedown " gnus-alias-current-identity) nil t)))
   :config
   (progn
     (require 'bp-notmuch)
@@ -1411,15 +1417,7 @@
 
     (run-at-time "1 min" 180 #'bp-notmuch-display-unread)
 
-    (setq notmuch-saved-searches
-          '((:name "inbox" :query "tag:inbox" :key "i")
-            (:name "unread" :query "tag:unread" :key "u")
-            (:name "flagged" :query "tag:flagged" :key "f")
-            (:name "sent" :query "tag:sent" :key "s")
-            (:name "drafts" :query "tag:draft" :key "d")
-            (:name "all mail" :query "*" :key "a"))
-
-          notmuch-search-oldest-first nil
+    (setq notmuch-search-oldest-first nil
 
           notmuch-hello-sections
           '(notmuch-hello-insert-search
