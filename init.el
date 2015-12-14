@@ -228,6 +228,8 @@
                     org-log-buffer-setup-hook))
       (add-hook hook #'bp-toggle-emacs-state))
 
+    (add-to-list 'evil-emacs-state-modes 'notmuch-tree-mode)
+
     (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook)
     (add-hook 'after-change-major-mode-hook #'bp-apply-evil-mode-hook)
     (evil-mode +1)
