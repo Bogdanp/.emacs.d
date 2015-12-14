@@ -1389,7 +1389,7 @@
   :commands notmuch
   :preface
   (defun bp-build-unread-string (unread-count inbox-count)
-    (concat "@[" unread-count "/" inbox-count "]"))
+    (concat " @[" unread-count "/" inbox-count "]"))
 
   (defvar bp-notmuch-unread-string
     (bp-build-unread-string "0" "0"))
@@ -1429,6 +1429,14 @@
             notmuch-hello-insert-recent-searches
             notmuch-hello-insert-saved-searches
             notmuch-hello-insert-alltags))))
+
+
+;;; Gnus
+(use-package gnus
+  :commands gnus
+  :config
+  (setq gnus-select-method '(nnnil "")
+        gnus-secondary-select-methods '((nntp "news.gwene.org"))))
 
 
 (provide 'init)
