@@ -1405,6 +1405,10 @@
     (setq bp-notmuch-unread-string (bp-build-unread-string (bp-notmuch-unread-count) (bp-notmuch-inbox-count)))
     (add-to-list 'global-mode-string bp-notmuch-unread-string))
 
+  (defun bp-notmuch-force-sync ()
+    (interactive)
+    (start-process "notmuch-sync" "*notmuch-sync*" "notmuch-sync"))
+
   (defun mimedown ()
     (interactive)
     (save-excursion
