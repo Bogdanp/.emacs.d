@@ -987,6 +987,7 @@
 
 ;;; Common Lisp
 (use-package slime
+  :disabled t
   :ensure t
   :init
   (add-hook 'slime-mode-hook #'paredit-mode)
@@ -1218,6 +1219,7 @@
 
 ;;; Perl 6
 (use-package perl6-mode
+  :disabled t
   :ensure t)
 
 
