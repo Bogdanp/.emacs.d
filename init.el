@@ -1153,7 +1153,6 @@
   :config
   (setq js2-strict-missing-semi-warning nil))
 
-
 ;;; JSON
 (use-package json-mode
   :mode "\.json\\'"
@@ -1421,7 +1420,7 @@
     (require 'bp-notmuch)
     (require 'gnus-art)
 
-    (run-at-time "1 min" 180 #'bp-notmuch-display-unread)
+    (run-at-time "1 min" 90 #'bp-notmuch-display-unread)
 
     (setq notmuch-search-oldest-first nil
 
