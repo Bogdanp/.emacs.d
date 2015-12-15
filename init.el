@@ -1424,6 +1424,15 @@
 
     (setq notmuch-search-oldest-first nil
 
+          notmuch-saved-searches
+          '((:name "inbox" :query "tag:inbox" :key "i")
+            (:name "unread" :query "tag:unread" :key "u")
+            (:name "flagged" :query "tag:flagged" :key "f")
+            (:name "todo" :query "tag:todo" :key "t")
+            (:name "sent" :query "tag:sent" :key "s")
+            (:name "drafts" :query "tag:draft" :key "d")
+            (:name "all mail" :query "*" :key "a"))
+
           notmuch-hello-sections
           '(notmuch-hello-insert-search
             notmuch-hello-insert-recent-searches
