@@ -1026,8 +1026,12 @@
 (use-package elm-mode
   :load-path "vendor/elm-mode"
   :mode ("\\.elm\\'" . elm-mode)
+  :preface
+  (defun bp-elm-mode-hook ()
+    (set (make-local-variable 'company-backends)
+         (cons 'company-elm company-backends)))
   :config
-  (add-to-list 'company-backends 'company-elm))
+  (add-hook 'elm-mode-hook #'bp-elm-mode-hook))
 
 
 ;;; Emacs lisp
