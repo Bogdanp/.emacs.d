@@ -1418,12 +1418,12 @@
     (save-excursion
       (message-goto-body)
       (shell-command-on-region (point) (point-max) (concat "mimedown " gnus-alias-current-identity) nil t)))
+  :init
+  (run-at-time "1 min" 90 #'bp-notmuch-display-unread)
   :config
   (progn
     (require 'bp-notmuch)
     (require 'gnus-art)
-
-    (run-at-time "1 min" 90 #'bp-notmuch-display-unread)
 
     (setq notmuch-search-oldest-first nil
 
