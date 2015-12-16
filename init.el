@@ -15,7 +15,10 @@
  load-prefer-newer t
 
  ;;; Don't warn on redefinition
- ad-redefinition-action 'accept)
+ ad-redefinition-action 'accept
+
+ ;;; Don't attempt to load `default.el'
+ inhibit-default-init t)
 
 (setq-default
  ;;; Editing
