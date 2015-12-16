@@ -880,12 +880,21 @@
 ;;; File navigation
 (use-package projectile
   :diminish projectile-mode
-  :load-path "vendor/smex"
   :ensure t
+  :preface
+  (defun bp-projectile-after-switch-hook ()
+    (when (s-ends-with? ".py" (buffer-file-name))
+      (let* ((path-segments (s-split "/" (projectile-project-root)))
+             (path-segments (-remove #'string-empty-p path-segments))
+             (project (car (-slice path-segments -1))))
+        (flet ((pyvenv-run-virtualenvwrapper-hook (&rest xs) nil))
+          (pyvenv-activate project)))))
   :init
   (setq projectile-enable-caching t)
   :config
-  (projectile-global-mode))
+  (progn
+    (add-hook 'projectile-after-switch-project-hook #'bp-projectile-after-switch-hook)
+    (projectile-global-mode)))
 
 
 ;;; Process management
