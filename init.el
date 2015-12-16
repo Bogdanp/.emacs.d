@@ -1449,9 +1449,7 @@
           '(notmuch-hello-insert-search
             notmuch-hello-insert-recent-searches
             notmuch-hello-insert-saved-searches
-            notmuch-hello-insert-alltags)
-
-          mm-text-html-renderer 'w3m)))
+            notmuch-hello-insert-alltags))))
 
 
 (provide 'init)
