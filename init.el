@@ -1395,22 +1395,19 @@
   :ensure t
   :commands notmuch
   :preface
-  (defun bp-build-unread-string (unread-count inbox-count)
-    (concat " @[" unread-count "/" inbox-count "]"))
+  (defun bp-build-unread-string (inbox-count)
+    (concat " @" inbox-count))
 
   (defvar bp-notmuch-unread-string
-    (bp-build-unread-string "0" "0"))
+    (bp-build-unread-string "0"))
 
   (defun bp-notmuch-inbox-count ()
     (s-trim (shell-command-to-string "notmuch count tag:inbox")))
 
-  (defun bp-notmuch-unread-count ()
-    (s-trim (shell-command-to-string "notmuch count tag:unread")))
-
   (defun bp-notmuch-display-unread ()
     (interactive)
     (setq global-mode-string (delq bp-notmuch-unread-string global-mode-string))
-    (setq bp-notmuch-unread-string (bp-build-unread-string (bp-notmuch-unread-count) (bp-notmuch-inbox-count)))
+    (setq bp-notmuch-unread-string (bp-build-unread-string (bp-notmuch-inbox-count)))
     (add-to-list 'global-mode-string bp-notmuch-unread-string))
 
   (defun bp-notmuch-force-sync ()
