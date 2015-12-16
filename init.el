@@ -1446,13 +1446,5 @@
           mm-text-html-renderer 'w3m)))
 
 
-;;; Gnus
-(use-package gnus
-  :commands gnus
-  :config
-  (setq gnus-select-method '(nnnil "")
-        gnus-secondary-select-methods '((nntp "news.gwene.org"))))
-
-
 (provide 'init)
 ;;; init.el ends here
