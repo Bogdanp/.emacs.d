@@ -342,26 +342,24 @@
 	ido-ignore-extensions t)
   :config
   (progn
+    (ido-mode +1)
+    (ido-everywhere +1)
+
     (use-package ido-ubiquitous
       :ensure t
-      :config
+      :init
       (ido-ubiquitous-mode +1))
 
     (use-package ido-vertical-mode
       :ensure t
       :init
       (setq ido-vertical-show-count t)
-      :config
-      (progn
-	(ido-vertical-mode +1)))
+      (ido-vertical-mode +1))
 
     (use-package ido-clever-match
       :load-path "vendor/ido-clever-match"
       :config
-      (ido-clever-match-enable))
-
-    (ido-mode +1)
-    (ido-everywhere +1)))
+      (ido-clever-match-enable))))
 
 (use-package mule
   :config
