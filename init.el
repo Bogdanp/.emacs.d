@@ -239,10 +239,28 @@
 
     (bind-keys :map evil-normal-state-map
                ("\\\\" . evil-ex-nohighlight)
+
+               ;; Dash
+               ("\\d" . dash-at-point)
+
+               ;; Frames
                ("\\fn" . make-frame-command)
                ("\\fo" . other-frame)
-               ("\\fc" . delete-frame))))
+               ("\\fc" . delete-frame)
 
+               ;; Notmuch
+               ("\\mm" . notmuch)
+               ("\\mt" . notmuch-tree)
+
+               ;; Winner
+               ("\\ww" . winner-undo)
+               ("\\wr" . winner-redo)
+
+               ;; Org
+               ("\\a"  . org-agenda)
+	       ("\\c"  . helm-org-capture-templates)
+               ("\\h"  . helm-org-agenda-files-headings)
+	       ("\\ta" . bp-org-archive-task-at-point))))
 
 ;;; Builtins
 (use-package autorevert
@@ -670,11 +688,7 @@
 (use-package winner
   :config
   (progn
-    (winner-mode +1)
-
-    (bind-keys :map evil-normal-state-map
-               ("\\ww" . winner-undo)
-               ("\\wr" . winner-redo))))
+    (winner-mode +1)))
 
 
 ;;; Buffers and buffer navigation
@@ -897,15 +911,7 @@
 
 
     ;;; Text editing
-    (add-hook 'org-mode-hook #'auto-fill-mode)
-
-
-    ;;; Bindings
-    (bind-keys :map evil-normal-state-map
-	       ("\\a"  . org-agenda)
-	       ("\\c"  . helm-org-capture-templates)
-               ("\\h"  . helm-org-agenda-files-headings)
-	       ("\\ta" . bp-org-archive-task-at-point))))
+    (add-hook 'org-mode-hook #'auto-fill-mode)))
 
 
 ;;; Code completion
@@ -973,10 +979,7 @@
 
 ;;; Miscellaneous
 (use-package dash-at-point
-  :ensure t
-  :config
-  (bind-keys :map evil-normal-state-map
-	     ("\\d" . dash-at-point)))
+  :ensure t)
 
 (use-package diminish
   :commands diminish
@@ -1472,7 +1475,7 @@
 ;;; Notmuch
 (use-package notmuch
   :ensure t
-  :commands notmuch
+  :commands (notmuch notmuch-tree)
   :preface
   (defun bp-build-unread-string (inbox-count)
     (concat " @" inbox-count))
@@ -1520,11 +1523,7 @@
           '(notmuch-hello-insert-search
             notmuch-hello-insert-recent-searches
             notmuch-hello-insert-saved-searches
-            notmuch-hello-insert-alltags))
-
-    (bind-keys :map evil-normal-state-map
-               ("\\mm" . notmuch)
-               ("\\mt" . notmuch-tree))))
+            notmuch-hello-insert-alltags))))
 
 
 (provide 'init)
