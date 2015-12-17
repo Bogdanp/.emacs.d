@@ -238,29 +238,33 @@
     (evil-mode +1)
 
     (bind-keys :map evil-normal-state-map
-               ("\\\\" . evil-ex-nohighlight)
+               :prefix "\\"
+               :prefix-map evil-leader-prefix-map
+
+               ;; Evil
+               ("\\" . evil-ex-nohighlight)
 
                ;; Dash
-               ("\\d" . dash-at-point)
+               ("d" . dash-at-point)
 
                ;; Frames
-               ("\\fn" . make-frame-command)
-               ("\\fo" . other-frame)
-               ("\\fc" . delete-frame)
+               ("fn" . make-frame-command)
+               ("fo" . other-frame)
+               ("fc" . delete-frame)
 
                ;; Notmuch
-               ("\\mm" . notmuch)
-               ("\\mt" . notmuch-tree)
+               ("mm" . notmuch)
+               ("mt" . notmuch-tree)
 
                ;; Winner
-               ("\\ww" . winner-undo)
-               ("\\wr" . winner-redo)
+               ("ww" . winner-undo)
+               ("wr" . winner-redo)
 
                ;; Org
-               ("\\a"  . org-agenda)
-	       ("\\c"  . helm-org-capture-templates)
-               ("\\h"  . helm-org-agenda-files-headings)
-	       ("\\ta" . bp-org-archive-task-at-point))))
+               ("a"  . org-agenda)
+	       ("c"  . helm-org-capture-templates)
+               ("h"  . helm-org-agenda-files-headings)
+	       ("ta" . bp-org-archive-task-at-point))))
 
 ;;; Builtins
 (use-package autorevert
