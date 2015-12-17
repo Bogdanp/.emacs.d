@@ -343,6 +343,17 @@
   (progn
     (require 'helm-config)
 
+    (use-package helm-descbinds
+      :ensure t
+      :commands helm-descbinds)
+
+    (use-package helm-flx
+      :ensure t)
+
+    (use-package helm-swoop
+      :ensure t
+      :bind (("C-s" . helm-swoop)))
+
     (bind-keys :map helm-map
                ("C-w" . backward-kill-word))
 
@@ -367,15 +378,8 @@
           helm-semantic-fuzzy-match t)
 
     (helm-mode +1)
-    (helm-autoresize-mode +1)))
-
-(use-package helm-descbinds
-  :ensure t
-  :commands helm-descbinds)
-
-(use-package helm-swoop
-  :ensure t
-  :bind (("C-s" . helm-swoop)))
+    (helm-autoresize-mode +1)
+    (helm-flx-mode +1)))
 
 (use-package ido
   :init
@@ -1497,13 +1501,13 @@
     (setq notmuch-search-oldest-first nil
 
           notmuch-saved-searches
-          '((:name "inbox" :query "tag:inbox" :key "i")
-            (:name "unread" :query "tag:unread" :key "u")
-            (:name "flagged" :query "tag:flagged" :key "f")
-            (:name "todo" :query "tag:todo" :key "t")
-            (:name "sent" :query "tag:sent" :key "s")
-            (:name "drafts" :query "tag:draft" :key "d")
-            (:name "all mail" :query "*" :key "a"))
+          '((:name "inbox"    :query "tag:inbox"   :key "i")
+            (:name "unread"   :query "tag:unread"  :key "u")
+            (:name "flagged"  :query "tag:flagged" :key "f")
+            (:name "todo"     :query "tag:todo"    :key "t")
+            (:name "sent"     :query "tag:sent"    :key "s")
+            (:name "drafts"   :query "tag:draft"   :key "d")
+            (:name "all mail" :query "*"           :key "a"))
 
           notmuch-hello-sections
           '(notmuch-hello-insert-search
