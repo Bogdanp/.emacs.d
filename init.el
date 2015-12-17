@@ -1513,7 +1513,11 @@
           '(notmuch-hello-insert-search
             notmuch-hello-insert-recent-searches
             notmuch-hello-insert-saved-searches
-            notmuch-hello-insert-alltags))))
+            notmuch-hello-insert-alltags))
+
+    (bind-keys :map evil-normal-state-map
+               ("\\mm" . notmuch)
+               ("\\mt" . notmuch-tree))))
 
 
 (provide 'init)
