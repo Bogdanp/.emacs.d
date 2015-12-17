@@ -710,6 +710,10 @@
   :config
   (smex-initialize))
 
+(use-package semantic
+  :config
+  (semantic-mode +1))
+
 
 ;;; UI
 (use-package smart-mode-line
