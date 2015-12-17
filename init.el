@@ -663,6 +663,7 @@
 
 ;;; Buffers and buffer navigation
 (use-package ibuffer
+  :disabled t
   :bind ("C-x C-b" . ibuffer)
   :preface
   (progn
