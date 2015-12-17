@@ -267,7 +267,9 @@
 
                ;; Winner
                ("ww" . winner-undo)
-               ("wr" . winner-redo))))
+               ("wr" . winner-redo))
+
+    (bind-key "C-c C-\\" evil-leader-prefix-map)))
 
 ;;; Builtins
 (use-package autorevert
