@@ -346,6 +346,7 @@
     (bind-keys :map helm-map
                ("C-w" . backward-kill-word))
 
+    ;; http://emacsist.com/10477
     (add-to-list 'display-buffer-alist
                  '("\\`\\*helm.*\\*\\'"
                    (display-buffer-in-side-window)
@@ -353,6 +354,10 @@
                    (window-height . 0.4)))
 
     (setq helm-split-window-in-side-p t
+
+          helm-swoop-split-with-multiple-windows nil
+          helm-swoop-split-direction 'split-window-vertically
+          helm-swoop-split-window-function 'helm-default-display-buffer
 
           helm-M-x-fuzzy-match t
           helm-buffers-fuzzy-matching t
@@ -367,6 +372,10 @@
 (use-package helm-descbinds
   :ensure t
   :commands helm-descbinds)
+
+(use-package helm-swoop
+  :ensure t
+  :bind (("C-s" . helm-swoop)))
 
 (use-package ido
   :init
