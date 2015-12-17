@@ -776,6 +776,11 @@
   :commands git-timemachine
   :ensure t)
 
+(use-package diff-hl
+  :ensure t
+  :config
+  (global-diff-hl-mode +1))
+
 
 ;;; Org
 (use-package org
