@@ -789,8 +789,7 @@
 
 
     ;;; Completion
-    (setq org-completion-use-ido t
-          org-outline-path-complete-in-steps nil)
+    (setq org-outline-path-complete-in-steps nil)
 
 
     ;;; Code blocks
@@ -884,7 +883,8 @@
     ;;; Bindings
     (bind-keys :map evil-normal-state-map
 	       ("\\a"  . org-agenda)
-	       ("\\c"  . org-capture)
+	       ("\\c"  . helm-org-capture-templates)
+               ("\\h"  . helm-org-agenda-files-headings)
 	       ("\\ta" . bp-org-archive-task-at-point))))
 
 
