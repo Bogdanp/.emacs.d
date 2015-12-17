@@ -354,17 +354,19 @@
 
     (setq helm-split-window-in-side-p t
 
+          helm-M-x-fuzzy-match t
           helm-buffers-fuzzy-matching t
           helm-imenu-fuzzy-match t
           helm-recentf-fuzzy-match t
           helm-locate-fuzzy-match nil
-          helm-M-x-fuzzy-match t
           helm-semantic-fuzzy-match t)
 
-    (helm-mode +1)))
+    (helm-mode +1)
+    (helm-autoresize-mode +1)))
 
 (use-package helm-descbinds
-  :ensure t)
+  :ensure t
+  :commands helm-descbinds)
 
 (use-package ido
   :init
