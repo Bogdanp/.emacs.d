@@ -241,16 +241,25 @@
                :prefix "\\"
                :prefix-map evil-leader-prefix-map
 
-               ;; Evil
-               ("\\" . evil-ex-nohighlight)
-
                ;; Dash
                ("d" . dash-at-point)
+
+               ;; Evil
+               ("\\" . evil-ex-nohighlight)
 
                ;; Frames
                ("fn" . make-frame-command)
                ("fo" . other-frame)
                ("fc" . delete-frame)
+
+               ;; Helm
+               ("hd" . helm-descbinds)
+
+               ;; Org
+               ("oa"  . org-agenda)
+	       ("oc"  . helm-org-capture-templates)
+               ("oh"  . helm-org-agenda-files-headings)
+	       ("ota" . bp-org-archive-task-at-point)
 
                ;; Notmuch
                ("mm" . notmuch)
@@ -258,13 +267,7 @@
 
                ;; Winner
                ("ww" . winner-undo)
-               ("wr" . winner-redo)
-
-               ;; Org
-               ("a"  . org-agenda)
-	       ("c"  . helm-org-capture-templates)
-               ("h"  . helm-org-agenda-files-headings)
-	       ("ta" . bp-org-archive-task-at-point))))
+               ("wr" . winner-redo))))
 
 ;;; Builtins
 (use-package autorevert
