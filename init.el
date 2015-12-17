@@ -182,7 +182,7 @@
 	(evil-emacs-state)))
 
     (defun bp-minibuffer-setup-hook ()
-      (local-set-key (kbd "C-w") 'backward-kill-word)))
+      (local-set-key (kbd "C-w") #'backward-kill-word)))
   :init
   (setq evil-search-module #'evil-search
         evil-magic 'very-magic)
@@ -332,6 +332,40 @@
 
     (bp-global-hl-line-mode)))
 
+(use-package helm
+  :diminish helm-mode
+  :ensure t
+  :bind (("C-;" . helm-M-x)
+         ("C-x b" . helm-mini)
+         ("C-x C-f" . helm-find-files)
+         ("C-x C-i" . helm-semantic-or-imenu))
+  :config
+  (progn
+    (require 'helm-config)
+
+    (bind-keys :map helm-map
+               ("C-w" . backward-kill-word))
+
+    (add-to-list 'display-buffer-alist
+                 '("\\`\\*helm.*\\*\\'"
+                   (display-buffer-in-side-window)
+                   (inhibit-same-window . t)
+                   (window-height . 0.4)))
+
+    (setq helm-split-window-in-side-p t
+
+          helm-buffers-fuzzy-matching t
+          helm-imenu-fuzzy-match t
+          helm-recentf-fuzzy-match t
+          helm-locate-fuzzy-match nil
+          helm-M-x-fuzzy-match t
+          helm-semantic-fuzzy-match t)
+
+    (helm-mode +1)))
+
+(use-package helm-descbinds
+  :ensure t)
+
 (use-package ido
   :init
   (setq ido-create-new-buffer 'always
@@ -342,10 +376,11 @@
 	ido-ignore-extensions t)
   :config
   (progn
-    (ido-mode +1)
-    (ido-everywhere +1)
+    ;; (ido-mode +1)
+    ;; (ido-everywhere +1)
 
     (use-package ido-ubiquitous
+      :disabled t
       :ensure t
       :init
       (ido-ubiquitous-mode +1))
@@ -358,6 +393,7 @@
       (ido-vertical-mode +1))
 
     (use-package ido-clever-match
+      :disabled t
       :load-path "vendor/ido-clever-match"
       :config
       (ido-clever-match-enable))))
@@ -644,9 +680,11 @@
     (add-hook 'ibuffer-hook #'bp-ibuffer-hook)))
 
 (use-package imenu
+  :disabled t
   :bind ("C-x C-i" . imenu))
 
 (use-package smex
+  :disabled t
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands)
 	 ("C-;" . smex))
@@ -893,6 +931,11 @@
   (setq projectile-enable-caching t)
   :config
   (progn
+    (use-package helm-projectile
+      :ensure t
+      :config
+      (helm-projectile-on))
+
     (add-hook 'projectile-after-switch-project-hook #'bp-projectile-after-switch-hook)
     (projectile-global-mode)))
 
@@ -1396,6 +1439,11 @@
 (use-package yaml-mode
   :ensure t
   :mode "\\.yaml\\'")
+
+
+;;; s
+(use-package s
+  :ensure t)
 
 
 ;;; Notmuch
