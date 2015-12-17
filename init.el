@@ -238,7 +238,10 @@
     (evil-mode +1)
 
     (bind-keys :map evil-normal-state-map
-               ("\\\\" . evil-ex-nohighlight))))
+               ("\\\\" . evil-ex-nohighlight)
+               ("\\fn" . make-frame-command)
+               ("\\fo" . other-frame)
+               ("\\fc" . delete-frame))))
 
 
 ;;; Builtins
