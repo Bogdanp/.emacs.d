@@ -28,6 +28,8 @@
  ;; Don't wrap long lines
  truncate-lines t)
 
+;;; Enable functionality
+(put 'narrow-to-region 'disabled nil)
 
 ;;; Vendored libs
 (add-to-list 'load-path (locate-user-emacs-file "vendor/dash"))
