@@ -1507,6 +1507,12 @@
   :mode "\\.yaml\\'")
 
 
+;;; Message
+(use-package message
+  :init
+  (setq message-auto-save-directory (expand-file-name "~/Maildir/drafts")))
+
+
 ;;; Notmuch
 (use-package notmuch
   :ensure t
