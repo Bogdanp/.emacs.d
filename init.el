@@ -241,9 +241,6 @@
                :prefix "\\"
                :prefix-map evil-leader-prefix-map
 
-               ;; Dash
-               ("d" . dash-at-point)
-
                ;; Evil
                ("\\" . evil-ex-nohighlight)
 
@@ -253,7 +250,7 @@
                ("fc" . delete-frame)
 
                ;; Helm
-               ("hd" . helm-descbinds)
+               ("h"  . helm-command-prefix)
 
                ;; Org
                ("oa"  . org-agenda)
@@ -262,14 +259,25 @@
 	       ("ota" . bp-org-archive-task-at-point)
 
                ;; Notmuch
+               ("mc" . compose-mail)
                ("mm" . notmuch)
                ("mt" . notmuch-tree)
+               ("mi" . bp-notmuch-inbox)
+               ("mu" . bp-notmuch-unread)
 
                ;; Winner
-               ("ww" . winner-undo)
+               ("wu" . winner-undo)
                ("wr" . winner-redo))
 
+    (bind-key "SPC" evil-leader-prefix-map evil-normal-state-map)
     (bind-key "C-c C-\\" evil-leader-prefix-map)))
+
+(use-package which-key
+  :diminish which-key-mode
+  :ensure t
+  :config
+  (which-key-mode +1))
+
 
 ;;; Builtins
 (use-package autorevert
@@ -373,6 +381,13 @@
 
     (use-package helm-flx
       :ensure t)
+
+    (use-package helm-flycheck
+      :commands helm-flycheck
+      :ensure t
+      :config
+      (bind-keys :map flycheck-mode-map
+                 ("C-c ! h" . helm-flycheck)))
 
     (use-package helm-swoop
       :ensure t
@@ -732,8 +747,9 @@
   (smex-initialize))
 
 (use-package semantic
-  :config
-  (semantic-mode +1))
+  :commands semantic-mode
+  :init
+  (add-hook 'prog-mode-hook #'semantic-mode))
 
 
 ;;; UI
@@ -1505,6 +1521,14 @@
   (defun bp-notmuch-force-sync ()
     (interactive)
     (start-process "notmuch-sync" "*notmuch-sync*" "notmuch-sync"))
+
+  (defun bp-notmuch-inbox ()
+    (interactive)
+    (notmuch-search "tag:inbox"))
+
+  (defun bp-notmuch-unread ()
+    (interactive)
+    (notmuch-search "tag:unread"))
 
   (defun mimedown ()
     (interactive)
