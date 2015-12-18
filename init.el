@@ -1509,7 +1509,7 @@
 ;;; Notmuch
 (use-package notmuch
   :ensure t
-  :commands (notmuch notmuch-tree)
+  :commands (notmuch notmuch-search notmuch-tree)
   :preface
   (defun bp-build-unread-string (inbox-count)
     (concat " @" inbox-count))
