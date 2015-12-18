@@ -399,7 +399,11 @@
 
     (use-package helm-swoop
       :ensure t
-      :bind (("C-s" . helm-swoop)))
+      :bind (("C-s" . helm-swoop))
+      :preface
+      (defun bp-helm-swoop-pre-input-function () "")
+      :config
+      (setq helm-swoop-pre-input-function #'bp-helm-swoop-pre-input-function))
 
     ;; http://emacsist.com/10477
     (add-to-list 'display-buffer-alist
@@ -1000,6 +1004,7 @@
       (helm-projectile-on))
 
     (add-hook 'projectile-after-switch-project-hook #'bp-projectile-after-switch-hook)
+
     (projectile-global-mode)))
 
 
