@@ -246,13 +246,19 @@
                ;; Evil
                ("\\" . evil-ex-nohighlight)
 
+               ;; Misc
+               ("bu" . browse-url)
+
                ;; Frames
                ("fn" . make-frame-command)
                ("fo" . other-frame)
                ("fc" . delete-frame)
 
                ;; Helm
-               ("h"  . helm-command-prefix)
+               ("h" . helm-command-prefix)
+
+               ;; Projectile
+               ("p" . projectile-command-map)
 
                ;; Org
                ("oa"  . org-agenda)
