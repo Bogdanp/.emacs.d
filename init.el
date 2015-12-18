@@ -322,9 +322,6 @@
   ;; Never append tags lists together.
   (setq tags-add-tables nil))
 
-(use-package ffap
-  :commands ffap-other-window)
-
 (use-package files
   :init
   (setq auto-save-file-name-transforms `((".*" ,(concat local-temp-dir "/\\1") t))
@@ -343,9 +340,6 @@
 
     (use-package wgrep
       :ensure t)))
-
-(use-package hippie-expand
-  :bind (("M-/" . hippie-expand)))
 
 (use-package hl-line
   :config
@@ -699,8 +693,7 @@
 
 (use-package winner
   :config
-  (progn
-    (winner-mode +1)))
+  (winner-mode +1))
 
 
 ;;; Buffers and buffer navigation
@@ -994,9 +987,6 @@
 
 
 ;;; Miscellaneous
-(use-package dash-at-point
-  :ensure t)
-
 (use-package diminish
   :commands diminish
   :ensure t)
@@ -1007,6 +997,9 @@
     :ensure t
     :init
     (add-hook 'after-init-hook #'exec-path-from-shell-initialize)))
+
+(use-package s
+  :ensure t)
 
 
 ;;; C
@@ -1057,6 +1050,7 @@
 
 ;;; Clojure
 (use-package clojure-mode
+  :disabled t
   :ensure t
   :mode (("\\.cljs?\\'" . clojure-mode)
 	 ("\\.boot\\'"  . clojure-mode))
@@ -1064,6 +1058,7 @@
   (add-hook 'clojure-mode-hook #'cider-mode))
 
 (use-package cider
+  :disabled t
   :ensure t
   :commands (cider-mode)
   :config
@@ -1420,6 +1415,7 @@
 
 ;;; Scheme
 (use-package geiser
+  :disabled t
   :ensure t
   :init
   (progn
@@ -1430,6 +1426,7 @@
 
 ;;; SCSS
 (use-package scss-mode
+  :disabled t
   :ensure t
   :mode "\\.scss\\'"
   :config
@@ -1441,12 +1438,14 @@
 
 ;;; Terraform
 (use-package terraform-mode
+  :disabled t
   :ensure t
   :mode "\\.tf\\'")
 
 
 ;;; UrWeb
 (use-package urweb-mode
+  :disabled t
   :load-path "/usr/local/share/emacs/site-lisp/urweb-mode"
   :mode "\\.ur[ps]?\\'")
 
@@ -1481,11 +1480,6 @@
 (use-package yaml-mode
   :ensure t
   :mode "\\.yaml\\'")
-
-
-;;; s
-(use-package s
-  :ensure t)
 
 
 ;;; Notmuch
