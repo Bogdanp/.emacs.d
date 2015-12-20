@@ -992,8 +992,7 @@
       (let* ((path-segments (s-split "/" (projectile-project-root)))
              (path-segments (-remove #'string-empty-p path-segments))
              (project (car (-slice path-segments -1))))
-        (flet ((pyvenv-run-virtualenvwrapper-hook (&rest xs) nil))
-          (pyvenv-activate project)))))
+        (bp-workon project))))
   :init
   (setq projectile-enable-caching t)
   :config
@@ -1347,7 +1346,11 @@
   :ensure t)
 
 
+
 ;;; Python
+(use-package pyvenv
+  :ensure t)
+
 (use-package python
   :mode (("\\.py\\'"   . python-mode)
 	 ("SConstruct" . python-mode))
@@ -1355,6 +1358,32 @@
   :preface
   (eval-when-compile
     (declare-function py-test-define-project "py-test"))
+
+  (defun bp-apply-buffer-env (buffer-name)
+    (with-current-buffer buffer-name
+      (goto-char (point-min))
+      (dolist (binding (json-read))
+        (let ((env (format "%s=%s" (car binding) (cdr binding))))
+          (when (not (member env process-environment))
+            (setq process-environment (cons env process-environment))))
+        (when (eq (car binding) 'PATH)
+          (setq exec-path (split-string (cdr binding) ":"))))))
+
+  (defun bp-workon (name)
+    (interactive
+     (list
+      (completing-read "Work on: " (pyvenv-virtualenv-list)
+                       nil t nil 'pyvenv-workon-history nil nil)))
+    (let ((output-buffer "*vf-activate*")
+          (error-buffer "*vf-activate-errors*"))
+      (and (buffer-live-p output-buffer)
+           (with-current-buffer output-buffer (erase-buffer)))
+      (shell-command
+       (format "vf activate %s; and python -c 'import json, os; print(json.dumps(dict(os.environ)))'" name)
+       output-buffer
+       error-buffer)
+      (bp-apply-buffer-env output-buffer)
+      (message (concat "Activated virtualenv: " name))))
   :config
   (progn
     (use-package elpy
@@ -1364,10 +1393,10 @@
       (with-eval-after-load 'python (elpy-enable))
       :config
       (progn
-	(bind-keys :map python-mode-map
-		   ("C-c v" . pyvenv-workon)
-		   ("C-c ." . elpy-goto-definition)
-		   ("C-c ," . pop-tag-mark))
+        (bind-keys :map python-mode-map
+                   ("C-c v" . bp-workon)
+                   ("C-c ." . elpy-goto-definition)
+                   ("C-c ," . pop-tag-mark))
 
 	(custom-set-variables
 	 '(elpy-modules
