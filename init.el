@@ -1371,19 +1371,19 @@
 
   (defun bp-workon (name)
     (interactive
-     (list
-      (completing-read "Work on: " (pyvenv-virtualenv-list)
-                       nil t nil 'pyvenv-workon-history nil nil)))
+     (list (completing-read "Work on: " (pyvenv-virtualenv-list)
+                            nil t nil 'pyvenv-workon-history nil nil)))
     (let ((output-buffer "*vf-activate*")
           (error-buffer "*vf-activate-errors*"))
-      (and (buffer-live-p output-buffer)
-           (with-current-buffer output-buffer (erase-buffer)))
+      (when (buffer-live-p output-buffer)
+        (with-current-buffer output-buffer
+          (erase-buffer)))
       (shell-command
        (format "vf activate %s; and python -c 'import json, os; print(json.dumps(dict(os.environ)))'" name)
        output-buffer
        error-buffer)
       (bp-apply-buffer-env output-buffer)
-      (message (concat "Activated virtualenv: " name))))
+      (message (concat "Activated virtualenv " name))))
   :config
   (progn
     (use-package elpy
@@ -1398,7 +1398,7 @@
                    ("C-c ." . elpy-goto-definition)
                    ("C-c ," . pop-tag-mark))
 
-	(custom-set-variables
+        (custom-set-variables
 	 '(elpy-modules
 	   (quote
 	    (elpy-module-company
