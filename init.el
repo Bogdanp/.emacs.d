@@ -1107,7 +1107,7 @@
 
 ;;; Common Lisp
 (use-package slime
-  :disabled t
+  :commands slime
   :ensure t
   :init
   (add-hook 'slime-mode-hook #'paredit-mode)
