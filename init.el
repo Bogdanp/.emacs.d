@@ -185,6 +185,13 @@
 
     (defun bp-minibuffer-setup-hook ()
       (local-set-key (kbd "C-w") #'backward-kill-word)))
+
+  (defun bp-generate-mode-line-tag (f &rest state)
+    (let ((tag (apply f state))
+          (state (car state)))
+      (cond
+       ((string= state "emacs") (propertize tag 'face '((t (:background "red" :foreground "white")))))
+       (t tag))))
   :init
   (setq evil-search-module #'evil-search
         evil-magic 'very-magic)
@@ -237,6 +244,7 @@
 
     (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook)
     (add-hook 'after-change-major-mode-hook #'bp-apply-evil-mode-hook)
+    (advice-add #'evil-generate-mode-line-tag :around #'bp-generate-mode-line-tag)
     (evil-mode +1)
 
     (bind-keys :map evil-normal-state-map
