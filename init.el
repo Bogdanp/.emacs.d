@@ -1593,9 +1593,15 @@
 
   (defun bp-notmuch-todo (&optional beg end)
     (interactive (notmuch-search-interactive-region))
-    (if (-contains? (notmuch-search-get-tags) "todo")
+    (if (member "todo" (notmuch-search-get-tags))
         (notmuch-search-tag '("-todo") beg end)
       (notmuch-search-tag '("+todo" "-unread" "-inbox"))))
+
+  (defun bp-notmuch-trash (&optional beg end)
+    (interactive (notmuch-search-interactive-region))
+    (if (member "trash" (notmuch-search-get-tags))
+        (notmuch-search-tag '("-trash") beg end)
+      (notmuch-search-tag '("+trash" "-unread" "-inbox"))))
 
   (defun mimedown ()
     (interactive)
@@ -1628,7 +1634,8 @@
 
     (bind-keys :map notmuch-search-mode-map
                ("S" . bp-notmuch-spam)
-               ("T" . bp-notmuch-todo))))
+               ("T" . bp-notmuch-todo)
+               ("d" . bp-notmuch-trash))))
 
 
 (provide 'init)
