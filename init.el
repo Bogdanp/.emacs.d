@@ -1587,6 +1587,16 @@
     (interactive)
     (notmuch-search "tag:unread"))
 
+  (defun bp-notmuch-spam (&optional beg end)
+    (interactive (notmuch-search-interactive-region))
+    (notmuch-search-tag '("+spam" "-unread" "-inbox") beg end))
+
+  (defun bp-notmuch-todo (&optional beg end)
+    (interactive (notmuch-search-interactive-region))
+    (if (-contains? (notmuch-search-get-tags) "todo")
+        (notmuch-search-tag '("-todo") beg end)
+      (notmuch-search-tag '("+todo" "-unread" "-inbox"))))
+
   (defun mimedown ()
     (interactive)
     (save-excursion
@@ -1614,7 +1624,11 @@
           '(notmuch-hello-insert-search
             notmuch-hello-insert-recent-searches
             notmuch-hello-insert-saved-searches
-            notmuch-hello-insert-alltags))))
+            notmuch-hello-insert-alltags))
+
+    (bind-keys :map notmuch-search-mode-map
+               ("S" . bp-notmuch-spam)
+               ("T" . bp-notmuch-todo))))
 
 
 (provide 'init)
