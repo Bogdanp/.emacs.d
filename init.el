@@ -1283,7 +1283,8 @@
   :mode ("\.jsx?\\'" . js2-jsx-mode)
   :ensure t
   :config
-  (setq js2-strict-missing-semi-warning nil))
+  (setq js2-basic-offset 2
+        js2-strict-missing-semi-warning nil))
 
 ;;; JSON
 (use-package json-mode
