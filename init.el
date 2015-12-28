@@ -36,7 +36,7 @@
 (add-to-list 'load-path (locate-user-emacs-file "vendor/packed"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/auto-compile"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/use-package"))
-(add-to-list 'load-path (locate-user-emacs-file "private"))
+(add-to-list 'load-path (expand-file-name "~/Dropbox/Documents/Personal"))
 
 
 ;;; auto-compile
