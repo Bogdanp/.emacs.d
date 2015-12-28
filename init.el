@@ -192,6 +192,10 @@
       (cond
        ((string= state "emacs") (propertize tag 'face '((t (:background "red" :foreground "white")))))
        (t tag))))
+
+  (defun bp-find-init-file ()
+    (interactive)
+    (find-file (locate-user-emacs-file "init.el")))
   :init
   (setq evil-search-module #'evil-search
         evil-magic 'very-magic)
@@ -255,6 +259,7 @@
                ("\\" . evil-ex-nohighlight)
 
                ;; Misc
+               (",i" . bp-find-init-file)
                ("bu" . browse-url)
 
                ;; Frames
