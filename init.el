@@ -1604,6 +1604,12 @@
         (notmuch-search-tag '("-trash") beg end)
       (notmuch-search-tag '("+trash" "-unread" "-inbox"))))
 
+  (defun bp-after-select-identity (&rest r)
+    (let* ((identity (assoc gnus-alias-current-identity gnus-alias-identity-alist))
+           (address (nth 2 identity))
+           (address (cadr (mail-extract-address-components address))))
+      (setq smtpmail-smtp-user address)))
+
   (defun mimedown ()
     (interactive)
     (save-excursion
@@ -1615,6 +1621,8 @@
   (progn
     (require 'bp-notmuch)
     (require 'gnus-art)
+
+    (advice-add #'gnus-alias-select-identity :after #'bp-after-select-identity)
 
     (setq notmuch-search-oldest-first nil
 
