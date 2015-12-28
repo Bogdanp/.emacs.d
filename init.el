@@ -385,6 +385,10 @@
 
     (bp-global-hl-line-mode)))
 
+(use-package swiper
+  :ensure t
+  :bind (("C-s" . swiper)))
+
 (use-package helm
   :diminish helm-mode
   :ensure t
@@ -395,6 +399,9 @@
   :config
   (progn
     (require 'helm-config)
+
+    (use-package helm-ag
+      :ensure t)
 
     (use-package helm-descbinds
       :ensure t
@@ -410,14 +417,6 @@
       (bind-keys :map flycheck-mode-map
                  ("C-c ! h" . helm-flycheck)))
 
-    (use-package helm-swoop
-      :ensure t
-      :bind (("C-s" . helm-swoop))
-      :preface
-      (defun bp-helm-swoop-pre-input-function () "")
-      :config
-      (setq helm-swoop-pre-input-function #'bp-helm-swoop-pre-input-function))
-
     ;; http://emacsist.com/10477
     (add-to-list 'display-buffer-alist
                  '("\\`\\*helm.*\\*\\'"
@@ -428,11 +427,6 @@
     (setq helm-split-window-in-side-p t
 
           helm-ff-skip-boring-files t
-
-          helm-swoop-split-with-multiple-windows nil
-          helm-swoop-split-direction 'split-window-vertically
-          helm-swoop-split-window-function 'helm-default-display-buffer
-
 
           helm-M-x-fuzzy-match t
           helm-buffers-fuzzy-matching t
