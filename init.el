@@ -270,7 +270,6 @@
 
                ;; Org
                ("oa"  . org-agenda)
-	       ("oc"  . helm-org-capture-templates)
                ("oh"  . helm-org-agenda-files-headings)
 	       ("ota" . bp-org-archive-task-at-point)
 
@@ -896,22 +895,11 @@
     (setq org-confirm-babel-evaluate nil)
 
 
-    ;;; Capture
-    ;; Where to put captured stuff.
-    (setq org-default-notes-file bp-org-main-file)
-
-    ;; Capture templates.
-    (use-package bp-org-capture-templates)
-
-
     ;;; Agenda
     ;; Set up path to agenda files.
     (defvar bp-org-agenda-files-path bp-org-dir)
     (when (file-exists-p bp-org-agenda-files-path)
       (setq org-agenda-files `(,bp-org-agenda-files-path)))
-
-    ;; Custom commands for easy filtering.
-    (use-package bp-org-agenda-commands)
 
 
     ;;; TODOs
@@ -1413,22 +1401,7 @@
 	     elpy-module-eldoc
 	     elpy-module-pyvenv
 	     elpy-module-sane-defaults
-	     elpy-module-yasnippet))))))
-
-    (use-package py-test
-      :ensure t
-      :config
-      (progn
-	(evil-define-key 'normal python-mode-map
-	  "\\r" 'py-test-run-test-at-point
-	  "\\T" 'py-test-run-directory
-	  "\\t" 'py-test-run-file)
-
-	;; Purty mode-line.
-	(setq py-test-*mode-line-face-shenanigans-on* t)
-	(setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec")
-
-	(use-package bp-py-test-projects)))))
+	     elpy-module-yasnippet))))))))
 
 
 ;;; REST
@@ -1618,10 +1591,18 @@
   (run-at-time "1 min" 90 #'bp-notmuch-display-unread)
   :config
   (progn
-    (require 'bp-notmuch)
-    (require 'gnus-art)
+    (use-package gnus-art)
+    (use-package gnus-alias
+      :ensure t
+      :config
+      (progn
+        (advice-add #'gnus-alias-select-identity :after #'bp-after-select-identity)
 
-    (advice-add #'gnus-alias-select-identity :after #'bp-after-select-identity)
+        (setq gnus-alias-identity-alist
+              '(("personal" nil "Bogdan Popa <popa.bogdanp@gmail.com>" nil nil nil nil)
+                ("cleartype" nil "Bogdan Popa <bogdan@cleartype.io>" "CLEARTYPE SRL" nil nil nil)
+                ("defn" nil "Bogdan Popa <bogdan@defn.io>" "CLEARTYPE SRL" nil nil nil)
+                ("work" nil "Bogdan Popa <bogdan@ave81.com>" "LeadPages" nil nil nil)))))
 
     (setq notmuch-search-oldest-first nil
 
