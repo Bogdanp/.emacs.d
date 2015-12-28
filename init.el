@@ -1602,7 +1602,11 @@
               '(("personal" nil "Bogdan Popa <popa.bogdanp@gmail.com>" nil nil nil nil)
                 ("cleartype" nil "Bogdan Popa <bogdan@cleartype.io>" "CLEARTYPE SRL" nil nil nil)
                 ("defn" nil "Bogdan Popa <bogdan@defn.io>" "CLEARTYPE SRL" nil nil nil)
-                ("work" nil "Bogdan Popa <bogdan@ave81.com>" "LeadPages" nil nil nil)))))
+                ("work" nil "Bogdan Popa <bogdan@ave81.com>" "LeadPages" nil nil nil))
+
+              gnus-alias-default-identity "personal")
+
+        (add-hook 'message-setup-hook #'gnus-alias-init)))
 
     (setq notmuch-search-oldest-first nil
 
