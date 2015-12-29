@@ -1285,6 +1285,10 @@
   (setq js2-basic-offset 2
         js2-strict-missing-semi-warning nil))
 
+(use-package ember-mode
+  :commands (ember-mode)
+  :ensure t)
+
 ;;; JSON
 (use-package json-mode
   :mode "\.json\\'"
