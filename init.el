@@ -18,7 +18,11 @@
  ad-redefinition-action 'accept
 
  ;;; Don't attempt to load `default.el'
- inhibit-default-init t)
+ inhibit-default-init t
+
+ ;;; Mac port
+ mac-option-modifier 'meta
+ mac-command-modifier 'hyper)
 
 (setq-default
  ;;; Editing
