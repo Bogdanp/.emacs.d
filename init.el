@@ -687,12 +687,14 @@
     (defun bp-term-toggle ()
       "Toggle between the current window config and a terminal."
       (interactive)
-      (if bp-term-previous-window-configuration
-	  (progn
-	    (set-window-configuration bp-term-previous-window-configuration)
-	    (setq bp-term-previous-window-configuration nil)
-            (setq global-mode-string (delq bp-term-string global-mode-string)))
-	(bp-term-fullscreen)))
+      (shell-command "open /Applications/iTerm.app")
+      ;; (if bp-term-previous-window-configuration
+      ;;     (progn
+      ;;       (set-window-configuration bp-term-previous-window-configuration)
+      ;;       (setq bp-term-previous-window-configuration nil)
+      ;;       (setq global-mode-string (delq bp-term-string global-mode-string)))
+      ;;   (bp-term-fullscreen))
+      )
 
     (defun bp-term-clipboard-paste ()
       "Paste the contents of the clipboard into the current term."
