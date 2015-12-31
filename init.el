@@ -800,7 +800,6 @@
   :bind ("C-c m" . magit-status)
   :init
   (setq magit-revert-buffers -1 ; async + silent
-	magit-completing-read-function #'magit-ido-completing-read
 	magit-push-always-verify nil)
   :config
   (use-package fullframe
