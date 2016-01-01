@@ -698,10 +698,7 @@
     (defun bp-term-clipboard-paste ()
       "Paste the contents of the clipboard into the current term."
       (interactive)
-      (term-send-raw-string (or (if (fboundp #'bp-clipboard-value)
-				    (bp-clipboard-value)
-				  (x-get-clipboard))
-				"")))
+      (term-send-raw-string (or (evil-get-register ?+) "")))
 
     ;;; Server
     (defun bp-server-visit-hook-for-term ()
