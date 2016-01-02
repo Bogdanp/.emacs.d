@@ -22,7 +22,8 @@
 
  ;;; Mac port
  mac-option-modifier 'meta
- mac-command-modifier 'hyper)
+ mac-command-modifier 'hyper
+ mac-mouse-wheel-smooth-scroll nil)
 
 (setq-default
  ;;; Editing
@@ -673,7 +674,7 @@
 	(setq bp-term-current-term-buffer buffer)
 	(bp-maybe-switch-to-buffer buffer)))
 
-    (defvar bp-term-string " T")
+    (defvar bp-term-string "T ")
 
     (defun bp-term-fullscreen ()
       "Make the term fullscreen."
