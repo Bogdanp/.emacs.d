@@ -1024,6 +1024,10 @@
 
 
 ;;; Miscellaneous
+(use-package time
+  :config
+  (display-time-mode +1))
+
 (use-package diminish
   :commands diminish
   :ensure t)
@@ -1565,7 +1569,7 @@
   :commands (notmuch notmuch-search notmuch-tree)
   :preface
   (defun bp-build-unread-string (inbox-count)
-    (concat " @" inbox-count))
+    (concat "@" inbox-count " "))
 
   (defvar bp-notmuch-unread-string
     (bp-build-unread-string "0"))
