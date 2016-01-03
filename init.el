@@ -1289,7 +1289,7 @@
   :ensure t
   :config
   (setq js2-basic-offset 2
-        js2-strict-missing-semi-warning nil))
+        js2-strict-missing-semi-warning t))
 
 (use-package ember-mode
   :commands (ember-mode)
