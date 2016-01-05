@@ -1040,6 +1040,12 @@
     :init
     (add-hook 'after-init-hook #'exec-path-from-shell-initialize)))
 
+(use-package paradox
+  :commands paradox-list-packages
+  :ensure t
+  :init
+  (setq paradox-github-token t))
+
 (use-package s
   :ensure t)
 
