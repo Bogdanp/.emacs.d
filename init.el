@@ -1044,7 +1044,8 @@
   :commands paradox-list-packages
   :ensure t
   :init
-  (setq paradox-github-token t))
+  (setq paradox-execute-asynchronously t
+        paradox-github-token t))
 
 (use-package s
   :ensure t)
