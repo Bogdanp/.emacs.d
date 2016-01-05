@@ -1518,6 +1518,14 @@
     (setq-default css-indent-offset 2)))
 
 
+;;; Swift
+(use-package swift-mode
+  :ensure t
+  :mode "\\.swift\\'"
+  :config
+  (add-to-list 'flycheck-checkers 'swift))
+
+
 ;;; Terraform
 (use-package terraform-mode
   :disabled t
