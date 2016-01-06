@@ -1247,7 +1247,13 @@
       :config
       (add-to-list 'company-backends 'company-ghc))
 
+    (use-package flycheck-haskell
+      :ensure t
+      :config
+      (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
+
     (use-package shm
+      :disabled t
       :ensure t
       :init
       (add-hook 'haskell-mode-hook #'structured-haskell-mode)
@@ -1261,12 +1267,6 @@
 
     (custom-set-variables
      ;; Haskell Process
-     '(haskell-process-type 'stack-ghci)
-     '(haskell-process-args-stack-ghci
-       '("--ghc-options=-ferror-spans"
-	 "--ghc-options=-fno-warn-name-shadowing"
-	 "--ghc-options=-fno-warn-orphans"))
-
      '(haskell-process-suggest-remove-import-lines t)
      '(haskell-process-auto-import-loaded-modules t)
      '(haskell-process-log t)
@@ -1277,16 +1277,17 @@
      '(haskell-interactive-mode-include-file-name nil)
 
      ;; Misc
-     '(haskell-stylish-on-save t)
+     '(haskell-stylish-on-save nil)
      '(haskell-notify-p t)
      '(haskell-tags-on-save t))
 
     (add-hook 'haskell-mode-hook #'haskell-doc-mode)
     (add-hook 'haskell-mode-hook #'haskell-decl-scan-mode)
     (add-hook 'haskell-mode-hook #'interactive-haskell-mode)
-    (add-hook 'haskell-mode-hook #'bp-haskell-mode-hook)
 
     (bind-keys :map haskell-mode-map
+               ("C-j" . haskell-indentation-newline-and-indent)
+               ("C-c ." . haskell-mode-jump-to-def-or-tag)
 	       ("C-c M-l" . haskell-process-reload-devel-main))))
 
 
