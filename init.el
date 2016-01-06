@@ -177,7 +177,7 @@
       (if (apply #'derived-mode-p '(fundamental-mode
                                     conf-mode css-mode
                                     erlang-mode haskell-mode
-                                    json-mode prog-mode
+                                    json-mode prog-mode purescript-mode
                                     restclient-mode text-mode
                                     tuareg-mode web-mode
                                     yaml-mode))
@@ -1446,6 +1446,18 @@
 	(setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec")
 
 	(use-package bp-py-test-projects)))))
+
+
+;;; Purescript
+(use-package purescript-mode
+  :ensure t
+  :mode "\\.purs\\'"
+  :config
+  (progn
+    (add-hook 'purescript-mode-hook #'turn-on-purescript-indentation)
+
+    (bind-keys :map purescript-mode-map
+               ("C-j" . purescript-newline-and-indent))))
 
 
 ;;; REST
