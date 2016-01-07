@@ -61,8 +61,11 @@
   (add-to-list 'default-frame-alist '(top . 32))
   (add-to-list 'default-frame-alist '(left . 10))
   (add-to-list 'default-frame-alist '(width . 199))
-  (add-to-list 'default-frame-alist '(height . 59))
-  (add-to-list 'default-frame-alist '(fullscreen . fullboth)))
+  (add-to-list 'default-frame-alist '(height . 59)))
+
+;; Make the initial frame fullscreen.
+(set-frame-parameter nil 'fullscreen 'fullboth)
+
 
 ;; Remove GUI elements.
 (dolist (mode '(blink-cursor-mode
