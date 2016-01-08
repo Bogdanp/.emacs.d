@@ -91,6 +91,14 @@
  mouse-wheel-follow-mouse 't
  mouse-wheel-scroll-amount '(1 ((shift) . 1)))
 
+(defun bp-toggle-fullscreen ()
+  "Toggle the current frame between fullscreen and not."
+  (interactive)
+  (let ((fullscreen (frame-parameter nil 'fullscreen)))
+    (if (not fullscreen)
+        (set-frame-parameter nil 'fullscreen 'fullboth)
+      (set-frame-parameter nil 'fullscreen nil))))
+
 
 ;; Use y and n instead of yes and no.
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -164,7 +172,8 @@
 	     ("C-w" . backward-kill-word)
 	     ("C--" . text-scale-decrease)
 	     ("C-=" . text-scale-increase)
-	     ("C-+" . text-scale-increase)))
+	     ("C-+" . text-scale-increase)
+             ("H-f" . bp-toggle-fullscreen)))
 
 
 ;;; EVIL
