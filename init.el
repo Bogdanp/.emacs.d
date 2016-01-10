@@ -441,6 +441,7 @@
 
     (setq helm-split-window-in-side-p t
 
+          helm-ff-newfile-prompt-p nil
           helm-ff-skip-boring-files t
 
           helm-M-x-fuzzy-match t
