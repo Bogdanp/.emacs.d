@@ -1634,6 +1634,10 @@
     (interactive)
     (notmuch-search "tag:unread"))
 
+  (defun bp-notmuch-archive (&optional beg end)
+    (interactive (notmuch-search-interactive-region))
+    (notmuch-search-tag '("-unread" "-inbox") beg end))
+
   (defun bp-notmuch-spam (&optional beg end)
     (interactive (notmuch-search-interactive-region))
     (notmuch-search-tag '("+spam" "-unread" "-inbox") beg end))
@@ -1700,6 +1704,7 @@
             notmuch-hello-insert-alltags))
 
     (bind-keys :map notmuch-search-mode-map
+               ("A" . bp-notmuch-archive)
                ("S" . bp-notmuch-spam)
                ("T" . bp-notmuch-todo)
                ("d" . bp-notmuch-trash))))
