@@ -277,6 +277,7 @@
                ;; Misc
                (",i" . bp-find-init-file)
                ("bu" . browse-url)
+               ("t"  . tldr)
 
                ;; Frames
                ("fn" . make-frame-command)
@@ -1060,6 +1061,10 @@
         paradox-github-token t))
 
 (use-package s
+  :ensure t)
+
+(use-package tldr
+  :commands tldr
   :ensure t)
 
 
