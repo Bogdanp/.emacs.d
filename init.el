@@ -401,6 +401,7 @@
     (bp-global-hl-line-mode)))
 
 (use-package swiper
+  :disabled t
   :ensure t
   :bind (("C-s" . swiper)))
 
