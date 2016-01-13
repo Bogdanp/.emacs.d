@@ -185,6 +185,7 @@
     (defun bp-apply-evil-mode-hook ()
       (if (apply #'derived-mode-p '(fundamental-mode
                                     conf-mode css-mode
+                                    evil-command-window-mode
                                     erlang-mode haskell-mode
                                     json-mode prog-mode purescript-mode
                                     restclient-mode text-mode
