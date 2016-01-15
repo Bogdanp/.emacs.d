@@ -1542,7 +1542,6 @@
 
 ;;; SCSS
 (use-package scss-mode
-  :disabled t
   :ensure t
   :mode "\\.scss\\'"
   :config
@@ -1562,7 +1561,6 @@
 
 ;;; Terraform
 (use-package terraform-mode
-  :disabled t
   :ensure t
   :mode "\\.tf\\'")
 
