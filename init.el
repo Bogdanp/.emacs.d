@@ -1489,12 +1489,6 @@
     (add-to-list 'company-backends 'company-restclient)))
 
 
-;;; Robot
-(use-package robot-mode
-  :load-path "vendor/robot-mode"
-  :mode "\\.robot\\'")
-
-
 ;;; Scala
 (use-package scala-mode2
   :mode (("\\.scala\\'" . scala-mode)

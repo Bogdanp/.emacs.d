@@ -13,9 +13,6 @@
 [submodule "evil"]
 	path = vendor/evil
 	url = https://github.com/Bogdanp/evil.git
-[submodule "robot-mode"]
-	path = vendor/robot-mode
-	url = https://github.com/sakari/robot-mode
 [submodule "better-default-theme"]
 	path = vendor/better-default-theme
 	url = https://github.com/Bogdanp/better-default-theme.el
