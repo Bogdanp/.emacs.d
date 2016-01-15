@@ -822,6 +822,7 @@
   :ensure t)
 
 (use-package diff-hl
+  :disabled t
   :ensure t
   :config
   (global-diff-hl-mode +1))
