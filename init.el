@@ -651,10 +651,11 @@
     (defun bp-term-add ()
       "Add a new terminal and jump to it."
       (interactive)
-      (zipper-end bp-term-terms)
-      (zipper-append bp-term-terms (ansi-term bp-term-shell))
-      (bp-term-next)
-      (set-process-sentinel (get-buffer-process bp-term-current-term-buffer) #'bp-term-sentinel))
+      (let ((default-directory (expand-file-name "~/")))
+        (zipper-end bp-term-terms)
+        (zipper-append bp-term-terms (ansi-term bp-term-shell))
+        (bp-term-next)
+        (set-process-sentinel (get-buffer-process bp-term-current-term-buffer) #'bp-term-sentinel)))
 
     (defun bp-term-kill ()
       "Kill the current terminal."
