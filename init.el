@@ -1113,30 +1113,28 @@
 
 ;;; Clojure
 (use-package clojure-mode
-  :disabled t
   :ensure t
   :mode (("\\.cljs?\\'" . clojure-mode)
 	 ("\\.boot\\'"  . clojure-mode))
   :config
-  (add-hook 'clojure-mode-hook #'cider-mode))
-
-(use-package cider
-  :disabled t
-  :ensure t
-  :commands (cider-mode)
-  :config
   (progn
-    (add-hook 'cider-repl-mode-hook #'my-cider-mode-hook)
-    (add-hook 'cider-repl-mode-hook #'paredit-mode)
-    (add-hook 'cider-repl-mode-hook #'rainbow-delimiters-mode)
-    (add-hook 'cider-mode-hook #'my-cider-mode-hook)
-    (add-hook 'cider-mode-hook #'eldoc-mode)
-    (add-hook 'cider-mode-hook #'paredit-mode)
-    (add-hook 'cider-mode-hook #'rainbow-delimiters-mode)
+    (use-package cider
+      :ensure t
+      :config
+      (progn
+        (add-hook 'cider-repl-mode-hook #'my-cider-mode-hook)
+        (add-hook 'cider-repl-mode-hook #'paredit-mode)
+        (add-hook 'cider-repl-mode-hook #'rainbow-delimiters-mode)
+        (add-hook 'cider-mode-hook #'my-cider-mode-hook)
+        (add-hook 'cider-mode-hook #'eldoc-mode)
+        (add-hook 'cider-mode-hook #'paredit-mode)
+        (add-hook 'cider-mode-hook #'rainbow-delimiters-mode)
 
-    (bind-keys :map cider-mode-map
-	       ("C-c ." . cider-jump-to-var)
-	       ("C-c ," . cider-pop-back))))
+        (bind-keys :map cider-mode-map
+                   ("C-c ." . cider-jump-to-var)
+                   ("C-c ," . cider-pop-back))))
+
+    (add-hook 'clojure-mode-hook #'cider-mode)))
 
 
 ;;; Common Lisp
