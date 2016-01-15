@@ -828,9 +828,7 @@
 
 ;;; Org
 (use-package org
-  :commands org-mode
   :ensure t
-  :defer 2
   :preface
   (progn
     (eval-when-compile
