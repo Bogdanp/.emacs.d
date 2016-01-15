@@ -808,10 +808,9 @@
   :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
 	 ("MERGE_MSG\\'"      . git-commit-mode))
   :bind ("C-c m" . magit-status)
-  :init
-  (setq magit-revert-buffers -1)
   :config
   (use-package fullframe
+    :disabled t
     :ensure t
     :config
     (fullframe magit-status magit-mode-quit-window)))
