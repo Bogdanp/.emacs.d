@@ -1386,8 +1386,13 @@
 
 ;;; Perl 6
 (use-package perl6-mode
-  :disabled t
-  :ensure t)
+  :mode (("\\.p6\\'"  . perl6-mode)
+         ("\\.pm6\\'" . perl6-mode))
+  :ensure t
+  :config
+  (progn
+    (use-package flycheck-perl6
+      :ensure t)))
 
 
 ;;; Python
