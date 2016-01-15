@@ -809,8 +809,7 @@
 	 ("MERGE_MSG\\'"      . git-commit-mode))
   :bind ("C-c m" . magit-status)
   :init
-  (setq magit-revert-buffers -1 ; async + silent
-	magit-push-always-verify nil)
+  (setq magit-revert-buffers -1)
   :config
   (use-package fullframe
     :ensure t
