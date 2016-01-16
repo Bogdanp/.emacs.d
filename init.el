@@ -410,8 +410,8 @@
 (use-package helm
   :diminish helm-mode
   :ensure t
-  :bind (("C-;" . helm-M-x)
-         ("C-x b" . helm-mini)
+  :bind (("C-;"     . helm-M-x)
+         ("C-x b"   . helm-mini)
          ("C-x C-f" . helm-find-files)
          ("C-x C-i" . helm-semantic-or-imenu))
   :config
