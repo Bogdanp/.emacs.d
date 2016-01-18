@@ -1185,7 +1185,11 @@
     (set (make-local-variable 'company-backends)
          (cons 'company-elm company-backends)))
   :config
-  (add-hook 'elm-mode-hook #'bp-elm-mode-hook))
+  (progn
+    (setq elm-tags-on-save t
+          elm-tags-exclude-elm-stuff nil)
+
+    (add-hook 'elm-mode-hook #'bp-elm-mode-hook)))
 
 
 ;;; Emacs lisp
