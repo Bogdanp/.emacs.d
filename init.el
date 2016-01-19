@@ -1499,6 +1499,10 @@
 
 
 ;;; Scala
+(use-package sbt-mode
+  :commands sbt-start
+  :ensure t)
+
 (use-package scala-mode2
   :mode (("\\.scala\\'" . scala-mode)
 	 ("\\.sbt\\'"   . scala-mode))
