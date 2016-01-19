@@ -1509,7 +1509,7 @@
   :ensure t
   :preface
   (defun bp-scala-mode-hook ()
-    (when (equal "build.sbt" (buffer-name))
+    (when (string-suffix-p ".sbt" (buffer-name))
       (flycheck-mode -1)))
   :init
   (progn
