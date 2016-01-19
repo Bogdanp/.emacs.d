@@ -1214,16 +1214,23 @@
   (add-hook 'irony-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'perl6-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'python-mode-hook #'turn-on-smartparens-strict-mode)
+  (add-hook 'scala-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'org-mode-hook #'turn-on-smartparens-strict-mode)
   :config
   (progn
     (require 'smartparens-config)
 
-    (sp-with-modes 'org-mode
-      (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
-      (sp-local-pair "/" "/" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-      (sp-local-pair "~" "~" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-      (sp-local-pair "=" "=" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC"))))
+    (sp-with-modes
+     'org-mode
+     (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
+     (sp-local-pair "/" "/" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
+     (sp-local-pair "~" "~" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
+     (sp-local-pair "=" "=" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC"))))
+
+    (sp-with-modes
+     'scala-mode
+     (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET")))
+     (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))))
 
     (bind-keys :map smartparens-mode-map
                ("C-M-a" . sp-beginning-of-sexp)
