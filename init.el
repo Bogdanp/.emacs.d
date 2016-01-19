@@ -1517,7 +1517,8 @@
     (add-hook 'scala-mode-hook #'bp-scala-mode-hook))
   :config
   (progn
-    (setq ensime-default-java-flags '("-Xms512M" "-Xmx1G")
+    (setq ensime-auto-generate-config t
+          ensime-default-java-flags '("-Xms512M" "-Xmx1G")
 	  ensime-sbt-command "activator")
 
     (let* ((faces ensime-sem-high-faces)
