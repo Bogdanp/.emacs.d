@@ -207,7 +207,7 @@
     (let ((tag (apply f state))
           (state (car state)))
       (cond
-       ((string= state "emacs") (propertize tag 'face '((t (:background "red" :foreground "white")))))
+       ((string= state "emacs") (propertize tag 'face '((:background "red" :foreground "white"))))
        (t tag))))
 
   (defun bp-find-init-file ()
