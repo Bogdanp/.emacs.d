@@ -67,10 +67,10 @@
 
 ;; Remove GUI elements.
 (dolist (mode '(blink-cursor-mode
-		menu-bar-mode
-		tool-bar-mode
-		tooltip-mode
-		scroll-bar-mode))
+                menu-bar-mode
+                tool-bar-mode
+                tooltip-mode
+                scroll-bar-mode))
   (when (fboundp mode)
     (funcall mode -1)))
 
@@ -170,10 +170,10 @@
 (use-package bind-key
   :init
   (bind-keys ("C-j" . newline-and-indent)
-	     ("C-w" . backward-kill-word)
-	     ("C--" . text-scale-decrease)
-	     ("C-=" . text-scale-increase)
-	     ("C-+" . text-scale-increase)
+             ("C-w" . backward-kill-word)
+             ("C--" . text-scale-decrease)
+             ("C-=" . text-scale-increase)
+             ("C-+" . text-scale-increase)
              ("H-f" . bp-toggle-fullscreen)))
 
 
@@ -197,8 +197,8 @@
 
     (defun bp-toggle-emacs-state ()
       (if (equal evil-state 'emacs)
-	  (evil-normal-state)
-	(evil-emacs-state)))
+          (evil-normal-state)
+        (evil-emacs-state)))
 
     (defun bp-minibuffer-setup-hook ()
       (local-set-key (kbd "C-w") #'backward-kill-word)))
@@ -293,9 +293,9 @@
 
                ;; Org
                ("oa"  . org-agenda)
-	       ("oc"  . helm-org-capture-templates)
+               ("oc"  . helm-org-capture-templates)
                ("oh"  . helm-org-agenda-files-headings)
-	       ("ota" . bp-org-archive-task-at-point)
+               ("ota" . bp-org-archive-task-at-point)
 
                ;; Notmuch
                ("mc" . compose-mail)
@@ -333,7 +333,7 @@
   :commands dired
   :init
   (setq insert-directory-program "/usr/local/bin/gls"
-	dired-listing-switches "--group-directories-first -alh")
+        dired-listing-switches "--group-directories-first -alh")
   :config
   (use-package dired+
     :ensure t))
@@ -357,7 +357,7 @@
 
    ;; Autojoin these channels on freenode.
    erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#erc" "#haskell" "#python" "#scala"
-				  "#purescript" "#pixie-lang" "#elm" "#elixir-lang"))
+                                  "#purescript" "#pixie-lang" "#elm" "#elixir-lang"))
 
    ;; Behave like a "normal" IRC client.
    erc-kill-buffer-on-part t
@@ -372,8 +372,8 @@
 (use-package files
   :init
   (setq auto-save-file-name-transforms `((".*" ,(concat local-temp-dir "/\\1") t))
-	backup-directory-alist         `((".*" . ,local-temp-dir))
-	backup-by-copying t))
+        backup-directory-alist         `((".*" . ,local-temp-dir))
+        backup-by-copying t))
 
 (use-package grep
   :commands (grep rgrep)
@@ -393,13 +393,13 @@
   (progn
     (define-global-minor-mode bp-global-hl-line-mode global-hl-line-mode
       (lambda ()
-	;; XXX: You can't turn off global-hl-line-mode on a per-buffer
-	;; basis so we can just build up our own version that doesn't
-	;; activate for a given list of modes.
-	(unless (memq major-mode (list 'eww-mode
+        ;; XXX: You can't turn off global-hl-line-mode on a per-buffer
+        ;; basis so we can just build up our own version that doesn't
+        ;; activate for a given list of modes.
+        (unless (memq major-mode (list 'eww-mode
                                        'term-mode
                                        'org-agenda-mode))
-	  (hl-line-mode +1))))
+          (hl-line-mode +1))))
 
     (bp-global-hl-line-mode)))
 
@@ -465,11 +465,11 @@
 (use-package ido
   :init
   (setq ido-create-new-buffer 'always
-	ido-use-filename-at-point 'guess
-	ido-use-virtual-buffers t
-	ido-handle-duplicate-virtual-buffers 2
-	ido-max-prospects 10
-	ido-ignore-extensions t)
+        ido-use-filename-at-point 'guess
+        ido-use-virtual-buffers t
+        ido-handle-duplicate-virtual-buffers 2
+        ido-max-prospects 10
+        ido-ignore-extensions t)
   :config
   (progn
     ;; (ido-mode +1)
@@ -514,9 +514,9 @@
 (use-package recentf
   :init
   (setq recentf-save-file (locate-user-emacs-file "recentf")
-	recentf-max-saved-items 1000
-	recentf-max-menu-items 10
-	recentf-auto-cleanup 60)
+        recentf-max-saved-items 1000
+        recentf-max-menu-items 10
+        recentf-auto-cleanup 60)
   :config
   (progn
     (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
@@ -527,10 +527,10 @@
 (use-package savehist
   :init
   (setq savehist-file (locate-user-emacs-file "savehist")
-	savehist-additional-variables '(search ring regexp-search-ring)
-	savehist-autosave-interval 60
+        savehist-additional-variables '(search ring regexp-search-ring)
+        savehist-autosave-interval 60
 
-	history-length 10000)
+        history-length 10000)
   :config
   (savehist-mode +1))
 
@@ -546,15 +546,15 @@
   :init
   (setq starttls-use-gnutls t
 
-	send-mail-function 'smtpmail-send-it
-	message-send-mail-function 'smtpmail-send-it
+        send-mail-function 'smtpmail-send-it
+        message-send-mail-function 'smtpmail-send-it
 
-	smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-	smtpmail-auth-credentials (expand-file-name "~/.authinfo")
-	smtpmail-default-smtp-server "smtp.gmail.com"
-	smtpmail-smtp-server "smtp.gmail.com"
-	smtpmail-smtp-service 587
-	smtpmail-debug-info t))
+        smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
+        smtpmail-auth-credentials (expand-file-name "~/.authinfo")
+        smtpmail-default-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-service 587
+        smtpmail-debug-info t))
 
 (use-package term
   :init
@@ -573,7 +573,7 @@
     (defun zipper-append (zipper x)
       "Append to ZIPPER the value of X."
       (setf (zipper-rhs zipper)
-	    (reverse (cons x (reverse (zipper-rhs zipper))))))
+            (reverse (cons x (reverse (zipper-rhs zipper))))))
 
     (defun zipper-drop (zipper)
       "Drop the current element from ZIPPER."
@@ -583,23 +583,23 @@
     (defun zipper-beginning (zipper)
       "Goto the beginning of ZIPPER."
       (setf (zipper-rhs zipper)
-	    (append (reverse (cons (zipper-curr zipper)
-				   (zipper-lhs zipper)))
-		    (zipper-rhs zipper)))
+            (append (reverse (cons (zipper-curr zipper)
+                                   (zipper-lhs zipper)))
+                    (zipper-rhs zipper)))
       (setf (zipper-curr zipper) nil)
       (setf (zipper-lhs zipper) nil))
 
     (defun zipper-end (zipper)
       "Goto the end of ZIPPER."
       (setf (zipper-lhs zipper)
-	    (append (reverse (cons (zipper-curr zipper)
-				   (zipper-rhs zipper)))
-		    (zipper-lhs zipper)))
+            (append (reverse (cons (zipper-curr zipper)
+                                   (zipper-rhs zipper)))
+                    (zipper-lhs zipper)))
       (setf (zipper-rhs zipper) nil)
       (setf (zipper-curr zipper)
-	    (car (zipper-lhs zipper)))
+            (car (zipper-lhs zipper)))
       (setf (zipper-lhs zipper)
-	    (cdr (zipper-lhs zipper))))
+            (cdr (zipper-lhs zipper))))
 
     (defmacro defmover (name f g)
       "Define a zipper modifier function called NAME.
@@ -607,18 +607,18 @@
       F is where data gets moved to.
       G is where data gets moved from."
       `(defun ,name (zipper)
-	 (when (funcall ,f zipper)
-	   (let ((x  (car (funcall ,f zipper)))
-		 (xs (cdr (funcall ,f zipper))))
+         (when (funcall ,f zipper)
+           (let ((x  (car (funcall ,f zipper)))
+                 (xs (cdr (funcall ,f zipper))))
 
-	     (when (zipper-curr zipper)
-	       (setf (,(cadr g) zipper)
-		     (cons (zipper-curr zipper)
-			   (funcall ,g zipper))))
+             (when (zipper-curr zipper)
+               (setf (,(cadr g) zipper)
+                     (cons (zipper-curr zipper)
+                           (funcall ,g zipper))))
 
-	     (setf (zipper-curr zipper) x)
-	     (setf (,(cadr f) zipper) xs)))
-	 (zipper-curr zipper)))
+             (setf (zipper-curr zipper) x)
+             (setf (,(cadr f) zipper) xs)))
+         (zipper-curr zipper)))
 
     (defmover zipper-next #'zipper-rhs #'zipper-lhs)
     (defmover zipper-prev #'zipper-lhs #'zipper-rhs)
@@ -637,8 +637,8 @@
 
     (defvar bp-term-terms
       (make-zipper :lhs  nil
-		   :rhs  nil
-		   :curr nil)
+                   :rhs  nil
+                   :curr nil)
       "A zipper for all of the existing terms.")
 
     (defun bp-term-sentinel (process event)
@@ -647,7 +647,7 @@
     (defun bp-maybe-switch-to-buffer (buffer)
       "Switch to BUFFER iff it is non-nil."
       (when buffer
-	(switch-to-buffer buffer)))
+        (switch-to-buffer buffer)))
 
     (defun bp-term-add ()
       "Add a new terminal and jump to it."
@@ -679,24 +679,24 @@
       "Goto the next terminal in the zipper."
       (interactive)
       (let ((buffer (zipper-next bp-term-terms)))
-	(setq bp-term-current-term-buffer buffer)
-	(bp-maybe-switch-to-buffer buffer)))
+        (setq bp-term-current-term-buffer buffer)
+        (bp-maybe-switch-to-buffer buffer)))
 
     (defun bp-term-prev ()
       "Goto the previous terminal in the zipper."
       (interactive)
       (let ((buffer (zipper-prev bp-term-terms)))
-	(setq bp-term-current-term-buffer buffer)
-	(bp-maybe-switch-to-buffer buffer)))
+        (setq bp-term-current-term-buffer buffer)
+        (bp-maybe-switch-to-buffer buffer)))
 
     (defun bp-term-fullscreen ()
       "Make the term fullscreen."
       (setq bp-term-previous-window-configuration (current-window-configuration))
       (delete-other-windows)
       (if bp-term-current-term-buffer
-	  (bp-maybe-switch-to-buffer bp-term-current-term-buffer)
-	(bp-term-add)
-	(setq bp-term-current-term-buffer (zipper-curr bp-term-terms))))
+          (bp-maybe-switch-to-buffer bp-term-current-term-buffer)
+        (bp-term-add)
+        (setq bp-term-current-term-buffer (zipper-curr bp-term-terms))))
 
     (defun bp-term-toggle ()
       "Toggle between the current window config and a terminal."
@@ -720,18 +720,18 @@
       so this hook works around that by toggling out of that
       configuration before switching to the new buffer."
       (let ((buffer (current-buffer)))
-	(when bp-term-previous-window-configuration
-	  (bp-term-toggle)
-	  (switch-to-buffer buffer))))
+        (when bp-term-previous-window-configuration
+          (bp-term-toggle)
+          (switch-to-buffer buffer))))
 
     (add-hook 'server-visit-hook #'bp-server-visit-hook-for-term)
 
     (bind-keys :map term-raw-escape-map
-	       ("c"    . bp-term-add)
-	       ("\C-k" . bp-term-kill)
-	       ("\C-n" . bp-term-next)
-	       ("\C-p" . bp-term-prev)
-	       ("\C-y" . bp-term-clipboard-paste))
+               ("c"    . bp-term-add)
+               ("\C-k" . bp-term-kill)
+               ("\C-n" . bp-term-next)
+               ("\C-p" . bp-term-prev)
+               ("\C-y" . bp-term-clipboard-paste))
 
     (bind-keys ("C-c M-a" . bp-term-toggle))))
 
@@ -755,7 +755,7 @@
     (defun bp-ibuffer-hook ()
       (ibuffer-vc-set-filter-groups-by-vc-root)
       (unless (eq ibuffer-sorting-mode 'alphabetic)
-	(ibuffer-do-sort-by-alphabetic))))
+        (ibuffer-do-sort-by-alphabetic))))
   :config
   (progn
     (use-package ibuffer-vc
@@ -772,7 +772,7 @@
   :disabled t
   :bind (("M-x" . smex)
          ("M-X" . smex-major-mode-commands)
-	 ("C-;" . smex))
+         ("C-;" . smex))
   :ensure t
   :init
   (setq smex-save-file (locate-user-emacs-file ".smex-items"))
@@ -804,7 +804,7 @@
   :ensure t
   :commands (magit-status git-commit-mode)
   :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
-	 ("MERGE_MSG\\'"      . git-commit-mode))
+         ("MERGE_MSG\\'"      . git-commit-mode))
   :bind ("C-c m" . magit-status)
   :config
   (use-package fullframe
@@ -848,26 +848,26 @@
     (which, by convention, should be an Archive heading)."
       (interactive)
       (save-excursion
-	(let ((start-level (bp-org-level-of-heading-at-point)))
-	  (org-cut-subtree)
+        (let ((start-level (bp-org-level-of-heading-at-point)))
+          (org-cut-subtree)
 
-	  ;; Cutting the subtree might place us on a different level.
-	  ;; Account for those cases.
-	  (let ((current-level (bp-org-level-of-heading-at-point)))
-	    (if (< current-level start-level)
-		(progn
-		  (org-goto-sibling 'previous)
-		  (dotimes (number (- start-level current-level 1))
-		    (org-end-of-subtree)
-		    (org-goto-first-child)))
-	      (outline-up-heading (+ 1 (- current-level start-level)))))
+          ;; Cutting the subtree might place us on a different level.
+          ;; Account for those cases.
+          (let ((current-level (bp-org-level-of-heading-at-point)))
+            (if (< current-level start-level)
+                (progn
+                  (org-goto-sibling 'previous)
+                  (dotimes (number (- start-level current-level 1))
+                    (org-end-of-subtree)
+                    (org-goto-first-child)))
+              (outline-up-heading (+ 1 (- current-level start-level)))))
 
-	  ;; TODO: Turn this into a heading search?
-	  (org-goto-first-child)
+          ;; TODO: Turn this into a heading search?
+          (org-goto-first-child)
 
-	  (let ((archive-level (bp-org-level-of-heading-at-point)))
-	    (forward-line)
-	    (org-paste-subtree (+ 1 archive-level)))))))
+          (let ((archive-level (bp-org-level-of-heading-at-point)))
+            (forward-line)
+            (org-paste-subtree (+ 1 archive-level)))))))
   :config
   (progn
     ;;; Misc
@@ -1070,7 +1070,7 @@
   :config
   (progn
     (setq c-default-style "bsd"
-	  c-basic-offset 4)
+          c-basic-offset 4)
 
     ;; Fix indentation.
     (defun bp-c-mode-hook ()
@@ -1081,27 +1081,27 @@
       :commands irony-mode
       :config
       (progn
-	(use-package company-irony
-	  :ensure t
-	  :preface
+        (use-package company-irony
+          :ensure t
+          :preface
           (defun bp-company-irony-setup-hook ()
             (add-to-list 'company-backends 'company-irony))
-	  :init
-	  (progn
-	    (add-hook 'irony-mode-hook #'bp-company-irony-setup-hook)
-	    (add-hook 'irony-mode-hook #'company-irony-setup-begin-commands)))
+          :init
+          (progn
+            (add-hook 'irony-mode-hook #'bp-company-irony-setup-hook)
+            (add-hook 'irony-mode-hook #'company-irony-setup-begin-commands)))
 
-	(use-package flycheck-irony
-	  :ensure t
-	  :preface
+        (use-package flycheck-irony
+          :ensure t
+          :preface
           (defun bp-flycheck-irony-setup-hook ()
             (add-to-list 'flycheck-checkers 'irony))
-	  :init
-	  (add-hook 'irony-mode-hook #'bp-flycheck-irony-setup-hook))
+          :init
+          (add-hook 'irony-mode-hook #'bp-flycheck-irony-setup-hook))
 
-	(use-package irony-eldoc
-	  :commands irony-eldoc
-	  :ensure t)
+        (use-package irony-eldoc
+          :commands irony-eldoc
+          :ensure t)
 
         (add-hook 'irony-mode-hook #'eldoc-mode)
         (add-hook 'irony-mode-hook #'irony-eldoc)))
@@ -1114,7 +1114,7 @@
 (use-package clojure-mode
   :ensure t
   :mode (("\\.cljs?\\'" . clojure-mode)
-	 ("\\.boot\\'"  . clojure-mode))
+         ("\\.boot\\'"  . clojure-mode))
   :config
   (progn
     (use-package cider
@@ -1311,7 +1311,7 @@
     (bind-keys :map haskell-mode-map
                ("C-j" . haskell-indentation-newline-and-indent)
                ("C-c ." . haskell-mode-jump-to-def-or-tag)
-	       ("C-c M-l" . haskell-process-reload-devel-main))))
+               ("C-c M-l" . haskell-process-reload-devel-main))))
 
 
 ;;; Javascript
@@ -1406,7 +1406,7 @@
 
 (use-package python
   :mode (("\\.py\\'"   . python-mode)
-	 ("SConstruct" . python-mode))
+         ("SConstruct" . python-mode))
   :interpreter ("python" . python-mode)
   :preface
   (eval-when-compile
@@ -1452,28 +1452,28 @@
                    ("C-c ," . pop-tag-mark))
 
         (custom-set-variables
-	 '(elpy-modules
-	   (quote
-	    (elpy-module-company
-	     elpy-module-eldoc
-	     elpy-module-pyvenv
-	     elpy-module-sane-defaults
-	     elpy-module-yasnippet))))))
+         '(elpy-modules
+           (quote
+            (elpy-module-company
+             elpy-module-eldoc
+             elpy-module-pyvenv
+             elpy-module-sane-defaults
+             elpy-module-yasnippet))))))
 
     (use-package py-test
       :ensure t
       :config
       (progn
-	(evil-define-key 'normal python-mode-map
-	  "\\r" 'py-test-run-test-at-point
-	  "\\T" 'py-test-run-directory
-	  "\\t" 'py-test-run-file)
+        (evil-define-key 'normal python-mode-map
+          "\\r" 'py-test-run-test-at-point
+          "\\T" 'py-test-run-directory
+          "\\t" 'py-test-run-file)
 
-	;; Purty mode-line.
-	(setq py-test-*mode-line-face-shenanigans-on* t)
-	(setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec")
+        ;; Purty mode-line.
+        (setq py-test-*mode-line-face-shenanigans-on* t)
+        (setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec")
 
-	(use-package bp-py-test-projects)))))
+        (use-package bp-py-test-projects)))))
 
 
 ;;; Purescript
@@ -1506,7 +1506,7 @@
 
 (use-package scala-mode2
   :mode (("\\.scala\\'" . scala-mode)
-	 ("\\.sbt\\'"   . scala-mode))
+         ("\\.sbt\\'"   . scala-mode))
   :ensure t)
 
 (use-package ensime
@@ -1524,16 +1524,16 @@
   (progn
     (setq ensime-auto-generate-config t
           ensime-default-java-flags '("-Xms512M" "-Xmx1G")
-	  ensime-sbt-command "activator")
+          ensime-sbt-command "activator")
 
     (let* ((faces ensime-sem-high-faces)
-	   (faces (assq-delete-all 'implicitConversion faces))
-	   (faces (assq-delete-all 'implicitParams faces)))
+           (faces (assq-delete-all 'implicitConversion faces))
+           (faces (assq-delete-all 'implicitParams faces)))
       (setq ensime-sem-high-faces faces))
 
     (bind-keys :map ensime-mode-map
-	       ("C-c ." . ensime-edit-definition)
-	       ("C-c ," . ensime-pop-find-definition-stack))))
+               ("C-c ." . ensime-edit-definition)
+               ("C-c ," . ensime-pop-find-definition-stack))))
 
 
 ;;; Scheme
@@ -1583,25 +1583,25 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.html?\\'" . web-mode)
-	 ("\\.php\\'"   . web-mode)
-	 ("\\.hbs\\'"   . web-mode)
+         ("\\.php\\'"   . web-mode)
+         ("\\.hbs\\'"   . web-mode)
          ("\\.eex\\'"   . web-mode))
   :init
   (setq web-mode-code-indent-offset 2
-	web-mode-style-indent-offset 2
-	web-mode-script-indent-offset 2
-	web-mode-markup-indent-offset 2
+        web-mode-style-indent-offset 2
+        web-mode-script-indent-offset 2
+        web-mode-markup-indent-offset 2
 
-	web-mode-style-padding 2
-	web-mode-script-padding 2
+        web-mode-style-padding 2
+        web-mode-script-padding 2
 
-	web-mode-enable-auto-closing t
-	web-mode-enable-auto-expanding t
-	web-mode-enable-auto-pairing t
-	web-mode-enable-current-element-highlight t
+        web-mode-enable-auto-closing t
+        web-mode-enable-auto-expanding t
+        web-mode-enable-auto-pairing t
+        web-mode-enable-current-element-highlight t
 
-	web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
-				 ("django" . "\\.html\\'")
+        web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
+                                 ("django" . "\\.html\\'")
                                  ("elixir" . "\\.eex\\'"))))
 
 
