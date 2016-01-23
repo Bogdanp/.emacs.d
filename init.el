@@ -1658,23 +1658,27 @@
 
   (defun bp-notmuch-archive (&optional beg end)
     (interactive (notmuch-search-interactive-region))
-    (notmuch-search-tag '("-unread" "-inbox") beg end))
+    (notmuch-search-tag '("-unread" "-inbox") beg end)
+    (notmuch-search-next-thread))
 
   (defun bp-notmuch-spam (&optional beg end)
     (interactive (notmuch-search-interactive-region))
-    (notmuch-search-tag '("+spam" "-unread" "-inbox") beg end))
+    (notmuch-search-tag '("+spam" "-unread" "-inbox") beg end)
+    (notmuch-search-next-thread))
 
   (defun bp-notmuch-todo (&optional beg end)
     (interactive (notmuch-search-interactive-region))
     (if (member "todo" (notmuch-search-get-tags))
         (notmuch-search-tag '("-todo") beg end)
-      (notmuch-search-tag '("+todo" "-unread" "-inbox"))))
+      (notmuch-search-tag '("+todo" "-unread" "-inbox")))
+    (notmuch-search-next-thread))
 
   (defun bp-notmuch-trash (&optional beg end)
     (interactive (notmuch-search-interactive-region))
     (if (member "trash" (notmuch-search-get-tags))
         (notmuch-search-tag '("-trash") beg end)
-      (notmuch-search-tag '("+trash" "-unread" "-inbox"))))
+      (notmuch-search-tag '("+trash" "-unread" "-inbox")))
+    (notmuch-search-next-thread))
 
   (defun bp-after-select-identity (&rest r)
     (let* ((identity (assoc gnus-alias-current-identity gnus-alias-identity-alist))
