@@ -1256,6 +1256,13 @@
   :mode "\\.fish\\'")
 
 
+;;; Groovy
+(use-package groovy-mode
+  :mode (("\\.gradle\\'" . groovy-mode)
+         ("\\.groovy\\'" . groovy-mode))
+  :ensure t)
+
+
 ;;; Haskell
 (use-package haskell-mode
   :mode "\\.l?hs\\'"
