@@ -1607,8 +1607,8 @@
         web-mode-enable-auto-pairing t
         web-mode-enable-current-element-highlight t
 
-        web-mode-engines-alist '(("razor"  . "\\.scala\\.html\\'")
-                                 ("django" . "\\.html\\'")
+        web-mode-engines-alist '(("django" . "\\.html\\'")
+                                 ("razor"  . "\\.scala\\.html\\'")
                                  ("elixir" . "\\.eex\\'"))))
 
 
