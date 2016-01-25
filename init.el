@@ -58,7 +58,7 @@
 ;;; UI
 ;; Position and resize frame.
 (when (window-system)
-  (add-to-list 'default-frame-alist '(font . "Inconsolata-13"))
+  (add-to-list 'default-frame-alist '(font . "fira mono-12"))
   (add-to-list 'default-frame-alist '(top . 32))
   (add-to-list 'default-frame-alist '(left . 10))
   (add-to-list 'default-frame-alist '(width . 199))
