@@ -870,6 +870,10 @@
             (org-paste-subtree (+ 1 archive-level)))))))
   :config
   (progn
+    (use-package ox-twbs
+      :commands (org-twbs-export-as-html org-twbs-export-to-html)
+      :ensure t)
+
     ;;; Misc
     ;; Paths to my org files
     (defvar bp-org-dir (expand-file-name "~/Dropbox/Documents/Personal"))
