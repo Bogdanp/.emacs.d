@@ -8,9 +8,9 @@
  user-mail-address "popa.bogdanp@gmail.com"
 
  ;;; GC
- ;; EMACS' default GC threshold is <1MB. Give it 32MB instead.
- gc-cons-threshold 33554432
- garbage-collection-messages t
+ ;; EMACS' default GC threshold is <1MB. Give it 8MB instead.
+ gc-cons-threshold 8388608
+ garbage-collection-messages nil
 
  ;;; auto-compile
  load-prefer-newer t
