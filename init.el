@@ -1486,6 +1486,10 @@
 
         (use-package bp-py-test-projects)))))
 
+(use-package coverage-mode
+  :commands coverage-mode
+  :load-path "vendor/coverage-mode")
+
 
 ;;; Purescript
 (use-package purescript-mode
