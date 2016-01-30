@@ -429,13 +429,6 @@
     (use-package helm-flx
       :ensure t)
 
-    (use-package helm-flycheck
-      :commands helm-flycheck
-      :ensure t
-      :config
-      (bind-keys :map flycheck-mode-map
-                 ("C-c ! h" . helm-flycheck)))
-
     ;; http://emacsist.com/10477
     (add-to-list 'display-buffer-alist
                  '("\\`\\*helm.*\\*\\'"
