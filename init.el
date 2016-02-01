@@ -1033,7 +1033,16 @@
 ;;; Miscellaneous
 (use-package time
   :config
-  (display-time-mode +1))
+  (progn
+    (require 's)
+
+    (defun bp-got-mail-p ()
+      (> 0 (string-to-int (s-trim (shell-command-to-string "notmuch count tag:inbox")))))
+
+    (setq display-time-default-load-average nil
+          display-time-mail-function #'bp-got-mail-p)
+
+    (display-time-mode +1)))
 
 (use-package diminish
   :commands diminish
@@ -1630,21 +1639,6 @@
   :ensure t
   :commands (notmuch notmuch-search notmuch-tree)
   :preface
-  (defun bp-build-unread-string (inbox-count)
-    (concat "@" inbox-count " "))
-
-  (defvar bp-notmuch-unread-string
-    (bp-build-unread-string "0"))
-
-  (defun bp-notmuch-inbox-count ()
-    (s-trim (shell-command-to-string "notmuch count tag:inbox")))
-
-  (defun bp-notmuch-display-unread ()
-    (interactive)
-    (setq global-mode-string (delq bp-notmuch-unread-string global-mode-string))
-    (setq bp-notmuch-unread-string (bp-build-unread-string (bp-notmuch-inbox-count)))
-    (add-to-list 'global-mode-string bp-notmuch-unread-string))
-
   (defun bp-notmuch-force-sync ()
     (interactive)
     (start-process "notmuch-sync" "*notmuch-sync*" "notmuch-sync"))
@@ -1692,8 +1686,6 @@
     (save-excursion
       (message-goto-body)
       (shell-command-on-region (point) (point-max) (concat "mimedown " gnus-alias-current-identity) nil t)))
-  :init
-  (run-at-time "1 min" 90 #'bp-notmuch-display-unread)
   :config
   (progn
     (use-package gnus-art)
