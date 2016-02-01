@@ -1031,16 +1031,13 @@
 
 
 ;;; Miscellaneous
+(use-package s
+  :ensure t)
+
 (use-package time
   :config
   (progn
-    (require 's)
-
-    (defun bp-got-mail-p ()
-      (> 0 (string-to-int (s-trim (shell-command-to-string "notmuch count tag:inbox")))))
-
-    (setq display-time-default-load-average nil
-          display-time-mail-function #'bp-got-mail-p)
+    (setq display-time-default-load-average nil)
 
     (display-time-mode +1)))
 
@@ -1061,9 +1058,6 @@
   :init
   (setq paradox-execute-asynchronously t
         paradox-github-token t))
-
-(use-package s
-  :ensure t)
 
 (use-package tldr
   :commands tldr
