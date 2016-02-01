@@ -780,6 +780,7 @@
 
 ;;; UI
 (use-package smart-mode-line
+  :disabled t
   :ensure t
   :init
   (setq sml/no-confirm-load-theme t
