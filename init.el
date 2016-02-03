@@ -864,6 +864,9 @@
             (org-paste-subtree (+ 1 archive-level)))))))
   :config
   (progn
+    (use-package ob-http
+      :ensure t)
+
     (use-package ox-twbs
       :commands (org-twbs-export-as-html org-twbs-export-to-html)
       :ensure t)
@@ -888,6 +891,7 @@
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((haskell . t)
+       (http    . t)
        (latex   . t)
        (python  . t)
        (sh      . t)
