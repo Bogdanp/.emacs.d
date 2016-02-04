@@ -1181,16 +1181,12 @@
 (use-package elm-mode
   :load-path "vendor/elm-mode"
   :mode ("\\.elm\\'" . elm-mode)
-  :preface
-  (defun bp-elm-mode-hook ()
-    (set (make-local-variable 'company-backends)
-         (cons 'company-elm company-backends)))
   :config
   (progn
     (setq elm-tags-on-save t
           elm-tags-exclude-elm-stuff nil)
 
-    (add-hook 'elm-mode-hook #'bp-elm-mode-hook)))
+    (add-to-list 'company-backends 'company-elm)))
 
 
 ;;; Emacs lisp
