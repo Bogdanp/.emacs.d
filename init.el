@@ -189,7 +189,7 @@
                                     evil-command-window-mode
                                     erlang-mode haskell-mode
                                     json-mode prog-mode purescript-mode
-                                    restclient-mode text-mode
+                                    restclient-mode rust-mode text-mode
                                     tuareg-mode web-mode
                                     yaml-mode))
           (evil-normal-state)
@@ -1508,6 +1508,21 @@
     :ensure t
     :config
     (add-to-list 'company-backends 'company-restclient)))
+
+
+;;; Rust
+(use-package rust-mode
+  :mode ("\\.rs\\'" . rust-mode)
+  :ensure t
+  :config
+  (progn
+    (use-package racer
+      :ensure t
+      :init
+      (setq racer-rust-src-path (expand-file-name "~/sandbox/rust/src")))
+
+    (add-hook 'rust-mode-hook #'eldoc-mode)
+    (add-hook 'rust-mode-hook #'racer-mode)))
 
 
 ;;; Scala
