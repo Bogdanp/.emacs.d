@@ -268,6 +268,10 @@
     (advice-add #'evil-generate-mode-line-tag :around #'bp-generate-mode-line-tag)
     (evil-mode +1)
 
+    (bind-keys :map evil-insert-state-map
+               ("C-x C-p" . evil-complete-previous-line)
+               ("C-x C-n" . evil-complete-next-line))
+
     (bind-keys :map evil-normal-state-map
                :prefix "\\"
                :prefix-map evil-leader-prefix-map
