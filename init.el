@@ -182,26 +182,25 @@
   :load-path "vendor/evil"
   :pin manual
   :preface
-  (progn
-    (defun bp-apply-evil-mode-hook ()
-      (if (apply #'derived-mode-p '(fundamental-mode
-                                    conf-mode css-mode
-                                    evil-command-window-mode
-                                    erlang-mode haskell-mode
-                                    json-mode prog-mode purescript-mode
-                                    restclient-mode rust-mode text-mode
-                                    tuareg-mode web-mode
-                                    yaml-mode))
-          (evil-normal-state)
-        (evil-emacs-state)))
+  (defun bp-apply-evil-mode-hook ()
+    (if (apply #'derived-mode-p '(fundamental-mode
+                                  conf-mode css-mode
+                                  evil-command-window-mode
+                                  erlang-mode haskell-mode
+                                  json-mode prog-mode purescript-mode
+                                  restclient-mode rust-mode text-mode
+                                  tuareg-mode web-mode
+                                  yaml-mode))
+        (evil-normal-state)
+      (evil-emacs-state)))
 
-    (defun bp-toggle-emacs-state ()
-      (if (equal evil-state 'emacs)
-          (evil-normal-state)
-        (evil-emacs-state)))
+  (defun bp-toggle-emacs-state ()
+    (if (equal evil-state 'emacs)
+        (evil-normal-state)
+      (evil-emacs-state)))
 
-    (defun bp-minibuffer-setup-hook ()
-      (local-set-key (kbd "C-w") #'backward-kill-word)))
+  (defun bp-minibuffer-setup-hook ()
+    (local-set-key (kbd "C-w") #'backward-kill-word))
 
   (defun bp-generate-mode-line-tag (f &rest state)
     (let ((tag (apply f state))
@@ -213,6 +212,10 @@
   (defun bp-find-init-file ()
     (interactive)
     (find-file (locate-user-emacs-file "init.el")))
+
+  (defun bp-open-iterm ()
+    (interactive)
+    (call-process-shell-command "open -a /Applications/iTerm.app"))
   :init
   (setq evil-search-module #'evil-search
         evil-magic 'very-magic)
@@ -280,6 +283,7 @@
                ("\\" . evil-ex-nohighlight)
 
                ;; Misc
+               ("i"  . bp-open-iterm)
                (",i" . bp-find-init-file)
                ("bu" . browse-url)
                ("t"  . tldr)
