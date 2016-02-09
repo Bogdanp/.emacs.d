@@ -1339,7 +1339,7 @@
 
 ;;; Javascript
 (use-package js2-mode
-  :mode ("\.jsx?\\'" . js2-jsx-mode)
+  :mode ("\.jsx?\\'" . js2-mode)
   :ensure t
   :config
   (setq js2-basic-offset 2
