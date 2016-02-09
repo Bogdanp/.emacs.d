@@ -1315,12 +1315,13 @@
      '(haskell-interactive-mode-include-file-name nil)
 
      ;; Misc
-     '(haskell-stylish-on-save nil)
+     '(haskell-stylish-on-save t)
      '(haskell-notify-p t)
      '(haskell-tags-on-save t))
 
     (add-hook 'haskell-mode-hook #'haskell-doc-mode)
     (add-hook 'haskell-mode-hook #'haskell-decl-scan-mode)
+    (add-hook 'haskell-mode-hook #'haskell-indentation-mode)
     (add-hook 'haskell-mode-hook #'interactive-haskell-mode)
 
     (bind-keys :map haskell-mode-map
