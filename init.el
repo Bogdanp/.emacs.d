@@ -1281,11 +1281,18 @@
     (require 'haskell-process)
 
     (use-package company-ghc
+      :disabled t
       :ensure t
       :config
       (add-to-list 'company-backends 'company-ghc))
 
+    (use-package company-ghci
+      :ensure t
+      :config
+      (add-to-list 'company-backends 'company-ghci))
+
     (use-package flycheck-haskell
+      :disabled t
       :ensure t
       :config
       (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
