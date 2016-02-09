@@ -186,7 +186,7 @@
     (if (apply #'derived-mode-p '(fundamental-mode
                                   conf-mode css-mode
                                   evil-command-window-mode
-                                  erlang-mode haskell-mode
+                                  erlang-mode haskell-mode haskell-cabal-mode
                                   json-mode prog-mode purescript-mode
                                   restclient-mode rust-mode text-mode
                                   tuareg-mode web-mode
