@@ -1002,11 +1002,7 @@
   :init
   (add-hook 'prog-mode-hook #'flycheck-mode)
   :config
-  (setq-default flycheck-emacs-lisp-load-path 'inherit)
-  (setq-default flycheck-disabled-checkers '(haskell-ghc
-                                             html-tidy
-                                             javascript-jshint
-                                             json-jsonlint)))
+  (setq-default flycheck-emacs-lisp-load-path 'inherit))
 
 
 ;;; File navigation
