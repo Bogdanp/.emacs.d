@@ -805,7 +805,6 @@
   :bind ("C-c m" . magit-status)
   :config
   (use-package fullframe
-    :disabled t
     :ensure t
     :config
     (fullframe magit-status magit-mode-quit-window)))
