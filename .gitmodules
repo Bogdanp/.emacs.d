@@ -25,9 +25,6 @@
 [submodule "vendor/evil-commentary"]
 	path = vendor/evil-commentary
 	url = https://github.com/linktohack/evil-commentary
-[submodule "vendor/evil-jumper"]
-	path = vendor/evil-jumper
-	url = https://github.com/bling/evil-jumper
 [submodule "vendor/ido-clever-match"]
 	path = vendor/ido-clever-match
 	url = https://github.com/Bogdanp/ido-clever-match
