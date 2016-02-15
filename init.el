@@ -24,7 +24,7 @@
  ;;; Mac port
  mac-option-modifier 'meta
  mac-command-modifier 'hyper
- mac-mouse-wheel-smooth-scroll t)
+ mac-mouse-wheel-smooth-scroll nil)
 
 (setq-default
  ;;; Editing
