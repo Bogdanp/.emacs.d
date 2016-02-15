@@ -488,7 +488,22 @@
       :disabled t
       :load-path "vendor/ido-clever-match"
       :config
-      (ido-clever-match-enable))))
+      (ido-clever-match-enable))
+
+    (use-package imenu
+      :disabled t
+      :bind ("C-x C-i" . imenu))
+
+    (use-package smex
+      :disabled t
+      :bind (("M-x" . smex)
+             ("M-X" . smex-major-mode-commands)
+             ("C-;" . smex))
+      :ensure t
+      :init
+      (setq smex-save-file (locate-user-emacs-file ".smex-items"))
+      :config
+      (smex-initialize))))
 
 (use-package mule
   :config
@@ -759,21 +774,6 @@
       :ensure t)
 
     (add-hook 'ibuffer-hook #'bp-ibuffer-hook)))
-
-(use-package imenu
-  :disabled t
-  :bind ("C-x C-i" . imenu))
-
-(use-package smex
-  :disabled t
-  :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands)
-         ("C-;" . smex))
-  :ensure t
-  :init
-  (setq smex-save-file (locate-user-emacs-file ".smex-items"))
-  :config
-  (smex-initialize))
 
 (use-package semantic
   :commands semantic-mode
