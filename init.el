@@ -252,11 +252,6 @@
       :config
       (add-hook 'evil-mode-hook #'evil-commentary-mode))
 
-    (use-package evil-jumper
-      :load-path "vendor/evil-jumper"
-      :config
-      (add-hook 'evil-mode-hook #'global-evil-jumper-mode))
-
     (dolist (hook '(git-commit-setup-hook
                     git-timemachine-mode-hook
                     magit-blame-mode-hook
