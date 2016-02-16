@@ -324,8 +324,6 @@
 ;;; Builtins
 (use-package autorevert
   :config
-  ;; Revert files that update on disk automatically. Ignores dirty
-  ;; buffers.
   (global-auto-revert-mode))
 
 (use-package compile
@@ -369,7 +367,6 @@
 
 (use-package etags
   :init
-  ;; Never append tags lists together.
   (setq tags-add-tables nil))
 
 (use-package files
@@ -422,11 +419,8 @@
   (progn
     (require 'helm-config)
 
-    (use-package helm-ag
-      :ensure t)
-
-    (use-package helm-flx
-      :ensure t)
+    (use-package helm-ag :ensure t)
+    (use-package helm-flx :ensure t)
 
     ;; http://emacsist.com/10477
     (add-to-list 'display-buffer-alist
