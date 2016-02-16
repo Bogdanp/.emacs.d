@@ -425,10 +425,6 @@
     (use-package helm-ag
       :ensure t)
 
-    (use-package helm-descbinds
-      :ensure t
-      :commands helm-descbinds)
-
     (use-package helm-flx
       :ensure t)
 
