@@ -440,12 +440,8 @@
           helm-ff-newfile-prompt-p nil
           helm-ff-skip-boring-files t
 
-          helm-M-x-fuzzy-match t
           helm-buffers-fuzzy-matching t
-          helm-imenu-fuzzy-match t
-          helm-recentf-fuzzy-match t
-          helm-locate-fuzzy-match nil
-          helm-semantic-fuzzy-match t)
+          helm-recentf-fuzzy-match t)
 
     (helm-mode +1)
     (helm-autoresize-mode +1)
