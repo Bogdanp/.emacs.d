@@ -432,7 +432,7 @@
     (setq helm-split-window-in-side-p t
 
           helm-ff-newfile-prompt-p nil
-          helm-ff-skip-boring-files t
+          helm-ff-skip-boring-files nil  ;; https://github.com/emacs-helm/helm/issues/1391
 
           helm-buffers-fuzzy-matching t
           helm-recentf-fuzzy-match t)
