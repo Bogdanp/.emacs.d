@@ -1248,6 +1248,8 @@
 
 
 ;;; Haskell
+;; A lot of good information here: vvv
+;; https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md#installing-and-setting-up-emacs
 (use-package haskell-mode
   :mode "\\.l?hs\\'"
   :ensure t
@@ -1256,32 +1258,10 @@
     (require 'haskell-interactive-mode)
     (require 'haskell-process)
 
-    (use-package company-ghc
-      :disabled t
-      :ensure t
-      :config
-      (add-to-list 'company-backends 'company-ghc))
-
     (use-package company-ghci
       :ensure t
       :config
       (add-to-list 'company-backends 'company-ghci))
-
-    (use-package flycheck-haskell
-      :disabled t
-      :ensure t
-      :config
-      (add-hook 'flycheck-mode-hook #'flycheck-haskell-setup))
-
-    (use-package shm
-      :disabled t
-      :ensure t
-      :init
-      (add-hook 'haskell-mode-hook #'structured-haskell-mode)
-      :config
-      (custom-set-variables
-       '(shm-auto-insert-skeletons t)
-       '(shm-use-presentation-mode t)))
 
     (use-package shakespeare-mode
       :ensure t)
@@ -1306,8 +1286,17 @@
     (add-hook 'haskell-mode-hook #'haskell-decl-scan-mode)
     (add-hook 'haskell-mode-hook #'haskell-indentation-mode)
     (add-hook 'haskell-mode-hook #'interactive-haskell-mode)
+    (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode)
 
     (bind-keys :map haskell-mode-map
+               ;; Interactive
+               ("C-c C-z" . haskell-interactive-switch)
+               ("C-c C-b" . haskell-interactive-switch)
+               ("C-c C-l" . haskell-process-load-file)
+               ("C-c C-t" . haskell-process-do-type)
+               ("C-c C-i" . haskell-process-do-info)
+
+               ;; Misc
                ("C-j" . haskell-indentation-newline-and-indent)
                ("C-c ." . haskell-mode-jump-to-def-or-tag)
                ("C-c M-l" . haskell-process-reload-devel-main))))
