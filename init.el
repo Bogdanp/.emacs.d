@@ -252,6 +252,36 @@
       :config
       (add-hook 'evil-mode-hook #'evil-commentary-mode))
 
+
+    ;; Required by multiedit
+    (use-package iedit
+      :ensure t
+      :init
+      (setq iedit-toggle-key-default (kbd "C-:")))
+
+    (use-package evil-multiedit
+      :load-path "vendor/evil-multiedit"
+      :config
+      (progn
+        (bind-keys :map evil-visual-state-map
+                   ("R"   . evil-multiedit-match-all)
+                   ("M-d" . evil-multiedit-match-and-next)
+                   ("M-D" . evil-multiedit-match-and-prev))
+
+        (bind-keys :map evil-normal-state-map
+                   ("M-d" . evil-multiedit-match-and-next)
+                   ("M-D" . evil-multiedit-match-and-prev))
+
+        (bind-keys :map evil-multiedit-state-map
+                   ("C-n" . evil-multiedit-next)
+                   ("C-p" . evil-multiedit-prev))
+
+        (bind-keys :map evil-multiedit-insert-state-map
+                   ("C-n" . evil-multiedit-next)
+                   ("C-p" . evil-multiedit-prev))
+
+        (evil-ex-define-cmd "ie[dit]" #'evil-multiedit-ex-match)))
+
     (dolist (hook '(git-commit-setup-hook
                     git-timemachine-mode-hook
                     magit-blame-mode-hook
