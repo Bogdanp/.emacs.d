@@ -147,9 +147,9 @@
 (if (not (display-graphic-p))
     (load-theme 'wombat t)
 
-  (use-package server
-    :unless server-running-p
-    :config (server-start))
+  (require 'server)
+  (unless (server-running-p)
+    (server-start))
 
   (use-package twilight-bright-theme
     :disabled t
