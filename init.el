@@ -367,7 +367,12 @@
         dired-listing-switches "--group-directories-first -alh")
   :config
   (use-package dired+
-    :ensure t))
+    :ensure t)
+
+  (use-package dired-narrow
+    :ensure t
+    :bind (:map dired-mode-map
+                ("/" . dired-narrow))))
 
 (use-package electric
   :config
