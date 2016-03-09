@@ -242,7 +242,7 @@
 
     ;;; Plugins
     (use-package evil-surround
-      :ensure t
+      :load-path "vendor/evil-surround"
       :config
       (add-hook 'evil-mode-hook #'global-evil-surround-mode))
 
@@ -412,10 +412,7 @@
     (grep-apply-setting
      'grep-find-command '("find . -type f -exec grep -nH -e  \\{\\} \\+" . 34))
     (grep-apply-setting
-     'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+")
-
-    (use-package wgrep
-      :ensure t)))
+     'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+")))
 
 (use-package hl-line
   :config
@@ -774,14 +771,13 @@
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer)
   :preface
-  (progn
-    (eval-when-compile
-      (declare-function ibuffer-do-sort-by-alphabetic "ibuf-ext"))
+  (eval-when-compile
+    (declare-function ibuffer-do-sort-by-alphabetic "ibuf-ext"))
 
-    (defun bp-ibuffer-hook ()
-      (ibuffer-vc-set-filter-groups-by-vc-root)
-      (unless (eq ibuffer-sorting-mode 'alphabetic)
-        (ibuffer-do-sort-by-alphabetic))))
+  (defun bp-ibuffer-hook ()
+    (ibuffer-vc-set-filter-groups-by-vc-root)
+    (unless (eq ibuffer-sorting-mode 'alphabetic)
+      (ibuffer-do-sort-by-alphabetic)))
   :config
   (progn
     (use-package ibuffer-vc
@@ -794,21 +790,6 @@
   :commands semantic-mode
   :init
   (add-hook 'prog-mode-hook #'semantic-mode))
-
-
-;;; UI
-(use-package smart-mode-line
-  :disabled t
-  :ensure t
-  :init
-  (setq sml/no-confirm-load-theme t
-        sml/theme nil)
-  :config
-  (progn
-    (sml/setup)
-
-    (add-to-list 'sml/replacer-regexp-list '("^~/Work/" ":W:") t)
-    (add-to-list 'sml/replacer-regexp-list '("^~/sandbox/" ":s:") t)))
 
 
 ;;; Git
@@ -882,10 +863,6 @@
   :config
   (progn
     (use-package ob-http
-      :ensure t)
-
-    (use-package ox-twbs
-      :commands (org-twbs-export-as-html org-twbs-export-to-html)
       :ensure t)
 
     ;;; Misc
@@ -1059,17 +1036,6 @@
     :ensure t
     :init
     (add-hook 'after-init-hook #'exec-path-from-shell-initialize)))
-
-(use-package paradox
-  :commands paradox-list-packages
-  :ensure t
-  :init
-  (setq paradox-execute-asynchronously t
-        paradox-github-token t))
-
-(use-package tldr
-  :commands tldr
-  :ensure t)
 
 
 ;;; C
@@ -1260,13 +1226,6 @@
   :mode "\\.fish\\'")
 
 
-;;; Groovy
-(use-package groovy-mode
-  :mode (("\\.gradle\\'" . groovy-mode)
-         ("\\.groovy\\'" . groovy-mode))
-  :ensure t)
-
-
 ;;; Haskell
 ;; A lot of good information here: vvv
 ;; https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md#installing-and-setting-up-emacs
@@ -1330,9 +1289,6 @@
   (setq js2-basic-offset 2
         js2-strict-missing-semi-warning t))
 
-(use-package ember-mode
-  :commands (ember-mode)
-  :ensure t)
 
 ;;; JSON
 (use-package json-mode
@@ -1498,12 +1454,7 @@
 ;;; REST
 (use-package restclient
   :mode ("\\.http\\'" . restclient-mode)
-  :ensure t
-  :config
-  (use-package company-restclient
-    :ensure t
-    :config
-    (add-to-list 'company-backends 'company-restclient)))
+  :ensure t)
 
 
 ;;; Rust
@@ -1586,12 +1537,6 @@
   :mode "\\.swift\\'"
   :config
   (add-to-list 'flycheck-checkers 'swift))
-
-
-;;; Terraform
-(use-package terraform-mode
-  :ensure t
-  :mode "\\.tf\\'")
 
 
 ;;; UrWeb
