@@ -1024,13 +1024,6 @@
 (use-package projectile
   :diminish projectile-mode
   :ensure t
-  :preface
-  (defun bp-projectile-after-switch-hook ()
-    (when (s-ends-with? ".py" (buffer-file-name))
-      (let* ((path-segments (s-split "/" (projectile-project-root)))
-             (path-segments (-remove #'string-empty-p path-segments))
-             (project (car (-slice path-segments -1))))
-        (bp-workon project))))
   :init
   (setq projectile-enable-caching t)
   :config
@@ -1039,8 +1032,6 @@
       :ensure t
       :config
       (helm-projectile-on))
-
-    (add-hook 'projectile-after-switch-project-hook #'bp-projectile-after-switch-hook)
 
     (projectile-global-mode)))
 
