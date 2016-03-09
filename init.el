@@ -1480,8 +1480,7 @@
             (elpy-module-company
              elpy-module-eldoc
              elpy-module-pyvenv
-             elpy-module-sane-defaults
-             elpy-module-yasnippet))))))
+             elpy-module-sane-defaults))))))
 
     (use-package py-test
       :ensure t
