@@ -477,45 +477,7 @@
         ido-use-virtual-buffers t
         ido-handle-duplicate-virtual-buffers 2
         ido-max-prospects 10
-        ido-ignore-extensions t)
-  :config
-  (progn
-    ;; (ido-mode +1)
-    ;; (ido-everywhere +1)
-
-    (use-package ido-ubiquitous
-      :disabled t
-      :ensure t
-      :init
-      (ido-ubiquitous-mode +1))
-
-    (use-package ido-vertical-mode
-      :disabled t
-      :ensure t
-      :init
-      (setq ido-vertical-show-count t)
-      (ido-vertical-mode +1))
-
-    (use-package ido-clever-match
-      :disabled t
-      :load-path "vendor/ido-clever-match"
-      :config
-      (ido-clever-match-enable))
-
-    (use-package imenu
-      :disabled t
-      :bind ("C-x C-i" . imenu))
-
-    (use-package smex
-      :disabled t
-      :bind (("M-x" . smex)
-             ("M-X" . smex-major-mode-commands)
-             ("C-;" . smex))
-      :ensure t
-      :init
-      (setq smex-save-file (locate-user-emacs-file ".smex-items"))
-      :config
-      (smex-initialize))))
+        ido-ignore-extensions t))
 
 (use-package mule
   :config
@@ -1041,84 +1003,21 @@
 ;;; C
 (use-package cc-mode
   :mode ("\\.c\\'" . c-mode)
-  :config
-  (progn
-    (setq c-default-style "bsd"
-          c-basic-offset 4)
-
-    ;; Fix indentation.
-    (defun bp-c-mode-hook ()
-      (c-set-offset 'arglist-intro '+))
-
-    (use-package irony
-      :ensure t
-      :commands irony-mode
-      :config
-      (progn
-        (use-package company-irony
-          :ensure t
-          :preface
-          (defun bp-company-irony-setup-hook ()
-            (add-to-list 'company-backends 'company-irony))
-          :init
-          (progn
-            (add-hook 'irony-mode-hook #'bp-company-irony-setup-hook)
-            (add-hook 'irony-mode-hook #'company-irony-setup-begin-commands)))
-
-        (use-package flycheck-irony
-          :ensure t
-          :preface
-          (defun bp-flycheck-irony-setup-hook ()
-            (add-to-list 'flycheck-checkers 'irony))
-          :init
-          (add-hook 'irony-mode-hook #'bp-flycheck-irony-setup-hook))
-
-        (use-package irony-eldoc
-          :commands irony-eldoc
-          :ensure t)
-
-        (add-hook 'irony-mode-hook #'eldoc-mode)
-        (add-hook 'irony-mode-hook #'irony-eldoc)))
-
-    (add-hook 'c-mode-hook #'bp-c-mode-hook)
-    (add-hook 'c-mode-hook #'irony-mode)))
-
-
-;;; Clojure
-(use-package clojure-mode
-  :ensure t
-  :mode (("\\.cljs?\\'" . clojure-mode)
-         ("\\.boot\\'"  . clojure-mode))
-  :config
-  (progn
-    (use-package cider
-      :ensure t
-      :config
-      (progn
-        (add-hook 'cider-repl-mode-hook #'my-cider-mode-hook)
-        (add-hook 'cider-repl-mode-hook #'paredit-mode)
-        (add-hook 'cider-repl-mode-hook #'rainbow-delimiters-mode)
-        (add-hook 'cider-mode-hook #'my-cider-mode-hook)
-        (add-hook 'cider-mode-hook #'eldoc-mode)
-        (add-hook 'cider-mode-hook #'paredit-mode)
-        (add-hook 'cider-mode-hook #'rainbow-delimiters-mode)
-
-        (bind-keys :map cider-mode-map
-                   ("C-c ." . cider-jump-to-var)
-                   ("C-c ," . cider-pop-back))))
-
-    (add-hook 'clojure-mode-hook #'cider-mode)))
+  :init
+  (setq c-default-style "bsd"
+        c-basic-offset 4))
 
 
 ;;; Common Lisp
 (use-package slime
+  :disabled t
   :commands slime
   :ensure t
   :init
   (add-hook 'slime-mode-hook #'paredit-mode)
   :config
-  (setq inferior-lisp-program "/usr/local/bin/sbcl")
-  (setq slime-contribs '(slime-fancy)))
+  (setq inferior-lisp-program "/usr/local/bin/sbcl"
+        slime-contribs '(slime-fancy)))
 
 
 ;;; Docker
@@ -1129,10 +1028,12 @@
 
 ;;; Erlang and Elixir
 (use-package erlang
+  :disabled t
   :mode ("\\.erl\\'" . erlang-mode)
   :ensure t)
 
 (use-package alchemist
+  :disabled t
   :mode ("\\.exs?\\'" . elixir-mode)
   :ensure t
   :init
@@ -1183,7 +1084,6 @@
   :init
   (add-hook 'elixir-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'irony-mode-hook #'turn-on-smartparens-strict-mode)
-  (add-hook 'perl6-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'python-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'scala-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'org-mode-hook #'turn-on-smartparens-strict-mode)
@@ -1242,9 +1142,6 @@
       :config
       (add-to-list 'company-backends 'company-ghci))
 
-    (use-package shakespeare-mode
-      :ensure t)
-
     (custom-set-variables
      ;; Haskell Process
      '(haskell-process-suggest-remove-import-lines t)
@@ -1296,22 +1193,12 @@
   :ensure t)
 
 
-;;; LaTeX
-(use-package auctex
-  :ensure t
-  :mode ("\\.tex\\'" . LaTeX-mode))
-
-
 ;;; LESS
 (use-package less-css-mode
   :mode "\\.less\\'"
   :ensure t
-  :config
-  (progn
-    (defun bp-scss-mode-hook ()
-      (setq-local css-indent-offset 2))
-
-    (add-hook 'less-css-mode-hook #'bp-scss-mode-hook)))
+  :init
+  (setq css-indent-offset 2))
 
 
 ;;; Markdown
@@ -1353,21 +1240,8 @@
     (add-hook 'tuareg-mode-hook #'utop-minor-mode)))
 
 
-;;; Perl 6
-(use-package perl6-mode
-  :mode (("\\.p6\\'"  . perl6-mode)
-         ("\\.pm6\\'" . perl6-mode))
-  :ensure t
-  :config
-  (progn
-    (use-package flycheck-perl6
-      :ensure t)))
-
-
 ;;; Python
-(use-package pyvenv
-  :ensure t)
-
+(use-package pyvenv :ensure t)
 (use-package python
   :mode (("\\.py\\'"   . python-mode)
          ("SConstruct" . python-mode))
@@ -1441,6 +1315,7 @@
 
 ;;; Purescript
 (use-package purescript-mode
+  :disabled t
   :ensure t
   :mode "\\.purs\\'"
   :config
@@ -1455,21 +1330,6 @@
 (use-package restclient
   :mode ("\\.http\\'" . restclient-mode)
   :ensure t)
-
-
-;;; Rust
-(use-package rust-mode
-  :mode ("\\.rs\\'" . rust-mode)
-  :ensure t
-  :config
-  (progn
-    (use-package racer
-      :ensure t
-      :init
-      (setq racer-rust-src-path (expand-file-name "~/sandbox/rust/src")))
-
-    (add-hook 'rust-mode-hook #'eldoc-mode)
-    (add-hook 'rust-mode-hook #'racer-mode)))
 
 
 ;;; Scala
@@ -1520,25 +1380,6 @@
     (setq geiser-active-implementations '(chicken))))
 
 
-;;; SCSS
-(use-package scss-mode
-  :ensure t
-  :mode "\\.scss\\'"
-  :config
-  (progn
-    ;; Stupid functionality is stupid.
-    (setq scss-compile-at-save nil)
-    (setq-default css-indent-offset 2)))
-
-
-;;; Swift
-(use-package swift-mode
-  :ensure t
-  :mode "\\.swift\\'"
-  :config
-  (add-to-list 'flycheck-checkers 'swift))
-
-
 ;;; UrWeb
 (use-package urweb-mode
   :disabled t
@@ -1576,12 +1417,6 @@
 (use-package yaml-mode
   :ensure t
   :mode "\\.yaml\\'")
-
-
-;;; Message
-(use-package message
-  :init
-  (setq message-auto-save-directory (expand-file-name "~/Maildir/drafts")))
 
 
 ;;; Notmuch
@@ -1636,6 +1471,8 @@
     (save-excursion
       (message-goto-body)
       (shell-command-on-region (point) (point-max) (concat "mimedown " gnus-alias-current-identity) nil t)))
+  :init
+  (setq message-auto-save-directory (expand-file-name "~/Maildir/drafts"))
   :config
   (progn
     (use-package gnus-art)
