@@ -21,6 +21,9 @@
  ;;; Don't attempt to load `default.el'
  inhibit-default-init t
 
+ ;; Disable welcome screen.
+ inhibit-startup-message t
+
  ;;; Mac port
  mac-option-modifier 'meta
  mac-command-modifier 'hyper
@@ -75,9 +78,6 @@
     (funcall mode -1)))
 
 (setq
- ;; Disable welcome screen.
- inhibit-startup-message t
-
  ;; No bell of any kind.
  ring-bell-function (lambda ())
  visible-bell nil
