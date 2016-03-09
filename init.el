@@ -344,12 +344,6 @@
     (bind-key "SPC" evil-leader-prefix-map evil-normal-state-map)
     (bind-key "C-c C-\\" evil-leader-prefix-map)))
 
-(use-package which-key
-  :diminish which-key-mode
-  :ensure t
-  :config
-  (which-key-mode +1))
-
 
 ;;; Builtins
 (use-package autorevert
