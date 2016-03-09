@@ -31,9 +31,6 @@
 [submodule "vendor/flycheck-ocaml"]
 	path = vendor/flycheck-ocaml
 	url = https://github.com/flycheck/flycheck-ocaml
-[submodule "vendor/coverage-mode"]
-	path = vendor/coverage-mode
-	url = https://github.com/Bogdanp/coverage-mode
 [submodule "vendor/evil-multiedit"]
 	path = vendor/evil-multiedit
 	url = https://github.com/hlissner/evil-multiedit
