@@ -1380,6 +1380,19 @@
     (setq geiser-active-implementations '(chicken))))
 
 
+;;; Swift
+(use-package swift-mode
+  :ensure t
+  :mode "\\.swift\\'"
+  :init
+  (setq swift-indent-offset 2)
+  :config
+  (use-package company-sourcekit
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-sourcekit)))
+
+
 ;;; UrWeb
 (use-package urweb-mode
   :disabled t
