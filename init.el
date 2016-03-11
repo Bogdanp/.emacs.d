@@ -1028,12 +1028,10 @@
 
 ;;; Erlang and Elixir
 (use-package erlang
-  :disabled t
   :mode ("\\.erl\\'" . erlang-mode)
   :ensure t)
 
 (use-package alchemist
-  :disabled t
   :mode ("\\.exs?\\'" . elixir-mode)
   :ensure t
   :init
