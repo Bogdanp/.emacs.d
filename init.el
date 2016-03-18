@@ -189,7 +189,7 @@
                                   erlang-mode haskell-mode haskell-cabal-mode
                                   json-mode prog-mode purescript-mode
                                   restclient-mode rust-mode text-mode
-                                  tuareg-mode web-mode
+                                  sass-mode tuareg-mode web-mode
                                   yaml-mode))
         (evil-normal-state)
       (evil-emacs-state)))
@@ -951,7 +951,8 @@
   :init
   (add-hook 'prog-mode-hook #'flycheck-mode)
   :config
-  (setq-default flycheck-emacs-lisp-load-path 'inherit))
+  (setq-default flycheck-emacs-lisp-load-path 'inherit)
+  (setq-default flycheck-disabled-checkers '(sass)))
 
 
 ;;; File navigation
@@ -1198,6 +1199,12 @@
   :ensure t
   :init
   (setq css-indent-offset 2))
+
+
+;;; SASS
+(use-package sass-mode
+  :mode "\\.sass\\'"
+  :ensure t)
 
 
 ;;; Markdown
