@@ -1213,6 +1213,14 @@
   :ensure t)
 
 
+;;; Asciidoc
+(use-package adoc-mode
+  :mode "\\.adoc\\'"
+  :ensure t
+  :config
+  (add-hook 'adoc-mode-hook #'auto-fill-mode))
+
+
 ;;; OCaml
 (use-package tuareg
   :mode ("\\.mli?\\'" . tuareg-mode)
