@@ -34,6 +34,9 @@
  ;; Never use tabs.
  indent-tabs-mode nil
 
+ ;; When using tabs (Go), they should be 4 spaces long.
+ tab-width 4
+
  ;; Don't wrap long lines
  truncate-lines t)
 
@@ -999,7 +1002,9 @@
     :commands exec-path-from-shell-initialize
     :ensure t
     :init
-    (add-hook 'after-init-hook #'exec-path-from-shell-initialize)))
+    (add-hook 'after-init-hook #'exec-path-from-shell-initialize)
+    :config
+    (add-to-list 'exec-path-from-shell-variables "GOPATH")))
 
 
 ;;; C
@@ -1124,6 +1129,26 @@
 (use-package fish-mode
   :ensure t
   :mode "\\.fish\\'")
+
+
+;;; Go
+(use-package go-mode
+  :ensure t
+  :mode "\\.go\\'"
+  :preface
+  (defun bp-go-mode-hook ()
+    (set (make-local-variable 'compile-command) "go build -v; and go test -v; and go vet"))
+  :config
+  (progn
+    (use-package company-go
+      :ensure t
+      :config
+      (add-to-list 'company-backends 'company-go))
+
+    (setq gofmt-command "goimports")
+
+    (add-hook 'go-mode-hook #'bp-go-mode-hook)
+    (add-hook 'before-save-hook #'gofmt-before-save)))
 
 
 ;;; Haskell
