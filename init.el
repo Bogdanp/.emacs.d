@@ -165,8 +165,13 @@
     :config (load-theme 'twilight-anti-bright t))
 
   (use-package better-default-theme
+    :disabled t
     :load-path "vendor/better-default-theme"
-    :config (load-theme 'better-default t)))
+    :config (load-theme 'better-default t))
+
+  (use-package atom-one-dark-theme
+    :load-path "vendor/atom-one-dark-theme"
+    :config (load-theme 'atom-one-dark t)))
 
 
 ;;; Keybindings
