@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: public static method
+# key: stat
+# --
+public static function $1($2)
+{
+    $3
+}

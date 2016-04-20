@@ -1287,6 +1287,21 @@
     (add-hook 'tuareg-mode-hook #'utop-minor-mode)))
 
 
+;;; PHP
+(use-package php-mode
+  :ensure t
+  :mode "\\.php\\'"
+  :init
+  (add-hook 'php-mode-hook #'yas-minor-mode)
+  :config
+  (use-package ac-php
+    :ensure t
+    :config
+    (progn
+      (require 'ac-php-company)
+      (add-to-list 'company-backends 'company-ac-php-backend))))
+
+
 ;;; Python
 (use-package pyvenv :ensure t)
 (use-package python
@@ -1451,26 +1466,30 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.html?\\'" . web-mode)
-         ("\\.php\\'"   . web-mode)
+         ("\\.vue\\'"   . web-mode)
          ("\\.hbs\\'"   . web-mode)
-         ("\\.eex\\'"   . web-mode))
+         ("\\.eex\\'"   . web-mode)
+         ("\\.tmpl\\'"  . web-mode)
+         ("\\.blade\\.php\\'" . web-mode))
   :init
-  (setq web-mode-code-indent-offset 2
-        web-mode-style-indent-offset 2
-        web-mode-script-indent-offset 2
-        web-mode-markup-indent-offset 2
+  (progn
+    (setq web-mode-code-indent-offset 4
+          web-mode-style-indent-offset 2
+          web-mode-script-indent-offset 2
+          web-mode-markup-indent-offset 2
 
-        web-mode-style-padding 2
-        web-mode-script-padding 2
+          web-mode-style-padding 2
+          web-mode-script-padding 2
 
-        web-mode-enable-auto-closing t
-        web-mode-enable-auto-expanding t
-        web-mode-enable-auto-pairing t
-        web-mode-enable-current-element-highlight t
+          web-mode-enable-auto-closing t
+          web-mode-enable-auto-expanding t
+          web-mode-enable-auto-pairing t
+          web-mode-enable-current-element-highlight t
 
-        web-mode-engines-alist '(("django" . "\\.html\\'")
-                                 ("razor"  . "\\.scala\\.html\\'")
-                                 ("elixir" . "\\.eex\\'"))))
+          web-mode-engines-alist '(("django" . "\\.html\\'")
+                                   ("razor"  . "\\.scala\\.html\\'")
+                                   ("elixir" . "\\.eex\\'")
+                                   ("blade"  . "\\.blade\\.")))))
 
 
 ;;; Yaml
