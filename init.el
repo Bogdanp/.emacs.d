@@ -1142,6 +1142,8 @@
   :mode "\\.go\\'"
   :preface
   (defun bp-go-mode-hook ()
+    ;; Fixes fill-region over comments: https://github.com/dominikh/go-mode.el/issues/119
+    (set (make-local-variable 'adaptive-fill-regexp) "[   ]*\\(//+\\|\\**\\)[     ]*\\([  ]*\\([-–!|#%;>*·•‣⁃◦]+[  ]*\\)*\\)")
     (set (make-local-variable 'compile-command) "go build -v; and go test -v; and go vet"))
   :config
   (progn
