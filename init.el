@@ -1235,7 +1235,8 @@
 
 ;;; SASS
 (use-package sass-mode
-  :mode "\\.sass\\'"
+  :mode (("\\.sass\\'" . sass-mode)
+         ("\\.scss\\'" . scss-mode))
   :ensure t)
 
 
