@@ -1296,15 +1296,20 @@
 (use-package php-mode
   :ensure t
   :mode "\\.php\\'"
-  :init
-  (add-hook 'php-mode-hook #'yas-minor-mode)
   :config
-  (use-package ac-php
-    :ensure t
-    :config
-    (progn
-      (require 'ac-php-company)
-      (add-to-list 'company-backends 'company-ac-php-backend))))
+  (progn
+    (setq php-lineup-cascaded-calls t)
+
+    (use-package ac-php
+      :ensure t
+      :config
+      (progn
+        (require 'ac-php-company)
+        (add-to-list 'company-backends 'company-ac-php-backend)))
+
+    (add-hook 'php-mode-hook #'php-enable-psr2-coding-style)
+    (add-hook 'php-mode-hook #'subword-mode)
+    (add-hook 'php-mode-hook #'yas-minor-mode)))
 
 
 ;;; Python
