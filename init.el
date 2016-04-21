@@ -1160,6 +1160,8 @@
 
     (setq gofmt-command "goimports")
 
+    (load (concat (getenv "GOPATH") "/src/golang.org/x/tools/cmd/oracle/oracle.el"))
+
     (add-hook 'go-mode-hook #'bp-go-mode-hook)
     (add-hook 'before-save-hook #'gofmt-before-save)))
 
