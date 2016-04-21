@@ -1599,7 +1599,9 @@
           '(notmuch-hello-insert-search
             notmuch-hello-insert-recent-searches
             notmuch-hello-insert-saved-searches
-            notmuch-hello-insert-alltags))
+            notmuch-hello-insert-alltags)
+
+          notmuch-show-all-tags-list t)
 
     (bind-keys :map notmuch-search-mode-map
                ("A" . bp-notmuch-archive)
