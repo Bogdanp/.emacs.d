@@ -1486,7 +1486,7 @@
          ("\\.blade\\.php\\'" . web-mode))
   :init
   (progn
-    (setq web-mode-code-indent-offset 4
+    (setq web-mode-code-indent-offset 2
           web-mode-style-indent-offset 2
           web-mode-script-indent-offset 2
           web-mode-markup-indent-offset 2
