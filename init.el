@@ -1231,7 +1231,10 @@
 ;;; JSON
 (use-package json-mode
   :mode "\.json\\'"
-  :ensure t)
+  :ensure t
+  :config
+  (setq json-reformat:indent-width 2
+        js-indent-level 2))
 
 
 ;;; LESS
