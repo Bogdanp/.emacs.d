@@ -129,6 +129,7 @@
 
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (add-to-list 'package-archives '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (package-initialize)
 
 (unless package-archive-contents
@@ -794,9 +795,9 @@
 
 
 ;;; Org
+(use-package org-plus-contrib :ensure t)
 (use-package org
   :ensure t
-  :defer t
   :preface
   (progn
     (eval-when-compile
