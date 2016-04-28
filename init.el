@@ -840,6 +840,10 @@
             (org-paste-subtree (+ 1 archive-level)))))))
   :config
   (progn
+    ;;; Contrib
+    (use-package org-notmuch)
+
+    ;;; Plugins
     (use-package ob-http
       :ensure t)
 
