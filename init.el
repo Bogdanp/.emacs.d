@@ -795,7 +795,6 @@
 
 
 ;;; Org
-(use-package org-plus-contrib :ensure t)
 (use-package org
   :ensure t
   :preface
