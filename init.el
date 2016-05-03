@@ -1074,8 +1074,7 @@
   :mode ("\\.elm\\'" . elm-mode)
   :config
   (progn
-    (setq elm-tags-on-save t
-          elm-tags-exclude-elm-stuff nil)
+    (setq elm-tags-on-save t)
 
     (add-to-list 'company-backends 'company-elm)))
 
