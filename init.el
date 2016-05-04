@@ -1166,7 +1166,10 @@
     (load (concat (getenv "GOPATH") "/src/golang.org/x/tools/cmd/oracle/oracle.el"))
 
     (add-hook 'go-mode-hook #'bp-go-mode-hook)
-    (add-hook 'before-save-hook #'gofmt-before-save)))
+    (add-hook 'before-save-hook #'gofmt-before-save)
+
+    (bind-keys :map go-mode-map
+               ("C-c ." . godef-jump))))
 
 
 ;;; Haskell
