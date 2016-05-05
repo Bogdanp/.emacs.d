@@ -166,15 +166,16 @@
     :config (load-theme 'twilight-anti-bright t))
 
   (use-package better-default-theme
-    :disabled t
     :load-path "vendor/better-default-theme"
     :config (load-theme 'better-default t))
 
   (use-package atom-one-dark-theme
+    :disabled t
     :load-path "vendor/atom-one-dark-theme"
     :config (load-theme 'atom-one-dark t))
 
   (use-package smart-mode-line
+    :disabled t
     :ensure t
     :init (setq sml/no-confirm-load-theme t)
     :config (sml/setup)))
@@ -221,7 +222,7 @@
           (state (car state)))
       (cond
        ((string= state "emacs")
-        (propertize tag 'face '((:foreground "red"))))
+        (propertize tag 'face '((:background "red" :foreground "white"))))
        (t tag))))
 
   (defun bp-find-init-file ()
