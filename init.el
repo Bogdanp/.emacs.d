@@ -413,7 +413,8 @@
 
 (use-package etags
   :init
-  (setq tags-add-tables nil))
+  (setq tags-add-tables nil
+        tags-revert-without-query t))
 
 (use-package files
   :init
