@@ -1073,11 +1073,12 @@
 (use-package elm-mode
   :load-path "vendor/elm-mode"
   :mode ("\\.elm\\'" . elm-mode)
+  :init
+  (setq elm-indent-offset 4
+        elm-tags-on-save t
+        elm-format-on-save t)
   :config
-  (progn
-    (setq elm-tags-on-save t)
-
-    (add-to-list 'company-backends 'company-elm)))
+  (add-to-list 'company-backends 'company-elm))
 
 
 ;;; Emacs lisp
