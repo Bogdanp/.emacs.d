@@ -952,7 +952,10 @@
   :diminish company-mode
   :ensure t
   :init
-  (add-hook 'after-init-hook #'global-company-mode)
+  (progn
+    (setq company-idle-delay 0.125)
+
+    (add-hook 'after-init-hook #'global-company-mode))
   :config
   (bind-key "C-c C-y" #'company-yasnippet))
 
