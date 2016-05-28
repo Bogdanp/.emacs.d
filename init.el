@@ -948,6 +948,12 @@
 
 
 ;;; Code completion
+(use-package auto-complete
+  :ensure t
+  :config
+  (progn
+    (require 'auto-complete-config)))
+
 (use-package company
   :diminish company-mode
   :ensure t
@@ -1163,17 +1169,24 @@
   :mode "\\.go\\'"
   :preface
   (defun bp-go-mode-hook ()
+    (auto-complete-mode +1)
+    (company-mode -1)
+
     ;; Fixes fill-region over comments: https://github.com/dominikh/go-mode.el/issues/119
     (set (make-local-variable 'adaptive-fill-regexp) "[   ]*\\(//+\\|\\**\\)[     ]*\\([  ]*\\([-–!|#%;>*·•‣⁃◦]+[  ]*\\)*\\)")
     (set (make-local-variable 'compile-command) "go build -v; and go test -v; and go vet"))
+  :init
+  (setq gofmt-command "goimports")
   :config
   (progn
+    (use-package go-autocomplete
+      :ensure t)
+
     (use-package company-go
+      :disabled t
       :ensure t
       :config
       (add-to-list 'company-backends 'company-go))
-
-    (setq gofmt-command "goimports")
 
     (load (concat (getenv "GOPATH") "/src/golang.org/x/tools/cmd/oracle/oracle.el"))
 
