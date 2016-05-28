@@ -40,3 +40,6 @@
 [submodule "vendor/atom-one-dark-theme"]
 	path = vendor/atom-one-dark-theme
 	url = https://github.com/Bogdanp/atom-one-dark-theme
+[submodule "vendor/twilight-bright-theme"]
+	path = vendor/twilight-bright-theme
+	url = https://github.com/Bogdanp/twilight-bright-theme.el.git
