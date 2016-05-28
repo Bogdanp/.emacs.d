@@ -957,7 +957,13 @@
 
     (add-hook 'after-init-hook #'global-company-mode))
   :config
-  (bind-key "C-c C-y" #'company-yasnippet))
+  (progn
+    (use-package company-statistics
+      :ensure t
+      :init
+      (add-hook 'after-init-hook #'company-statistics-mode))
+
+    (bind-key "C-c C-y" #'company-yasnippet)))
 
 (use-package yasnippet
   :commands (yas-minor-mode yas-reload-all)
