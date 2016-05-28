@@ -157,7 +157,7 @@
 
   (use-package twilight-bright-theme
     :disabled t
-    :ensure t
+    :load-path "vendor/twilight-bright-theme"
     :config (load-theme 'twilight-bright t))
 
   (use-package twilight-anti-bright-theme
