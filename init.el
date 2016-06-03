@@ -325,10 +325,10 @@
                ("\\" . evil-ex-nohighlight)
 
                ;; Misc
-               ("i"  . bp-open-iterm)
-               (",i" . bp-find-init-file)
-               ("bu" . browse-url)
-               ("t"  . tldr)
+               ("i"   . bp-open-iterm)
+               (",i"  . bp-find-init-file)
+               ("bu"  . browse-url)
+               ("SPC" . recompile)
 
                ;; Frames
                ("fn" . make-frame-command)
