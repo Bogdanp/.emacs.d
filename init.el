@@ -1124,6 +1124,7 @@
   (add-hook 'python-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'scala-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'org-mode-hook #'turn-on-smartparens-strict-mode)
+  (add-hook 'go-mode-hook #'turn-on-smartparens-strict-mode)
   :config
   (progn
     (require 'smartparens-config)
