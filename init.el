@@ -262,42 +262,6 @@
       :config
       (add-hook 'evil-mode-hook #'global-evil-surround-mode))
 
-    (use-package evil-commentary
-      :load-path "vendor/evil-commentary"
-      :diminish evil-commentary-mode
-      :config
-      (add-hook 'evil-mode-hook #'evil-commentary-mode))
-
-
-    ;; Required by multiedit
-    (use-package iedit
-      :ensure t
-      :init
-      (setq iedit-toggle-key-default (kbd "C-:")))
-
-    (use-package evil-multiedit
-      :load-path "vendor/evil-multiedit"
-      :config
-      (progn
-        (bind-keys :map evil-visual-state-map
-                   ("R"   . evil-multiedit-match-all)
-                   ("M-d" . evil-multiedit-match-and-next)
-                   ("M-D" . evil-multiedit-match-and-prev))
-
-        (bind-keys :map evil-normal-state-map
-                   ("M-d" . evil-multiedit-match-and-next)
-                   ("M-D" . evil-multiedit-match-and-prev))
-
-        (bind-keys :map evil-multiedit-state-map
-                   ("C-n" . evil-multiedit-next)
-                   ("C-p" . evil-multiedit-prev))
-
-        (bind-keys :map evil-multiedit-insert-state-map
-                   ("C-n" . evil-multiedit-next)
-                   ("C-p" . evil-multiedit-prev))
-
-        (evil-ex-define-cmd "ie[dit]" #'evil-multiedit-ex-match)))
-
     (dolist (hook '(git-commit-setup-hook
                     git-timemachine-mode-hook
                     magit-blame-mode-hook
@@ -368,6 +332,11 @@
   (global-auto-revert-mode))
 
 (use-package compile
+  :preface
+  (defun bp-make-at (root-filename)
+    (interactive "sFilename: ")
+    (let ((default-directory (locate-dominating-file buffer-file-name root-filename)))
+      (compile "make")))
   :init
   (setq compilation-scroll-output t))
 
@@ -433,6 +402,7 @@
      'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+")))
 
 (use-package hl-line
+  :disabled t
   :config
   (progn
     (define-global-minor-mode bp-global-hl-line-mode global-hl-line-mode
@@ -446,11 +416,6 @@
           (hl-line-mode +1))))
 
     (bp-global-hl-line-mode)))
-
-(use-package swiper
-  :disabled t
-  :ensure t
-  :bind (("C-s" . swiper)))
 
 (use-package helm
   :diminish helm-mode
@@ -742,10 +707,6 @@
   :init
   (setq uniquify-buffer-name-style 'forward))
 
-(use-package winner
-  :config
-  (winner-mode +1))
-
 
 ;;; Buffers and buffer navigation
 (use-package ibuffer
@@ -766,11 +727,6 @@
 
     (add-hook 'ibuffer-hook #'bp-ibuffer-hook)))
 
-(use-package semantic
-  :commands semantic-mode
-  :init
-  (add-hook 'prog-mode-hook #'semantic-mode))
-
 
 ;;; Git
 (use-package magit
@@ -788,12 +744,6 @@
 (use-package git-timemachine
   :commands git-timemachine
   :ensure t)
-
-(use-package diff-hl
-  :disabled t
-  :ensure t
-  :config
-  (global-diff-hl-mode +1))
 
 
 ;;; Org
@@ -949,10 +899,14 @@
 
 ;;; Code completion
 (use-package auto-complete
+  :diminish auto-complete-mode
   :ensure t
   :config
   (progn
-    (require 'auto-complete-config)))
+    (require 'auto-complete-config)
+
+    (global-auto-complete-mode -1)
+    (setq ac-use-menu-map t)))
 
 (use-package company
   :diminish company-mode
@@ -1183,6 +1137,9 @@
     (use-package go-autocomplete
       :ensure t)
 
+    (use-package go-eldoc
+      :ensure t)
+
     (use-package company-go
       :disabled t
       :ensure t
@@ -1192,6 +1149,7 @@
     (load (concat (getenv "GOPATH") "/src/golang.org/x/tools/cmd/oracle/oracle.el"))
 
     (add-hook 'go-mode-hook #'bp-go-mode-hook)
+    (add-hook 'go-mode-hook #'go-eldoc-setup)
     (add-hook 'before-save-hook #'gofmt-before-save)
 
     (bind-keys :map go-mode-map
@@ -1292,6 +1250,7 @@
 
 ;;; Asciidoc
 (use-package adoc-mode
+  :disabled t
   :mode "\\.adoc\\'"
   :ensure t
   :config
@@ -1333,6 +1292,7 @@
 
 ;;; PHP
 (use-package php-mode
+  :disabled t
   :ensure t
   :mode "\\.php\\'"
   :config
@@ -1445,15 +1405,18 @@
 
 ;;; Scala
 (use-package sbt-mode
+  :disabled t
   :commands sbt-start
   :ensure t)
 
 (use-package scala-mode2
+  :disabled t
   :mode (("\\.scala\\'" . scala-mode)
          ("\\.sbt\\'"   . scala-mode))
   :ensure t)
 
 (use-package ensime
+  :disabled t
   :commands ensime-scala-mode-hook
   :ensure t
   :preface
@@ -1493,6 +1456,7 @@
 
 ;;; Swift
 (use-package swift-mode
+  :disabled t
   :ensure t
   :mode "\\.swift\\'"
   :init
