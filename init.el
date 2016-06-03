@@ -155,30 +155,9 @@
   (unless (server-running-p)
     (server-start))
 
-  (use-package twilight-bright-theme
-    :disabled t
-    :load-path "vendor/twilight-bright-theme"
-    :config (load-theme 'twilight-bright t))
-
-  (use-package twilight-anti-bright-theme
-    :disabled t
-    :load-path "vendor/twilight-anti-bright-theme"
-    :config (load-theme 'twilight-anti-bright t))
-
   (use-package better-default-theme
     :load-path "vendor/better-default-theme"
-    :config (load-theme 'better-default t))
-
-  (use-package atom-one-dark-theme
-    :disabled t
-    :load-path "vendor/atom-one-dark-theme"
-    :config (load-theme 'atom-one-dark t))
-
-  (use-package smart-mode-line
-    :disabled t
-    :ensure t
-    :init (setq sml/no-confirm-load-theme t)
-    :config (sml/setup)))
+    :config (load-theme 'better-default t)))
 
 
 ;;; Keybindings
@@ -1282,7 +1261,7 @@
       (setq ocp-indent-syntax '("lwt")))
 
     (use-package flycheck-ocaml
-      :load-path "vendor/flycheck-ocaml"
+      :ensure t
       :commands (flycheck-ocaml-setup))
 
     (add-hook 'tuareg-mode-hook #'merlin-mode)

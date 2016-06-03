@@ -16,30 +16,9 @@
 [submodule "better-default-theme"]
 	path = vendor/better-default-theme
 	url = https://github.com/Bogdanp/better-default-theme.el
-[submodule "vendor/twilight-anti-bright-theme"]
-	path = vendor/twilight-anti-bright-theme
-	url = git@github.com:Bogdanp/twilight-anti-bright-theme
 [submodule "vendor/elm-mode"]
 	path = vendor/elm-mode
 	url = git@github.com:Bogdanp/elm-mode
-[submodule "vendor/evil-commentary"]
-	path = vendor/evil-commentary
-	url = https://github.com/linktohack/evil-commentary
-[submodule "vendor/ido-clever-match"]
-	path = vendor/ido-clever-match
-	url = https://github.com/Bogdanp/ido-clever-match
-[submodule "vendor/flycheck-ocaml"]
-	path = vendor/flycheck-ocaml
-	url = https://github.com/flycheck/flycheck-ocaml
-[submodule "vendor/evil-multiedit"]
-	path = vendor/evil-multiedit
-	url = https://github.com/hlissner/evil-multiedit
 [submodule "vendor/evil-surround"]
 	path = vendor/evil-surround
 	url = https://github.com/timcharper/evil-surround
-[submodule "vendor/atom-one-dark-theme"]
-	path = vendor/atom-one-dark-theme
-	url = https://github.com/Bogdanp/atom-one-dark-theme
-[submodule "vendor/twilight-bright-theme"]
-	path = vendor/twilight-bright-theme
-	url = https://github.com/Bogdanp/twilight-bright-theme.el.git
