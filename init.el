@@ -470,16 +470,14 @@
     (add-to-list 'recentf-exclude "MERGE_MSG\\'")
     (add-to-list 'recentf-exclude "/elpa/")
     (add-to-list 'recentf-exclude "company-statistics-cache.el")
+    (add-to-list 'recentf-exclude ".el.gz")
 
     (recentf-mode +1)))
 
 (use-package savehist
   :init
   (setq savehist-file (locate-user-emacs-file "savehist")
-        savehist-additional-variables '(search ring regexp-search-ring)
-        savehist-autosave-interval 60
-
-        history-length 10000)
+        savehist-additional-variables '(search ring regexp-search-ring))
   :config
   (savehist-mode +1))
 
@@ -982,18 +980,6 @@
         c-basic-offset 4))
 
 
-;;; Common Lisp
-(use-package slime
-  :disabled t
-  :commands slime
-  :ensure t
-  :init
-  (add-hook 'slime-mode-hook #'paredit-mode)
-  :config
-  (setq inferior-lisp-program "/usr/local/bin/sbcl"
-        slime-contribs '(slime-fancy)))
-
-
 ;;; Docker
 (use-package dockerfile-mode
   :mode "\\Dockerfile\\'"
@@ -1121,12 +1107,6 @@
     (use-package go-eldoc
       :ensure t)
 
-    (use-package company-go
-      :disabled t
-      :ensure t
-      :config
-      (add-to-list 'company-backends 'company-go))
-
     (load (concat (getenv "GOPATH") "/src/golang.org/x/tools/cmd/oracle/oracle.el"))
 
     (add-hook 'go-mode-hook #'bp-go-mode-hook)
@@ -1208,14 +1188,6 @@
         js-indent-level 2))
 
 
-;;; LESS
-(use-package less-css-mode
-  :mode "\\.less\\'"
-  :ensure t
-  :init
-  (setq css-indent-offset 2))
-
-
 ;;; SASS
 (use-package sass-mode
   :mode (("\\.sass\\'" . sass-mode)
@@ -1227,15 +1199,6 @@
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
   :ensure t)
-
-
-;;; Asciidoc
-(use-package adoc-mode
-  :disabled t
-  :mode "\\.adoc\\'"
-  :ensure t
-  :config
-  (add-hook 'adoc-mode-hook #'auto-fill-mode))
 
 
 ;;; OCaml
@@ -1365,19 +1328,6 @@
         (use-package bp-py-test-projects)))))
 
 
-;;; Purescript
-(use-package purescript-mode
-  :disabled t
-  :ensure t
-  :mode "\\.purs\\'"
-  :config
-  (progn
-    (add-hook 'purescript-mode-hook #'turn-on-purescript-indentation)
-
-    (bind-keys :map purescript-mode-map
-               ("C-j" . purescript-newline-and-indent))))
-
-
 ;;; REST
 (use-package restclient
   :mode ("\\.http\\'" . restclient-mode)
@@ -1422,38 +1372,6 @@
     (bind-keys :map ensime-mode-map
                ("C-c ." . ensime-edit-definition)
                ("C-c ," . ensime-pop-find-definition-stack))))
-
-
-;;; Scheme
-(use-package geiser
-  :disabled t
-  :ensure t
-  :init
-  (progn
-    (add-hook 'geiser-mode-hook #'paredit-mode)
-    (add-hook 'geiser-mode-hook #'rainbow-delimiters-mode)
-    (setq geiser-active-implementations '(chicken))))
-
-
-;;; Swift
-(use-package swift-mode
-  :disabled t
-  :ensure t
-  :mode "\\.swift\\'"
-  :init
-  (setq swift-indent-offset 2)
-  :config
-  (use-package company-sourcekit
-    :ensure t
-    :config
-    (add-to-list 'company-backends 'company-sourcekit)))
-
-
-;;; UrWeb
-(use-package urweb-mode
-  :disabled t
-  :load-path "/usr/local/share/emacs/site-lisp/urweb-mode"
-  :mode "\\.ur[ps]?\\'")
 
 
 ;;; Web
