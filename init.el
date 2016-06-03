@@ -461,13 +461,15 @@
 (use-package recentf
   :init
   (setq recentf-save-file (locate-user-emacs-file "recentf")
-        recentf-max-saved-items 1000
+        recentf-max-saved-items 100
         recentf-max-menu-items 10
         recentf-auto-cleanup 60)
   :config
   (progn
     (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
     (add-to-list 'recentf-exclude "MERGE_MSG\\'")
+    (add-to-list 'recentf-exclude "/elpa/")
+    (add-to-list 'recentf-exclude "company-statistics-cache.el")
 
     (recentf-mode +1)))
 
