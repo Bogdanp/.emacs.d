@@ -278,16 +278,12 @@
                ("fo" . other-frame)
                ("fc" . delete-frame)
 
-               ;; Helm
-               ("h" . helm-command-prefix)
-
                ;; Projectile
                ("p" . projectile-command-map)
 
                ;; Org
                ("oa"  . org-agenda)
-               ("oc"  . helm-org-capture-templates)
-               ("oh"  . helm-org-agenda-files-headings)
+               ("oc"  . org-capture)
                ("ota" . bp-org-archive-task-at-point)
 
                ;; Notmuch
@@ -396,50 +392,34 @@
 
     (bp-global-hl-line-mode)))
 
-(use-package helm
-  :diminish helm-mode
-  :ensure t
-  :bind (("C-;"     . helm-M-x)
-         ("C-x b"   . helm-mini)
-         ("C-x C-f" . helm-find-files)
-         ("C-x C-i" . helm-semantic-or-imenu))
+(use-package ido
+  :bind (("C-x C-i" . imenu))
+  :init
+  (progn
+    (setq ido-create-new-buffer 'always
+          ido-use-filename-at-point 'guess
+          ido-use-virtual-buffers t
+          ido-handle-duplicate-virtual-buffers 2
+          ido-max-prospects 10
+          ido-ignore-extensions t)
+
+    (add-hook 'after-init-hook #'ido-mode))
   :config
   (progn
-    (require 'helm-config)
+    (use-package ido-clever-match :ensure t)
+    (use-package ido-ubiquitous :ensure t)
+    (use-package ido-vertical-mode :ensure t)
 
-    (use-package helm-ag :ensure t)
-    (use-package helm-flx :ensure t)
+    (ido-clever-match-enable)
+    (ido-everywhere)
+    (ido-ubiquitous)
+    (ido-vertical-mode)))
 
-    ;; http://emacsist.com/10477
-    (add-to-list 'display-buffer-alist
-                 '("\\`\\*helm.*\\*\\'"
-                   (display-buffer-in-side-window)
-                   (inhibit-same-window . t)
-                   (window-height . 0.4)))
-
-    (setq helm-split-window-in-side-p t
-
-          helm-ff-newfile-prompt-p nil
-          helm-ff-skip-boring-files t
-
-          helm-buffers-fuzzy-matching t
-          helm-recentf-fuzzy-match t)
-
-    (helm-mode +1)
-    (helm-autoresize-mode +1)
-    (helm-flx-mode +1)
-
-    (bind-keys :map helm-map
-               ("C-w" . backward-kill-word))))
-
-(use-package ido
-  :init
-  (setq ido-create-new-buffer 'always
-        ido-use-filename-at-point 'guess
-        ido-use-virtual-buffers t
-        ido-handle-duplicate-virtual-buffers 2
-        ido-max-prospects 10
-        ido-ignore-extensions t))
+(use-package smex
+  :ensure t
+  :bind (("M-x" . smex)
+         ("M-X" . smex-major-mode-commands)
+         ("C-;" . smex)))
 
 (use-package mule
   :config
@@ -466,9 +446,11 @@
         recentf-auto-cleanup 60)
   :config
   (progn
+    (add-to-list 'recentf-exclude "/.virtualenvs/")
+    (add-to-list 'recentf-exclude "/elpa/")
     (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
     (add-to-list 'recentf-exclude "MERGE_MSG\\'")
-    (add-to-list 'recentf-exclude "/elpa/")
+    (add-to-list 'recentf-exclude "TAGS\\'")
     (add-to-list 'recentf-exclude "company-statistics-cache.el")
     (add-to-list 'recentf-exclude ".el.gz")
 
@@ -930,13 +912,7 @@
   :init
   (setq projectile-enable-caching t)
   :config
-  (progn
-    (use-package helm-projectile
-      :ensure t
-      :config
-      (helm-projectile-on))
-
-    (projectile-global-mode)))
+  (projectile-global-mode))
 
 
 ;;; Process management
@@ -1012,8 +988,9 @@
   :mode ("\\.elm\\'" . elm-mode)
   :init
   (setq elm-indent-offset 4
-        elm-tags-on-save t
-        elm-format-on-save t)
+        elm-format-on-save t
+        elm-sort-imports-on-save t
+        elm-tags-on-save t)
   :config
   (add-to-list 'company-backends 'company-elm))
 
@@ -1192,7 +1169,9 @@
 (use-package sass-mode
   :mode (("\\.sass\\'" . sass-mode)
          ("\\.scss\\'" . scss-mode))
-  :ensure t)
+  :ensure t
+  :init
+  (setq css-indent-offset 2))
 
 
 ;;; Markdown
