@@ -1095,9 +1095,13 @@
 
 
 ;;; Haskell
-;; A lot of good information here: vvv
-;; https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md#installing-and-setting-up-emacs
+(use-package intero
+  :ensure t
+  :init
+  (add-hook 'haskell-mode-hook #'intero-mode))
+
 (use-package haskell-mode
+  :disabled t
   :mode "\\.l?hs\\'"
   :ensure t
   :config
