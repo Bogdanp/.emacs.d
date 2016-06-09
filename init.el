@@ -308,10 +308,15 @@
 
 (use-package compile
   :preface
-  (defun bp-make-at (root-filename)
-    (interactive "sFilename: ")
-    (let ((default-directory (locate-dominating-file buffer-file-name root-filename)))
+  (defun bp-make-at (root-path)
+    (interactive "fFilename: ")
+
+    (let ((default-directory (locate-dominating-file buffer-file-name (f-filename root-path))))
       (compile "make")))
+
+  (defun bp-make-elm ()
+    (interactive)
+    (bp-make-at "elm-package.json"))
   :init
   (setq compilation-scroll-output t))
 
