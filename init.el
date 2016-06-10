@@ -701,6 +701,8 @@
   :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
          ("MERGE_MSG\\'"      . git-commit-mode))
   :bind ("C-c m" . magit-status)
+  :init
+  (setq magit-completing-read-function #'magit-ido-completing-read)
   :config
   (use-package fullframe
     :ensure t
