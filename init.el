@@ -1318,6 +1318,15 @@
         (use-package bp-py-test-projects)))))
 
 
+;;; Purescript
+(use-package purescript-mode
+  :ensure t
+  :config
+  (progn
+    (add-hook 'purescript-mode-hook #'turn-on-eldoc-mode)
+    (add-hook 'purescript-mode-hook #'turn-on-purescript-indent)))
+
+
 ;;; REST
 (use-package restclient
   :mode ("\\.http\\'" . restclient-mode)
