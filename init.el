@@ -284,18 +284,13 @@
                ;; Org
                ("oa"  . org-agenda)
                ("oc"  . org-capture)
-               ("ota" . bp-org-archive-task-at-point)
 
                ;; Notmuch
                ("mc" . compose-mail)
                ("mm" . notmuch)
                ("mt" . notmuch-tree)
                ("mi" . bp-notmuch-inbox)
-               ("mu" . bp-notmuch-unread)
-
-               ;; Winner
-               ("wu" . winner-undo)
-               ("wr" . winner-redo))
+               ("mu" . bp-notmuch-unread))
 
     (bind-key "SPC" evil-leader-prefix-map evil-normal-state-map)
     (bind-key "C-c C-\\" evil-leader-prefix-map)))
@@ -327,12 +322,7 @@
         dired-listing-switches "--group-directories-first -alh")
   :config
   (use-package dired+
-    :ensure t)
-
-  (use-package dired-narrow
-    :ensure t
-    :bind (:map dired-mode-map
-                ("/" . dired-narrow))))
+    :ensure t))
 
 (use-package electric
   :config
@@ -370,6 +360,12 @@
   (setq auto-save-file-name-transforms `((".*" ,(concat local-temp-dir "/\\1") t))
         backup-directory-alist         `((".*" . ,local-temp-dir))
         backup-by-copying t))
+
+(use-package ag
+  :ensure t
+  :init
+  (setq ag-highlight-search t
+        ag-reuse-buffers t))
 
 (use-package grep
   :commands (grep rgrep)
@@ -411,14 +407,12 @@
     (add-hook 'after-init-hook #'ido-mode))
   :config
   (progn
-    (use-package ido-clever-match :ensure t)
+    (use-package flx-ido :ensure t)
     (use-package ido-ubiquitous :ensure t)
-    (use-package ido-vertical-mode :ensure t)
 
-    (ido-clever-match-enable)
+    (flx-ido-mode)
     (ido-everywhere)
-    (ido-ubiquitous)
-    (ido-vertical-mode)))
+    (ido-ubiquitous)))
 
 (use-package smex
   :ensure t
@@ -717,54 +711,11 @@
 ;;; Org
 (use-package org
   :ensure t
-  :preface
-  (progn
-    (eval-when-compile
-      (declare-function org-cut-subtree "org")
-      (declare-function org-end-of-subtree "org")
-      (declare-function org-goto-first-child "org")
-      (declare-function org-goto-sibling "org")
-      (declare-function org-paste-subtree "org")
-      (declare-function outline-up-heading "outline"))
-
-    ;;; Archiving
-    (defun bp-org-level-of-heading-at-point ()
-      "Returns the level of the headline at point."
-      (length (car (split-string (thing-at-point 'line t) " "))))
-
-    (defun bp-org-archive-task-at-point ()
-      "Moves the task at point into the first heading of its parent
-    (which, by convention, should be an Archive heading)."
-      (interactive)
-      (save-excursion
-        (let ((start-level (bp-org-level-of-heading-at-point)))
-          (org-cut-subtree)
-
-          ;; Cutting the subtree might place us on a different level.
-          ;; Account for those cases.
-          (let ((current-level (bp-org-level-of-heading-at-point)))
-            (if (< current-level start-level)
-                (progn
-                  (org-goto-sibling 'previous)
-                  (dotimes (number (- start-level current-level 1))
-                    (org-end-of-subtree)
-                    (org-goto-first-child)))
-              (outline-up-heading (+ 1 (- current-level start-level)))))
-
-          ;; TODO: Turn this into a heading search?
-          (org-goto-first-child)
-
-          (let ((archive-level (bp-org-level-of-heading-at-point)))
-            (forward-line)
-            (org-paste-subtree (+ 1 archive-level)))))))
   :config
   (progn
     ;;; Contrib
     (use-package org-notmuch)
 
-    ;;; Plugins
-    (use-package ob-http
-      :ensure t)
 
     ;;; Misc
     ;; Paths to my org files
@@ -786,8 +737,6 @@
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((haskell . t)
-       (http    . t)
-       (latex   . t)
        (python  . t)
        (sh      . t)
        (dot     . t)))
@@ -869,12 +818,13 @@
 (use-package auto-complete
   :diminish auto-complete-mode
   :ensure t
+  :init
+  (setq ac-use-menu-map t)
   :config
   (progn
     (require 'auto-complete-config)
 
-    (global-auto-complete-mode -1)
-    (setq ac-use-menu-map t)))
+    (global-auto-complete-mode -1)))
 
 (use-package company
   :diminish company-mode
@@ -907,7 +857,6 @@
   :ensure t
   :init
   (add-hook 'prog-mode-hook #'flycheck-mode)
-  :config
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
   (setq-default flycheck-disabled-checkers '(sass)))
 
@@ -918,8 +867,7 @@
   :ensure t
   :init
   (setq projectile-enable-caching t)
-  :config
-  (projectile-global-mode))
+  (add-hook 'after-init-hook #'projectile-global-mode))
 
 
 ;;; Process management
@@ -935,11 +883,9 @@
   :ensure t)
 
 (use-package time
-  :config
-  (progn
-    (setq display-time-default-load-average nil)
-
-    (display-time-mode +1)))
+  :init
+  (setq display-time-default-load-average nil)
+  (add-hook 'after-init-hook #'display-time-mode))
 
 (use-package diminish
   :commands diminish
@@ -1252,9 +1198,6 @@
          ("SConstruct" . python-mode))
   :interpreter ("python" . python-mode)
   :preface
-  (eval-when-compile
-    (declare-function py-test-define-project "py-test"))
-
   (defun bp-apply-buffer-env (buffer-name)
     (with-current-buffer buffer-name
       (goto-char (point-min))
