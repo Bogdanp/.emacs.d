@@ -1377,6 +1377,7 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.html?\\'" . web-mode)
+         ("\\.mjml\\'"  . web-mode)
          ("\\.vue\\'"   . web-mode)
          ("\\.hbs\\'"   . web-mode)
          ("\\.eex\\'"   . web-mode)
