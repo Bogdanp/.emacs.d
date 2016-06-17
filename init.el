@@ -819,7 +819,8 @@
   :diminish auto-complete-mode
   :ensure t
   :init
-  (setq ac-use-menu-map t)
+  (setq ac-use-menu-map t
+        ac-delay 0.25)
   :config
   (progn
     (require 'auto-complete-config)
