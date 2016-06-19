@@ -312,6 +312,10 @@
   (defun bp-make-elm ()
     (interactive)
     (bp-make-at "elm-package.json"))
+
+  (defun bp-make ()
+    (interactive)
+    (bp-make-at "Makefile"))
   :init
   (setq compilation-scroll-output t))
 
