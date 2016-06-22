@@ -35,7 +35,7 @@
  indent-tabs-mode nil
 
  ;; When using tabs (Go), they should be 4 spaces long.
- tab-width 4
+ tab-width 2
 
  ;; Don't wrap long lines
  truncate-lines t)
