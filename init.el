@@ -944,6 +944,10 @@
     (bind-keys :map elixir-mode-map
                ("C-c ." . alchemist-goto-definition-at-point))))
 
+(use-package cedar-mode
+  :load-path "~/sandbox/cedar-mode"
+  :mode "\\.cedar\\'")
+
 
 ;;; Elm
 (use-package elm-mode
