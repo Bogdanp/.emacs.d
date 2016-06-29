@@ -868,7 +868,8 @@
   :init
   (add-hook 'prog-mode-hook #'flycheck-mode)
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
-  (setq-default flycheck-disabled-checkers '(sass)))
+  (setq-default flycheck-disabled-checkers '(sass))
+  (setq-default flycheck-flake8rc "setup.cfg"))
 
 
 ;;; File navigation
