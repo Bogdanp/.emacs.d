@@ -273,6 +273,7 @@
                ("\\" . evil-ex-nohighlight)
 
                ;; Misc
+               ("d"   . dash-at-point)
                ("i"   . bp-open-iterm)
                (",i"  . bp-find-init-file)
                ("bu"  . browse-url)
@@ -695,6 +696,10 @@
       :ensure t)
 
     (add-hook 'ibuffer-hook #'bp-ibuffer-hook)))
+
+
+(use-package dash-at-point
+  :ensure t)
 
 
 ;;; Git
