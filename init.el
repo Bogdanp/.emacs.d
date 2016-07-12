@@ -1284,8 +1284,15 @@
   :ensure t
   :config
   (progn
+    (use-package psci
+      :ensure t)
+
+    (use-package psc-ide
+      :ensure t)
+
     (add-hook 'purescript-mode-hook #'turn-on-eldoc-mode)
-    (add-hook 'purescript-mode-hook #'turn-on-purescript-indent)))
+    (add-hook 'purescript-mode-hook #'turn-on-purescript-indentation)
+    (add-hook 'purescript-mode-hook #'psc-ide-mode)))
 
 
 ;;; REST
