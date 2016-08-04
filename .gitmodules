@@ -25,3 +25,6 @@
 [submodule "vendor/twilight-bright-theme"]
 	path = vendor/twilight-bright-theme
 	url = https://github.com/Bogdanp/twilight-bright-theme.el.git
+[submodule "vendor/crystal-mode"]
+	path = vendor/crystal-mode
+	url = https://github.com/jpellerin/emacs-crystal-mode

@@ -925,6 +925,12 @@
         c-basic-offset 4))
 
 
+;;; Crystal
+(use-package crystal-mode
+  :load-path "vendor/crystal-mode"
+  :mode ("\\.cr\\'" . crystal-mode))
+
+
 ;;; Docker
 (use-package dockerfile-mode
   :mode "\\Dockerfile\\'"
