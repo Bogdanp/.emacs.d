@@ -128,6 +128,7 @@
   (require 'package))
 
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (add-to-list 'package-archives '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
 (package-initialize)
@@ -1309,18 +1310,16 @@
 
 ;;; Scala
 (use-package sbt-mode
-  :disabled t
   :commands sbt-start
   :ensure t)
 
-(use-package scala-mode2
-  :disabled t
+(use-package scala-mode
   :mode (("\\.scala\\'" . scala-mode)
          ("\\.sbt\\'"   . scala-mode))
   :ensure t)
 
 (use-package ensime
-  :disabled t
+  :pin melpa-stable
   :commands ensime-scala-mode-hook
   :ensure t
   :preface
