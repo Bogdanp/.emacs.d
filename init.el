@@ -418,10 +418,8 @@
     (add-hook 'after-init-hook #'ido-mode))
   :config
   (progn
-    (use-package flx-ido :ensure t)
     (use-package ido-ubiquitous :ensure t)
 
-    (flx-ido-mode)
     (ido-everywhere)
     (ido-ubiquitous)))
 
