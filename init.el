@@ -29,6 +29,8 @@
  mac-command-modifier 'hyper
  mac-mouse-wheel-smooth-scroll nil)
 
+(set-language-environment "utf-8")
+
 (setq-default
  ;;; Editing
  ;; Never use tabs.
@@ -924,6 +926,16 @@
         c-basic-offset 4))
 
 
+;;; Common Lisp
+(use-package slime
+  :ensure t
+  :init
+  (setq inferior-lisp-program "ccl64 -K utf-8"
+        slime-net-coding-system 'utf-8-unix)
+  :config
+  (slime-setup '(slime-fancy)))
+
+
 ;;; Crystal
 (use-package crystal-mode
   :load-path "vendor/crystal-mode"
@@ -968,7 +980,9 @@
   (setq elm-indent-offset 4
         elm-format-on-save t
         elm-sort-imports-on-save t
-        elm-tags-on-save t))
+        elm-tags-on-save t)
+
+  (add-to-list 'company-backends 'company-elm))
 
 
 ;;; Emacs lisp
@@ -981,12 +995,14 @@
   :diminish paredit-mode
   :ensure t
   :init
-  (add-hook 'emacs-lisp-mode-hook #'paredit-mode))
+  (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
+  (add-hook 'lisp-mode-hook #'paredit-mode))
 
 (use-package rainbow-delimiters
   :ensure t
   :init
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode))
 
 (use-package smartparens
   :diminish smartparens-mode
