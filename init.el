@@ -980,9 +980,7 @@
   (setq elm-indent-offset 4
         elm-format-on-save t
         elm-sort-imports-on-save t
-        elm-tags-on-save t)
-
-  (add-to-list 'company-backends 'company-elm))
+        elm-tags-on-save t))
 
 
 ;;; Emacs lisp
