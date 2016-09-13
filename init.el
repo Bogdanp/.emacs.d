@@ -1086,7 +1086,7 @@
 
 ;;; Haskell
 (use-package intero
-  :ensure t
+  :load-path "vendor/intero/elisp"
   :init
   (add-hook 'haskell-mode-hook #'intero-mode))
 

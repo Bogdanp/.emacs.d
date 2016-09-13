@@ -28,3 +28,6 @@
 [submodule "vendor/crystal-mode"]
 	path = vendor/crystal-mode
 	url = https://github.com/jpellerin/emacs-crystal-mode
+[submodule "vendor/intero"]
+	path = vendor/intero
+	url = https://github.com/commercialhaskell/intero
