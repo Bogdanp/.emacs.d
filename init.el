@@ -1074,10 +1074,11 @@
     (use-package go-eldoc
       :ensure t)
 
-    (load (concat (getenv "GOPATH") "/src/golang.org/x/tools/cmd/oracle/oracle.el"))
+    (load (concat (getenv "GOPATH") "/src/golang.org/x/tools/cmd/guru/go-guru.el"))
 
     (add-hook 'go-mode-hook #'bp-go-mode-hook)
     (add-hook 'go-mode-hook #'go-eldoc-setup)
+    (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
     (add-hook 'before-save-hook #'gofmt-before-save)
 
     (bind-keys :map go-mode-map
