@@ -458,6 +458,9 @@
 
 (use-package term
   :init
+  (defun bp-term-mode-hook ()
+    (setq-local scroll-margin 0))
+
   (defadvice term-line-mode (after enable-hl-line-in-term-line-mode)
     (hl-line-mode 1)
     (evil-normal-state))
@@ -625,6 +628,7 @@
           (switch-to-buffer buffer))))
 
     (add-hook 'server-visit-hook #'bp-server-visit-hook-for-term)
+    (add-hook 'term-mode-hook #'bp-term-mode-hook)
 
     (bind-keys :map term-raw-escape-map
                ("c"    . bp-term-add)
@@ -658,7 +662,6 @@
       :ensure t)
 
     (add-hook 'ibuffer-hook #'bp-ibuffer-hook)))
-
 
 
 ;;; Git
