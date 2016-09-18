@@ -391,7 +391,6 @@
      'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+")))
 
 (use-package hl-line
-  :disabled t
   :config
   (progn
     (define-global-minor-mode bp-global-hl-line-mode global-hl-line-mode
