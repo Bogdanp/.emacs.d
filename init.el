@@ -276,7 +276,6 @@
                ("\\" . evil-ex-nohighlight)
 
                ;; Misc
-               ("d"   . dash-at-point)
                ("i"   . bp-open-iterm)
                (",i"  . bp-find-init-file)
                ("bu"  . browse-url)
@@ -342,6 +341,7 @@
   (electric-indent-mode +1))
 
 (use-package erc
+  :disabled t
   :commands erc
   :init
   (setq
@@ -375,6 +375,7 @@
         backup-by-copying t))
 
 (use-package ag
+  :commands (ag)
   :ensure t
   :init
   (setq ag-highlight-search t
@@ -698,9 +699,6 @@
     (add-hook 'ibuffer-hook #'bp-ibuffer-hook)))
 
 
-(use-package dash-at-point
-  :ensure t)
-
 
 ;;; Git
 (use-package magit
@@ -725,104 +723,50 @@
 ;;; Org
 (use-package org
   :ensure t
+  :commands (org-agenda org-capture)
+  :mode ("\\.org\\'" . org-mode)
+  :preface
+  (defvar bp-org-dir (expand-file-name "~/Dropbox/Documents/Personal"))
+  (defvar bp-org-main-file (expand-file-name (concat bp-org-dir "/Bogdan.org")))
+  (defvar bp-org-agenda-files-path bp-org-dir)
   :config
   (progn
-    ;;; Contrib
-    (use-package org-notmuch)
-
-
-    ;;; Misc
-    ;; Paths to my org files
-    (defvar bp-org-dir (expand-file-name "~/Dropbox/Documents/Personal"))
-    (defvar bp-org-main-file (expand-file-name (concat bp-org-dir "/Bogdan.org")))
-
-
-    ;;; Completion
-    (setq org-outline-path-complete-in-steps nil)
-
-
-    ;;; Code blocks
-    ;; Highlight code in BEGIN_SRC-END_SRC blocks.
-    (setq org-src-fontify-natively t)
-
+    (use-package bp-org-capture-templates)
+    (use-package bp-org-agenda-commands)
 
     ;;; Babel
     ;; Allow these languages to be executed in org code blocks.
     (org-babel-do-load-languages
      'org-babel-load-languages
-     '((haskell . t)
-       (python  . t)
+     '((python  . t)
        (sh      . t)
        (dot     . t)))
 
-    ;; Make org-babel work w/ these languages.
-    (require 'ob-haskell)
-    (require 'ob-latex)
-
-
-    ;; Evaluate code in org files w/o asking for confirmation.
-    ;; Potentially dangerous but meh.
-    (setq org-confirm-babel-evaluate nil)
-
-
-    ;;; Capture
-    ;; Where to put captured stuff.
-    (setq org-default-notes-file bp-org-main-file)
-
-    ;; Capture templates.
-    (use-package bp-org-capture-templates)
-
-
-    ;;; Agenda
-    ;; Set up path to agenda files.
-    (defvar bp-org-agenda-files-path bp-org-dir)
-    (when (file-exists-p bp-org-agenda-files-path)
-      (setq org-agenda-files `(,bp-org-agenda-files-path)))
-
-    ;; Custom commands for easy filtering.
-    (use-package bp-org-agenda-commands)
-
-
-    ;;; TODOs
     (setq
+     ;;; Completion
+     org-outline-path-complete-in-steps nil
+
+     ;;; Code blocks
+     ;; Highlight code in BEGIN_SRC-END_SRC blocks.
+     org-src-fontify-natively t
+
+     ;;; Capture
+     ;; Where to put captured stuff.
+     org-default-notes-file bp-org-main-file
+
+     ;;; TODOs
      ;; Log the closing time of TODO items.
      org-log-done 'time
 
-     ;; Better todo states.
-     org-todo-keywords '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)"))
-
      ;; Refile anywhere.
-     org-refile-targets '((nil :maxlevel . 9)))
+     org-refile-targets '((nil :maxlevel . 9))
 
+     ;;; Agenda
+     ;; Set up path to agenda files.
+     org-agenda-files (list bp-org-agenda-files-path)
 
-    ;;; Reminders
-    ;; Code below mostly stolen from http://doc.norang.ca/org-mode.html#Reminders
-    (defun bp-org-agenda-to-appt ()
-      "Erase all current reminders and rebuild the list from the current agenda."
-      (interactive)
-      (setq appt-time-msg-list nil)
-      (org-agenda-to-appt))
-
-    (setq
-     ;; Plz don't ruin my window setup, org-agenda.
-     org-agenda-window-setup 'current-window
-
-     ;; Display appointment info in the modeline.
-     appt-display-mode-line t
-     appt-display-format 'echo)
-
-    ;; Rebuild reminders each time the agenda is displayed.
-    (add-hook 'org-finalize-agenda-hook #'bp-org-agenda-to-appt 'append)
-
-    ;; Activate appointments.
-    (appt-activate t)
-
-    ;; Reset appointments 1 minute after midnight.
-    (run-at-time "24:01" nil #'bp-org-agenda-to-appt)
-
-    ;; Setup appointments at startup.
-    (bp-org-agenda-to-appt)
-
+     ;; Don't ruin my window setup, org-agenda.
+     org-agenda-window-setup 'current-window)
 
     ;;; Text editing
     (add-hook 'org-mode-hook #'auto-fill-mode)))
@@ -927,6 +871,7 @@
 
 ;;; Common Lisp
 (use-package slime
+  :disabled t
   :ensure t
   :init
   (setq inferior-lisp-program "ccl64 -K utf-8"
@@ -949,10 +894,12 @@
 
 ;;; Erlang and Elixir
 (use-package erlang
+  :disabled t
   :mode ("\\.erl\\'" . erlang-mode)
   :ensure t)
 
 (use-package alchemist
+  :disabled t
   :mode ("\\.exs?\\'" . elixir-mode)
   :ensure t
   :init
@@ -1089,6 +1036,11 @@
   :load-path "vendor/intero/elisp"
   :init
   (add-hook 'haskell-mode-hook #'intero-mode))
+
+(use-package hindent
+  :ensure t
+  :init
+  (setq hindent-reformat-buffer-on-save t))
 
 (use-package haskell-mode
   :disabled t
@@ -1300,6 +1252,7 @@
 
 ;;; Purescript
 (use-package purescript-mode
+  :disabled t
   :ensure t
   :config
   (progn
