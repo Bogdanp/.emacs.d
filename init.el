@@ -168,31 +168,21 @@
     :config (load-theme 'twilight-bright t)))
 
 
-;;; Keybindings
-(use-package bind-key
-  :init
-  (bind-keys ("C-j" . newline-and-indent)
-             ("C-w" . backward-kill-word)
-             ("C--" . text-scale-decrease)
-             ("C-=" . text-scale-increase)
-             ("C-+" . text-scale-increase)
-             ("H-f" . bp-toggle-fullscreen)))
-
-
 ;;; EVIL
 (use-package evil
   :load-path "vendor/evil"
   :pin manual
   :preface
+  (defvar bp-evil-modes
+    '(fundamental-mode conf-mode css-mode evil-command-window-mode
+                       erlang-mode haskell-mode haskell-cabal-mode json-mode prog-mode
+                       purescript-mode restclient-mode rust-mode text-mode
+                       sass-mode tuareg-mode web-mode yaml-mode)
+    "The list of modes that should default to normal mode.  All modes
+    derived from these will also default to evil normal mode.")
+
   (defun bp-apply-evil-mode-hook ()
-    (if (apply #'derived-mode-p '(fundamental-mode
-                                  conf-mode css-mode
-                                  evil-command-window-mode
-                                  erlang-mode haskell-mode haskell-cabal-mode
-                                  json-mode prog-mode purescript-mode
-                                  restclient-mode rust-mode text-mode
-                                  sass-mode tuareg-mode web-mode
-                                  yaml-mode))
+    (if (apply #'derived-mode-p bp-evil-modes)
         (evil-normal-state)
       (evil-emacs-state)))
 
@@ -264,6 +254,13 @@
     (advice-add #'evil-generate-mode-line-tag :around #'bp-generate-mode-line-tag)
     (evil-mode +1)
 
+    (bind-keys ("C-j" . newline-and-indent)
+               ("C-w" . backward-kill-word)
+               ("C--" . text-scale-decrease)
+               ("C-=" . text-scale-increase)
+               ("C-+" . text-scale-increase)
+               ("H-f" . bp-toggle-fullscreen))
+
     (bind-keys :map evil-insert-state-map
                ("C-x C-p" . evil-complete-previous-line)
                ("C-x C-n" . evil-complete-next-line))
@@ -271,34 +268,22 @@
     (bind-keys :map evil-normal-state-map
                :prefix "\\"
                :prefix-map evil-leader-prefix-map
-
-               ;; Evil
-               ("\\" . evil-ex-nohighlight)
-
-               ;; Misc
+               ("SPC" . recompile)
+               ("\\"  . evil-ex-nohighlight)
                ("i"   . bp-open-iterm)
                (",i"  . bp-find-init-file)
                ("bu"  . browse-url)
-               ("SPC" . recompile)
-
-               ;; Frames
-               ("fn" . make-frame-command)
-               ("fo" . other-frame)
-               ("fc" . delete-frame)
-
-               ;; Projectile
-               ("p" . projectile-command-map)
-
-               ;; Org
+               ("fn"  . make-frame-command)
+               ("fo"  . other-frame)
+               ("fc"  . delete-frame)
+               ("p"   . projectile-command-map)
                ("oa"  . org-agenda)
                ("oc"  . org-capture)
-
-               ;; Notmuch
-               ("mc" . compose-mail)
-               ("mm" . notmuch)
-               ("mt" . notmuch-tree)
-               ("mi" . bp-notmuch-inbox)
-               ("mu" . bp-notmuch-unread))
+               ("mc"  . compose-mail)
+               ("mm"  . notmuch)
+               ("mt"  . notmuch-tree)
+               ("mi"  . bp-notmuch-inbox)
+               ("mu"  . bp-notmuch-unread))
 
     (bind-key "SPC" evil-leader-prefix-map evil-normal-state-map)
     (bind-key "C-c C-\\" evil-leader-prefix-map)))
@@ -339,29 +324,6 @@
 (use-package electric
   :config
   (electric-indent-mode +1))
-
-(use-package erc
-  :disabled t
-  :commands erc
-  :init
-  (setq
-   ;; Default config.
-   erc-server "irc.freenode.net"
-   erc-port 6667
-   erc-nick "bogdanp"
-   erc-user-full-name user-full-name
-
-   ;; Highlight these things in incoming messages.
-   erc-keywords '("bogdanp")
-
-   ;; Autojoin these channels on freenode.
-   erc-autojoin-channels-alist '(("freenode.net" "#emacs" "#erc" "#haskell" "#python" "#scala"
-                                  "#purescript" "#pixie-lang" "#elm" "#elixir-lang"))
-
-   ;; Behave like a "normal" IRC client.
-   erc-kill-buffer-on-part t
-   erc-kill-queries-on-quit t
-   erc-kill-server-buffer-on-quit t))
 
 (use-package etags
   :init
@@ -461,7 +423,6 @@
     (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
     (add-to-list 'recentf-exclude "MERGE_MSG\\'")
     (add-to-list 'recentf-exclude "TAGS\\'")
-    (add-to-list 'recentf-exclude "company-statistics-cache.el")
     (add-to-list 'recentf-exclude ".el.gz")
 
     (recentf-mode +1)))
@@ -758,6 +719,9 @@
      ;; Log the closing time of TODO items.
      org-log-done 'time
 
+     ;; Better todo states.
+     org-todo-keywords '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)"))
+
      ;; Refile anywhere.
      org-refile-targets '((nil :maxlevel . 9))
 
@@ -790,17 +754,11 @@
   :ensure t
   :init
   (progn
-    (setq company-idle-delay 0.125)
+    (setq company-idle-delay 0.25)
 
     (add-hook 'after-init-hook #'global-company-mode))
   :config
-  (progn
-    (use-package company-statistics
-      :ensure t
-      :init
-      (add-hook 'after-init-hook #'company-statistics-mode))
-
-    (bind-key "C-c C-y" #'company-yasnippet)))
+  (bind-key "C-c C-y" #'company-yasnippet))
 
 (use-package yasnippet
   :commands (yas-minor-mode yas-reload-all)
@@ -869,53 +827,16 @@
         c-basic-offset 4))
 
 
-;;; Common Lisp
-(use-package slime
-  :disabled t
-  :ensure t
-  :init
-  (setq inferior-lisp-program "ccl64 -K utf-8"
-        slime-net-coding-system 'utf-8-unix)
-  :config
-  (slime-setup '(slime-fancy)))
-
-
-;;; Crystal
-(use-package crystal-mode
-  :load-path "vendor/crystal-mode"
-  :mode ("\\.cr\\'" . crystal-mode))
+;;; Cedar
+(use-package cedar-mode
+  :load-path "~/sandbox/cedar-mode"
+  :mode "\\.cedar\\'")
 
 
 ;;; Docker
 (use-package dockerfile-mode
   :mode "\\Dockerfile\\'"
   :ensure t)
-
-
-;;; Erlang and Elixir
-(use-package erlang
-  :disabled t
-  :mode ("\\.erl\\'" . erlang-mode)
-  :ensure t)
-
-(use-package alchemist
-  :disabled t
-  :mode ("\\.exs?\\'" . elixir-mode)
-  :ensure t
-  :init
-  (add-hook 'elixir-mode-hook #'alchemist-mode)
-  (add-hook 'elixir-mode-hook #'yas-minor-mode)
-  :config
-  (progn
-    (setq alchemist-goto-erlang-source-dir (expand-file-name "~/sandbox/erlang-otp")
-          alchemist-goto-elixir-source-dir (expand-file-name "~/sandbox/elixir"))
-
-    (bind-keys :map elixir-mode-map
-               ("C-c ." . alchemist-goto-definition-at-point))))
-
-(use-package cedar-mode
-  :load-path "~/sandbox/cedar-mode"
-  :mode "\\.cedar\\'")
 
 
 ;;; Elm
@@ -964,16 +885,16 @@
     (require 'smartparens-config)
 
     (sp-with-modes
-     'org-mode
-     (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
-     (sp-local-pair "/" "/" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-     (sp-local-pair "~" "~" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-     (sp-local-pair "=" "=" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC"))))
+        'org-mode
+      (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
+      (sp-local-pair "/" "/" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
+      (sp-local-pair "~" "~" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
+      (sp-local-pair "=" "=" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC"))))
 
     (sp-with-modes
-     'scala-mode
-     (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET")))
-     (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))))
+        'scala-mode
+      (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET")))
+      (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))))
 
     (bind-keys :map smartparens-mode-map
                ("C-M-a" . sp-beginning-of-sexp)
@@ -1042,55 +963,6 @@
   :init
   (setq hindent-reformat-buffer-on-save t))
 
-(use-package haskell-mode
-  :disabled t
-  :mode "\\.l?hs\\'"
-  :ensure t
-  :config
-  (progn
-    (require 'haskell-interactive-mode)
-    (require 'haskell-process)
-
-    (use-package company-ghci
-      :ensure t
-      :config
-      (add-to-list 'company-backends 'company-ghci))
-
-    (custom-set-variables
-     ;; Haskell Process
-     '(haskell-process-suggest-remove-import-lines t)
-     '(haskell-process-auto-import-loaded-modules t)
-     '(haskell-process-log t)
-
-     ;; Haskell Interactive
-     '(haskell-interactive-mode-do-fast-keys t)
-     '(haskell-interactive-mode-eval-pretty nil)
-     '(haskell-interactive-mode-include-file-name nil)
-
-     ;; Misc
-     '(haskell-stylish-on-save t)
-     '(haskell-notify-p t)
-     '(haskell-tags-on-save t))
-
-    (add-hook 'haskell-mode-hook #'haskell-doc-mode)
-    (add-hook 'haskell-mode-hook #'haskell-decl-scan-mode)
-    (add-hook 'haskell-mode-hook #'haskell-indentation-mode)
-    (add-hook 'haskell-mode-hook #'interactive-haskell-mode)
-    (add-hook 'haskell-mode-hook #'rainbow-delimiters-mode)
-
-    (bind-keys :map haskell-mode-map
-               ;; Interactive
-               ("C-c C-z" . haskell-interactive-switch)
-               ("C-c C-b" . haskell-interactive-switch)
-               ("C-c C-l" . haskell-process-load-file)
-               ("C-c C-t" . haskell-process-do-type)
-               ("C-c C-i" . haskell-process-do-info)
-
-               ;; Misc
-               ("C-j" . haskell-indentation-newline-and-indent)
-               ("C-c ." . haskell-mode-jump-to-def-or-tag)
-               ("C-c M-l" . haskell-process-reload-devel-main))))
-
 
 ;;; Javascript
 (use-package js2-mode
@@ -1157,27 +1029,6 @@
     (add-hook 'tuareg-mode-hook #'merlin-mode)
     (add-hook 'tuareg-mode-hook #'flycheck-ocaml-setup)
     (add-hook 'tuareg-mode-hook #'utop-minor-mode)))
-
-
-;;; PHP
-(use-package php-mode
-  :disabled t
-  :ensure t
-  :mode "\\.php\\'"
-  :config
-  (progn
-    (setq php-lineup-cascaded-calls t)
-
-    (use-package ac-php
-      :ensure t
-      :config
-      (progn
-        (require 'ac-php-company)
-        (add-to-list 'company-backends 'company-ac-php-backend)))
-
-    (add-hook 'php-mode-hook #'php-enable-psr2-coding-style)
-    (add-hook 'php-mode-hook #'subword-mode)
-    (add-hook 'php-mode-hook #'yas-minor-mode)))
 
 
 ;;; Python
@@ -1249,22 +1100,6 @@
 
         (use-package bp-py-test-projects)))))
 
-
-;;; Purescript
-(use-package purescript-mode
-  :disabled t
-  :ensure t
-  :config
-  (progn
-    (use-package psci
-      :ensure t)
-
-    (use-package psc-ide
-      :ensure t)
-
-    (add-hook 'purescript-mode-hook #'turn-on-eldoc-mode)
-    (add-hook 'purescript-mode-hook #'turn-on-purescript-indentation)
-    (add-hook 'purescript-mode-hook #'psc-ide-mode)))
 
 
 ;;; REST
