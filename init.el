@@ -294,6 +294,9 @@
 
 (use-package compile
   :preface
+  (defun bp-compilation-mode-hook ()
+    (setq-local scroll-margin 0))
+
   (defun bp-make-at (root-path)
     (interactive "fFilename: ")
 
@@ -308,7 +311,8 @@
     (interactive)
     (bp-make-at "Makefile"))
   :init
-  (setq compilation-scroll-output t))
+  (setq compilation-scroll-output t)
+  (add-hook 'compilation-mode-hook #'bp-compilation-mode-hook))
 
 (use-package dired
   :commands dired
