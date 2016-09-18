@@ -88,7 +88,7 @@
  visible-bell nil
 
  ;; Make scrolling behave like it does in VIM.
- scroll-margin 0
+ scroll-margin 3
  scroll-step 1
  scroll-conservatively 10000
  scroll-preserve-screen-position 1
