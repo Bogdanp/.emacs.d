@@ -607,14 +607,6 @@
   (add-hook 'after-init-hook #'projectile-global-mode))
 
 
-;;; Process management
-(use-package prodigy
-  :bind (("C-c P" . prodigy))
-  :ensure t
-  :config
-  (use-package bp-prodigy-services))
-
-
 ;;; Miscellaneous
 (use-package s
   :ensure t)
