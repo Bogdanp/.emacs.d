@@ -206,9 +206,16 @@
     (interactive)
     (find-file (locate-user-emacs-file "init.el")))
 
+  (defun bp--open-app (name)
+    (do-applescript (format "tell application \"%s\" to activate" name)))
+
   (defun bp-open-iterm ()
     (interactive)
-    (do-applescript "tell application \"iTerm2\" to activate"))
+    (bp--open-app "iTerm"))
+
+  (defun bp-open-chrome ()
+    (interactive)
+    (bp--open-app "Google Chrome"))
   :init
   (setq evil-search-module #'evil-search
         evil-magic 'very-magic)
@@ -256,6 +263,7 @@
 
     (bind-keys ("C-c C-\\" . evil-leader-prefix-map)
                ("C-c M-a"  . bp-open-iterm)
+               ("C-c M-c"  . bp-open-chrome)
                ("C-j"      . newline-and-indent)
                ("C-w"      . backward-kill-word)
                ("C--"      . text-scale-decrease)
