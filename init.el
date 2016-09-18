@@ -740,18 +740,6 @@
 
 
 ;;; Code completion
-(use-package auto-complete
-  :diminish auto-complete-mode
-  :ensure t
-  :init
-  (setq ac-use-menu-map t
-        ac-delay 0.25)
-  :config
-  (progn
-    (require 'auto-complete-config)
-
-    (global-auto-complete-mode -1)))
-
 (use-package company
   :diminish company-mode
   :ensure t
@@ -928,9 +916,6 @@
   :mode "\\.go\\'"
   :preface
   (defun bp-go-mode-hook ()
-    (auto-complete-mode +1)
-    (company-mode -1)
-
     ;; Fixes fill-region over comments: https://github.com/dominikh/go-mode.el/issues/119
     (set (make-local-variable 'adaptive-fill-regexp) "[   ]*\\(//+\\|\\**\\)[     ]*\\([  ]*\\([-–!|#%;>*·•‣⁃◦]+[  ]*\\)*\\)")
     (set (make-local-variable 'compile-command) "go install -v; and go test -v; and go vet"))
@@ -938,8 +923,10 @@
   (setq gofmt-command "goimports")
   :config
   (progn
-    (use-package go-autocomplete
-      :ensure t)
+    (use-package company-go
+      :ensure t
+      :config
+      (add-to-list 'company-backends #'company-go))
 
     (use-package go-eldoc
       :ensure t)
@@ -949,6 +936,7 @@
     (add-hook 'go-mode-hook #'bp-go-mode-hook)
     (add-hook 'go-mode-hook #'go-eldoc-setup)
     (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
+    (add-hook 'go-mode-hook #'yas-minor-mode)
     (add-hook 'before-save-hook #'gofmt-before-save)
 
     (bind-keys :map go-mode-map
@@ -1288,3 +1276,20 @@
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(elpy-modules
+   (quote
+    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-sane-defaults)))
+ '(package-selected-packages
+   (quote
+    (company-go go-company which-key yaml-mode web-mode utop tuareg smex smartparens sass-mode restclient rainbow-delimiters py-test projectile prodigy paredit notmuch markdown-mode magit lua-mode json-mode js2-mode ido-ubiquitous ibuffer-vc hindent haskell-mode go-eldoc go-autocomplete gnus-alias git-timemachine fullframe flycheck-ocaml flx fish-mode exec-path-from-shell evil esup ensime elpy dockerfile-mode dired+ diminish ag))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
