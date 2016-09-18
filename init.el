@@ -1101,8 +1101,9 @@
         (setq py-test-*mode-line-face-shenanigans-on* t)
         (setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec")
 
-        (use-package bp-py-test-projects)))))
+        (use-package bp-py-test-projects)))
 
+    (add-hook 'python-mode-hook #'yas-minor-mode)))
 
 
 ;;; REST
