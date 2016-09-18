@@ -254,7 +254,8 @@
     (advice-add #'evil-generate-mode-line-tag :around #'bp-generate-mode-line-tag)
     (evil-mode +1)
 
-    (bind-keys ("C-j" . newline-and-indent)
+    (bind-keys ("C-c C-\\" . evil-leader-prefix-map)
+               ("C-j" . newline-and-indent)
                ("C-w" . backward-kill-word)
                ("C--" . text-scale-decrease)
                ("C-=" . text-scale-increase)
@@ -266,7 +267,7 @@
                ("C-x C-n" . evil-complete-next-line))
 
     (bind-keys :map evil-normal-state-map
-               :prefix "\\"
+               :prefix "SPC"
                :prefix-map evil-leader-prefix-map
                ("SPC" . recompile)
                ("\\"  . evil-ex-nohighlight)
@@ -283,10 +284,7 @@
                ("mm"  . notmuch)
                ("mt"  . notmuch-tree)
                ("mi"  . bp-notmuch-inbox)
-               ("mu"  . bp-notmuch-unread))
-
-    (bind-key "SPC" evil-leader-prefix-map evil-normal-state-map)
-    (bind-key "C-c C-\\" evil-leader-prefix-map)))
+               ("mu"  . bp-notmuch-unread))))
 
 
 ;;; Builtins
