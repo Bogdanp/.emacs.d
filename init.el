@@ -1276,20 +1276,3 @@
 
 (provide 'init)
 ;;; init.el ends here
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(elpy-modules
-   (quote
-    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-sane-defaults)))
- '(package-selected-packages
-   (quote
-    (company-go go-company which-key yaml-mode web-mode utop tuareg smex smartparens sass-mode restclient rainbow-delimiters py-test projectile prodigy paredit notmuch markdown-mode magit lua-mode json-mode js2-mode ido-ubiquitous ibuffer-vc hindent haskell-mode go-eldoc go-autocomplete gnus-alias git-timemachine fullframe flycheck-ocaml flx fish-mode exec-path-from-shell evil esup ensime elpy dockerfile-mode dired+ diminish ag))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
