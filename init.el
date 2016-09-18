@@ -208,7 +208,7 @@
 
   (defun bp-open-iterm ()
     (interactive)
-    (call-process-shell-command "open -a /Applications/iTerm.app"))
+    (do-applescript "tell application \"iTerm2\" to activate"))
   :init
   (setq evil-search-module #'evil-search
         evil-magic 'very-magic)
@@ -255,12 +255,13 @@
     (evil-mode +1)
 
     (bind-keys ("C-c C-\\" . evil-leader-prefix-map)
-               ("C-j" . newline-and-indent)
-               ("C-w" . backward-kill-word)
-               ("C--" . text-scale-decrease)
-               ("C-=" . text-scale-increase)
-               ("C-+" . text-scale-increase)
-               ("H-f" . bp-toggle-fullscreen))
+               ("C-c M-a"  . bp-open-iterm)
+               ("C-j"      . newline-and-indent)
+               ("C-w"      . backward-kill-word)
+               ("C--"      . text-scale-decrease)
+               ("C-="      . text-scale-increase)
+               ("C-+"      . text-scale-increase)
+               ("H-f"      . bp-toggle-fullscreen))
 
     (bind-keys :map evil-insert-state-map
                ("C-x C-p" . evil-complete-previous-line)
@@ -457,189 +458,6 @@
         smtpmail-smtp-server "smtp.gmail.com"
         smtpmail-smtp-service 587
         smtpmail-debug-info t))
-
-(use-package term
-  :init
-  (defun bp-term-mode-hook ()
-    (setq-local scroll-margin 0))
-
-  (defadvice term-line-mode (after enable-hl-line-in-term-line-mode)
-    (hl-line-mode 1)
-    (evil-normal-state))
-
-  (defadvice term-char-mode (after disable-hl-line-in-term-char-mode)
-    (hl-line-mode 0)
-    (evil-emacs-state))
-  :config
-  (progn
-    ;;; Zipper
-    (cl-defstruct zipper lhs curr rhs)
-
-    (defun zipper-append (zipper x)
-      "Append to ZIPPER the value of X."
-      (setf (zipper-rhs zipper)
-            (reverse (cons x (reverse (zipper-rhs zipper))))))
-
-    (defun zipper-drop (zipper)
-      "Drop the current element from ZIPPER."
-      (setf (zipper-curr zipper) nil)
-      (zipper-next zipper))
-
-    (defun zipper-beginning (zipper)
-      "Goto the beginning of ZIPPER."
-      (setf (zipper-rhs zipper)
-            (append (reverse (cons (zipper-curr zipper)
-                                   (zipper-lhs zipper)))
-                    (zipper-rhs zipper)))
-      (setf (zipper-curr zipper) nil)
-      (setf (zipper-lhs zipper) nil))
-
-    (defun zipper-end (zipper)
-      "Goto the end of ZIPPER."
-      (setf (zipper-lhs zipper)
-            (append (reverse (cons (zipper-curr zipper)
-                                   (zipper-rhs zipper)))
-                    (zipper-lhs zipper)))
-      (setf (zipper-rhs zipper) nil)
-      (setf (zipper-curr zipper)
-            (car (zipper-lhs zipper)))
-      (setf (zipper-lhs zipper)
-            (cdr (zipper-lhs zipper))))
-
-    (defmacro defmover (name f g)
-      "Define a zipper modifier function called NAME.
-
-      F is where data gets moved to.
-      G is where data gets moved from."
-      `(defun ,name (zipper)
-         (when (funcall ,f zipper)
-           (let ((x  (car (funcall ,f zipper)))
-                 (xs (cdr (funcall ,f zipper))))
-
-             (when (zipper-curr zipper)
-               (setf (,(cadr g) zipper)
-                     (cons (zipper-curr zipper)
-                           (funcall ,g zipper))))
-
-             (setf (zipper-curr zipper) x)
-             (setf (,(cadr f) zipper) xs)))
-         (zipper-curr zipper)))
-
-    (defmover zipper-next #'zipper-rhs #'zipper-lhs)
-    (defmover zipper-prev #'zipper-lhs #'zipper-rhs)
-
-    ;;; Term
-    (require 'ansi-color)
-
-    (defconst bp-term-shell "fish"
-      "The path to the shell that should be run.")
-
-    (defvar bp-term-previous-window-configuration nil
-      "Holds the previous window configuration.")
-
-    (defvar bp-term-current-term-buffer nil
-      "Holds the current term buffer.")
-
-    (defvar bp-term-terms
-      (make-zipper :lhs  nil
-                   :rhs  nil
-                   :curr nil)
-      "A zipper for all of the existing terms.")
-
-    (defun bp-term-sentinel (process event)
-      (bp-term-kill))
-
-    (defun bp-maybe-switch-to-buffer (buffer)
-      "Switch to BUFFER iff it is non-nil."
-      (when buffer
-        (switch-to-buffer buffer)))
-
-    (defun bp-term-add ()
-      "Add a new terminal and jump to it."
-      (interactive)
-      (let ((default-directory (expand-file-name "~/")))
-        (zipper-end bp-term-terms)
-        (zipper-append bp-term-terms (ansi-term bp-term-shell))
-        (bp-term-next)
-        (set-process-sentinel (get-buffer-process bp-term-current-term-buffer) #'bp-term-sentinel)))
-
-    (defun bp-term-kill ()
-      "Kill the current terminal."
-      (interactive)
-      (cond
-       ((>= (length (zipper-rhs bp-term-terms)) 1)
-        (let ((buffer (zipper-drop bp-term-terms)))
-          (kill-buffer bp-term-current-term-buffer)
-          (setq bp-term-current-term-buffer buffer)
-          (bp-maybe-switch-to-buffer buffer)))
-
-       (t
-        (zipper-drop bp-term-terms)
-        (kill-buffer bp-term-current-term-buffer)
-        (bp-term-prev)
-        (unless bp-term-current-term-buffer
-          (bp-term-toggle)))))
-
-    (defun bp-term-next ()
-      "Goto the next terminal in the zipper."
-      (interactive)
-      (let ((buffer (zipper-next bp-term-terms)))
-        (setq bp-term-current-term-buffer buffer)
-        (bp-maybe-switch-to-buffer buffer)))
-
-    (defun bp-term-prev ()
-      "Goto the previous terminal in the zipper."
-      (interactive)
-      (let ((buffer (zipper-prev bp-term-terms)))
-        (setq bp-term-current-term-buffer buffer)
-        (bp-maybe-switch-to-buffer buffer)))
-
-    (defun bp-term-fullscreen ()
-      "Make the term fullscreen."
-      (setq bp-term-previous-window-configuration (current-window-configuration))
-      (delete-other-windows)
-      (if bp-term-current-term-buffer
-          (bp-maybe-switch-to-buffer bp-term-current-term-buffer)
-        (bp-term-add)
-        (setq bp-term-current-term-buffer (zipper-curr bp-term-terms))))
-
-    (defun bp-term-toggle ()
-      "Toggle between the current window config and a terminal."
-      (interactive)
-      (if bp-term-previous-window-configuration
-          (progn
-            (set-window-configuration bp-term-previous-window-configuration)
-            (setq bp-term-previous-window-configuration nil))
-        (bp-term-fullscreen)))
-
-    (defun bp-term-clipboard-paste ()
-      "Paste the contents of the clipboard into the current term."
-      (interactive)
-      (term-send-raw-string (or (evil-get-register ?+) "")))
-
-    ;;; Server
-    (defun bp-server-visit-hook-for-term ()
-      "Most of the time I call `emacsclient' I'll be toggled-into `bp-term-**'.
-
-      I don't want calling `emacsclient' to break that configuration
-      so this hook works around that by toggling out of that
-      configuration before switching to the new buffer."
-      (let ((buffer (current-buffer)))
-        (when bp-term-previous-window-configuration
-          (bp-term-toggle)
-          (switch-to-buffer buffer))))
-
-    (add-hook 'server-visit-hook #'bp-server-visit-hook-for-term)
-    (add-hook 'term-mode-hook #'bp-term-mode-hook)
-
-    (bind-keys :map term-raw-escape-map
-               ("c"    . bp-term-add)
-               ("\C-k" . bp-term-kill)
-               ("\C-n" . bp-term-next)
-               ("\C-p" . bp-term-prev)
-               ("\C-y" . bp-term-clipboard-paste))
-
-    (bind-keys ("C-c M-a" . bp-term-toggle))))
 
 (use-package uniquify
   :init
