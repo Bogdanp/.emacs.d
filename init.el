@@ -672,13 +672,15 @@
   :ensure t
   :init
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
-  (add-hook 'lisp-mode-hook #'paredit-mode))
+  (add-hook 'lisp-mode-hook #'paredit-mode)
+  (add-hook 'scheme-mode-hook #'paredit-mode))
 
 (use-package rainbow-delimiters
   :ensure t
   :init
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode))
+  (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'scheme-mode-hook #'rainbow-delimiters-mode))
 
 (use-package smartparens
   :diminish smartparens-mode
@@ -761,6 +763,12 @@
 
     (bind-keys :map go-mode-map
                ("C-c ." . godef-jump))))
+
+
+;;; Guile
+(use-package geiser
+  :commands run-geiser
+  :ensure t)
 
 
 ;;; Haskell
@@ -1096,3 +1104,17 @@
 
 (provide 'init)
 ;;; init.el ends here
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (geiser yaml-mode which-key web-mode utop tuareg smex smartparens sass-mode restclient rainbow-delimiters py-test projectile paredit notmuch markdown-mode magit lua-mode json-mode js2-mode ido-ubiquitous ibuffer-vc hindent haskell-mode go-eldoc gnus-alias git-timemachine fullframe flycheck-ocaml flx fish-mode exec-path-from-shell evil esup ensime elpy dockerfile-mode dired+ diminish company-go ag))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
