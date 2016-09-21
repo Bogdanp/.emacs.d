@@ -293,7 +293,8 @@
                ("mm"  . notmuch)
                ("mt"  . notmuch-tree)
                ("mi"  . bp-notmuch-inbox)
-               ("mu"  . bp-notmuch-unread))))
+               ("mu"  . bp-notmuch-unread)
+               ("xf"  . xref-find-definitions))))
 
 
 ;;; Builtins
