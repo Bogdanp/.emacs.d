@@ -1106,10 +1106,5 @@
                ("T" . bp-notmuch-todo)
                ("d" . bp-notmuch-trash))))
 
-(use-package which-key
-  :ensure t
-  :init
-  (add-hook 'after-init-hook #'which-key-mode))
-
 (provide 'init)
 ;;; init.el ends here
