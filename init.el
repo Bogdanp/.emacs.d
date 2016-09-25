@@ -607,9 +607,16 @@
 (use-package projectile
   :diminish projectile-mode
   :ensure t
+  :preface
+  (defun bp-projectile-find-file-hook ()
+    (let ((name (projectile-project-name)))
+      (when (and (not (equal name bp-current-python-env))
+                 (-contains-p (pyvenv-virtualenv-list) name))
+          (bp-workon name))))
   :init
   (setq projectile-enable-caching t)
-  (add-hook 'after-init-hook #'projectile-global-mode))
+  (add-hook 'after-init-hook #'projectile-global-mode)
+  (add-hook 'projectile-find-file-hook #'bp-projectile-find-file-hook))
 
 
 ;;; Miscellaneous
@@ -862,6 +869,8 @@
          ("SConstruct" . python-mode))
   :interpreter ("python" . python-mode)
   :preface
+  (defvar bp-current-python-env nil)
+
   (defun bp-apply-buffer-env (buffer-name)
     (with-current-buffer buffer-name
       (goto-char (point-min))
@@ -886,6 +895,7 @@
        output-buffer
        error-buffer)
       (bp-apply-buffer-env output-buffer)
+      (setq bp-current-python-env name)
       (message (concat "Activated virtualenv " name))))
   :config
   (progn
