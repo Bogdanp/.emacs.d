@@ -793,7 +793,8 @@
 (use-package hindent
   :ensure t
   :init
-  (setq hindent-reformat-buffer-on-save t))
+  (setq hindent-reformat-buffer-on-save t)
+  (add-hook 'haskell-mode-hook #'hindent-mode))
 
 
 ;;; Javascript
