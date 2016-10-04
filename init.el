@@ -393,7 +393,8 @@
           ido-use-virtual-buffers t
           ido-handle-duplicate-virtual-buffers 2
           ido-max-prospects 10
-          ido-ignore-extensions t)
+          ido-ignore-extensions t
+          ido-auto-merge-work-directories-length -1)
 
     (add-hook 'after-init-hook #'ido-mode))
   :config
