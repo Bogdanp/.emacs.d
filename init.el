@@ -940,6 +940,18 @@
     (add-hook 'python-mode-hook #'yas-minor-mode)))
 
 
+;;; Purescript
+(use-package purescript-mode
+  :ensure t
+  :config
+  (progn
+    (use-package psc-ide
+      :load-path "vendor/psc-ide")
+
+    (add-hook 'purescript-mode-hook #'psc-ide-mode)
+    (add-hook 'purescript-mode-hook #'turn-on-purescript-indentation)))
+
+
 ;;; REST
 (use-package restclient
   :mode ("\\.http\\'" . restclient-mode)
