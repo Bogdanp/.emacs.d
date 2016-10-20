@@ -789,9 +789,11 @@
 (use-package intero
   :load-path "vendor/intero/elisp"
   :init
+  (setq haskell-stylish-on-save t)
   (add-hook 'haskell-mode-hook #'intero-mode))
 
 (use-package hindent
+  :disabled t
   :ensure t
   :init
   (setq hindent-reformat-buffer-on-save t)
