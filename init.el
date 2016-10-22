@@ -960,6 +960,25 @@
   :ensure t)
 
 
+;;; Rust
+(use-package rust-mode
+  :mode ("\\.rs\\'" . rust-mode)
+  :ensure t
+  :config
+  (progn
+    (use-package cargo :ensure t)
+    (use-package racer :ensure t)
+    (use-package flycheck-rust :ensure t)
+
+    (setq racer-rust-src-path (expand-file-name "~/sandbox/rust/src/")
+          rust-format-on-save t)
+
+    (add-hook 'rust-mode-hook #'cargo-minor-mode)
+    (add-hook 'rust-mode-hook #'racer-mode)
+    (add-hook 'rust-mode-hook #'flycheck-rust-setup)
+    (add-hook 'racer-mode-hook #'eldoc-mode)))
+
+
 ;;; Scala
 (use-package sbt-mode
   :commands sbt-start
@@ -996,6 +1015,12 @@
     (bind-keys :map ensime-mode-map
                ("C-c ." . ensime-edit-definition)
                ("C-c ," . ensime-pop-find-definition-stack))))
+
+
+;;; TOML
+(use-package toml-mode
+  :mode ("\\.toml\\'" . toml-mode)
+  :ensure t)
 
 
 ;;; Web
