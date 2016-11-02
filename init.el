@@ -179,7 +179,7 @@
   :preface
   (defvar bp-evil-modes
     '(fundamental-mode conf-mode css-mode evil-command-window-mode
-                       erlang-mode haskell-mode haskell-cabal-mode json-mode prog-mode
+                       haskell-mode haskell-cabal-mode json-mode prog-mode
                        purescript-mode restclient-mode rust-mode text-mode
                        sass-mode tuareg-mode web-mode yaml-mode)
     "The list of modes that should default to normal mode.  All modes
@@ -701,7 +701,6 @@
   :ensure t
   :commands smartparens-mode
   :init
-  (add-hook 'elixir-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'irony-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'python-mode-hook #'turn-on-smartparens-strict-mode)
   (add-hook 'scala-mode-hook #'turn-on-smartparens-strict-mode)
@@ -710,6 +709,7 @@
   :config
   (progn
     (require 'smartparens-config)
+    (require 'smartparens-scala)
 
     (sp-with-modes
         'org-mode
@@ -717,11 +717,6 @@
       (sp-local-pair "/" "/" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
       (sp-local-pair "~" "~" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
       (sp-local-pair "=" "=" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC"))))
-
-    (sp-with-modes
-        'scala-mode
-      (sp-local-pair "(" nil :post-handlers '(("||\n[i]" "RET")))
-      (sp-local-pair "{" nil :post-handlers '(("||\n[i]" "RET") ("| " "SPC"))))
 
     (bind-keys :map smartparens-mode-map
                ("C-M-a" . sp-beginning-of-sexp)
@@ -981,12 +976,13 @@
 
 ;;; Scala
 (use-package sbt-mode
-  :commands sbt-start
+  :commands sbt-start sbt-command
   :ensure t)
 
 (use-package scala-mode
   :mode (("\\.scala\\'" . scala-mode)
          ("\\.sbt\\'"   . scala-mode))
+  :interpreter ("scala" . scala-mode)
   :ensure t)
 
 (use-package ensime
@@ -1050,7 +1046,6 @@
 
           web-mode-engines-alist '(("django" . "\\.html\\'")
                                    ("razor"  . "\\.scala\\.html\\'")
-                                   ("elixir" . "\\.eex\\'")
                                    ("blade"  . "\\.blade\\.")))))
 
 
