@@ -179,9 +179,9 @@
   :preface
   (defvar bp-evil-modes
     '(fundamental-mode conf-mode css-mode evil-command-window-mode
-                       haskell-mode haskell-cabal-mode json-mode prog-mode
-                       purescript-mode restclient-mode rust-mode text-mode
-                       sass-mode tuareg-mode web-mode yaml-mode)
+                       groovy-mode haskell-mode haskell-cabal-mode json-mode
+                       prog-mode purescript-mode restclient-mode rust-mode
+                       text-mode sass-mode tuareg-mode web-mode yaml-mode)
     "The list of modes that should default to normal mode.  All modes
     derived from these will also default to evil normal mode.")
 
@@ -778,6 +778,12 @@
 (use-package geiser
   :commands run-geiser
   :ensure t)
+
+
+;;; Groovy
+(use-package groovy-mode
+  :ensure t
+  :mode "\\.groovy\\'")
 
 
 ;;; Haskell
