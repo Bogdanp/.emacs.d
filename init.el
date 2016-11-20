@@ -668,11 +668,13 @@
   :load-path "vendor/elm-mode"
   :mode ("\\.elm\\'" . elm-mode)
   :init
-  (setq elm-indent-offset 4
-        elm-format-on-save t
-        elm-sort-imports-on-save t
-        elm-tags-on-save t)
-  (add-hook 'elm-mode-hook #'eldoc-mode))
+  (progn
+    (setq elm-indent-offset 4
+          elm-format-on-save t
+          elm-sort-imports-on-save t
+          elm-tags-on-save t)
+    (add-to-list 'company-backends #'company-elm)
+    (add-hook 'elm-mode-hook #'eldoc-mode)))
 
 
 ;;; Emacs lisp
