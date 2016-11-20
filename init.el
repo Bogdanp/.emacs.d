@@ -657,6 +657,16 @@
   :mode "\\.cedar\\'")
 
 
+;;; Clojure
+(use-package cider
+  :ensure t
+  :config
+  (progn
+    (define-clojure-indent
+      (defroutes 'defun) (context 2)
+      (ANY 2) (DELETE 2) (HEAD 2) (GET 2) (POST 2) (PUT 2))))
+
+
 ;;; Docker
 (use-package dockerfile-mode
   :mode "\\Dockerfile\\'"
@@ -687,6 +697,7 @@
   :diminish paredit-mode
   :ensure t
   :init
+  (add-hook 'clojure-mode-hook #'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
   (add-hook 'lisp-mode-hook #'paredit-mode)
   (add-hook 'scheme-mode-hook #'paredit-mode))
