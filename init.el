@@ -334,8 +334,12 @@
   (setq insert-directory-program "/usr/local/bin/gls"
         dired-listing-switches "--group-directories-first -alh")
   :config
-  (use-package dired+
-    :ensure t))
+  (progn
+    (use-package dired+
+      :ensure t)
+
+    (setq-default dired-omit-files-p t)
+    (setq dired-omit-files "^\\.?#\\|^__pycache__$")))
 
 (use-package electric
   :config
@@ -402,7 +406,9 @@
     (use-package ido-ubiquitous :ensure t)
 
     (ido-everywhere)
-    (ido-ubiquitous)))
+    (ido-ubiquitous)
+
+    (add-to-list 'ido-ignore-files "\\`__pycache__/")))
 
 (use-package smex
   :ensure t
@@ -663,7 +669,7 @@
   :config
   (progn
     (define-clojure-indent
-      (defroutes 'defun) (context 2)
+      (defroutes 'defun) (context 2) (jdbc/atomic 'defun)
       (ANY 2) (DELETE 2) (HEAD 2) (GET 2) (POST 2) (PUT 2))))
 
 
