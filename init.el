@@ -808,17 +808,17 @@
 ;;; Haskell
 (use-package intero
   :load-path "vendor/intero/elisp"
-  :init
-  (setq haskell-stylish-on-save t)
-  (add-hook 'haskell-mode-hook #'intero-mode))
+  :config
+  (progn
+    (use-package hindent
+      :ensure t
+      :config
+      (progn
+        (setq hindent-reformat-buffer-on-save t)
 
-(use-package hindent
-  :disabled t
-  :ensure t
-  :init
-  (setq hindent-reformat-buffer-on-save t)
-  (add-hook 'haskell-mode-hook #'hindent-mode))
+        (add-hook 'haskell-mode-hook #'hindent-mode)))
 
+    (add-hook 'haskell-mode-hook #'intero-mode)))
 
 ;;; Javascript
 (use-package js2-mode
