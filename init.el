@@ -1013,7 +1013,6 @@
   :config
   (progn
     (use-package ensime
-      :commands ensime-scala-mode-hook
       :ensure t
       :preface
       (defun bp-scala-mode-hook ()
@@ -1036,7 +1035,6 @@
                    ("C-c ." . ensime-edit-definition)
                    ("C-c ," . ensime-pop-find-definition-stack)))
 
-      (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
       (add-hook 'scala-mode-hook #'bp-scala-mode-hook))))
 
 ;;; TOML
