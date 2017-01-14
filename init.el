@@ -683,12 +683,13 @@
 (use-package elm-mode
   :load-path "vendor/elm-mode"
   :mode ("\\.elm\\'" . elm-mode)
-  :init
+  :config
   (progn
     (setq elm-indent-offset 4
           elm-format-on-save t
           elm-sort-imports-on-save t
           elm-tags-on-save t)
+
     (add-to-list 'company-backends #'company-elm)
     (add-hook 'elm-mode-hook #'eldoc-mode)))
 
@@ -1008,35 +1009,35 @@
   :mode (("\\.scala\\'" . scala-mode)
          ("\\.sbt\\'"   . scala-mode))
   :interpreter ("scala" . scala-mode)
-  :ensure t)
-
-(use-package ensime
-  :pin melpa-stable
-  :commands ensime-scala-mode-hook
   :ensure t
-  :preface
-  (defun bp-scala-mode-hook ()
-    (when (string-suffix-p ".sbt" (buffer-name))
-      (flycheck-mode -1)))
-  :init
-  (progn
-    (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
-    (add-hook 'scala-mode-hook #'bp-scala-mode-hook))
   :config
   (progn
-    (setq ensime-auto-generate-config t
-          ensime-default-java-flags '("-Xms512M" "-Xmx1G")
-          ensime-sbt-command "activator")
+    (use-package ensime
+      :commands ensime-scala-mode-hook
+      :ensure t
+      :preface
+      (defun bp-scala-mode-hook ()
+        (when (string-suffix-p ".sbt" (buffer-name))
+          (flycheck-mode -1)))
+      :config
+      (progn
+        (setq ensime-auto-generate-config t
+              ensime-default-java-flags '("-Xms512M" "-Xmx1G")
+              ensime-sbt-command "activator"
+              ensime-startup-snapshot-notification nil
+              ensime-startup-notification nil)
 
-    (let* ((faces ensime-sem-high-faces)
-           (faces (assq-delete-all 'implicitConversion faces))
-           (faces (assq-delete-all 'implicitParams faces)))
-      (setq ensime-sem-high-faces faces))
+        (let* ((faces ensime-sem-high-faces)
+               (faces (assq-delete-all 'implicitConversion faces))
+               (faces (assq-delete-all 'implicitParams faces)))
+          (setq ensime-sem-high-faces faces))
 
-    (bind-keys :map ensime-mode-map
-               ("C-c ." . ensime-edit-definition)
-               ("C-c ," . ensime-pop-find-definition-stack))))
+        (bind-keys :map ensime-mode-map
+                   ("C-c ." . ensime-edit-definition)
+                   ("C-c ," . ensime-pop-find-definition-stack)))
 
+      (add-hook 'scala-mode-hook #'ensime-scala-mode-hook)
+      (add-hook 'scala-mode-hook #'bp-scala-mode-hook))))
 
 ;;; TOML
 (use-package toml-mode
