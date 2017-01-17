@@ -888,6 +888,12 @@
     (add-hook 'tuareg-mode-hook #'utop-minor-mode)))
 
 
+;;; Protobuf
+(use-package protobuf-mode
+  :ensure t
+  :mode (("\\.proto\\'" . protobuf-mode)))
+
+
 ;;; Python
 (use-package pyvenv :ensure t)
 (use-package python
