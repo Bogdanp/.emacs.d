@@ -673,6 +673,21 @@
       (ANY 2) (DELETE 2) (HEAD 2) (GET 2) (POST 2) (PUT 2))))
 
 
+;;; Common Lisp
+(use-package slime
+  :mode ("\\.lisp\\'" . slime-mode)
+  :ensure t
+  :config
+  (progn
+    (use-package slime-company
+      :ensure t
+      :config
+      (add-to-list 'company-backends #'company-slime))
+
+    (load (expand-file-name "~/.roswell/helper.el"))
+    (slime-setup '(slime-fancy))))
+
+
 ;;; Docker
 (use-package dockerfile-mode
   :mode "\\Dockerfile\\'"
