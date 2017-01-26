@@ -659,12 +659,14 @@
 
 ;;; Cedar
 (use-package cedar-mode
+  :disabled t
   :load-path "~/sandbox/cedar-mode"
   :mode "\\.cedar\\'")
 
 
 ;;; Clojure
 (use-package cider
+  :disabled t
   :ensure t
   :config
   (progn
@@ -696,6 +698,7 @@
 
 ;;; Elm
 (use-package elm-mode
+  :disabled t
   :load-path "vendor/elm-mode"
   :mode ("\\.elm\\'" . elm-mode)
   :config
@@ -745,13 +748,6 @@
   (progn
     (require 'smartparens-config)
     (require 'smartparens-scala)
-
-    (sp-with-modes
-        'org-mode
-      (sp-local-pair "_" "_" :unless '(sp-point-after-word-p) :wrap "C-_")
-      (sp-local-pair "/" "/" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-      (sp-local-pair "~" "~" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC")))
-      (sp-local-pair "=" "=" :unless '(sp-point-after-word-p) :post-handlers '(("[d1]" "SPC"))))
 
     (bind-keys :map smartparens-mode-map
                ("C-M-a" . sp-beginning-of-sexp)
@@ -811,6 +807,7 @@
 
 ;;; Guile
 (use-package geiser
+  :disabled t
   :commands run-geiser
   :ensure t)
 
@@ -835,6 +832,7 @@
         (add-hook 'haskell-mode-hook #'hindent-mode)))
 
     (add-hook 'haskell-mode-hook #'intero-mode)))
+
 
 ;;; Javascript
 (use-package js2-mode
@@ -872,6 +870,7 @@
 
 ;;; OCaml
 (use-package tuareg
+  :disabled t
   :mode ("\\.mli?\\'" . tuareg-mode)
   :ensure t
   :config
@@ -1004,6 +1003,7 @@
 
 ;;; Rust
 (use-package rust-mode
+  :disabled t
   :mode ("\\.rs\\'" . rust-mode)
   :ensure t
   :config
@@ -1031,19 +1031,18 @@
          ("\\.sbt\\'"   . scala-mode))
   :interpreter ("scala" . scala-mode)
   :ensure t
+  :preface
+  (defun bp-scala-mode-hook ()
+    (when (string-suffix-p ".sbt" (buffer-name))
+      (flycheck-mode -1)))
   :config
   (progn
     (use-package ensime
       :ensure t
-      :preface
-      (defun bp-scala-mode-hook ()
-        (when (string-suffix-p ".sbt" (buffer-name))
-          (flycheck-mode -1)))
       :config
       (progn
         (setq ensime-auto-generate-config t
-              ensime-default-java-flags '("-Xms512M" "-Xmx1G")
-              ensime-sbt-command "activator"
+              ensime-default-java-flags '("-Xms1G" "-Xmx2G")
               ensime-startup-snapshot-notification nil
               ensime-startup-notification nil)
 
@@ -1054,9 +1053,9 @@
 
         (bind-keys :map ensime-mode-map
                    ("C-c ." . ensime-edit-definition)
-                   ("C-c ," . ensime-pop-find-definition-stack)))
+                   ("C-c ," . ensime-pop-find-definition-stack))))
 
-      (add-hook 'scala-mode-hook #'bp-scala-mode-hook))))
+    (add-hook 'scala-mode-hook #'bp-scala-mode-hook)))
 
 ;;; TOML
 (use-package toml-mode
