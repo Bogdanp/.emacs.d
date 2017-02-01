@@ -739,6 +739,7 @@
 ;;; Haskell
 (use-package intero
   :load-path "vendor/intero/elisp"
+  :mode "\\.hs\\'"
   :config
   (progn
     (use-package hindent
@@ -876,6 +877,7 @@
 ;;; Purescript
 (use-package purescript-mode
   :ensure t
+  :mode "\\.psc\\'"
   :config
   (progn
     (use-package psc-ide
