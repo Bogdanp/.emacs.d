@@ -13,12 +13,6 @@
 [submodule "evil"]
 	path = vendor/evil
 	url = https://github.com/Bogdanp/evil.git
-[submodule "better-default-theme"]
-	path = vendor/better-default-theme
-	url = https://github.com/Bogdanp/better-default-theme.el
-[submodule "vendor/elm-mode"]
-	path = vendor/elm-mode
-	url = git@github.com:Bogdanp/elm-mode
 [submodule "vendor/evil-surround"]
 	path = vendor/evil-surround
 	url = https://github.com/timcharper/evil-surround
