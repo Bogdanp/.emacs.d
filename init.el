@@ -841,7 +841,7 @@
   :config
   (setq js2-basic-offset 2
         js2-strict-missing-semi-warning t
-        js2-global-externs '("module" "require" "exports" "describe" "it" "process" "__dirname" "env")))
+        js2-global-externs '("module" "require" "exports" "describe" "it" "process" "__dirname" "env" "setTimeout")))
 
 
 ;;; JSON
