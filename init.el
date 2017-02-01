@@ -862,6 +862,12 @@
   (setq css-indent-offset 2))
 
 
+;;; API Blueprint
+(use-package apib-mode
+  :mode ("\\.apib\\'" . apib-mode)
+  :ensure t)
+
+
 ;;; Markdown
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
