@@ -162,11 +162,6 @@
   (unless (server-running-p)
     (server-start))
 
-  (use-package better-default-theme
-    :disabled t
-    :load-path "vendor/better-default-theme"
-    :config (load-theme 'better-default t))
-
   (use-package twilight-bright-theme
     :load-path "vendor/twilight-bright-theme"
     :config (load-theme 'twilight-bright t)))
@@ -458,8 +453,8 @@
   (savehist-mode +1))
 
 (use-package saveplace
-  :init
-  (setq-default save-place t))
+  :config
+  (save-place-mode +1))
 
 (use-package simple
   :init
@@ -630,11 +625,6 @@
 (use-package s
   :ensure t)
 
-(use-package time
-  :init
-  (setq display-time-default-load-average nil)
-  (add-hook 'after-init-hook #'display-time-mode))
-
 (use-package diminish
   :commands diminish
   :ensure t)
@@ -657,24 +647,6 @@
         c-basic-offset 4))
 
 
-;;; Cedar
-(use-package cedar-mode
-  :disabled t
-  :load-path "~/sandbox/cedar-mode"
-  :mode "\\.cedar\\'")
-
-
-;;; Clojure
-(use-package cider
-  :disabled t
-  :ensure t
-  :config
-  (progn
-    (define-clojure-indent
-      (defroutes 'defun) (context 2) (jdbc/atomic 'defun)
-      (ANY 2) (DELETE 2) (HEAD 2) (GET 2) (POST 2) (PUT 2))))
-
-
 ;;; Common Lisp
 (use-package slime
   :mode ("\\.lisp\\'" . slime-mode)
@@ -694,22 +666,6 @@
 (use-package dockerfile-mode
   :mode "\\Dockerfile\\'"
   :ensure t)
-
-
-;;; Elm
-(use-package elm-mode
-  :disabled t
-  :load-path "vendor/elm-mode"
-  :mode ("\\.elm\\'" . elm-mode)
-  :config
-  (progn
-    (setq elm-indent-offset 4
-          elm-format-on-save t
-          elm-sort-imports-on-save t
-          elm-tags-on-save t)
-
-    (add-to-list 'company-backends #'company-elm)
-    (add-hook 'elm-mode-hook #'eldoc-mode)))
 
 
 ;;; Emacs lisp
@@ -774,13 +730,6 @@
                ("C-c ." . godef-jump))))
 
 
-;;; Guile
-(use-package geiser
-  :disabled t
-  :commands run-geiser
-  :ensure t)
-
-
 ;;; Groovy
 (use-package groovy-mode
   :ensure t
@@ -841,40 +790,6 @@
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
   :ensure t)
-
-
-;;; OCaml
-(use-package tuareg
-  :disabled t
-  :mode ("\\.mli?\\'" . tuareg-mode)
-  :ensure t
-  :config
-  (progn
-    (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
-      (setenv (car var) (cadr var)))
-
-    (use-package utop
-      :ensure t)
-
-    (use-package merlin
-      :load-path "~/.opam/system/share/emacs/site-lisp"
-      :commands (merlin-mode)
-      :init
-      (setq merlin-error-after-save t
-            merlin-command 'opam))
-
-    (use-package ocp-indent
-      :load-path "~/.opam/system/share/emacs/site-lisp"
-      :config
-      (setq ocp-indent-syntax '("lwt")))
-
-    (use-package flycheck-ocaml
-      :ensure t
-      :commands (flycheck-ocaml-setup))
-
-    (add-hook 'tuareg-mode-hook #'merlin-mode)
-    (add-hook 'tuareg-mode-hook #'flycheck-ocaml-setup)
-    (add-hook 'tuareg-mode-hook #'utop-minor-mode)))
 
 
 ;;; Protobuf
@@ -976,26 +891,6 @@
   :ensure t)
 
 
-;;; Rust
-(use-package rust-mode
-  :disabled t
-  :mode ("\\.rs\\'" . rust-mode)
-  :ensure t
-  :config
-  (progn
-    (use-package cargo :ensure t)
-    (use-package racer :ensure t)
-    (use-package flycheck-rust :ensure t)
-
-    (setq racer-rust-src-path (expand-file-name "~/sandbox/rust/src/")
-          rust-format-on-save t)
-
-    (add-hook 'rust-mode-hook #'cargo-minor-mode)
-    (add-hook 'rust-mode-hook #'racer-mode)
-    (add-hook 'rust-mode-hook #'flycheck-rust-setup)
-    (add-hook 'racer-mode-hook #'eldoc-mode)))
-
-
 ;;; Scala
 (use-package sbt-mode
   :commands sbt-start sbt-command
@@ -1031,11 +926,6 @@
                    ("C-c ," . ensime-pop-find-definition-stack))))
 
     (add-hook 'scala-mode-hook #'bp-scala-mode-hook)))
-
-;;; TOML
-(use-package toml-mode
-  :mode ("\\.toml\\'" . toml-mode)
-  :ensure t)
 
 
 ;;; Web
@@ -1171,6 +1061,7 @@
                ("S" . bp-notmuch-spam)
                ("T" . bp-notmuch-todo)
                ("d" . bp-notmuch-trash))))
+
 
 (provide 'init)
 ;;; init.el ends here
