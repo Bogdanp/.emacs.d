@@ -70,7 +70,7 @@
 ;;; UI
 ;; Position and resize frame.
 (when (window-system)
-  (add-to-list 'default-frame-alist '(font . "source code pro-10"))
+  (add-to-list 'default-frame-alist '(font . "SF mono-10"))
   (add-to-list 'default-frame-alist '(top . 32))
   (add-to-list 'default-frame-alist '(left . 10))
   (add-to-list 'default-frame-alist '(width . 199))
