@@ -252,9 +252,6 @@
                     org-log-buffer-setup-hook))
       (add-hook hook #'bp-toggle-emacs-state))
 
-    (add-to-list 'evil-emacs-state-modes 'notmuch-tree-mode)
-    (add-to-list 'evil-emacs-state-modes 'alchemist-help-minor-mode)
-
     (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook)
     (add-hook 'after-change-major-mode-hook #'bp-apply-evil-mode-hook)
     (advice-add #'evil-generate-mode-line-tag :around #'bp-generate-mode-line-tag)
@@ -289,10 +286,6 @@
                ("oa"  . org-agenda)
                ("oc"  . org-capture)
                ("mc"  . compose-mail)
-               ("mm"  . notmuch)
-               ("mt"  . notmuch-tree)
-               ("mi"  . bp-notmuch-inbox)
-               ("mu"  . bp-notmuch-unread)
                ("xf"  . xref-find-definitions))))
 
 
@@ -965,104 +958,6 @@
   :ensure t
   :mode "\\.yaml\\'")
 
-
-;;; Notmuch
-(use-package notmuch
-  :ensure t
-  :commands (notmuch notmuch-search notmuch-tree)
-  :preface
-  (defun bp-notmuch-force-sync ()
-    (interactive)
-    (start-process "notmuch-sync" "*notmuch-sync*" "notmuch-sync"))
-
-  (defun bp-notmuch-inbox ()
-    (interactive)
-    (notmuch-search "tag:inbox"))
-
-  (defun bp-notmuch-unread ()
-    (interactive)
-    (notmuch-search "tag:unread"))
-
-  (defun bp-notmuch-archive (&optional beg end)
-    (interactive (notmuch-search-interactive-region))
-    (notmuch-search-tag '("-unread" "-inbox") beg end)
-    (notmuch-search-next-thread))
-
-  (defun bp-notmuch-spam (&optional beg end)
-    (interactive (notmuch-search-interactive-region))
-    (notmuch-search-tag '("+spam" "-unread" "-inbox") beg end)
-    (notmuch-search-next-thread))
-
-  (defun bp-notmuch-todo (&optional beg end)
-    (interactive (notmuch-search-interactive-region))
-    (if (member "todo" (notmuch-search-get-tags))
-        (notmuch-search-tag '("-todo") beg end)
-      (notmuch-search-tag '("+todo" "-unread" "-inbox")))
-    (notmuch-search-next-thread))
-
-  (defun bp-notmuch-trash (&optional beg end)
-    (interactive (notmuch-search-interactive-region))
-    (if (member "trash" (notmuch-search-get-tags))
-        (notmuch-search-tag '("-trash") beg end)
-      (notmuch-search-tag '("+trash" "-unread" "-inbox")))
-    (notmuch-search-next-thread))
-
-  (defun bp-after-select-identity (&rest r)
-    (let* ((identity (assoc gnus-alias-current-identity gnus-alias-identity-alist))
-           (address (nth 2 identity))
-           (address (cadr (mail-extract-address-components address))))
-      (setq smtpmail-smtp-user address)))
-
-  (defun mimedown ()
-    (interactive)
-    (save-excursion
-      (message-goto-body)
-      (shell-command-on-region (point) (point-max) (concat "mimedown " gnus-alias-current-identity) nil t)))
-  :init
-  (setq message-auto-save-directory (expand-file-name "~/Maildir/drafts"))
-  :config
-  (progn
-    (use-package gnus-art)
-    (use-package gnus-alias
-      :ensure t
-      :config
-      (progn
-        (advice-add #'gnus-alias-select-identity :after #'bp-after-select-identity)
-
-        (setq gnus-alias-identity-alist
-              '(("personal" nil "Bogdan Popa <popa.bogdanp@gmail.com>" nil nil nil nil)
-                ("cleartype" nil "Bogdan Popa <bogdan@cleartype.io>" "CLEARTYPE SRL" nil nil nil)
-                ("defn" nil "Bogdan Popa <bogdan@defn.io>" "CLEARTYPE SRL" nil nil nil)
-                ("work" nil "Bogdan Popa <bogdan@ave81.com>" "LeadPages" nil nil nil))
-
-              gnus-alias-default-identity "personal")
-
-        (add-hook 'message-setup-hook #'gnus-alias-init)))
-
-    (setq notmuch-search-oldest-first nil
-
-          notmuch-saved-searches
-          '((:name "inbox"    :query "tag:inbox"   :key "i")
-            (:name "unread"   :query "tag:unread"  :key "u")
-            (:name "flagged"  :query "tag:flagged" :key "f")
-            (:name "todo"     :query "tag:todo"    :key "t")
-            (:name "sent"     :query "tag:sent"    :key "s")
-            (:name "drafts"   :query "tag:draft"   :key "d")
-            (:name "all mail" :query "*"           :key "a"))
-
-          notmuch-hello-sections
-          '(notmuch-hello-insert-search
-            notmuch-hello-insert-recent-searches
-            notmuch-hello-insert-saved-searches
-            notmuch-hello-insert-alltags)
-
-          notmuch-show-all-tags-list t)
-
-    (bind-keys :map notmuch-search-mode-map
-               ("A" . bp-notmuch-archive)
-               ("S" . bp-notmuch-spam)
-               ("T" . bp-notmuch-todo)
-               ("d" . bp-notmuch-trash))))
 
 
 (provide 'init)
