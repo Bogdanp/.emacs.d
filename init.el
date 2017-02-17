@@ -774,6 +774,12 @@
   (setq css-indent-offset 2))
 
 
+;;; Lua
+(use-package lua-mode
+  :mode ("\\.lua\\'" . lua-mode)
+  :ensure t)
+
+
 ;;; API Blueprint
 (use-package apib-mode
   :mode ("\\.apib\\'" . apib-mode)
