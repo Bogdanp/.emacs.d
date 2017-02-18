@@ -392,9 +392,11 @@
   :config
   (progn
     (use-package ido-ubiquitous :ensure t)
+    (use-package ido-vertical-mode :ensure t)
 
     (ido-everywhere)
     (ido-ubiquitous)
+    (ido-vertical-mode +1)
 
     (add-to-list 'ido-ignore-files "\\`__pycache__/")))
 
