@@ -502,7 +502,8 @@
          ("MERGE_MSG\\'"      . git-commit-mode))
   :bind ("C-c m" . magit-status)
   :init
-  (setq magit-completing-read-function #'magit-ido-completing-read)
+  (setq magit-completing-read-function #'magit-ido-completing-read
+        magit-repository-directories '(("~/sandbox" . 1) ("~/work" . 1)))
   :config
   (use-package fullframe
     :ensure t
