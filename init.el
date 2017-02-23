@@ -751,12 +751,14 @@
 
 ;;; Javascript
 (use-package js2-mode
-  :mode ("\.jsx?\\'" . js2-mode)
+  :mode (("\.js\\'" . js2-mode)
+         ("\.jsx\\'" . js2-jsx-mode))
   :ensure t
   :config
   (setq js2-basic-offset 2
         js2-strict-missing-semi-warning t
-        js2-global-externs '("module" "require" "exports" "describe" "it" "process" "__dirname" "env" "setTimeout")))
+        js2-global-externs '("module" "require" "exports" "describe" "it" "process" "__dirname"
+                             "env" "setTimeout" "expect" "beforeAll" "beforeEach")))
 
 
 ;;; JSON
