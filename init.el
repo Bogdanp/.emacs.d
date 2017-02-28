@@ -176,7 +176,8 @@
     '(fundamental-mode conf-mode css-mode evil-command-window-mode
                        groovy-mode haskell-mode haskell-cabal-mode json-mode
                        prog-mode purescript-mode restclient-mode rust-mode
-                       text-mode sass-mode tuareg-mode web-mode yaml-mode)
+                       text-mode sass-mode tuareg-mode typescript-mode
+                       web-mode yaml-mode)
     "The list of modes that should default to normal mode.  All modes
     derived from these will also default to evil normal mode.")
 
@@ -759,6 +760,33 @@
         js2-strict-missing-semi-warning t
         js2-global-externs '("module" "require" "exports" "describe" "it" "process" "__dirname"
                              "env" "setTimeout" "expect" "beforeAll" "beforeEach")))
+
+
+;;; Typescript
+(use-package typescript-mode
+  :mode (("\.ts\\'" . typescript-mode))
+  :ensure t
+  :config
+  (use-package tide
+    :ensure t
+    :preface
+    (defun bp-setup-tide ()
+      (setq-local company-tooltip-align-annotations t)
+      (setq-local flycheck-check-syntax-automatically '(save mode-enabled)))
+
+    :config
+    (add-hook 'before-save-hook #'tide-format-before-save)
+    (add-hook 'typescript-mode-hook #'eldoc-mode)
+    (add-hook 'typescript-mode-hook #'tide-setup)
+    (add-hook 'typescript-mode-hook #'tide-hl-identifier-mode)
+    (add-hook 'typescript-mode-hook #'bp-setup-tide)
+
+    (bind-keys :map tide-mode-map
+               ("C-c d" . tide-documentation-at-point)
+               ("C-c ." . tide-jump-to-definition)
+               ("C-c ," . tide-jump-back)))
+
+  (setq typescript-indent-level 2))
 
 
 ;;; JSON
