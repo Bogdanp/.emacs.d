@@ -350,6 +350,7 @@
   :ensure t
   :init
   (setq ag-highlight-search t
+        ag-ignore-list '("node_modules" "*.bundle.*")
         ag-reuse-buffers t))
 
 (use-package grep
