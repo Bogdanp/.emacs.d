@@ -395,7 +395,9 @@
   (progn
     (use-package ido-ubiquitous :ensure t)
     (use-package ido-vertical-mode :ensure t)
+    (use-package flx-ido :ensure t)
 
+    (flx-ido-mode)
     (ido-everywhere)
     (ido-ubiquitous)
     (ido-vertical-mode +1)
