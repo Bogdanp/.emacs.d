@@ -973,7 +973,7 @@
          ("\\.vue\\'"   . web-mode)
          ("\\.hbs\\'"   . web-mode)
          ("\\.eex\\'"   . web-mode)
-         ("\\.tmpl\\'"  . web-mode)
+         ("\\.tm?pl\\'"  . web-mode)
          ("\\.blade\\.php\\'" . web-mode))
   :init
   (progn
