@@ -173,7 +173,7 @@
   :pin manual
   :preface
   (defvar bp-evil-modes
-    '(fundamental-mode conf-mode css-mode evil-command-window-mode
+    '(fundamental-mode conf-mode css-mode evil-command-window-mode d-mode
                        groovy-mode haskell-mode haskell-cabal-mode json-mode
                        prog-mode purescript-mode restclient-mode rust-mode
                        text-mode sass-mode tuareg-mode typescript-mode
@@ -660,6 +660,21 @@
 
     (load (expand-file-name "~/.roswell/helper.el"))
     (slime-setup '(slime-fancy))))
+
+
+;;; D
+(use-package d-mode
+  :mode ("\\.d\\'" . d-mode)
+  :ensure t
+  :preface
+  (defun bp-d-mode-hook ()
+    (setq-local c-basic-offset 2))
+  :config
+  (use-package company-dcd
+    :ensure t
+    :config
+    (add-hook 'd-mode-hook #'company-dcd-mode))
+  (add-hook 'd-mode-hook #'bp-d-mode-hook))
 
 
 ;;; Docker
