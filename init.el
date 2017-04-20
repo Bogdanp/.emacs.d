@@ -504,11 +504,6 @@
 
 
 ;;; Git
-(use-package git-commit
-  :ensure t
-  :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
-         ("MERGE_MSG\\'"      . git-commit-mode)))
-
 (use-package git-timemachine
   :commands git-timemachine
   :ensure t)
