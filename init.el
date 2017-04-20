@@ -248,7 +248,6 @@
 
     (dolist (hook '(git-commit-setup-hook
                     git-timemachine-mode-hook
-                    magit-blame-mode-hook
                     org-capture-mode-hook
                     org-log-buffer-setup-hook))
       (add-hook hook #'bp-toggle-emacs-state))
@@ -295,10 +294,18 @@
   :config
   (global-auto-revert-mode))
 
+(use-package ansi-color)
+
 (use-package compile
   :preface
   (defun bp-compilation-mode-hook ()
     (setq-local scroll-margin 0))
+
+  (defun bp-colorize-compilation-buffer ()
+    "Handle ANSI escape sequences in compilation buffer."
+    (read-only-mode)
+    (ansi-color-apply-on-region compilation-filter-start (point))
+    (read-only-mode))
 
   (defun bp-make-at (root-path)
     (interactive "fFilename: ")
@@ -306,16 +313,14 @@
     (let ((default-directory (locate-dominating-file buffer-file-name (f-filename root-path))))
       (compile "make")))
 
-  (defun bp-make-elm ()
-    (interactive)
-    (bp-make-at "elm-package.json"))
-
   (defun bp-make ()
     (interactive)
     (bp-make-at "Makefile"))
   :init
   (setq compilation-scroll-output t)
+  (add-hook 'compilation-filter-hook #'bp-colorize-compilation-buffer)
   (add-hook 'compilation-mode-hook #'bp-compilation-mode-hook))
+
 
 (use-package dired
   :commands dired
@@ -499,20 +504,10 @@
 
 
 ;;; Git
-(use-package magit
+(use-package git-commit
   :ensure t
-  :commands (magit-status git-commit-mode)
   :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
-         ("MERGE_MSG\\'"      . git-commit-mode))
-  :bind ("C-c m" . magit-status)
-  :init
-  (setq magit-completing-read-function #'magit-ido-completing-read
-        magit-repository-directories '(("~/sandbox" . 1) ("~/work" . 1)))
-  :config
-  (use-package fullframe
-    :ensure t
-    :config
-    (fullframe magit-status magit-mode-quit-window)))
+         ("MERGE_MSG\\'"      . git-commit-mode)))
 
 (use-package git-timemachine
   :commands git-timemachine
