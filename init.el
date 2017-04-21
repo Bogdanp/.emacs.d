@@ -648,7 +648,6 @@
       :config
       (add-to-list 'company-backends #'company-slime))
 
-    (load (expand-file-name "~/.roswell/helper.el"))
     (slime-setup '(slime-fancy))))
 
 
