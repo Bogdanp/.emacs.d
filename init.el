@@ -934,10 +934,12 @@
 
 ;;; Scala
 (use-package sbt-mode
+  :disabled t
   :commands sbt-start sbt-command
   :ensure t)
 
 (use-package scala-mode
+  :disabled t
   :mode (("\\.scala\\'" . scala-mode)
          ("\\.sbt\\'"   . scala-mode))
   :interpreter ("scala" . scala-mode)
