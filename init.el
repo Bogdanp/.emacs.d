@@ -398,13 +398,13 @@
     (add-hook 'after-init-hook #'ido-mode))
   :config
   (progn
-    (use-package ido-ubiquitous :ensure t)
+    (use-package ido-completing-read+ :ensure t)
     (use-package ido-vertical-mode :ensure t)
     (use-package flx-ido :ensure t)
 
     (flx-ido-mode)
     (ido-everywhere)
-    (ido-ubiquitous)
+    (ido-ubiquitous-mode +1)
     (ido-vertical-mode +1)
 
     (add-to-list 'ido-ignore-files "\\`__pycache__/")))
