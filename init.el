@@ -175,8 +175,8 @@
   (defvar bp-evil-modes
     '(fundamental-mode conf-mode css-mode evil-command-window-mode d-mode
                        groovy-mode haskell-mode haskell-cabal-mode json-mode
-                       prog-mode purescript-mode restclient-mode rust-mode
-                       text-mode sass-mode tuareg-mode typescript-mode
+                       ponylang-mode prog-mode purescript-mode restclient-mode
+                       rust-mode text-mode sass-mode tuareg-mode typescript-mode
                        web-mode yaml-mode)
     "The list of modes that should default to normal mode.  All modes
     derived from these will also default to evil normal mode.")
@@ -830,6 +830,15 @@
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
   :ensure t)
+
+
+;;; Pony
+(use-package ponylang-mode
+  :ensure t
+  :mode (("\\.pony\\'" . ponylang-mode))
+  :config
+  (use-package flycheck-pony
+    :ensure t))
 
 
 ;;; Protobuf
