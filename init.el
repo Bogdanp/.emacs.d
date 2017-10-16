@@ -247,9 +247,7 @@
       (add-hook 'evil-mode-hook #'global-evil-surround-mode))
 
     (dolist (hook '(git-commit-setup-hook
-                    git-timemachine-mode-hook
-                    org-capture-mode-hook
-                    org-log-buffer-setup-hook))
+                    git-timemachine-mode-hook))
       (add-hook hook #'bp-toggle-emacs-state))
 
     (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook)
@@ -283,8 +281,6 @@
                ("fo"  . other-frame)
                ("fc"  . delete-frame)
                ("p"   . projectile-command-map)
-               ("oa"  . org-agenda)
-               ("oc"  . org-capture)
                ("mc"  . compose-mail)
                ("xf"  . xref-find-definitions))))
 
@@ -377,8 +373,7 @@
         ;; basis so we can just build up our own version that doesn't
         ;; activate for a given list of modes.
         (unless (memq major-mode (list 'eww-mode
-                                       'term-mode
-                                       'org-agenda-mode))
+                                       'term-mode))
           (hl-line-mode +1))))
 
     (bp-global-hl-line-mode)))
@@ -507,61 +502,6 @@
 (use-package git-timemachine
   :commands git-timemachine
   :ensure t)
-
-
-;;; Org
-(use-package org
-  :ensure t
-  :commands (org-agenda org-capture)
-  :mode ("\\.org\\'" . org-mode)
-  :preface
-  (defvar bp-org-dir (expand-file-name "~/Dropbox/Documents/Personal"))
-  (defvar bp-org-main-file (expand-file-name (concat bp-org-dir "/Bogdan.org")))
-  (defvar bp-org-agenda-files-path bp-org-dir)
-  :config
-  (progn
-    (use-package bp-org-capture-templates)
-    (use-package bp-org-agenda-commands)
-
-    ;;; Babel
-    ;; Allow these languages to be executed in org code blocks.
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((python  . t)
-       (sh      . t)
-       (dot     . t)))
-
-    (setq
-     ;;; Completion
-     org-outline-path-complete-in-steps nil
-
-     ;;; Code blocks
-     ;; Highlight code in BEGIN_SRC-END_SRC blocks.
-     org-src-fontify-natively t
-
-     ;;; Capture
-     ;; Where to put captured stuff.
-     org-default-notes-file bp-org-main-file
-
-     ;;; TODOs
-     ;; Log the closing time of TODO items.
-     org-log-done 'time
-
-     ;; Better todo states.
-     org-todo-keywords '((sequence "TODO(t)" "WAIT(w@/!)" "|" "DONE(d!)" "CANCELED(c@)"))
-
-     ;; Refile anywhere.
-     org-refile-targets '((nil :maxlevel . 9))
-
-     ;;; Agenda
-     ;; Set up path to agenda files.
-     org-agenda-files (list bp-org-agenda-files-path)
-
-     ;; Don't ruin my window setup, org-agenda.
-     org-agenda-window-setup 'current-window)
-
-    ;;; Text editing
-    (add-hook 'org-mode-hook #'auto-fill-mode)))
 
 
 ;;; Code completion
