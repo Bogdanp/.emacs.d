@@ -702,7 +702,24 @@
   :mode (("\.js\\'" . js2-mode)
          ("\.jsx\\'" . js2-jsx-mode))
   :ensure t
+  :preface
+  (defun bp-find-node-modules-root ()
+    (expand-file-name
+     (locate-dominating-file (buffer-file-name) "node_modules")))
+
+  (defun bp-find-node-executable (name)
+    (require 'f)
+    (let* ((root (bp-find-node-modules-root))
+           (bin-path (f-expand "node_modules/.bin" root))
+           (exec-path (f-expand name bin-path)))
+      (when (f-exists? exec-path)
+        exec-path)))
+
+  (defun bp-setup-eslint ()
+    (setq-local flycheck-javascript-eslint-executable (bp-find-node-executable "eslint")))
   :config
+  (add-hook 'js2-mode-hook #'bp-setup-eslint)
+
   (setq js2-basic-offset 2
         js2-strict-missing-semi-warning t
         js2-global-externs '("module" "require" "exports" "describe" "it" "process" "__dirname"
