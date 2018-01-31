@@ -861,6 +861,7 @@
        error-buffer)
       (bp-apply-buffer-env output-buffer)
       (setq bp-current-python-env name)
+      (setq elpy-rpc-python-command "python")
       (message (concat "Activated virtualenv " name))))
   :config
   (progn
