@@ -680,6 +680,13 @@
   :mode "\\.groovy\\'")
 
 
+;;; HCL
+(use-package hcl-mode
+  :ensure t
+  :mode (("\\.hcl\\'" . hcl-mode)
+         ("\\.nomad\\'" . hcl-mode)))
+
+
 ;;; Haskell
 (use-package intero
   :load-path "vendor/intero/elisp"
@@ -753,6 +760,12 @@
   (setq typescript-indent-level 2))
 
 
+;;; TOML
+(use-package toml-mode
+  :mode (("Pipfile" . toml-mode))
+  :ensure t)
+
+
 ;;; JSON
 (use-package json-mode
   :mode "\.json\\'"
@@ -787,6 +800,12 @@
 (use-package markdown-mode
   :mode ("\\.md\\'" . gfm-mode)
   :ensure t)
+
+
+;;; Mermaid
+(use-package mermaid
+  :mode ("\\.mmd\\'" . mermaid-mode)
+  :load-path "vendor/mermaid-mode")
 
 
 ;;; Pony
