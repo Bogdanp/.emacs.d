@@ -924,12 +924,10 @@
 
 ;;; Scala
 (use-package sbt-mode
-  :disabled t
   :commands sbt-start sbt-command
   :ensure t)
 
 (use-package scala-mode
-  :disabled t
   :mode (("\\.scala\\'" . scala-mode)
          ("\\.sbt\\'"   . scala-mode))
   :interpreter ("scala" . scala-mode)
@@ -942,6 +940,7 @@
   (progn
     (use-package ensime
       :ensure t
+      :pin melpa-stable
       :config
       (progn
         (setq ensime-auto-generate-config t
