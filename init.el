@@ -789,7 +789,9 @@
 ;;; Lua
 (use-package lua-mode
   :mode ("\\.lua\\'" . lua-mode)
-  :ensure t)
+  :ensure t
+  :config
+  (setq lua-indent-level 4))
 
 
 ;;; API Blueprint
