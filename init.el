@@ -706,6 +706,7 @@
 
 ;;; Javascript
 (use-package js2-mode
+  :disabled t
   :mode (("\.js\\'" . js2-mode)
          ("\.jsx\\'" . js2-jsx-mode))
   :ensure t
@@ -729,6 +730,7 @@
 
   (setq js2-basic-offset 2
         js2-strict-missing-semi-warning t
+        js2-strict-trailing-comma-warning nil
         js2-global-externs '("module" "require" "exports" "describe" "it" "process" "__dirname"
                              "env" "setTimeout" "expect" "beforeAll" "beforeEach" "atob")))
 
@@ -965,7 +967,14 @@
          ("\\.hbs\\'"   . web-mode)
          ("\\.eex\\'"   . web-mode)
          ("\\.tm?pl\\'"  . web-mode)
-         ("\\.blade\\.php\\'" . web-mode))
+         ("\\.blade\\.php\\'" . web-mode)
+         ("\\.jsx?\\'" . web-mode)
+         ("\\.tsx\\'" . web-mode))
+  :preface
+  (defun bp-ts-web-mode-hook ()
+    (when (string-equal "tsx" (file-name-extension buffer-file-name))
+      (tide-setup)
+      (flycheck-add-mode 'typescript-tslint 'web-mode)))
   :init
   (progn
     (setq web-mode-code-indent-offset 2
@@ -984,14 +993,15 @@
 
           web-mode-engines-alist '(("django" . "\\.html\\'")
                                    ("razor"  . "\\.scala\\.html\\'")
-                                   ("blade"  . "\\.blade\\.")))))
+                                   ("blade"  . "\\.blade\\.")))
+
+    (add-hook 'web-mode-hook #'bp-ts-web-mode-hook)))
 
 
 ;;; Yaml
 (use-package yaml-mode
   :ensure t
   :mode "\\.yaml\\'")
-
 
 
 (provide 'init)
