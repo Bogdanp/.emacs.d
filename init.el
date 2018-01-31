@@ -209,9 +209,9 @@
   (defun bp--open-app (name)
     (do-applescript (format "tell application \"%s\" to activate" name)))
 
-  (defun bp-open-iterm ()
+  (defun bp-open-terminal ()
     (interactive)
-    (bp--open-app "iTerm"))
+    (bp--open-app "Terminal"))
 
   (defun bp-open-chrome ()
     (interactive)
@@ -256,7 +256,7 @@
     (evil-mode +1)
 
     (bind-keys ("C-c C-\\" . evil-leader-prefix-map)
-               ("C-c M-a"  . bp-open-iterm)
+               ("C-c M-a"  . bp-open-terminal)
                ("C-c M-c"  . bp-open-chrome)
                ("C-j"      . newline-and-indent)
                ("C-w"      . backward-kill-word)
@@ -274,7 +274,7 @@
                :prefix-map evil-leader-prefix-map
                ("SPC" . recompile)
                ("\\"  . evil-ex-nohighlight)
-               ("i"   . bp-open-iterm)
+               ("i"   . bp-open-terminal)
                (",i"  . bp-find-init-file)
                ("bu"  . browse-url)
                ("fn"  . make-frame-command)
