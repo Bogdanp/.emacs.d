@@ -544,7 +544,7 @@
     (let ((name (projectile-project-name)))
       (when (and (not (equal name bp-current-python-env))
                  (-contains-p (pyvenv-virtualenv-list) name))
-          (bp-workon name))))
+        (bp-workon name))))
   :init
   (setq projectile-enable-caching t)
   (add-hook 'after-init-hook #'projectile-global-mode)
@@ -973,10 +973,31 @@
          ("\\.jsx?\\'" . web-mode)
          ("\\.tsx\\'" . web-mode))
   :preface
+  (defun bp-find-node-modules-root ()
+    (expand-file-name
+     (locate-dominating-file (buffer-file-name) "node_modules")))
+
+  (defun bp-find-node-executable (name)
+    (require 'f)
+    (let* ((root (bp-find-node-modules-root))
+           (bin-path (f-expand "node_modules/.bin" root))
+           (exec-path (f-expand name bin-path)))
+      (when (f-exists? exec-path)
+        exec-path)))
+
+  (defun bp-setup-eslint ()
+    (setq-local flycheck-javascript-eslint-executable (bp-find-node-executable "eslint")))
+
   (defun bp-ts-web-mode-hook ()
     (when (string-equal "tsx" (file-name-extension buffer-file-name))
       (tide-setup)
       (flycheck-add-mode 'typescript-tslint 'web-mode)))
+
+  (defun bp-js-web-mode-hook ()
+    (when (string-equal "js" (file-name-extension buffer-file-name))
+      (bp-setup-eslint)
+      (flycheck-add-mode 'javascript-eslint 'web-mode)
+      (flycheck-select-checker 'javascript-eslint)))
   :init
   (progn
     (setq web-mode-code-indent-offset 2
@@ -997,7 +1018,8 @@
                                    ("razor"  . "\\.scala\\.html\\'")
                                    ("blade"  . "\\.blade\\.")))
 
-    (add-hook 'web-mode-hook #'bp-ts-web-mode-hook)))
+    (add-hook 'web-mode-hook #'bp-ts-web-mode-hook)
+    (add-hook 'web-mode-hook #'bp-js-web-mode-hook)))
 
 
 ;;; Yaml
