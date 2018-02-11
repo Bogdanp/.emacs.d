@@ -996,6 +996,7 @@
   (defun bp-js-web-mode-hook ()
     (when (string-equal "js" (file-name-extension buffer-file-name))
       (bp-setup-eslint)
+      (setq-local flycheck-disabled-checkers '(sass))
       (flycheck-add-mode 'javascript-eslint 'web-mode)
       (flycheck-select-checker 'javascript-eslint)))
   :init
