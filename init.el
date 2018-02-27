@@ -998,7 +998,8 @@
       (bp-setup-eslint)
       (setq-local flycheck-disabled-checkers '(sass))
       (flycheck-add-mode 'javascript-eslint 'web-mode)
-      (flycheck-select-checker 'javascript-eslint)))
+      (flycheck-select-checker 'javascript-eslint)
+      (flycheck-mode)))
   :init
   (progn
     (setq web-mode-code-indent-offset 2
