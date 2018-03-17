@@ -317,7 +317,6 @@
   (add-hook 'compilation-filter-hook #'bp-colorize-compilation-buffer)
   (add-hook 'compilation-mode-hook #'bp-compilation-mode-hook))
 
-
 (use-package dired
   :commands dired
   :init
@@ -364,19 +363,7 @@
     (grep-apply-setting
      'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+")))
 
-(use-package hl-line
-  :config
-  (progn
-    (define-global-minor-mode bp-global-hl-line-mode global-hl-line-mode
-      (lambda ()
-        ;; XXX: You can't turn off global-hl-line-mode on a per-buffer
-        ;; basis so we can just build up our own version that doesn't
-        ;; activate for a given list of modes.
-        (unless (memq major-mode (list 'eww-mode
-                                       'term-mode))
-          (hl-line-mode +1))))
-
-    (bp-global-hl-line-mode)))
+(use-package hl-line)
 
 (use-package ido
   :bind (("C-x C-i" . imenu))
@@ -458,20 +445,6 @@
 (use-package simple
   :init
   (add-hook 'before-save-hook #'delete-trailing-whitespace))
-
-(use-package smtpmail
-  :init
-  (setq starttls-use-gnutls t
-
-        send-mail-function 'smtpmail-send-it
-        message-send-mail-function 'smtpmail-send-it
-
-        smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil))
-        smtpmail-auth-credentials (expand-file-name "~/.authinfo")
-        smtpmail-default-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-service 587
-        smtpmail-debug-info t))
 
 (use-package uniquify
   :init
@@ -579,6 +552,7 @@
 
 ;;; Common Lisp
 (use-package slime
+  :disabled t
   :mode ("\\.lisp\\'" . slime-mode)
   :ensure t
   :config
@@ -593,6 +567,7 @@
 
 ;;; D
 (use-package d-mode
+  :disabled t
   :mode ("\\.d\\'" . d-mode)
   :ensure t
   :preface
@@ -643,6 +618,7 @@
 
 ;;; Go
 (use-package go-mode
+  :disabled t
   :ensure t
   :mode "\\.go\\'"
   :preface
@@ -796,6 +772,7 @@
 
 ;;; API Blueprint
 (use-package apib-mode
+  :disabled t
   :mode ("\\.apib\\'" . apib-mode)
   :ensure t)
 
@@ -814,6 +791,7 @@
 
 ;;; Pony
 (use-package ponylang-mode
+  :disabled t
   :ensure t
   :mode (("\\.pony\\'" . ponylang-mode))
   :config
@@ -905,6 +883,7 @@
 
 ;;; Purescript
 (use-package purescript-mode
+  :disabled t
   :ensure t
   :mode "\\.psc\\'"
   :config
@@ -918,6 +897,7 @@
 
 ;;; REST
 (use-package restclient
+  :disabled t
   :mode ("\\.http\\'" . restclient-mode)
   :ensure t)
 
@@ -963,15 +943,15 @@
 ;;; Web
 (use-package web-mode
   :ensure t
-  :mode (("\\.html?\\'" . web-mode)
-         ("\\.mjml\\'"  . web-mode)
-         ("\\.vue\\'"   . web-mode)
-         ("\\.hbs\\'"   . web-mode)
-         ("\\.eex\\'"   . web-mode)
-         ("\\.tm?pl\\'"  . web-mode)
-         ("\\.blade\\.php\\'" . web-mode)
-         ("\\.jsx?\\'" . web-mode)
-         ("\\.tsx\\'" . web-mode))
+  :mode (("\\.html?\\'"        . web-mode)
+         ("\\.mjml\\'"         . web-mode)
+         ("\\.vue\\'"          . web-mode)
+         ("\\.hbs\\'"          . web-mode)
+         ("\\.eex\\'"          . web-mode)
+         ("\\.tm?pl\\'"        . web-mode)
+         ("\\.blade\\.php\\'"  . web-mode)
+         ("\\.jsx?\\'"         . web-mode)
+         ("\\.tsx\\'"          . web-mode))
   :preface
   (defun bp-find-node-modules-root ()
     (expand-file-name
