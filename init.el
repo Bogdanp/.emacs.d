@@ -843,6 +843,12 @@
       (message (concat "Activated virtualenv " name))))
   :config
   (progn
+    (use-package blacken
+      :ensure t)
+
+    (use-package py-isort
+      :ensure t)
+
     (use-package elpy
       :commands (elpy-enable)
       :ensure t
@@ -878,6 +884,8 @@
 
         (use-package bp-py-test-projects)))
 
+    (add-hook 'before-save-hook #'py-isort-before-save)
+    ;(add-hook 'python-mode-hook #'blacken-mode)
     (add-hook 'python-mode-hook #'yas-minor-mode)))
 
 
@@ -968,6 +976,9 @@
   (defun bp-setup-eslint ()
     (setq-local flycheck-javascript-eslint-executable (bp-find-node-executable "eslint")))
 
+  (defun bp-setup-prettier ()
+    (setq-local prettier-js-command (bp-find-node-executable "prettier")))
+
   (defun bp-ts-web-mode-hook ()
     (when (string-equal "tsx" (file-name-extension buffer-file-name))
       (tide-setup)
@@ -976,12 +987,17 @@
   (defun bp-js-web-mode-hook ()
     (when (string-equal "js" (file-name-extension buffer-file-name))
       (bp-setup-eslint)
+      (bp-setup-prettier)
+      (prettier-js-mode)
       (setq-local flycheck-disabled-checkers '(sass))
       (flycheck-add-mode 'javascript-eslint 'web-mode)
       (flycheck-select-checker 'javascript-eslint)
       (flycheck-mode)))
   :init
   (progn
+    (use-package prettier-js
+      :ensure t)
+
     (setq web-mode-code-indent-offset 2
           web-mode-css-indent-offset 2
           web-mode-style-indent-offset 2
