@@ -363,7 +363,8 @@
     (grep-apply-setting
      'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+")))
 
-(use-package hl-line)
+(use-package hl-line
+  :config (global-hl-line-mode))
 
 (use-package ido
   :bind (("C-x C-i" . imenu))
