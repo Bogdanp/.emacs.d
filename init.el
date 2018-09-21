@@ -70,7 +70,7 @@
 ;;; UI
 ;; Position and resize frame.
 (when (window-system)
-  (add-to-list 'default-frame-alist '(font . "sf mono-12"))
+  (add-to-list 'default-frame-alist '(font . "operator mono-12"))
   (add-to-list 'default-frame-alist '(top . 32))
   (add-to-list 'default-frame-alist '(left . 10))
   (add-to-list 'default-frame-alist '(width . 199))
@@ -174,8 +174,8 @@
   :preface
   (defvar bp-evil-modes
     '(fundamental-mode conf-mode css-mode evil-command-window-mode d-mode
-                       groovy-mode haskell-mode haskell-cabal-mode json-mode
-                       ponylang-mode prog-mode purescript-mode restclient-mode
+                       groovy-mode haskell-mode haskell-cabal-mode hledger-mode
+                       json-mode ponylang-mode prog-mode purescript-mode restclient-mode
                        rust-mode text-mode sass-mode tuareg-mode typescript-mode
                        web-mode yaml-mode)
     "The list of modes that should default to normal mode.  All modes
@@ -505,7 +505,7 @@
   :init
   (add-hook 'prog-mode-hook #'flycheck-mode)
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
-  (setq-default flycheck-disabled-checkers '(sass))
+  (setq-default flycheck-disabled-checkers '(racket sass))
   (setq-default flycheck-flake8rc "setup.cfg"))
 
 
@@ -521,7 +521,7 @@
         (bp-workon name))))
   :init
   (setq projectile-enable-caching t)
-  (add-hook 'after-init-hook #'projectile-global-mode)
+  (add-hook 'after-init-hook #'projectile-mode)
   (add-hook 'projectile-find-file-hook #'bp-projectile-find-file-hook))
 
 
@@ -598,9 +598,9 @@
   :diminish paredit-mode
   :ensure t
   :init
-  (add-hook 'clojure-mode-hook #'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
   (add-hook 'lisp-mode-hook #'paredit-mode)
+  (add-hook 'racket-mode-hook #'paredit-mode)
   (add-hook 'scheme-mode-hook #'paredit-mode))
 
 (use-package rainbow-delimiters
@@ -608,6 +608,7 @@
   :init
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'racket-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'scheme-mode-hook #'rainbow-delimiters-mode))
 
 
@@ -714,6 +715,7 @@
 
 ;;; Typescript
 (use-package typescript-mode
+  :disabled t
   :mode (("\.ts\\'" . typescript-mode))
   :ensure t
   :config
@@ -845,6 +847,7 @@
   :config
   (progn
     (use-package blacken
+      :disabled t
       :ensure t)
 
     (use-package py-isort
@@ -909,6 +912,21 @@
   :disabled t
   :mode ("\\.http\\'" . restclient-mode)
   :ensure t)
+
+
+;;; Racket
+(use-package racket-mode
+  :ensure t
+  :mode ("\\.rkt\\'" . racket-mode)
+  :config
+  (progn
+    (use-package scribble-mode
+      :ensure t
+      :mode ("\\.scrbl\\'" . scribble-mode))
+
+    (bind-keys :map racket-mode-map
+                   ("C-c ." . racket-visit-definition)
+                   ("C-c ," . racket-unvisit))))
 
 
 ;;; Scala
@@ -1025,6 +1043,17 @@
 (use-package yaml-mode
   :ensure t
   :mode "\\.yaml\\'")
+
+
+;;; hledger
+(use-package hledger-mode
+  :ensure t
+  :mode "\\.journal\\'"
+  :config
+  (progn
+    (add-to-list 'company-backends 'hledger-company)
+    (setq hledger-currency-string "RON"
+          hledger-jfile (expand-file-name "~/sandbox/accounting/personal/2018.journal"))))
 
 
 (provide 'init)
