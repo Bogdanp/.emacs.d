@@ -40,13 +40,13 @@
  ;; Never use tabs.
  indent-tabs-mode nil
 
- ;; When using tabs (Go), they should be 4 spaces long.
+ ;; When using tabs (Go), they should be 2 spaces long.
  tab-width 2
 
  ;; Don't wrap long lines
  truncate-lines t)
 
-;;; Enable functionality
+;;; Enable narrow to region functionality
 (put 'narrow-to-region 'disabled nil)
 
 ;;; Vendored libs
@@ -108,6 +108,15 @@
     (if (not fullscreen)
         (set-frame-parameter nil 'fullscreen 'fullboth)
       (set-frame-parameter nil 'fullscreen nil))))
+
+
+(defun bp-bury-scratch-buffer ()
+  "Bury the scratch buffer on kill rather than killing it."
+  (if (string= (buffer-name) "*scratch*")
+      (ignore (bury-buffer))
+    t))
+
+(add-hook 'kill-buffer-query-functions #'bp-bury-scratch-buffer)
 
 
 ;; Use y and n instead of yes and no.
@@ -258,6 +267,7 @@
     (bind-keys ("C-c C-\\" . evil-leader-prefix-map)
                ("C-c M-a"  . bp-open-terminal)
                ("C-c M-c"  . bp-open-chrome)
+               ("C-x C-k"  . kill-region)
                ("C-j"      . newline-and-indent)
                ("C-w"      . backward-kill-word)
                ("C--"      . text-scale-decrease)
@@ -277,11 +287,7 @@
                ("i"   . bp-open-terminal)
                (",i"  . bp-find-init-file)
                ("bu"  . browse-url)
-               ("fn"  . make-frame-command)
-               ("fo"  . other-frame)
-               ("fc"  . delete-frame)
                ("p"   . projectile-command-map)
-               ("mc"  . compose-mail)
                ("xf"  . xref-find-definitions))))
 
 
@@ -551,37 +557,6 @@
         c-basic-offset 4))
 
 
-;;; Common Lisp
-(use-package slime
-  :disabled t
-  :mode ("\\.lisp\\'" . slime-mode)
-  :ensure t
-  :config
-  (progn
-    (use-package slime-company
-      :ensure t
-      :config
-      (add-to-list 'company-backends #'company-slime))
-
-    (slime-setup '(slime-fancy))))
-
-
-;;; D
-(use-package d-mode
-  :disabled t
-  :mode ("\\.d\\'" . d-mode)
-  :ensure t
-  :preface
-  (defun bp-d-mode-hook ()
-    (setq-local c-basic-offset 2))
-  :config
-  (use-package company-dcd
-    :ensure t
-    :config
-    (add-hook 'd-mode-hook #'company-dcd-mode))
-  (add-hook 'd-mode-hook #'bp-d-mode-hook))
-
-
 ;;; Docker
 (use-package dockerfile-mode
   :mode "\\Dockerfile\\'"
@@ -618,46 +593,6 @@
   :mode "\\.fish\\'")
 
 
-;;; Go
-(use-package go-mode
-  :disabled t
-  :ensure t
-  :mode "\\.go\\'"
-  :preface
-  (defun bp-go-mode-hook ()
-    ;; Fixes fill-region over comments: https://github.com/dominikh/go-mode.el/issues/119
-    (set (make-local-variable 'adaptive-fill-regexp) "[   ]*\\(//+\\|\\**\\)[     ]*\\([  ]*\\([-–!|#%;>*·•‣⁃◦]+[  ]*\\)*\\)")
-    (set (make-local-variable 'compile-command) "go install -v; and go test -v; and go vet"))
-  :init
-  (setq gofmt-command "goimports")
-  :config
-  (progn
-    (use-package company-go
-      :ensure t
-      :config
-      (add-to-list 'company-backends #'company-go))
-
-    (use-package go-eldoc
-      :ensure t)
-
-    (load (concat (getenv "GOPATH") "/src/golang.org/x/tools/cmd/guru/go-guru.el"))
-
-    (add-hook 'go-mode-hook #'bp-go-mode-hook)
-    (add-hook 'go-mode-hook #'go-eldoc-setup)
-    (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode)
-    (add-hook 'go-mode-hook #'yas-minor-mode)
-    (add-hook 'before-save-hook #'gofmt-before-save)
-
-    (bind-keys :map go-mode-map
-               ("C-c ." . godef-jump))))
-
-
-;;; Groovy
-(use-package groovy-mode
-  :ensure t
-  :mode "\\.groovy\\'")
-
-
 ;;; HCL
 (use-package hcl-mode
   :ensure t
@@ -682,75 +617,68 @@
     (add-hook 'haskell-mode-hook #'intero-mode)))
 
 
-;;; Javascript
-(use-package js2-mode
-  :disabled t
-  :mode (("\.js\\'" . js2-mode)
-         ("\.jsx\\'" . js2-jsx-mode))
+;;; LSP
+(use-package company-lsp
+  :ensure t
+  :after company)
+
+(use-package lsp-mode
+  :ensure t
+  :config
+  (setq lsp-highlight-symbol-at-point nil)
+  (lsp-mode nil))
+
+(use-package lsp-ui
+  :ensure t)
+
+
+;;; Java and Groovy
+(use-package lsp-java
   :ensure t
   :preface
-  (defun bp-find-node-modules-root ()
-    (expand-file-name
-     (locate-dominating-file (buffer-file-name) "node_modules")))
-
-  (defun bp-find-node-executable (name)
-    (require 'f)
-    (let* ((root (bp-find-node-modules-root))
-           (bin-path (f-expand "node_modules/.bin" root))
-           (exec-path (f-expand name bin-path)))
-      (when (f-exists? exec-path)
-        exec-path)))
-
-  (defun bp-setup-eslint ()
-    (setq-local flycheck-javascript-eslint-executable (bp-find-node-executable "eslint")))
+  (defun bp-java-hook ()
+    (setq-local lsp-eldoc-render-all nil)
+    (push 'company-lsp company-backends)
+    (lsp-ui-doc-enable nil)
+    (lsp-ui-doc-enable-eldoc)
+    (lsp-ui-flycheck-enable t)
+    (lsp-ui-sideline-enable nil))
   :config
-  (add-hook 'js2-mode-hook #'bp-setup-eslint)
-
-  (setq js2-basic-offset 2
-        js2-strict-missing-semi-warning t
-        js2-strict-trailing-comma-warning nil
-        js2-global-externs '("module" "require" "exports" "describe" "it" "process" "__dirname"
-                             "env" "setTimeout" "expect" "beforeAll" "beforeEach" "atob")))
-
-
-;;; Typescript
-(use-package typescript-mode
-  :disabled t
-  :mode (("\.ts\\'" . typescript-mode))
-  :ensure t
-  :config
-  (use-package tide
-    :ensure t
-    :preface
-    (defun bp-setup-tide ()
-      (setq-local company-tooltip-align-annotations t)
-      (setq-local flycheck-check-syntax-automatically '(save mode-enabled)))
-
+  (use-package bp-java-workspaces
     :config
-    (add-hook 'before-save-hook #'tide-format-before-save)
-    (add-hook 'typescript-mode-hook #'eldoc-mode)
-    (add-hook 'typescript-mode-hook #'tide-setup)
-    (add-hook 'typescript-mode-hook #'tide-hl-identifier-mode)
-    (add-hook 'typescript-mode-hook #'bp-setup-tide)
+    (bp-setup-java-workspaces))
 
-    (bind-keys :map tide-mode-map
-               ("C-c d" . tide-documentation-at-point)
-               ("C-c ." . tide-jump-to-definition)
-               ("C-c ," . tide-jump-back)))
+  (setq lsp-inhibit-message t
+        lsp-ui-sideline-update-mode 'point)
 
-  (setq typescript-indent-level 2))
+  (add-hook 'java-mode-hook #'bp-java-hook)
+  (add-hook 'java-mode-hook #'lsp-ui-mode)
+  (add-hook 'java-mode-hook #'lsp-java-enable))
+
+(use-package gradle-mode
+  :ensure t
+  :mode (("\\.gradle\\'" . gradle-mode))
+  :config
+  (add-hook 'gradle-mode-hook #'lsp-java-enable))
+
+(use-package groovy-mode
+  :ensure t
+  :mode (("\\.gradle\\'" . groovy-mode))
+  :config
+  (add-hook 'groovy-mode-hook #'gradle-mode))
 
 
 ;;; TOML
 (use-package toml-mode
-  :mode (("Pipfile" . toml-mode))
-  :ensure t)
+  :ensure t
+  :mode (("\\.toml\\'". toml-mode)
+         ("Pipfile" . toml-mode)))
 
 
 ;;; JSON
 (use-package json-mode
-  :mode "\.json\\'"
   :ensure t
+  :mode "\\.json\\'"
   :config
   (setq json-reformat:indent-width 2
         js-indent-level 2))
@@ -758,54 +686,31 @@
 
 ;;; SASS
 (use-package sass-mode
+  :ensure t
   :mode (("\\.sass\\'" . sass-mode)
          ("\\.scss\\'" . scss-mode))
-  :ensure t
   :init
   (setq css-indent-offset 2))
 
 
 ;;; Lua
 (use-package lua-mode
-  :mode ("\\.lua\\'" . lua-mode)
   :ensure t
+  :mode ("\\.lua\\'" . lua-mode)
   :config
   (setq lua-indent-level 4))
 
 
-;;; API Blueprint
-(use-package apib-mode
-  :disabled t
-  :mode ("\\.apib\\'" . apib-mode)
-  :ensure t)
-
-
 ;;; Markdown
 (use-package markdown-mode
-  :mode ("\\.md\\'" . gfm-mode)
-  :ensure t)
+  :ensure t
+  :mode ("\\.md\\'" . gfm-mode))
 
 
 ;;; Mermaid
 (use-package mermaid
   :mode ("\\.mmd\\'" . mermaid-mode)
   :load-path "vendor/mermaid-mode")
-
-
-;;; Pony
-(use-package ponylang-mode
-  :disabled t
-  :ensure t
-  :mode (("\\.pony\\'" . ponylang-mode))
-  :config
-  (use-package flycheck-pony
-    :ensure t))
-
-
-;;; Protobuf
-(use-package protobuf-mode
-  :ensure t
-  :mode (("\\.proto\\'" . protobuf-mode)))
 
 
 ;;; Python
@@ -846,10 +751,6 @@
       (message (concat "Activated virtualenv " name))))
   :config
   (progn
-    (use-package blacken
-      :disabled t
-      :ensure t)
-
     (use-package py-isort
       :ensure t)
 
@@ -889,82 +790,21 @@
         (use-package bp-py-test-projects)))
 
     (add-hook 'before-save-hook #'py-isort-before-save)
-    ;(add-hook 'python-mode-hook #'blacken-mode)
     (add-hook 'python-mode-hook #'yas-minor-mode)))
 
 
-;;; Purescript
-(use-package purescript-mode
-  :disabled t
-  :ensure t
-  :mode "\\.psc\\'"
-  :config
-  (progn
-    (use-package psc-ide
-      :load-path "vendor/psc-ide")
-
-    (add-hook 'purescript-mode-hook #'psc-ide-mode)
-    (add-hook 'purescript-mode-hook #'turn-on-purescript-indentation)))
-
-
-;;; REST
-(use-package restclient
-  :disabled t
-  :mode ("\\.http\\'" . restclient-mode)
-  :ensure t)
-
-
-;;; Racket
+;;; Racket and Scribble
 (use-package racket-mode
   :ensure t
   :mode ("\\.rkt\\'" . racket-mode)
   :config
-  (progn
-    (use-package scribble-mode
+  (bind-keys :map racket-mode-map
+             ("C-c ." . racket-visit-definition)
+             ("C-c ," . racket-unvisit)))
+
+(use-package scribble-mode
       :ensure t
       :mode ("\\.scrbl\\'" . scribble-mode))
-
-    (bind-keys :map racket-mode-map
-                   ("C-c ." . racket-visit-definition)
-                   ("C-c ," . racket-unvisit))))
-
-
-;;; Scala
-(use-package sbt-mode
-  :commands sbt-start sbt-command
-  :ensure t)
-
-(use-package scala-mode
-  :mode (("\\.scala\\'" . scala-mode)
-         ("\\.sbt\\'"   . scala-mode))
-  :interpreter ("scala" . scala-mode)
-  :ensure t
-  :preface
-  (defun bp-scala-mode-hook ()
-    (when (string-suffix-p ".sbt" (buffer-name))
-      (flycheck-mode -1)))
-  :config
-  (progn
-    (use-package ensime
-      :ensure t
-      :pin melpa-stable
-      :config
-      (progn
-        (setq ensime-auto-generate-config t
-              ensime-default-java-flags '("-Xms1G" "-Xmx2G")
-              ensime-startup-snapshot-notification nil
-              ensime-startup-notification nil)
-
-        (let* ((faces ensime-sem-high-faces)
-               (faces (assq-delete-all 'implicitConversion faces))
-               (faces (assq-delete-all 'implicitParams faces)))
-          (setq ensime-sem-high-faces faces))
-
-        (bind-keys :map ensime-mode-map
-                   ("C-c ." . ensime-edit-definition)
-                   ("C-c ," . ensime-pop-find-definition-stack))))
-
-    (add-hook 'scala-mode-hook #'bp-scala-mode-hook)))
 
 
 ;;; Web
@@ -1008,14 +848,12 @@
       (bp-setup-eslint)
       (bp-setup-prettier)
       (prettier-js-mode)
-      (setq-local flycheck-disabled-checkers '(sass))
       (flycheck-add-mode 'javascript-eslint 'web-mode)
       (flycheck-select-checker 'javascript-eslint)
       (flycheck-mode)))
   :init
   (progn
-    (use-package prettier-js
-      :ensure t)
+    (use-package prettier-js :ensure t)
 
     (setq web-mode-code-indent-offset 2
           web-mode-css-indent-offset 2
