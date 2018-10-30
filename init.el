@@ -551,10 +551,17 @@
 
 ;;; C
 (use-package cc-mode
-  :mode ("\\.c\\'" . c-mode)
-  :init
+  :mode (("\\.c\\'" . c-mode)
+         ("\\.java\\'" . java-mode))
+  :config
   (setq c-default-style "bsd"
-        c-basic-offset 4))
+        c-basic-offset 4)
+
+  (bind-keys :map java-mode-map
+             :prefix "C-c"
+             :prefix-map java-mode-prefix-map
+             ("," . meghanada-back-jump)
+             ("." . meghanada-jump-declaration)))
 
 
 ;;; Docker
@@ -617,43 +624,18 @@
     (add-hook 'haskell-mode-hook #'intero-mode)))
 
 
-;;; LSP
-(use-package company-lsp
-  :ensure t
-  :after company)
-
-(use-package lsp-mode
-  :ensure t
-  :config
-  (setq lsp-highlight-symbol-at-point nil)
-  (lsp-mode nil))
-
-(use-package lsp-ui
-  :ensure t)
-
-
 ;;; Java and Groovy
-(use-package lsp-java
+(use-package meghanada
   :ensure t
   :preface
-  (defun bp-java-hook ()
-    (setq-local lsp-eldoc-render-all nil)
-    (push 'company-lsp company-backends)
-    (lsp-ui-doc-enable nil)
-    (lsp-ui-doc-enable-eldoc)
-    (lsp-ui-flycheck-enable t)
-    (lsp-ui-sideline-enable nil))
+  (defun bp-java-mode-hook ()
+    (setq-local c-basic-offset 2)
+    (meghanada-company-enable))
   :config
-  (use-package bp-java-workspaces
-    :config
-    (bp-setup-java-workspaces))
+  (setq meghanada-javac-xlint "-Xlint:all,-processing")
 
-  (setq lsp-inhibit-message t
-        lsp-ui-sideline-update-mode 'point)
-
-  (add-hook 'java-mode-hook #'bp-java-hook)
-  (add-hook 'java-mode-hook #'lsp-ui-mode)
-  (add-hook 'java-mode-hook #'lsp-java-enable))
+  (add-hook 'java-mode-hook #'meghanada-mode)
+  (add-hook 'java-mode-hook #'bp-java-mode-hook))
 
 (use-package gradle-mode
   :ensure t
@@ -797,7 +779,13 @@
 (use-package racket-mode
   :ensure t
   :mode ("\\.rkt\\'" . racket-mode)
+  :preface
+  (defun bp-racket-mode-hook ()
+    (setq-local eldoc-documentation-function #'racket-eldoc-function))
   :config
+  (add-hook 'racket-mode-hook #'bp-racket-mode-hook)
+
+  (put 'call-with-transaction 'racket-indent-function #'defun)
   (bind-keys :map racket-mode-map
              ("C-c ." . racket-visit-definition)
              ("C-c ," . racket-unvisit)))
