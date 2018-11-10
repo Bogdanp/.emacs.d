@@ -785,6 +785,8 @@
   :config
   (add-hook 'racket-mode-hook #'bp-racket-mode-hook)
 
+  (put 'call-with-database-connection 'racket-indent-function #'defun)
+  (put 'call-with-database-transaction 'racket-indent-function #'defun)
   (put 'call-with-transaction 'racket-indent-function #'defun)
   (bind-keys :map racket-mode-map
              ("C-c ." . racket-visit-definition)
