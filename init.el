@@ -782,19 +782,40 @@
   :preface
   (defun bp-racket-mode-hook ()
     (setq-local eldoc-documentation-function #'racket-eldoc-function))
+
+  (defun bp-racket-enter ()
+    (interactive)
+    (let* ((source-file (buffer-file-name))
+           (source-directory (expand-file-name (file-name-directory source-file)))
+           (package-root (expand-file-name (locate-dominating-file source-file "info.rkt")))
+           (module (file-relative-name source-file package-root)))
+      (switch-to-buffer-other-window racket--repl-buffer-name)
+      (end-of-buffer)
+      (insert "(require racket/enter)")
+      (racket-repl-submit)
+      (insert (concat "(current-load-relative-directory \"" package-root "\")"))
+      (racket-repl-submit)
+      (insert (concat "(enter! \"" module "\")"))
+      (racket-repl-submit)
+      (insert (concat "(current-load-relative-directory \"" source-directory "\")"))
+      (racket-repl-submit)))
   :config
   (add-hook 'racket-mode-hook #'bp-racket-mode-hook)
 
+  (put 'for/stream 'racket-indent-function #'defun)
+  (put 'property 'racket-indent-function #'defun)
+  (put 'call-with-test-client+server 'racket-indent-function #'defun)
   (put 'call-with-database-connection 'racket-indent-function #'defun)
   (put 'call-with-database-transaction 'racket-indent-function #'defun)
   (put 'call-with-transaction 'racket-indent-function #'defun)
   (bind-keys :map racket-mode-map
+             ("C-c C-a" . bp-racket-enter)
              ("C-c ." . racket-visit-definition)
              ("C-c ," . racket-unvisit)))
 
 (use-package scribble-mode
-      :ensure t
-      :mode ("\\.scrbl\\'" . scribble-mode))
+  :ensure t
+  :mode ("\\.scrbl\\'" . scribble-mode))
 
 
 ;;; Web
