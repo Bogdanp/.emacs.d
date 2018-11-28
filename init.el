@@ -793,11 +793,7 @@
       (end-of-buffer)
       (insert "(require racket/enter)")
       (racket-repl-submit)
-      (insert (concat "(current-load-relative-directory \"" package-root "\")"))
-      (racket-repl-submit)
-      (insert (concat "(enter! \"" module "\")"))
-      (racket-repl-submit)
-      (insert (concat "(current-load-relative-directory \"" source-directory "\")"))
+      (insert (concat "(parameterize [(current-load-relative-directory \"" package-root "\")] (enter! \"" module "\"))"))
       (racket-repl-submit)))
   :config
   (add-hook 'racket-mode-hook #'bp-racket-mode-hook)
