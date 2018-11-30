@@ -523,9 +523,9 @@
   :preface
   (defun bp-projectile-find-file-hook ()
     (let ((name (projectile-project-name)))
-      (when (and (not (equal name bp-current-python-env))
+      (when (and (not (equal name pyvenv-virtual-env-name))
                  (-contains-p (pyvenv-virtualenv-list) name))
-        (bp-workon name))))
+        (pyvenv-workon name))))
   :init
   (setq projectile-enable-caching t)
   (add-hook 'after-init-hook #'projectile-mode)
@@ -702,36 +702,6 @@
   :mode (("\\.py\\'"   . python-mode)
          ("SConstruct" . python-mode))
   :interpreter ("python" . python-mode)
-  :preface
-  (defvar bp-current-python-env nil)
-
-  (defun bp-apply-buffer-env (buffer-name)
-    (with-current-buffer buffer-name
-      (goto-char (point-min))
-      (dolist (binding (json-read))
-        (let ((env (format "%s=%s" (car binding) (cdr binding))))
-          (when (not (member env process-environment))
-            (setq process-environment (cons env process-environment))))
-        (when (eq (car binding) 'PATH)
-          (setq exec-path (split-string (cdr binding) ":"))))))
-
-  (defun bp-workon (name)
-    (interactive
-     (list (completing-read "Work on: " (pyvenv-virtualenv-list)
-                            nil t nil 'pyvenv-workon-history nil nil)))
-    (let ((output-buffer "*vf-activate*")
-          (error-buffer "*vf-activate-errors*"))
-      (when (buffer-live-p output-buffer)
-        (with-current-buffer output-buffer
-          (erase-buffer)))
-      (shell-command
-       (format "vf activate %s; and python -c 'import json, os; print(json.dumps(dict(os.environ)))'" name)
-       output-buffer
-       error-buffer)
-      (bp-apply-buffer-env output-buffer)
-      (setq bp-current-python-env name)
-      (setq elpy-rpc-python-command "python")
-      (message (concat "Activated virtualenv " name))))
   :config
   (progn
     (use-package py-isort
@@ -745,7 +715,7 @@
       :config
       (progn
         (bind-keys :map python-mode-map
-                   ("C-c v" . bp-workon)
+                   ("C-c v" . pyenv-workon)
                    ("C-c ." . elpy-goto-definition)
                    ("C-c ," . pop-tag-mark))
 
