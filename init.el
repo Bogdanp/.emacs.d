@@ -5,7 +5,7 @@
 (setq
  ;;; Me
  user-full-name "Bogdan Popa"
- user-mail-address "popa.bogdanp@gmail.com"
+ user-mail-address "bogdan@defn.io"
 
  ;;; GC
  ;; EMACS' default GC threshold is <1MB. Give it 16MB instead.
@@ -287,6 +287,7 @@
                ("i"   . bp-open-terminal)
                (",i"  . bp-find-init-file)
                ("bu"  . browse-url)
+               ("m"   . mu4e)
                ("p"   . projectile-command-map)
                ("xf"  . xref-find-definitions))))
 
@@ -899,6 +900,104 @@
     (add-to-list 'company-backends 'hledger-company)
     (setq hledger-currency-string "RON"
           hledger-jfile (expand-file-name "~/sandbox/accounting/personal/2018.journal"))))
+
+
+;;; email
+(use-package mu4e
+  :load-path "/usr/local/Cellar/mu/1.0/share/emacs/site-lisp/mu/mu4e"
+  :preface
+  (defun bp-make-mu4e-matcher (mailbox-name)
+    (lexical-let ((prefix (concat "/" mailbox-name "/")))
+      (lambda (msg)
+        (when msg
+          (string-prefix-p prefix (mu4e-message-field msg :maildir))))))
+  :config
+  (progn
+    (use-package smtpmail)
+    (use-package mu4e-alert
+      :ensure t
+      :config
+      (mu4e-alert-enable-mode-line-display)
+      (mu4e-alert-enable-notifications)
+      (mu4e-alert-set-default-style 'notifier))
+
+    (add-to-list 'mu4e-view-actions '("View in Browser" . mu4e-action-view-in-browser) t)
+
+    (bind-keys :map mu4e-main-mode-map
+               ("q" . bury-buffer))
+
+    (setq
+     sendmail-program "msmtp"
+     message-send-mail-function #'message-send-mail-with-sendmail
+     message-sendmail-extra-arguments '("--read-envelope-from")
+     message-sendmail-f-is-evil t
+
+     mu4e-maildir "~/Mail"
+     mu4e-attachment-dir "~/Downloads"
+
+     mu4e-get-mail-command "mbsync -a"
+     mu4e-update-interval 300
+
+     mu4e-change-filenames-when-moving t ;; prevents mbsync from complaining about duplicate UIDs
+     mu4e-sent-messages-behavior 'delete ;; don't save sent messages since Gmail does that for us
+
+     mu4e-bookmarks '(((string-join '("maildir:/business/inbox"
+                                      "maildir:/personal/inbox"
+                                      "maildir:/work-blockfraud/inbox"
+                                      "maildir:/work-remoteonly/inbox") " or ") "All Inboxes" ?i)
+                      ("maildir:/personal/inbox" "Personal Inbox" ?p)
+                      ("flag:unread AND NOT flag:trashed" "Unread Messages" ?u)
+                      ("date:today..now" "Messages Today" ?t)
+                      ("date:7d..now" "Messages This Week" ?w)
+                      ("date:30d..now" "Messages This Month" ?m))
+
+     mu4e-context-policy 'pick-first
+     mu4e-compose-context-policy 'ask-if-none
+     mu4e-contexts `(,(make-mu4e-context
+                       :name "personal"
+                       :match-func (bp-make-mu4e-matcher "personal")
+                       :vars '((user-mail-address  . "bogdan@defn.io")
+                               (mu4e-refile-folder . "/personal/archive")
+                               (mu4e-sent-folder   . "/personal/sent")
+                               (mu4e-drafts-folder . "/personal/drafts")
+                               (mu4e-trash-folder  . "/personal/trash")))
+
+                     ,(make-mu4e-context
+                       :name "archive"
+                       :match-func (bp-make-mu4e-matcher "personal-archive")
+                       :vars '((user-mail-address  . "popa.bogdanp@gmail.com")
+                               (mu4e-refile-folder . "/personal-archive/archive")
+                               (mu4e-sent-folder   . "/personal-archive/sent")
+                               (mu4e-drafts-folder . "/personal-archive/drafts")
+                               (mu4e-trash-folder  . "/personal-archive/trash")))
+
+                     ,(make-mu4e-context
+                       :name "business"
+                       :match-func (bp-make-mu4e-matcher "business")
+                       :vars '((user-mail-address  . "bogdan@cleartype.io")
+                               (mu4e-refile-folder . "/business/archive")
+                               (mu4e-sent-folder   . "/business/sent")
+                               (mu4e-drafts-folder . "/business/drafts")
+                               (mu4e-trash-folder  . "/business/trash")))
+
+
+                     ,(make-mu4e-context
+                       :name "work-blockfraud"
+                       :match-func (bp-make-mu4e-matcher "work-blockfraud")
+                       :vars '((user-mail-address  . "bogdan@blockfraud.com")
+                               (mu4e-refile-folder . "/work-blockfraud/archive")
+                               (mu4e-sent-folder   . "/work-blockfraud/sent")
+                               (mu4e-drafts-folder . "/work-blockfraud/drafts")
+                               (mu4e-trash-folder  . "/work-blockfraud/trash")))
+
+                     ,(make-mu4e-context
+                       :name "work-remoteonly"
+                       :match-func (bp-make-mu4e-matcher "work-remoteonly")
+                       :vars '((user-mail-address  . "bogdan@remoteonly.com")
+                               (mu4e-refile-folder . "/work-remoteonly/archive")
+                               (mu4e-sent-folder   . "/work-remoteonly/sent")
+                               (mu4e-drafts-folder . "/work-remoteonly/drafts")
+                               (mu4e-trash-folder  . "/work-remoteonly/trash")))))))
 
 
 (provide 'init)
