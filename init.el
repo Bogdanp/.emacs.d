@@ -540,15 +540,6 @@
   :commands diminish
   :ensure t)
 
-;; (when (memq window-system '(mac ns))
-;;   (use-package exec-path-from-shell
-;;     :commands exec-path-from-shell-initialize
-;;     :ensure t
-;;     :init
-;;     (add-hook 'after-init-hook #'exec-path-from-shell-initialize)
-;;     :config
-;;     (add-to-list 'exec-path-from-shell-variables "GOPATH")))
-
 
 ;;; C
 (use-package cc-mode
