@@ -904,9 +904,9 @@
 
      mu4e-bookmarks '(((string-join '("maildir:/business/inbox"
                                       "maildir:/personal/inbox"
+                                      "maildir:/personal-archive/inbox"
                                       "maildir:/work-blockfraud/inbox"
                                       "maildir:/work-remoteonly/inbox") " or ") "All Inboxes" ?i)
-                      ("maildir:/personal/inbox" "Personal Inbox" ?p)
                       ("flag:unread AND NOT flag:trashed" "Unread Messages" ?u)
                       ("date:today..now" "Messages Today" ?t)
                       ("date:7d..now" "Messages This Week" ?w)
