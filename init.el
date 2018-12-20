@@ -906,8 +906,16 @@
                                       "maildir:/personal/inbox"
                                       "maildir:/personal-archive/inbox"
                                       "maildir:/work-blockfraud/inbox"
+                                      "maildir:/work-gamemine/inbox"
                                       "maildir:/work-remoteonly/inbox") " or ") "All Inboxes" ?i)
-                      ("flag:unread AND NOT flag:trashed" "Unread Messages" ?u)
+                      ((string-join '("flag:unread"
+                                      "flag:trashed"
+                                      "maildir:/business/junk"
+                                      "maildir:/personal/junk"
+                                      "maildir:/personal-archive/junk"
+                                      "maildir:/work-blockfraud/junk"
+                                      "maildir:/work-gamemine/junk"
+                                      "maildir:/work-remoteonly/junk") " AND NOT ") "Unread Messages" ?u)
                       ("date:today..now" "Messages Today" ?t)
                       ("date:7d..now" "Messages This Week" ?w)
                       ("date:30d..now" "Messages This Month" ?m))
@@ -950,6 +958,15 @@
                                (mu4e-sent-folder   . "/work-blockfraud/sent")
                                (mu4e-drafts-folder . "/work-blockfraud/drafts")
                                (mu4e-trash-folder  . "/work-blockfraud/trash")))
+
+                     ,(make-mu4e-context
+                       :name "work-gamemine"
+                       :match-func (bp-make-mu4e-matcher "work-gamemine")
+                       :vars '((user-mail-address  . "bogdan@gamemine.com")
+                               (mu4e-refile-folder . "/work-gamemine/archive")
+                               (mu4e-sent-folder   . "/work-gamemine/sent")
+                               (mu4e-drafts-folder . "/work-gamemine/drafts")
+                               (mu4e-trash-folder  . "/work-gamemine/trash")))
 
                      ,(make-mu4e-context
                        :name "work-remoteonly"
