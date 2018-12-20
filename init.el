@@ -256,7 +256,8 @@
       (add-hook 'evil-mode-hook #'global-evil-surround-mode))
 
     (dolist (hook '(git-commit-setup-hook
-                    git-timemachine-mode-hook))
+                    git-timemachine-mode-hook
+                    magit-blame-mode-hook))
       (add-hook hook #'bp-toggle-emacs-state))
 
     (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook)
@@ -287,6 +288,7 @@
                ("i"   . bp-open-terminal)
                (",i"  . bp-find-init-file)
                ("bu"  . browse-url)
+               ("s"   . magit-status)
                ("m"   . mu4e)
                ("p"   . projectile-command-map)
                ("xf"  . xref-find-definitions))))
@@ -484,6 +486,20 @@
   :commands git-timemachine
   :ensure t)
 
+(use-package magit
+  :ensure t
+  :commands (magit-status git-commit-mode)
+  :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
+         ("MERGE_MSG\\'"      . git-commit-mode))
+  :init
+  (setq magit-completing-read-function #'magit-ido-completing-read
+        magit-repository-directories '(("~/sandbox" . 1)
+                                       ("~/work"    . 1)))
+  :config
+  (use-package fullframe
+    :ensure t
+    :config
+    (fullframe magit-status magit-mode-quit-window)))
 
 ;;; Code completion
 (use-package company
