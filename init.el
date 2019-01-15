@@ -556,7 +556,6 @@
   :commands diminish
   :ensure t)
 
-
 ;;; C
 (use-package cc-mode
   :mode (("\\.c\\'" . c-mode)
@@ -638,6 +637,7 @@
   :preface
   (defun bp-java-mode-hook ()
     (setq-local c-basic-offset 2)
+    (setq-local c-default-style "java")
     (meghanada-company-enable))
   :config
   (setq meghanada-javac-xlint "-Xlint:all,-processing")
@@ -763,7 +763,8 @@
 
   (defun bp-racket-enter ()
     (interactive)
-    (let* ((source-file (buffer-file-name))
+    (let* ((source-buffer (current-buffer))
+           (source-file (buffer-file-name))
            (source-directory (expand-file-name (file-name-directory source-file)))
            (package-root (expand-file-name (locate-dominating-file source-file "info.rkt")))
            (module (file-relative-name source-file package-root)))
@@ -772,20 +773,22 @@
       (insert "(require racket/enter)")
       (racket-repl-submit)
       (insert (concat "(parameterize [(current-load-relative-directory \"" package-root "\")] (enter! \"" module "\"))"))
-      (racket-repl-submit)))
+      (racket-repl-submit)
+      (switch-to-buffer-other-window source-buffer)))
   :config
   (add-hook 'racket-mode-hook #'bp-racket-mode-hook)
 
   (put 'for/stream 'racket-indent-function #'defun)
   (put 'property 'racket-indent-function #'defun)
+  (put 'xexpr-when 'racket-indent-function #'defun)
   (put 'call-with-test-client+server 'racket-indent-function #'defun)
   (put 'call-with-database-connection 'racket-indent-function #'defun)
   (put 'call-with-database-transaction 'racket-indent-function #'defun)
   (put 'call-with-transaction 'racket-indent-function #'defun)
   (bind-keys :map racket-mode-map
              ("C-c C-a" . bp-racket-enter)
-             ("C-c ." . racket-visit-definition)
-             ("C-c ," . racket-unvisit)))
+             ("C-c ."   . racket-visit-definition)
+             ("C-c ,"   . racket-unvisit)))
 
 (use-package scribble-mode
   :ensure t
@@ -891,12 +894,27 @@
   :config
   (progn
     (use-package smtpmail)
+    (use-package subr-x)
     (use-package mu4e-alert
       :ensure t
       :config
       (mu4e-alert-enable-mode-line-display)
       (mu4e-alert-enable-notifications)
-      (mu4e-alert-set-default-style 'notifier))
+      (mu4e-alert-set-default-style 'notifier)
+      (setq mu4e-alert-interesting-mail-query (string-join '("flag:unread"
+                                                             "flag:trashed"
+                                                             "maildir:/personal/junk"
+                                                             "maildir:/personal-archive/junk"
+                                                             "maildir:/business/junk"
+                                                             "maildir:/work-blockfraud/junk"
+                                                             "maildir:/work-gamemine/junk"
+                                                             "maildir:/work-remoteonly/junk")
+                                                           " AND NOT ")))
+
+    (use-package org-mu4e
+      :commands (org-mu4e-compose-org-mode org-mu4e-store-and-capture)
+      :config
+      (setq org-mu4e-convert-to-html t))
 
     (add-to-list 'mu4e-view-actions '("View in Browser" . mu4e-action-view-in-browser) t)
 
@@ -992,6 +1010,12 @@
                                (mu4e-sent-folder   . "/work-remoteonly/sent")
                                (mu4e-drafts-folder . "/work-remoteonly/drafts")
                                (mu4e-trash-folder  . "/work-remoteonly/trash")))))))
+
+;;; org
+(use-package org
+  :mode ("\\.org\\'" . org-mode)
+  :config
+  (setq org-default-notes-file (expand-file-name "~/Dropbox/Documents/Personal/Bogdan.org")))
 
 
 (provide 'init)
