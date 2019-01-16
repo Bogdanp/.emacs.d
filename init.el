@@ -924,6 +924,9 @@
       (lambda (msg)
         (when msg
           (string-prefix-p prefix (mu4e-message-field msg :maildir))))))
+
+  (defun bp-capture-message (_)
+    (call-interactively #'org-mu4e-store-and-capture))
   :config
   (progn
     (use-package smtpmail)
@@ -943,8 +946,6 @@
                                                              "maildir:/work-gamemine/junk"
                                                              "maildir:/work-remoteonly/junk")
                                                            " AND NOT ")))
-
-    (add-to-list 'mu4e-view-actions '("View in Browser" . mu4e-action-view-in-browser) t)
 
     (bind-keys :map mu4e-main-mode-map
                ("q" . bury-buffer))
@@ -982,6 +983,10 @@
                       ("date:7d..now" "Messages This Week" ?w)
                       ("date:30d..now" "Messages This Month" ?m))
 
+     mu4e-view-actions '(("Capture Message" . bp-capture-message)
+                         ("Thread" . mu4e-action-show-thread)
+                         ("View in Browser" . mu4e-action-view-in-browser))
+
      mu4e-context-policy 'pick-first
      mu4e-compose-context-policy 'ask-if-none
      mu4e-contexts `(,(make-mu4e-context
@@ -1010,7 +1015,6 @@
                                (mu4e-sent-folder   . "/business/sent")
                                (mu4e-drafts-folder . "/business/drafts")
                                (mu4e-trash-folder  . "/business/trash")))
-
 
                      ,(make-mu4e-context
                        :name "work-blockfraud"
