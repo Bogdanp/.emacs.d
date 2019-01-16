@@ -944,11 +944,6 @@
                                                              "maildir:/work-remoteonly/junk")
                                                            " AND NOT ")))
 
-    (use-package org-mu4e
-      :commands (org-mu4e-compose-org-mode org-mu4e-store-and-capture)
-      :config
-      (setq org-mu4e-convert-to-html t))
-
     (add-to-list 'mu4e-view-actions '("View in Browser" . mu4e-action-view-in-browser) t)
 
     (bind-keys :map mu4e-main-mode-map
@@ -1048,8 +1043,13 @@
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :config
+  (use-package org-mu4e)
   (setq org-default-notes-file (expand-file-name "~/Dropbox/Documents/Personal/Bogdan.org")))
 
+(use-package org-mu4e
+  :commands (org-mu4e-compose-org-mode org-mu4e-store-and-capture)
+  :config
+  (setq org-mu4e-convert-to-html t))
 
 (provide 'init)
 ;;; init.el ends here

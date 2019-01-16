@@ -22,9 +22,6 @@
 [submodule "vendor/intero"]
 	path = vendor/intero
 	url = https://github.com/commercialhaskell/intero
-[submodule "vendor/psc-ide"]
-	path = vendor/psc-ide
-	url = git@github.com:Bogdanp/psc-ide-emacs.git
 [submodule "vendor/mermaid-mode"]
 	path = vendor/mermaid-mode
 	url = https://github.com/shen390s/mermaid-mode
