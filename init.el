@@ -944,8 +944,7 @@
                                                              "maildir:/personal-archive/junk"
                                                              "maildir:/business/junk"
                                                              "maildir:/work-blockfraud/junk"
-                                                             "maildir:/work-gamemine/junk"
-                                                             "maildir:/work-remoteonly/junk")
+                                                             "maildir:/work-gamemine/junk")
                                                            " AND NOT ")))
 
     (bind-keys :map mu4e-main-mode-map
@@ -961,25 +960,23 @@
      mu4e-attachment-dir "~/Downloads"
 
      mu4e-get-mail-command "mbsync -a"
-     mu4e-update-interval 300
+     mu4e-update-interval 1800
 
      mu4e-change-filenames-when-moving t ;; prevents mbsync from complaining about duplicate UIDs
-     mu4e-sent-messages-behavior 'delete ;; don't save sent messages since Gmail does that for us
+     mu4e-sent-messages-behavior 'delete ;; don't save sent messages since FastMail does that for us
 
      mu4e-bookmarks '(((string-join '("maildir:/business/inbox"
                                       "maildir:/personal/inbox"
                                       "maildir:/personal-archive/inbox"
                                       "maildir:/work-blockfraud/inbox"
-                                      "maildir:/work-gamemine/inbox"
-                                      "maildir:/work-remoteonly/inbox") " or ") "All Inboxes" ?i)
+                                      "maildir:/work-gamemine/inbox") " or ") "All Inboxes" ?i)
                       ((string-join '("flag:unread"
                                       "flag:trashed"
                                       "maildir:/business/junk"
                                       "maildir:/personal/junk"
                                       "maildir:/personal-archive/junk"
                                       "maildir:/work-blockfraud/junk"
-                                      "maildir:/work-gamemine/junk"
-                                      "maildir:/work-remoteonly/junk") " AND NOT ") "Unread Messages" ?u)
+                                      "maildir:/work-gamemine/junk") " AND NOT ") "Unread Messages" ?u)
                       ("date:today..now" "Messages Today" ?t)
                       ("date:7d..now" "Messages This Week" ?w)
                       ("date:30d..now" "Messages This Month" ?m))
