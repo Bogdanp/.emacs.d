@@ -806,11 +806,14 @@
   (add-hook 'racket-mode-hook #'bp-racket-mode-hook)
 
   (put 'for/stream 'racket-indent-function #'defun)
+  (put 'form* 'racket-indent-function #'defun)
   (put 'property 'racket-indent-function #'defun)
+  (put 'struct++ 'racket-indent-function #'defun)
   (put 'xexpr-when 'racket-indent-function #'defun)
   (put 'call-with-test-client+server 'racket-indent-function #'defun)
   (put 'call-with-database-connection 'racket-indent-function #'defun)
   (put 'call-with-database-transaction 'racket-indent-function #'defun)
+  (put 'call-with-postmark-connection 'racket-indent-function #'defun)
   (put 'call-with-transaction 'racket-indent-function #'defun)
   (bind-keys :map racket-mode-map
              ("C-c C-a" . bp-racket-enter)
