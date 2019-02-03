@@ -634,7 +634,7 @@
   :ensure t
   :preface
   (defun bp-java-mode-hook ()
-    (setq-local c-basic-offset 2)
+    (setq-local c-basic-offset 4)
     (setq-local c-default-style "java")
     (meghanada-company-enable))
   :config
