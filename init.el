@@ -280,6 +280,11 @@
                ("C-x C-p" . evil-complete-previous-line)
                ("C-x C-n" . evil-complete-next-line))
 
+    (bind-keys :map evil-visual-state-map
+               :prefix "SPC"
+               :prefix-map evil-leader-prefix-map
+               ("c" . org-capture))
+
     (bind-keys :map evil-normal-state-map
                :prefix "SPC"
                :prefix-map evil-leader-prefix-map
@@ -287,6 +292,8 @@
                ("\\"  . evil-ex-nohighlight)
                ("i"   . bp-open-terminal)
                (",i"  . bp-find-init-file)
+               ("a"   . org-agenda)
+               ("c"   . org-capture)
                ("bu"  . browse-url)
                ("s"   . magit-status)
                ("m"   . mu4e)
@@ -1036,23 +1043,22 @@
                                (mu4e-refile-folder . "/work-gamemine/archive")
                                (mu4e-sent-folder   . "/work-gamemine/sent")
                                (mu4e-drafts-folder . "/work-gamemine/drafts")
-                               (mu4e-trash-folder  . "/work-gamemine/trash")))
-
-                     ,(make-mu4e-context
-                       :name "work-remoteonly"
-                       :match-func (bp-make-mu4e-matcher "work-remoteonly")
-                       :vars '((user-mail-address  . "bogdan@remoteonly.com")
-                               (mu4e-refile-folder . "/work-remoteonly/archive")
-                               (mu4e-sent-folder   . "/work-remoteonly/sent")
-                               (mu4e-drafts-folder . "/work-remoteonly/drafts")
-                               (mu4e-trash-folder  . "/work-remoteonly/trash")))))))
+                               (mu4e-trash-folder  . "/work-gamemine/trash")))))))
 
 ;;; org
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :config
-  (use-package org-mu4e)
-  (setq org-default-notes-file (expand-file-name "~/Dropbox/Documents/Personal/Bogdan.org")))
+  (progn
+    (use-package org-agenda)
+    (use-package org-mu4e)
+
+    (setq bp-org-file (expand-file-name "~/Dropbox/Documents/Personal/Bogdan.org"))
+    (setq org-agenda-files (list bp-org-file)
+          org-default-notes-file bp-org-file
+          org-capture-templates '(("j" "Journal Entry" entry (file+headline bp-org-file "Journal") "** %?\n   %U\n")
+                                  ("n" "Note" entry (file+headline bp-org-file "Notes") "** %? %^G\n   %U\n   %a\n")
+                                  ("t" "Todo" entry (file+headline bp-org-file "Tasks") "** TODO %?\n   %U\n   %a\n\n   %i\n")))))
 
 (use-package org-mu4e
   :commands (org-mu4e-compose-org-mode org-mu4e-store-and-capture)
