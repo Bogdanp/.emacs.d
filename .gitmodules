@@ -25,3 +25,6 @@
 [submodule "vendor/mermaid-mode"]
 	path = vendor/mermaid-mode
 	url = https://github.com/shen390s/mermaid-mode
+[submodule "vendor/evil-ledger"]
+	path = vendor/evil-ledger
+	url = https://github.com/atheriel/evil-ledger

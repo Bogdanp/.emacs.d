@@ -905,14 +905,18 @@
 
 
 ;;; hledger
-(use-package hledger-mode
+(use-package ledger-mode
   :ensure t
   :mode "\\.journal\\'"
   :config
-  (progn
-    (add-to-list 'company-backends 'hledger-company)
-    (setq hledger-currency-string "RON"
-          hledger-jfile (expand-file-name "~/sandbox/accounting/personal/2018.journal"))))
+  (use-package evil-ledger
+    :load-path "~/.emacs.d/vendor/evil-ledger")
+
+  (add-hook 'ledger-mode-hook #'evil-ledger-mode)
+  (setq ledger-default-date-format ledger-iso-date-format
+        ledger-mode-should-check-version nil
+        ledger-report-links-in-register nil
+        ledger-binary-path "hledger"))
 
 
 ;;; email
