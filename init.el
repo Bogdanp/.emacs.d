@@ -516,16 +516,7 @@
   (progn
     (setq company-idle-delay 0.25)
 
-    (add-hook 'after-init-hook #'global-company-mode))
-  :config
-  (bind-key "C-c C-y" #'company-yasnippet))
-
-(use-package yasnippet
-  :commands (yas-minor-mode yas-reload-all)
-  :diminish yas-minor-mode
-  :ensure t
-  :config
-  (yas-reload-all))
+    (add-hook 'after-init-hook #'global-company-mode)))
 
 
 ;;; Linting
@@ -789,8 +780,7 @@
 
         (use-package bp-py-test-projects)))
 
-    (add-hook 'before-save-hook #'py-isort-before-save)
-    (add-hook 'python-mode-hook #'yas-minor-mode)))
+    (add-hook 'before-save-hook #'py-isort-before-save)))
 
 
 ;;; Racket and Scribble
