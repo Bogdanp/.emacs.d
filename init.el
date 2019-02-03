@@ -736,10 +736,7 @@
       (bp-apply-buffer-env output-buffer)
       (setq bp-current-python-env name)
       (setq elpy-rpc-python-command "python")
-      (message (concat "Activated virtualenv " name))
-
-      ;; Forcefully enable flycheck checkers based on the new env.
-      (python-mode)))
+      (message (concat "Activated virtualenv " name))))
   :config
   (progn
     (use-package py-isort
