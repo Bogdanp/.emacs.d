@@ -558,15 +558,16 @@
 (use-package cc-mode
   :mode (("\\.c\\'" . c-mode)
          ("\\.java\\'" . java-mode))
+  :preface
+  (defun bp-java-mode-hook ()
+    (setq-local c-basic-offset 4)
+    (setq-local c-default-style "java"))
   :config
-  (setq c-default-style "bsd"
-        c-basic-offset 4)
+  (progn
+    (setq c-basic-offset 4
+          c-default-style "bsd")
 
-  (bind-keys :map java-mode-map
-             :prefix "C-c"
-             :prefix-map java-mode-prefix-map
-             ("," . meghanada-back-jump)
-             ("." . meghanada-jump-declaration)))
+    (add-hook 'java-mode-hook #'bp-java-mode-hook)))
 
 
 ;;; Docker
@@ -630,24 +631,9 @@
 
 
 ;;; Java and Groovy
-(use-package meghanada
-  :ensure t
-  :preface
-  (defun bp-java-mode-hook ()
-    (setq-local c-basic-offset 4)
-    (setq-local c-default-style "java")
-    (meghanada-company-enable))
-  :config
-  (setq meghanada-javac-xlint "-Xlint:all,-processing")
-
-  (add-hook 'java-mode-hook #'meghanada-mode)
-  (add-hook 'java-mode-hook #'bp-java-mode-hook))
-
 (use-package gradle-mode
   :ensure t
-  :mode (("\\.gradle\\'" . gradle-mode))
-  :config
-  (add-hook 'gradle-mode-hook #'lsp-java-enable))
+  :mode (("\\.gradle\\'" . gradle-mode)))
 
 (use-package groovy-mode
   :ensure t
