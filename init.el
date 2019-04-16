@@ -910,7 +910,12 @@
   (add-hook 'ledger-mode-hook #'evil-ledger-mode)
   (setq ledger-default-date-format ledger-iso-date-format
         ledger-mode-should-check-version nil
+        ledger-report-auto-width nil
         ledger-report-links-in-register nil
+        ledger-report-use-native-highlighting nil
+        ledger-report-use-strict nil
+        ledger-reports '(("balances" "%(binary) -f %(ledger-file) bs -V")
+                         ("monthly expenses" "%(binary) -f %(ledger-file) b expenses --tree -MV -b2018-10"))
         ledger-binary-path "hledger"))
 
 
