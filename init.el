@@ -788,6 +788,12 @@
   (defun bp-racket-mode-hook ()
     (setq-local eldoc-documentation-function #'racket-eldoc-function))
 
+  (defun bp-insert-lisp-section (section)
+    "Insert a LISP section header with SECTION at point."
+    (interactive "sSection: ")
+    (let ((suffix (s-repeat (- 72 (length section) 4) ";")))
+      (insert (format ";; %s %s\n" section suffix))))
+
   (defun bp-racket-enter ()
     (interactive)
     (let* ((source-buffer (current-buffer))
@@ -807,16 +813,22 @@
 
   (put 'for/stream 'racket-indent-function #'defun)
   (put 'form* 'racket-indent-function #'defun)
+  (put 'let* 'racket-indent-function #'defun)
   (put 'property 'racket-indent-function #'defun)
+  (put 'serializable-struct 'racket-indent-function #'defun)
   (put 'struct++ 'racket-indent-function #'defun)
   (put 'xexpr-when 'racket-indent-function #'defun)
+  (put 'tpl:xexpr-when 'racket-indent-function #'defun)
   (put 'call-with-test-client+server 'racket-indent-function #'defun)
+  (put 'call-with-persistent-database-connection 'racket-indent-function #'defun)
   (put 'call-with-database-connection 'racket-indent-function #'defun)
   (put 'call-with-database-transaction 'racket-indent-function #'defun)
   (put 'call-with-postmark-connection 'racket-indent-function #'defun)
+  (put 'call-with-twilio-connection 'racket-indent-function #'defun)
   (put 'call-with-transaction 'racket-indent-function #'defun)
   (bind-keys :map racket-mode-map
              ("C-c C-a" . bp-racket-enter)
+             ("C-c C-s" . bp-insert-lisp-section)
              ("C-c ."   . racket-visit-definition)
              ("C-c ,"   . racket-unvisit)))
 
