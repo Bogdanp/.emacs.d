@@ -961,9 +961,7 @@
 
      mu4e-get-mail-command "mbsync -a"
      mu4e-update-interval 1800
-
      mu4e-change-filenames-when-moving t ;; prevents mbsync from complaining about duplicate UIDs
-     mu4e-sent-messages-behavior 'delete ;; don't save sent messages since FastMail does that for us
 
      mu4e-bookmarks '(((string-join '("maildir:/business/inbox"
                                       "maildir:/personal/inbox"
@@ -990,11 +988,12 @@
      mu4e-contexts `(,(make-mu4e-context
                        :name "personal"
                        :match-func (bp-make-mu4e-matcher "personal")
-                       :vars '((user-mail-address  . "bogdan@defn.io")
-                               (mu4e-refile-folder . "/personal/archive")
-                               (mu4e-sent-folder   . "/personal/sent")
-                               (mu4e-drafts-folder . "/personal/drafts")
-                               (mu4e-trash-folder  . "/personal/trash")))
+                       :vars '((user-mail-address           . "bogdan@defn.io")
+                               (mu4e-refile-folder          . "/personal/archive")
+                               (mu4e-sent-folder            . "/personal/sent")
+                               (mu4e-drafts-folder          . "/personal/drafts")
+                               (mu4e-trash-folder           . "/personal/trash")
+                               (mu4e-sent-messages-behavior . sent)))
 
                      ,(make-mu4e-context
                        :name "archive"
@@ -1008,44 +1007,58 @@
                      ,(make-mu4e-context
                        :name "business"
                        :match-func (bp-make-mu4e-matcher "business")
-                       :vars '((user-mail-address  . "bogdan@cleartype.io")
-                               (mu4e-refile-folder . "/business/archive")
-                               (mu4e-sent-folder   . "/business/sent")
-                               (mu4e-drafts-folder . "/business/drafts")
-                               (mu4e-trash-folder  . "/business/trash")))
+                       :vars '((user-mail-address           . "bogdan@cleartype.io")
+                               (mu4e-refile-folder          . "/business/archive")
+                               (mu4e-sent-folder            . "/business/sent")
+                               (mu4e-drafts-folder          . "/business/drafts")
+                               (mu4e-trash-folder           . "/business/trash")
+                               (mu4e-sent-messages-behavior . sent)))
 
                      ,(make-mu4e-context
                        :name "work-blockfraud"
                        :match-func (bp-make-mu4e-matcher "work-blockfraud")
-                       :vars '((user-mail-address  . "bogdan@blockfraud.com")
-                               (mu4e-refile-folder . "/work-blockfraud/archive")
-                               (mu4e-sent-folder   . "/work-blockfraud/sent")
-                               (mu4e-drafts-folder . "/work-blockfraud/drafts")
-                               (mu4e-trash-folder  . "/work-blockfraud/trash")))
+                       :vars '((user-mail-address           . "bogdan@blockfraud.com")
+                               (mu4e-refile-folder          . "/work-blockfraud/archive")
+                               (mu4e-sent-folder            . "/work-blockfraud/sent")
+                               (mu4e-drafts-folder          . "/work-blockfraud/drafts")
+                               (mu4e-trash-folder           . "/work-blockfraud/trash")
+                               (mu4e-sent-messages-behavior . delete)))
 
                      ,(make-mu4e-context
                        :name "work-gamemine"
                        :match-func (bp-make-mu4e-matcher "work-gamemine")
-                       :vars '((user-mail-address  . "bogdan@gamemine.com")
-                               (mu4e-refile-folder . "/work-gamemine/archive")
-                               (mu4e-sent-folder   . "/work-gamemine/sent")
-                               (mu4e-drafts-folder . "/work-gamemine/drafts")
-                               (mu4e-trash-folder  . "/work-gamemine/trash")))))))
+                       :vars '((user-mail-address           . "bogdan@gamemine.com")
+                               (mu4e-refile-folder          . "/work-gamemine/archive")
+                               (mu4e-sent-folder            . "/work-gamemine/sent")
+                               (mu4e-drafts-folder          . "/work-gamemine/drafts")
+                               (mu4e-trash-folder           . "/work-gamemine/trash")
+                               (mu4e-sent-messages-behavior . delete)))))))
 
 ;;; org
 (use-package org
   :mode ("\\.org\\'" . org-mode)
+  :preface
+  (setq bp-calendar-file (expand-file-name "~/Dropbox/Documents/Personal/calendar.org")
+        bp-notes-file    (expand-file-name "~/Dropbox/Documents/Personal/notes.org")
+        bp-someday-file  (expand-file-name "~/Dropbox/Documents/Personal/someday.org")
+        bp-tasks-file    (expand-file-name "~/Dropbox/Documents/Personal/tasks.org"))
   :config
   (progn
     (use-package org-agenda)
     (use-package org-mu4e)
 
-    (setq bp-org-file (expand-file-name "~/Dropbox/Documents/Personal/Bogdan.org"))
-    (setq org-agenda-files (list bp-org-file)
-          org-default-notes-file bp-org-file
-          org-capture-templates '(("j" "Journal Entry" entry (file+headline bp-org-file "Journal") "** %?\n   %U\n")
-                                  ("n" "Note" entry (file+headline bp-org-file "Notes") "** %? %^G\n   %U\n   %a\n")
-                                  ("t" "Todo" entry (file+headline bp-org-file "Tasks") "** TODO %?\n   %U\n   %a\n\n   %i\n")))))
+    (setq org-agenda-files (list bp-calendar-file bp-notes-file bp-tasks-file)
+          org-default-notes-file bp-notes-file
+
+          org-refile-targets `((,bp-calendar-file :maxlevel . 1)
+                               (,bp-notes-file    :maxlevel . 1)
+                               (,bp-someday-file  :maxlevel . 1)
+                               (,bp-tasks-file    :maxlevel . 1))
+
+          org-capture-templates '(("n" "Note" entry (file+headline bp-notes-file "Notes") "** %? %^G\n   %U\n   %a\n\n   %i\n")
+                                  ("l" "Link" entry (file+headline bp-notes-file "Links") "** %? %^G\n   %U\n   %x\n")
+                                  ("b" "Backlog" entry (file+headline bp-tasks-file "Backlog") "** TODO %? %^G\n   %U\n   %a\n\n   %i\n")
+                                  ("t" "Todo" entry (file+headline bp-tasks-file "Todo") "** TODO %? %^G\n   %U\n   %a\n\n   %i\n")))))
 
 (use-package org-mu4e
   :commands (org-mu4e-compose-org-mode org-mu4e-store-and-capture)
