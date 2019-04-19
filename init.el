@@ -945,9 +945,7 @@
                                                              "flag:trashed"
                                                              "maildir:/personal/junk"
                                                              "maildir:/personal-archive/junk"
-                                                             "maildir:/business/junk"
-                                                             "maildir:/work-blockfraud/junk"
-                                                             "maildir:/work-gamemine/junk")
+                                                             "maildir:/business/junk")
                                                            " AND NOT ")))
 
     (bind-keys :map mu4e-main-mode-map
@@ -968,16 +966,12 @@
 
      mu4e-bookmarks '(((string-join '("maildir:/business/inbox"
                                       "maildir:/personal/inbox"
-                                      "maildir:/personal-archive/inbox"
-                                      "maildir:/work-blockfraud/inbox"
-                                      "maildir:/work-gamemine/inbox") " or ") "All Inboxes" ?i)
+                                      "maildir:/personal-archive/inbox") " or ") "All Inboxes" ?i)
                       ((string-join '("flag:unread"
                                       "flag:trashed"
                                       "maildir:/business/junk"
                                       "maildir:/personal/junk"
-                                      "maildir:/personal-archive/junk"
-                                      "maildir:/work-blockfraud/junk"
-                                      "maildir:/work-gamemine/junk") " AND NOT ") "Unread Messages" ?u)
+                                      "maildir:/personal-archive/junk") " AND NOT ") "Unread Messages" ?u)
                       ("date:today..now" "Messages Today" ?t)
                       ("date:7d..now" "Messages This Week" ?w)
                       ("date:30d..now" "Messages This Month" ?m))
@@ -1015,27 +1009,7 @@
                                (mu4e-sent-folder            . "/business/sent")
                                (mu4e-drafts-folder          . "/business/drafts")
                                (mu4e-trash-folder           . "/business/trash")
-                               (mu4e-sent-messages-behavior . sent)))
-
-                     ,(make-mu4e-context
-                       :name "work-blockfraud"
-                       :match-func (bp-make-mu4e-matcher "work-blockfraud")
-                       :vars '((user-mail-address           . "bogdan@blockfraud.com")
-                               (mu4e-refile-folder          . "/work-blockfraud/archive")
-                               (mu4e-sent-folder            . "/work-blockfraud/sent")
-                               (mu4e-drafts-folder          . "/work-blockfraud/drafts")
-                               (mu4e-trash-folder           . "/work-blockfraud/trash")
-                               (mu4e-sent-messages-behavior . delete)))
-
-                     ,(make-mu4e-context
-                       :name "work-gamemine"
-                       :match-func (bp-make-mu4e-matcher "work-gamemine")
-                       :vars '((user-mail-address           . "bogdan@gamemine.com")
-                               (mu4e-refile-folder          . "/work-gamemine/archive")
-                               (mu4e-sent-folder            . "/work-gamemine/sent")
-                               (mu4e-drafts-folder          . "/work-gamemine/drafts")
-                               (mu4e-trash-folder           . "/work-gamemine/trash")
-                               (mu4e-sent-messages-behavior . delete)))))))
+                               (mu4e-sent-messages-behavior . sent)))))))
 
 ;;; org
 (use-package org
