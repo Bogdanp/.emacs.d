@@ -615,6 +615,7 @@
 
 ;;; Haskell
 (use-package intero
+  :disabled
   :load-path "vendor/intero/elisp"
   :mode "\\.hs\\'"
   :config
@@ -679,12 +680,6 @@
 (use-package markdown-mode
   :ensure t
   :mode ("\\.md\\'" . gfm-mode))
-
-
-;;; Mermaid
-(use-package mermaid
-  :mode ("\\.mmd\\'" . mermaid-mode)
-  :load-path "vendor/mermaid-mode")
 
 
 ;;; Python

@@ -19,12 +19,6 @@
 [submodule "vendor/twilight-bright-theme"]
 	path = vendor/twilight-bright-theme
 	url = https://github.com/Bogdanp/twilight-bright-theme.el.git
-[submodule "vendor/intero"]
-	path = vendor/intero
-	url = https://github.com/commercialhaskell/intero
-[submodule "vendor/mermaid-mode"]
-	path = vendor/mermaid-mode
-	url = https://github.com/shen390s/mermaid-mode
 [submodule "vendor/evil-ledger"]
 	path = vendor/evil-ledger
 	url = https://github.com/atheriel/evil-ledger
