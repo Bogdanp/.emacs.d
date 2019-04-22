@@ -899,10 +899,6 @@
   :ensure t
   :mode "\\.journal\\'"
   :config
-  (use-package evil-ledger
-    :load-path "~/.emacs.d/vendor/evil-ledger")
-
-  (add-hook 'ledger-mode-hook #'evil-ledger-mode)
   (setq ledger-default-date-format ledger-iso-date-format
         ledger-mode-should-check-version nil
         ledger-report-auto-width nil

@@ -19,6 +19,3 @@
 [submodule "vendor/twilight-bright-theme"]
 	path = vendor/twilight-bright-theme
 	url = https://github.com/Bogdanp/twilight-bright-theme.el.git
-[submodule "vendor/evil-ledger"]
-	path = vendor/evil-ledger
-	url = https://github.com/atheriel/evil-ledger
