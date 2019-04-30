@@ -996,15 +996,6 @@
                                (mu4e-sent-messages-behavior . sent)))
 
                      ,(make-mu4e-context
-                       :name "archive"
-                       :match-func (bp-make-mu4e-matcher "personal-archive")
-                       :vars '((user-mail-address  . "popa.bogdanp@gmail.com")
-                               (mu4e-refile-folder . "/personal-archive/archive")
-                               (mu4e-sent-folder   . "/personal-archive/sent")
-                               (mu4e-drafts-folder . "/personal-archive/drafts")
-                               (mu4e-trash-folder  . "/personal-archive/trash")))
-
-                     ,(make-mu4e-context
                        :name "business"
                        :match-func (bp-make-mu4e-matcher "business")
                        :vars '((user-mail-address           . "bogdan@cleartype.io")
@@ -1012,7 +1003,12 @@
                                (mu4e-sent-folder            . "/business/sent")
                                (mu4e-drafts-folder          . "/business/drafts")
                                (mu4e-trash-folder           . "/business/trash")
-                               (mu4e-sent-messages-behavior . sent)))))))
+                               (mu4e-sent-messages-behavior . sent))))
+
+     mu4e-user-mail-address-list '("bogdan@cleartype.ro"
+                                   "bogdan@cleartype.io"
+                                   "bogdan@defn.io"
+                                   "bogdan@matchacha.ro"))))
 
 ;;; org
 (use-package org
