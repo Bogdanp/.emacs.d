@@ -828,6 +828,15 @@
   :mode ("\\.scrbl\\'" . scribble-mode))
 
 
+;;; SQL
+(use-package sql
+  :preface
+  (defun bp-sql-mode-hook ()
+    (sql-highlight-postgres-keywords))
+  :config
+  (add-hook 'sql-mode-hook #'bp-sql-mode-hook))
+
+
 ;;; Web
 (use-package web-mode
   :ensure t
