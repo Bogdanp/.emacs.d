@@ -152,6 +152,13 @@
   (package-refresh-contents))
 
 
+;;; Set up PATH from shell
+(use-package exec-path-from-shell
+  :ensure t
+  :init
+  (exec-path-from-shell-initialize))
+
+
 ;;; Themes
 (defun bp-remove-themes ()
   "Remove all of the themes that are currently enabled."
