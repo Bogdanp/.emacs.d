@@ -54,7 +54,7 @@
 (add-to-list 'load-path (locate-user-emacs-file "vendor/packed"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/auto-compile"))
 (add-to-list 'load-path (locate-user-emacs-file "vendor/use-package"))
-(add-to-list 'load-path (expand-file-name "~/Dropbox/Documents/Personal"))
+(add-to-list 'load-path (expand-file-name "~/Documents/Org"))
 
 
 ;;; auto-compile
@@ -1030,10 +1030,10 @@
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :preface
-  (setq bp-calendar-file (expand-file-name "~/Dropbox/Documents/Personal/calendar.org")
-        bp-notes-file    (expand-file-name "~/Dropbox/Documents/Personal/notes.org")
-        bp-someday-file  (expand-file-name "~/Dropbox/Documents/Personal/someday.org")
-        bp-tasks-file    (expand-file-name "~/Dropbox/Documents/Personal/tasks.org"))
+  (setq bp-calendar-file (expand-file-name "~/Documents/Org/calendar.org")
+        bp-notes-file    (expand-file-name "~/Documents/Org/notes.org")
+        bp-someday-file  (expand-file-name "~/Documents/Org/someday.org")
+        bp-tasks-file    (expand-file-name "~/Documents/Org/tasks.org"))
   :config
   (progn
     (use-package org-agenda)
