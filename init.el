@@ -1038,10 +1038,17 @@
   :config
   (progn
     (use-package org-agenda)
+    (use-package org-habit)
     (use-package org-mu4e)
+
+    (push 'org-habit org-modules)
 
     (setq org-agenda-files (list bp-calendar-file bp-notes-file bp-tasks-file)
           org-default-notes-file bp-notes-file
+
+          org-habit-graph-column 54
+          org-habit-preceding-days 14
+          org-habit-show-habits-only-for-today t
 
           org-refile-targets `((,bp-calendar-file :maxlevel . 1)
                                (,bp-notes-file    :maxlevel . 1)
