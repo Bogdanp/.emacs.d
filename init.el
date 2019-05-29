@@ -821,6 +821,7 @@
   (put 'let* 'racket-indent-function #'defun)
   (put 'property 'racket-indent-function #'defun)
   (put 'serializable-struct 'racket-indent-function #'defun)
+  (put 'serializable-struct/versions 'racket-indent-function #'defun)
   (put 'struct++ 'racket-indent-function #'defun)
   (put 'tpl:xexpr-when 'racket-indent-function #'defun)
   (put 'xexpr-when 'racket-indent-function #'defun)
