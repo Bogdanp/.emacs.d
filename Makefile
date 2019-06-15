@@ -2,7 +2,7 @@ vendors=`find vendor -maxdepth 1 | perl -0pe 's/\n/ -L /g'`
 elpa=`find elpa -maxdepth 1 | perl -0pe 's/\n/ -L /g'`
 
 all: clean
-	Emacs \
+	/Applications/Emacs.app/Contents/MacOS/Emacs \
 		-batch \
 		-L ${vendors} . \
 		-L ${elpa} . \

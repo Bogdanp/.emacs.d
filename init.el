@@ -675,6 +675,11 @@
   :mode ("\\.md\\'" . gfm-mode))
 
 
+;;; Nginx
+(use-package nginx-mode
+  :ensure t)
+
+
 ;;; Python
 (use-package pyvenv :ensure t)
 (use-package python
@@ -763,7 +768,7 @@
     (add-hook 'before-save-hook #'py-isort-before-save)))
 
 
-;;; Racket and Scribble
+;;; Racket, Scribble and Pollen
 (use-package racket-mode
   :ensure t
   :mode ("\\.rkt\\'" . racket-mode)
@@ -821,6 +826,9 @@
   :ensure t
   :mode ("\\.scrbl\\'" . scribble-mode))
 
+(use-package pollen-mode
+  :ensure t)
+
 
 ;;; SQL
 (use-package sql
@@ -829,6 +837,11 @@
     (sql-highlight-postgres-keywords))
   :config
   (add-hook 'sql-mode-hook #'bp-sql-mode-hook))
+
+
+;;; SSH
+(use-package ssh-config-mode
+  :ensure t)
 
 
 ;;; Web
@@ -893,9 +906,7 @@
           web-mode-enable-auto-pairing t
           web-mode-enable-current-element-highlight t
 
-          web-mode-engines-alist '(("django" . "\\.html\\'")
-                                   ("razor"  . "\\.scala\\.html\\'")
-                                   ("blade"  . "\\.blade\\.")))
+          web-mode-engines-alist '(("django" . "\\.html\\'")))
 
     (add-hook 'web-mode-hook #'bp-ts-web-mode-hook)
     (add-hook 'web-mode-hook #'bp-js-web-mode-hook)))
