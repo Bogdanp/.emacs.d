@@ -108,7 +108,6 @@
         (set-frame-parameter nil 'fullscreen 'fullboth)
       (set-frame-parameter nil 'fullscreen nil))))
 
-
 (defun bp-bury-scratch-buffer ()
   "Bury the scratch buffer on kill rather than killing it."
   (if (string= (buffer-name) "*scratch*")
@@ -228,9 +227,9 @@
     (interactive)
     (bp--open-app "Terminal"))
 
-  (defun bp-open-chrome ()
+  (defun bp-open-firefox ()
     (interactive)
-    (bp--open-app "Google Chrome"))
+    (bp--open-app "Firefox"))
   :init
   (setq evil-search-module #'evil-search
         evil-magic 'very-magic)
@@ -273,7 +272,7 @@
 
     (bind-keys ("C-c C-\\" . evil-leader-prefix-map)
                ("C-c M-a"  . bp-open-terminal)
-               ("C-c M-c"  . bp-open-chrome)
+               ("C-c M-c"  . bp-open-firefox)
                ("C-x C-k"  . kill-region)
                ("C-j"      . newline-and-indent)
                ("C-w"      . backward-kill-word)
