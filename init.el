@@ -187,11 +187,10 @@
   :pin manual
   :preface
   (defvar bp-evil-modes
-    '(fundamental-mode conf-mode css-mode evil-command-window-mode d-mode
-                       groovy-mode haskell-mode haskell-cabal-mode hledger-mode
-                       json-mode ponylang-mode prog-mode purescript-mode restclient-mode
-                       rust-mode text-mode sass-mode tuareg-mode typescript-mode
-                       web-mode yaml-mode)
+    '(fundamental-mode conf-mode css-mode evil-command-window-mode
+                       haskell-mode haskell-cabal-mode hledger-mode
+                       json-mode prog-mode text-mode sass-mode
+                       typescript-mode web-mode yaml-mode)
     "The list of modes that should default to normal mode.  All modes
     derived from these will also default to evil normal mode.")
 
@@ -635,18 +634,6 @@
         (add-hook 'haskell-mode-hook #'hindent-mode)))
 
     (add-hook 'haskell-mode-hook #'intero-mode)))
-
-
-;;; Java and Groovy
-(use-package gradle-mode
-  :ensure t
-  :mode (("\\.gradle\\'" . gradle-mode)))
-
-(use-package groovy-mode
-  :ensure t
-  :mode (("\\.gradle\\'" . groovy-mode))
-  :config
-  (add-hook 'groovy-mode-hook #'gradle-mode))
 
 
 ;;; TOML
