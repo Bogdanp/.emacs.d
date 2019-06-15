@@ -807,16 +807,33 @@
   :config
   (add-hook 'racket-mode-hook #'bp-racket-mode-hook)
 
+  (flycheck-define-checker racket-konmari
+    "check racket source code using konmari"
+    :command ("raco" "konmari" "lint" source)
+    :error-patterns
+    ((error line-start (file-name) ":" line ":" column ":error:" (message) line-end)
+     (warning line-start (file-name) ":" line ":" column ":warning:" (message) line-end))
+    :modes racket-mode)
+
+  (add-to-list 'flycheck-checkers 'racket-konmari)
+
+  (put 'call-with-browser! 'racket-indent-function #'defun)
+  (put 'call-with-browser-script! 'racket-indent-function #'defun)
   (put 'call-with-database-connection 'racket-indent-function #'defun)
   (put 'call-with-database-transaction 'racket-indent-function #'defun)
+  (put 'call-with-element-screenshot! 'racket-indent-function #'defun)
+  (put 'call-with-page! 'racket-indent-function #'defun)
+  (put 'call-with-page-screenshot! 'racket-indent-function #'defun)
   (put 'call-with-persistent-database-connection 'racket-indent-function #'defun)
   (put 'call-with-postmark-connection 'racket-indent-function #'defun)
+  (put 'call-with-semaphore 'racket-indent-function #'defun)
   (put 'call-with-test-client+server 'racket-indent-function #'defun)
   (put 'call-with-transaction 'racket-indent-function #'defun)
   (put 'call-with-twilio-connection 'racket-indent-function #'defun)
   (put 'for/stream 'racket-indent-function #'defun)
   (put 'form* 'racket-indent-function #'defun)
   (put 'let* 'racket-indent-function #'defun)
+  (put 'place 'racket-indent-function #'defun)
   (put 'property 'racket-indent-function #'defun)
   (put 'serializable-struct 'racket-indent-function #'defun)
   (put 'serializable-struct/versions 'racket-indent-function #'defun)
