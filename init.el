@@ -789,21 +789,6 @@
     (interactive "sSection: ")
     (let ((suffix (s-repeat (- 72 (length section) 4) ";")))
       (insert (format ";; %s %s\n" section suffix))))
-
-  (defun bp-racket-enter ()
-    (interactive)
-    (let* ((source-buffer (current-buffer))
-           (source-file (buffer-file-name))
-           (source-directory (expand-file-name (file-name-directory source-file)))
-           (package-root (expand-file-name (locate-dominating-file source-file "info.rkt")))
-           (module (file-relative-name source-file package-root)))
-      (switch-to-buffer-other-window racket--repl-buffer-name)
-      (end-of-buffer)
-      (insert "(require racket/enter)")
-      (racket-repl-submit)
-      (insert (concat "(parameterize [(current-load-relative-directory \"" package-root "\")] (enter! \"" module "\"))"))
-      (racket-repl-submit)
-      (switch-to-buffer-other-window source-buffer)))
   :config
   (add-hook 'racket-mode-hook #'bp-racket-mode-hook)
 
@@ -841,7 +826,6 @@
   (put 'tpl:xexpr-when 'racket-indent-function #'defun)
   (put 'xexpr-when 'racket-indent-function #'defun)
   (bind-keys :map racket-mode-map
-             ("C-c C-a" . bp-racket-enter)
              ("C-c C-s" . bp-insert-lisp-section)
              ("C-c ."   . racket-visit-definition)
              ("C-c ,"   . racket-unvisit)))
