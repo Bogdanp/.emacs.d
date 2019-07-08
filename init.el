@@ -410,6 +410,8 @@
     (ido-ubiquitous-mode +1)
     (ido-vertical-mode +1)
 
+    (add-to-list 'ido-ignore-files "\\`compiled/")
+    (add-to-list 'ido-ignore-files "\\`node_modules/")
     (add-to-list 'ido-ignore-files "\\`__pycache__/")))
 
 (use-package smex
