@@ -804,7 +804,9 @@
   (put 'call-with-page! 'racket-indent-function #'defun)
   (put 'call-with-page-screenshot! 'racket-indent-function #'defun)
   (put 'call-with-persistent-database-connection 'racket-indent-function #'defun)
+  (put 'call-with-pk 'racket-indent-function #'defun)
   (put 'call-with-postmark-connection 'racket-indent-function #'defun)
+  (put 'call-with-screenshot 'racket-indent-function #'defun)
   (put 'call-with-semaphore 'racket-indent-function #'defun)
   (put 'call-with-test-client+server 'racket-indent-function #'defun)
   (put 'call-with-transaction 'racket-indent-function #'defun)
@@ -817,6 +819,7 @@
   (put 'serializable-struct 'racket-indent-function #'defun)
   (put 'serializable-struct/versions 'racket-indent-function #'defun)
   (put 'struct++ 'racket-indent-function #'defun)
+  (put 'system-test-suite 'racket-indent-function #'defun)
   (put 'tpl:xexpr-when 'racket-indent-function #'defun)
   (put 'xexpr-when 'racket-indent-function #'defun)
   (bind-keys :map racket-mode-map
