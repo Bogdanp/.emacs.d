@@ -943,11 +943,14 @@
 (use-package mu4e
   :load-path "/usr/local/Cellar/mu/HEAD-4ffecba_1/share/emacs/site-lisp/mu/mu4e"
   :preface
-  (defun bp-make-mu4e-matcher (mailbox-name)
-    (lexical-let ((prefix (concat "/" mailbox-name "/")))
+  (defun bp-make-mu4e-matcher (mailbox-name addresses)
+    (lexical-let ((addresses addresses)
+                  (prefix (concat "/" mailbox-name "/")))
       (lambda (msg)
         (when msg
-          (string-prefix-p prefix (mu4e-message-field msg :maildir))))))
+          (-any-p (lambda (addr)
+                     (mu4e-message-contact-field-matches msg '(:from :to :cc) addr))
+                  addresses)))))
 
   (defun bp-capture-message (_)
     (call-interactively #'org-mu4e-store-and-capture))
@@ -1006,7 +1009,7 @@
      mu4e-compose-context-policy 'ask-if-none
      mu4e-contexts `(,(make-mu4e-context
                        :name "personal"
-                       :match-func (bp-make-mu4e-matcher "personal")
+                       :match-func (bp-make-mu4e-matcher "personal" '("bogdan@defn.io"))
                        :vars '((user-mail-address           . "bogdan@defn.io")
                                (mu4e-refile-folder          . "/personal/archive")
                                (mu4e-sent-folder            . "/personal/sent")
@@ -1015,8 +1018,18 @@
                                (mu4e-sent-messages-behavior . sent)))
 
                      ,(make-mu4e-context
+                       :name "matchacha"
+                       :match-func (bp-make-mu4e-matcher "personal" '("bogdan@matchacha.ro" "hello@matchacha.ro"))
+                       :vars '((user-mail-address           . "bogdan@matchacha.ro")
+                               (mu4e-refile-folder          . "/personal/archive")
+                               (mu4e-sent-folder            . "/personal/sent")
+                               (mu4e-drafts-folder          . "/personal/drafts")
+                               (mu4e-trash-folder           . "/personal/trash")
+                               (mu4e-sent-messages-behavior . sent)))
+
+                     ,(make-mu4e-context
                        :name "business"
-                       :match-func (bp-make-mu4e-matcher "business")
+                       :match-func (bp-make-mu4e-matcher "business" '("bogdan@cleartype.io" "bogdan@cleartype.ro"))
                        :vars '((user-mail-address           . "bogdan@cleartype.io")
                                (mu4e-refile-folder          . "/business/archive")
                                (mu4e-sent-folder            . "/business/sent")
@@ -1027,7 +1040,8 @@
      mu4e-user-mail-address-list '("bogdan@cleartype.ro"
                                    "bogdan@cleartype.io"
                                    "bogdan@defn.io"
-                                   "bogdan@matchacha.ro"))))
+                                   "bogdan@matchacha.ro"
+                                   "hello@matchacha.ro"))))
 
 ;;; org
 (use-package org
