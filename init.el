@@ -941,7 +941,7 @@
 
 ;;; email
 (use-package mu4e
-  :load-path "/usr/local/Cellar/mu/HEAD-4ffecba_1/share/emacs/site-lisp/mu/mu4e"
+  :load-path "/usr/local/Cellar/mu/HEAD-629badb_1/share/emacs/site-lisp/mu/mu4e"
   :preface
   (defun bp-make-mu4e-matcher (mailbox-name addresses)
     (lexical-let ((addresses addresses)
@@ -956,7 +956,7 @@
     (call-interactively #'org-mu4e-store-and-capture))
   :config
   (progn
-    (setq mu4e-mu-binary "/usr/local/Cellar/mu/HEAD-4ffecba_1/bin/mu")
+    (setq mu4e-mu-binary "/usr/local/bin/mu")
 
     (use-package smtpmail)
     (use-package subr-x)
