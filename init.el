@@ -976,6 +976,8 @@
     (bind-keys :map mu4e-main-mode-map
                ("q" . bury-buffer))
 
+    (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
+
     (setq
      sendmail-program "msmtp"
      message-send-mail-function #'message-send-mail-with-sendmail
