@@ -968,9 +968,9 @@
       (mu4e-alert-set-default-style 'notifier)
       (setq mu4e-alert-interesting-mail-query (string-join '("flag:unread"
                                                              "flag:trashed"
+                                                             "maildir:/business/junk"
                                                              "maildir:/personal/junk"
-                                                             "maildir:/personal-archive/junk"
-                                                             "maildir:/business/junk")
+                                                             "maildir:/personal-archive/junk")
                                                            " AND NOT ")))
 
     (bind-keys :map mu4e-main-mode-map
@@ -1049,27 +1049,18 @@
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :preface
-  (setq bp-calendar-file (expand-file-name "~/Documents/Org/calendar.org")
-        bp-notes-file    (expand-file-name "~/Documents/Org/notes.org")
+  (setq bp-notes-file    (expand-file-name "~/Documents/Org/notes.org")
         bp-someday-file  (expand-file-name "~/Documents/Org/someday.org")
         bp-tasks-file    (expand-file-name "~/Documents/Org/tasks.org"))
   :config
   (progn
     (use-package org-agenda)
-    (use-package org-habit)
     (use-package org-mu4e)
 
-    (push 'org-habit org-modules)
-
-    (setq org-agenda-files (list bp-calendar-file bp-notes-file bp-tasks-file)
+    (setq org-agenda-files (list bp-notes-file bp-tasks-file)
           org-default-notes-file bp-notes-file
 
-          org-habit-graph-column 54
-          org-habit-preceding-days 14
-          org-habit-show-habits-only-for-today t
-
-          org-refile-targets `((,bp-calendar-file :maxlevel . 1)
-                               (,bp-notes-file    :maxlevel . 1)
+          org-refile-targets `((,bp-notes-file    :maxlevel . 1)
                                (,bp-someday-file  :maxlevel . 1)
                                (,bp-tasks-file    :maxlevel . 1))
 
