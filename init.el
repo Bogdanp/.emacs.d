@@ -561,7 +561,7 @@
   :commands diminish
   :ensure t)
 
-;;; C
+ ;;; C
 (use-package cc-mode
   :mode (("\\.c\\'" . c-mode)
          ("\\.java\\'" . java-mode))
@@ -575,6 +575,19 @@
           c-default-style "bsd")
 
     (add-hook 'java-mode-hook #'bp-java-mode-hook)))
+
+
+;;; Clojure
+(use-package clojure-mode
+  :ensure t
+  :mode (("\\.clj\\'"  . clojure-mode)
+         ("\\.cljs\\'" . clojurescript-mode))
+  :config
+  (use-package cider
+    :ensure t
+    :config
+    (setq cider-default-cljs-repl 'figwheel-main
+          cider-figwheel-main-default-options ":dev")))
 
 
 ;;; Docker
@@ -593,6 +606,8 @@
   :diminish paredit-mode
   :ensure t
   :init
+  (add-hook 'cider-repl-mode-hook #'paredit-mode)
+  (add-hook 'clojure-mode-hook #'paredit-mode)
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
   (add-hook 'lisp-mode-hook #'paredit-mode)
   (add-hook 'racket-mode-hook #'paredit-mode)
@@ -601,6 +616,9 @@
 (use-package rainbow-delimiters
   :ensure t
   :init
+  (add-hook 'cider-repl-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'clojurescript-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'racket-mode-hook #'rainbow-delimiters-mode)
