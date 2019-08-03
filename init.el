@@ -635,7 +635,8 @@
 (use-package hcl-mode
   :ensure t
   :mode (("\\.hcl\\'" . hcl-mode)
-         ("\\.nomad\\'" . hcl-mode)))
+         ("\\.nomad\\'" . hcl-mode)
+         ("\\.workflow\\'" . hcl-mode)))
 
 
 ;;; Haskell
