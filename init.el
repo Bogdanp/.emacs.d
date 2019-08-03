@@ -1086,7 +1086,6 @@
                                (,bp-tasks-file    :maxlevel . 1))
 
           org-capture-templates '(("n" "Note" entry (file+headline bp-notes-file "Notes") "** %? %^G\n   %U\n   %a\n\n   %i\n")
-                                  ("l" "Link" entry (file+headline bp-notes-file "Links") "** %? %^G\n   %U\n   %x\n")
                                   ("b" "Backlog" entry (file+headline bp-tasks-file "Backlog") "** TODO %? %^G\n   %U\n   %a\n\n   %i\n")
                                   ("t" "Todo" entry (file+headline bp-tasks-file "Todo") "** TODO %? %^G\n   %U\n   %a\n\n   %i\n")))))
 
