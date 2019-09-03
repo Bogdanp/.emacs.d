@@ -524,10 +524,9 @@
   :ensure t
   :init
   (progn
-    (setq company-idle-delay 0.25)
+    (setq company-idle-delay 0.10)
 
     (add-hook 'after-init-hook #'global-company-mode)))
-
 
 ;;; Linting
 (use-package flycheck
