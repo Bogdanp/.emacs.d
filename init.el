@@ -767,27 +767,6 @@
     (use-package py-isort
       :ensure t)
 
-    (use-package elpy
-      :commands (elpy-enable)
-      :ensure t
-      :init
-      (with-eval-after-load 'python (elpy-enable))
-      :config
-      (progn
-        (bind-keys :map python-mode-map
-                   ("C-c v" . bp-workon)
-                   ("C-c ." . elpy-goto-definition)
-                   ("C-c ," . pop-tag-mark))
-
-        (custom-set-variables
-         '(elpy-rpc-python-command "python")
-         '(elpy-modules
-           (quote
-            (elpy-module-company
-             elpy-module-eldoc
-             elpy-module-pyvenv
-             elpy-module-sane-defaults))))))
-
     (use-package py-test
       :ensure t
       :config
@@ -843,8 +822,10 @@
   (put 'call-with-persistent-database-connection 'racket-indent-function #'defun)
   (put 'call-with-pk 'racket-indent-function #'defun)
   (put 'call-with-postmark-connection 'racket-indent-function #'defun)
+  (put 'call-with-pubsub-events 'racket-indent-function #'defun)
   (put 'call-with-redis-client 'racket-indent-function #'defun)
   (put 'call-with-redis-pool 'racket-indent-function #'defun)
+  (put 'call-with-redis-pubsub 'racket-indent-function #'defun)
   (put 'call-with-screenshot 'racket-indent-function #'defun)
   (put 'call-with-semaphore 'racket-indent-function #'defun)
   (put 'call-with-test-client+server 'racket-indent-function #'defun)
