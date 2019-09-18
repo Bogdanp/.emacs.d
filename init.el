@@ -634,6 +634,20 @@
   :mode "\\.fish\\'")
 
 
+;;; Go
+(use-package go-mode
+  :ensure t
+  :mode "\\.go\\'"
+  :config
+  (use-package company-go
+    :ensure t
+    :config
+    (add-to-list 'company-backends #'company-go))
+
+  (setq gofmt-command "goimports")
+  (add-hook 'before-save-hook #'gofmt-before-save))
+
+
 ;;; HCL
 (use-package hcl-mode
   :ensure t
