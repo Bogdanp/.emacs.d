@@ -524,7 +524,7 @@
   :ensure t
   :init
   (progn
-    (setq company-idle-delay 0.10)
+    (setq company-idle-delay 0.30)
 
     (add-hook 'after-init-hook #'global-company-mode)))
 
