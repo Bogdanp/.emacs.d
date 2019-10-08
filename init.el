@@ -882,6 +882,7 @@
          ("\\.tm?pl\\'"        . web-mode)
          ("\\.blade\\.php\\'"  . web-mode)
          ("\\.jsx?\\'"         . web-mode)
+         ("\\.ts\\'"           . web-mode)
          ("\\.tsx\\'"          . web-mode))
   :preface
   (defun bp-find-node-modules-root ()
@@ -899,16 +900,28 @@
   (defun bp-setup-eslint ()
     (setq-local flycheck-javascript-eslint-executable (bp-find-node-executable "eslint")))
 
+  (defun bp-setup-tslint ()
+    (setq-local flycheck-typescript-tslint-executable (bp-find-node-executable "tslint")))
+
   (defun bp-setup-prettier ()
     (setq-local prettier-js-command (bp-find-node-executable "prettier")))
 
   (defun bp-ts-web-mode-hook ()
-    (when (string-equal "tsx" (file-name-extension buffer-file-name))
+    (when (string-match "tsx?" (file-name-extension buffer-file-name))
+      (bp-setup-tslint)
+      (bp-setup-prettier)
+      (prettier-js-mode)
+      (eldoc-mode)
       (tide-setup)
-      (flycheck-add-mode 'typescript-tslint 'web-mode)))
+      (tide-mode)
+      (flycheck-add-mode 'typescript-tide 'web-mode)
+      (flycheck-add-mode 'typescript-tslint 'web-mode)
+      (flycheck-select-checker 'typescript-tslint)
+      (flycheck-select-checker 'typescript-tide)
+      (flycheck-mode)))
 
   (defun bp-js-web-mode-hook ()
-    (when (string-equal "js" (file-name-extension buffer-file-name))
+    (when (or (string-equal "js" (file-name-extension buffer-file-name)))
       (bp-setup-eslint)
       (bp-setup-prettier)
       (prettier-js-mode)
@@ -918,6 +931,13 @@
   :init
   (progn
     (use-package prettier-js :ensure t)
+
+    (use-package tide
+      :ensure t
+      :config
+      (bind-keys :map tide-mode-map
+                 ("C-c ."   . tide-jump-to-definition)
+                 ("C-c ,"   . tide-jump-back)))
 
     (setq web-mode-code-indent-offset 2
           web-mode-css-indent-offset 2
