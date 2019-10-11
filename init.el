@@ -908,6 +908,7 @@
 
   (defun bp-ts-web-mode-hook ()
     (when (string-match "tsx?" (file-name-extension buffer-file-name))
+      (setq-local company-tooltip-align-annotations t)
       (bp-setup-tslint)
       (bp-setup-prettier)
       (prettier-js-mode)
@@ -928,14 +929,24 @@
       (flycheck-add-mode 'javascript-eslint 'web-mode)
       (flycheck-select-checker 'javascript-eslint)
       (flycheck-mode)))
+
+  (defun bp-ts-comint ()
+    (interactive)
+    (let ((comint-terminfo-terminal "xterm-256color")
+          (js-comint-program-command "tsun"))
+      (call-interactively #'run-js)))
   :init
   (progn
+    (use-package js-comint :ensure t)
+    (use-package nvm :ensure t)
     (use-package prettier-js :ensure t)
 
     (use-package tide
       :ensure t
       :config
       (bind-keys :map tide-mode-map
+                 ("C-C C-k" . bp-ts-comint)
+                 ("C-M-x"   . js-send-region)
                  ("C-c ."   . tide-jump-to-definition)
                  ("C-c ,"   . tide-jump-back)))
 
