@@ -979,7 +979,26 @@
 ;;; beancount
 (use-package beancount
   :mode ("\\.beancount\\'" . beancount-mode)
-  :load-path "vendor/beancount")
+  :load-path "vendor/beancount"
+  :preface
+  (defun bp-beancount-format-before-save ()
+    (interactive)
+    (let ((target "*beancount-format*"))
+      (with-output-to-temp-buffer target
+        (call-process-region
+         (point-min)
+         (point-max)
+         "bean-format"
+         nil target nil
+         "-c" (number-to-string (+ beancount-number-alignment-column 2))))
+      (replace-buffer-contents target)
+      (kill-buffer target)))
+
+  (defun bp-beancount-mode-hook ()
+    (add-hook 'before-save-hook #'bp-beancount-format-before-save nil 'local))
+  :config
+  (setq beancount-number-alignment-column 54)
+  (add-hook 'beancount-mode-hook #'bp-beancount-mode-hook))
 
 
 ;;; hledger
