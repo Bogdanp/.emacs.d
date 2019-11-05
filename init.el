@@ -157,7 +157,8 @@
 (use-package exec-path-from-shell
   :ensure t
   :init
-  (exec-path-from-shell-initialize))
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-envs '("LC_ALL" "LANG" "MANPATH" "GOPATH" "WORKON_HOME")))
 
 
 ;;; Themes
