@@ -713,6 +713,14 @@
   :mode ("\\.md\\'" . gfm-mode))
 
 
+;;; Nim
+(use-package nim-mode
+  :ensure t
+  :mode ("\\.nim\\'" . nim-mode)
+  :config
+  (add-hook 'nim-mode-hook #'nimsuggest-mode))
+
+
 ;;; Nginx
 (use-package nginx-mode
   :ensure t)
