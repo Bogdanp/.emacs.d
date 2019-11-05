@@ -307,6 +307,7 @@
                ("s"   . magit-status)
                ("m"   . mu4e)
                ("p"   . projectile-command-map)
+               ("j"   . dumb-jump-go)
                ("xf"  . xref-find-definitions))))
 
 
@@ -538,6 +539,14 @@
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
   (setq-default flycheck-disabled-checkers '(python-pycompile racket sass))
   (setq-default flycheck-flake8rc "setup.cfg"))
+
+
+;;; Code navigation
+(use-package dumb-jump
+  :commands (dumb-jump-go dumb-jump-go-other-window)
+  :load-path "/Users/Bogdan/sandbox/dumb-jump"
+  :config
+  (add-hook 'prog-mode-hook #'dumb-jump-mode))
 
 
 ;;; File navigation
