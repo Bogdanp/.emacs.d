@@ -1008,13 +1008,12 @@
   (defun bp-beancount-format-before-save ()
     (interactive)
     (let ((target "*beancount-format*"))
-      (with-output-to-temp-buffer target
-        (call-process-region
-         (point-min)
-         (point-max)
-         "bean-format"
-         nil target nil
-         "-c" (number-to-string (+ beancount-number-alignment-column 2))))
+      (call-process-region
+       (point-min)
+       (point-max)
+       "bean-format"
+       nil target nil
+       "-c" (number-to-string (+ beancount-number-alignment-column 2)))
       (replace-buffer-contents target)
       (kill-buffer target)))
 
