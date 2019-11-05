@@ -922,7 +922,11 @@
     (setq-local flycheck-typescript-tslint-executable (bp-find-node-executable "tslint")))
 
   (defun bp-setup-prettier ()
-    (setq-local prettier-js-command (bp-find-node-executable "prettier")))
+    (let ((preferred-path (bp-find-node-executable "prettier")))
+      (setq-local prettier-js-command
+                  (if preferred-path
+                      preferred-path
+                    "prettier"))))
 
   (defun bp-ts-web-mode-hook ()
     (when (string-match "tsx?" (file-name-extension buffer-file-name))
