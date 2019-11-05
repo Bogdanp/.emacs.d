@@ -834,6 +834,8 @@
   (put 'call-with-database-connection 'racket-indent-function #'defun)
   (put 'call-with-database-transaction 'racket-indent-function #'defun)
   (put 'call-with-element-screenshot! 'racket-indent-function #'defun)
+  (put 'call-with-input-bytes 'racket-indent-function #'defun)
+  (put 'call-with-input-string 'racket-indent-function #'defun)
   (put 'call-with-marionette! 'racket-indent-function #'defun)
   (put 'call-with-page! 'racket-indent-function #'defun)
   (put 'call-with-page-screenshot! 'racket-indent-function #'defun)
