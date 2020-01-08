@@ -351,7 +351,7 @@
   :config
   (progn
     (use-package dired+
-      :ensure t)
+      :load-path "vendor")
 
     (setq-default dired-omit-files-p t)
     (setq dired-omit-files "^\\.?#\\|^__pycache__$")))
@@ -543,8 +543,8 @@
 
 ;;; Code navigation
 (use-package dumb-jump
+  :ensure t
   :commands (dumb-jump-go dumb-jump-go-other-window)
-  :load-path "/Users/Bogdan/sandbox/dumb-jump"
   :config
   (add-hook 'prog-mode-hook #'dumb-jump-mode))
 
@@ -1042,7 +1042,7 @@
 
 ;;; email
 (use-package mu4e
-  :load-path "/usr/local/Cellar/mu/HEAD-629badb_1/share/emacs/site-lisp/mu/mu4e"
+  :load-path "/usr/local/Cellar/mu/HEAD-b2014fe_1/share/emacs/site-lisp/mu/mu4e"
   :preface
   (defun bp-make-mu4e-matcher (mailbox-name addresses)
     (lexical-let ((addresses addresses)
