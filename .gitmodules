@@ -19,3 +19,6 @@
 [submodule "vendor/twilight-bright-theme"]
 	path = vendor/twilight-bright-theme
 	url = https://github.com/Bogdanp/twilight-bright-theme.el.git
+[submodule "vendor/undo-tree"]
+	path = vendor/undo-tree
+	url = http://www.dr-qubit.org/git/undo-tree.git

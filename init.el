@@ -245,7 +245,7 @@
       :commands goto-last-change)
 
     (use-package undo-tree
-      :ensure t
+      :load-path "vendor/undo-tree"
       :diminish undo-tree-mode
       :commands global-undo-tree-mode
       :init
