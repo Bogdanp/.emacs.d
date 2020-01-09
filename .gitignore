@@ -21,6 +21,7 @@
 /eshell
 /eww-bookmarks
 /helm-adaptive-history
+/ido.last
 /meghanada
 /places
 /private
@@ -29,6 +30,7 @@
 /recentf
 /savehist
 /semanticdb
+/smex-items
 /temp
 /tldr
 /tramp
