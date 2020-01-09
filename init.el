@@ -301,7 +301,6 @@
                ("\\"  . evil-ex-nohighlight)
                ("i"   . bp-open-terminal)
                (",i"  . bp-find-init-file)
-               ("a"   . org-agenda)
                ("c"   . org-capture)
                ("bu"  . browse-url)
                ("s"   . magit-status)
@@ -1158,24 +1157,14 @@
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :preface
-  (setq bp-notes-file    (expand-file-name "~/Documents/Org/notes.org")
-        bp-someday-file  (expand-file-name "~/Documents/Org/someday.org")
-        bp-tasks-file    (expand-file-name "~/Documents/Org/tasks.org"))
+  (setq bp-notes-file (expand-file-name "~/Documents/Org/notes.org"))
   :config
   (progn
-    (use-package org-agenda)
     (use-package org-mu4e)
 
-    (setq org-agenda-files (list bp-notes-file bp-tasks-file)
-          org-default-notes-file bp-notes-file
-
-          org-refile-targets `((,bp-notes-file    :maxlevel . 1)
-                               (,bp-someday-file  :maxlevel . 1)
-                               (,bp-tasks-file    :maxlevel . 1))
-
-          org-capture-templates '(("n" "Note" entry (file+headline bp-notes-file "Notes") "** %? %^G\n   %U\n   %a\n\n   %i\n")
-                                  ("b" "Backlog" entry (file+headline bp-tasks-file "Backlog") "** TODO %? %^G\n   %U\n   %a\n\n   %i\n")
-                                  ("t" "Todo" entry (file+headline bp-tasks-file "Todo") "** TODO %? %^G\n   %U\n   %a\n\n   %i\n")))))
+    (setq org-default-notes-file bp-notes-file
+          org-refile-targets `((,bp-notes-file :maxlevel . 1))
+          org-capture-templates '(("n" "Note" entry (file+headline bp-notes-file "Notes") "** %? %^G\n   %U\n   %a\n\n   %i\n")))))
 
 (use-package org-mu4e
   :commands (org-mu4e-compose-org-mode org-mu4e-store-and-capture)
