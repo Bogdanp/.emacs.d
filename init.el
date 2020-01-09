@@ -819,15 +819,15 @@
   :config
   (add-hook 'racket-mode-hook #'bp-racket-mode-hook)
 
-  ;; (flycheck-define-checker racket-konmari
-  ;;   "check racket source code using konmari"
-  ;;   :command ("raco" "konmari" "lint" source)
-  ;;   :error-patterns
-  ;;   ((error line-start (file-name) ":" line ":" column ":error:" (message) line-end)
-  ;;    (warning line-start (file-name) ":" line ":" column ":warning:" (message) line-end))
-  ;;   :modes racket-mode)
+  (flycheck-define-checker racket-review
+    "check racket source code using racket-review"
+    :command ("raco" "review" source)
+    :error-patterns
+    ((error line-start (file-name) ":" line ":" column ":error:" (message) line-end)
+     (warning line-start (file-name) ":" line ":" column ":warning:" (message) line-end))
+    :modes racket-mode)
 
-  (add-to-list 'flycheck-checkers 'racket-konmari)
+  (add-to-list 'flycheck-checkers 'racket-review)
 
   (put 'call-with-browser! 'racket-indent-function #'defun)
   (put 'call-with-browser-script! 'racket-indent-function #'defun)
@@ -843,6 +843,7 @@
   (put 'call-with-pk 'racket-indent-function #'defun)
   (put 'call-with-postmark-connection 'racket-indent-function #'defun)
   (put 'call-with-pubsub-events 'racket-indent-function #'defun)
+  (put 'call-with-redis 'racket-indent-function #'defun)
   (put 'call-with-redis-client 'racket-indent-function #'defun)
   (put 'call-with-redis-pool 'racket-indent-function #'defun)
   (put 'call-with-redis-pubsub 'racket-indent-function #'defun)
@@ -865,6 +866,8 @@
   (put 'tpl:xexpr-when 'racket-indent-function #'defun)
   (put 'xexpr-when 'racket-indent-function #'defun)
   (bind-keys :map racket-mode-map
+             ("{"       . paredit-open-curly)
+             ("}"       . paredit-close-curly)
              ("C-c C-s" . bp-insert-lisp-section)
              ("C-c ."   . racket-visit-definition)
              ("C-c ,"   . racket-unvisit)))
