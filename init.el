@@ -904,7 +904,7 @@
          ("\\.eex\\'"          . web-mode)
          ("\\.tm?pl\\'"        . web-mode)
          ("\\.blade\\.php\\'"  . web-mode)
-         ("\\.jsx?\\'"         . web-mode)
+         ("\\.m?jsx?\\'"       . web-mode)
          ("\\.ts\\'"           . web-mode)
          ("\\.tsx\\'"          . web-mode))
   :preface
@@ -949,7 +949,8 @@
       (flycheck-mode)))
 
   (defun bp-js-web-mode-hook ()
-    (when (or (string-equal "js" (file-name-extension buffer-file-name)))
+    (when (or (string-equal "js" (file-name-extension buffer-file-name))
+              (string-equal "mjs" (file-name-extension buffer-file-name)))
       (bp-setup-eslint)
       (bp-setup-prettier)
       (prettier-js-mode)
@@ -991,6 +992,7 @@
           web-mode-enable-auto-pairing t
           web-mode-enable-current-element-highlight t
 
+          web-mode-content-types-alist '(("jsx" . "\\.mjs\\'"))
           web-mode-engines-alist '(("django" . "\\.html\\'")))
 
     (add-hook 'web-mode-hook #'bp-ts-web-mode-hook)
