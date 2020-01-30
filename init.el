@@ -43,8 +43,8 @@
  ;; When using tabs (Go), they should be 2 spaces long.
  tab-width 2
 
- ;; Don't wrap long lines
- truncate-lines t)
+ ;; Wrap long lines
+ truncate-lines nil)
 
 ;;; Enable narrow to region functionality
 (put 'narrow-to-region 'disabled nil)
