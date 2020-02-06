@@ -803,20 +803,18 @@
 
 
 ;;; Racket, Scribble and Pollen
+(use-package pos-tip :ensure t)  ;; required by racket-mode
 (use-package racket-mode
-  :ensure t
   :mode ("\\.rkt\\'" . racket-mode)
+  :load-path "vendor/racket-mode"
   :preface
-  (defun bp-racket-mode-hook ()
-    (setq-local eldoc-documentation-function #'racket-eldoc-function))
-
   (defun bp-insert-lisp-section (section)
     "Insert a LISP section header with SECTION at point."
     (interactive "sSection: ")
     (let ((suffix (s-repeat (- 72 (length section) 4) ";")))
       (insert (format ";; %s %s\n" section suffix))))
   :config
-  (add-hook 'racket-mode-hook #'bp-racket-mode-hook)
+  (add-hook 'racket-mode-hook #'racket-check-syntax-mode)
 
   (flycheck-define-checker racket-review
     "check racket source code using racket-review"
@@ -868,7 +866,7 @@
              ("{"       . paredit-open-curly)
              ("}"       . paredit-close-curly)
              ("C-c C-s" . bp-insert-lisp-section)
-             ("C-c ."   . racket-visit-definition)
+             ("C-c ."   . racket-check-syntax-visit-definition)
              ("C-c ,"   . racket-unvisit)))
 
 (use-package scribble-mode

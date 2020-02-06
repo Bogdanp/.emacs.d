@@ -22,3 +22,6 @@
 [submodule "vendor/undo-tree"]
 	path = vendor/undo-tree
 	url = http://www.dr-qubit.org/git/undo-tree.git
+[submodule "vendor/racket-mode"]
+	path = vendor/racket-mode
+	url = https://github.com/greghendershott/racket-mode
