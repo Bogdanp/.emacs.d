@@ -814,7 +814,8 @@
     (let ((suffix (s-repeat (- 72 (length section) 4) ";")))
       (insert (format ";; %s %s\n" section suffix))))
   :config
-  (add-hook 'racket-mode-hook #'racket-check-syntax-mode)
+  (require 'racket-xp)
+  (add-hook 'racket-mode-hook #'racket-xp-mode)
 
   (flycheck-define-checker racket-review
     "check racket source code using racket-review"
@@ -825,6 +826,9 @@
     :modes racket-mode)
 
   (add-to-list 'flycheck-checkers 'racket-review)
+
+  (setq racket-repl-buffer-name-function #'racket-repl-buffer-name-project
+        racket-show-functions '(racket-show-echo-area))
 
   (put 'call-with-browser! 'racket-indent-function #'defun)
   (put 'call-with-browser-script! 'racket-indent-function #'defun)
@@ -868,8 +872,10 @@
   (bind-keys :map racket-mode-map
              ("{"       . paredit-open-curly)
              ("}"       . paredit-close-curly)
+             ("C-c C-d" . racket-xp-describe)
+             ("C-c C-r" . racket-xp-rename)
              ("C-c C-s" . bp-insert-lisp-section)
-             ("C-c ."   . racket-check-syntax-visit-definition)
+             ("C-c ."   . racket-xp-visit-definition)
              ("C-c ,"   . racket-unvisit)))
 
 (use-package scribble-mode
