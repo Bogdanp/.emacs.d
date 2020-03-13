@@ -43,8 +43,8 @@
  ;; When using tabs (Go), they should be 2 spaces long.
  tab-width 2
 
- ;; Wrap long lines
- truncate-lines nil)
+ ;; Don't wrap long lines
+ truncate-lines t)
 
 ;;; Enable narrow to region functionality
 (put 'narrow-to-region 'disabled nil)
@@ -70,7 +70,7 @@
 ;;; UI
 ;; Position and resize frame.
 (when (window-system)
-  (add-to-list 'default-frame-alist '(font . "SF Mono-13"))
+  (add-to-list 'default-frame-alist '(font . "Dank Mono-13"))
   (add-to-list 'default-frame-alist '(top . 32))
   (add-to-list 'default-frame-alist '(left . 10))
   (add-to-list 'default-frame-alist '(width . 199))
