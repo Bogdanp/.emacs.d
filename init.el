@@ -1061,7 +1061,7 @@
       (lambda (msg)
         (when msg
           (-any-p (lambda (addr)
-                     (mu4e-message-contact-field-matches msg '(:from :to :cc) addr))
+                    (mu4e-message-contact-field-matches msg '(:from :to :cc) addr))
                   addresses)))))
 
   (defun bp-capture-message (_)
