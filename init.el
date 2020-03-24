@@ -929,9 +929,6 @@
   (defun bp-setup-eslint ()
     (setq-local flycheck-javascript-eslint-executable (bp-find-node-executable "eslint")))
 
-  (defun bp-setup-tslint ()
-    (setq-local flycheck-typescript-tslint-executable (bp-find-node-executable "tslint")))
-
   (defun bp-setup-prettier ()
     (let ((preferred-path (bp-find-node-executable "prettier")))
       (setq-local prettier-js-command
@@ -942,15 +939,12 @@
   (defun bp-ts-web-mode-hook ()
     (when (string-match "tsx?" (file-name-extension buffer-file-name))
       (setq-local company-tooltip-align-annotations t)
-      (bp-setup-tslint)
       (bp-setup-prettier)
       (prettier-js-mode)
       (eldoc-mode)
       (tide-setup)
       (tide-mode)
       (flycheck-add-mode 'typescript-tide 'web-mode)
-      (flycheck-add-mode 'typescript-tslint 'web-mode)
-      (flycheck-select-checker 'typescript-tslint)
       (flycheck-select-checker 'typescript-tide)
       (flycheck-mode)))
 
