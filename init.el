@@ -481,6 +481,7 @@
 
 ;;; Buffers and buffer navigation
 (use-package ibuffer
+  :disabled
   :bind ("C-x C-b" . ibuffer)
   :preface
   (eval-when-compile
@@ -659,6 +660,7 @@
 
 ;;; HCL
 (use-package hcl-mode
+  :disabled
   :ensure t
   :mode (("\\.hcl\\'" . hcl-mode)
          ("\\.nomad\\'" . hcl-mode)
@@ -724,6 +726,7 @@
 
 ;;; Nim
 (use-package nim-mode
+  :disabled
   :ensure t
   :mode ("\\.nim\\'" . nim-mode)
   :config
@@ -883,6 +886,7 @@
   :mode ("\\.scrbl\\'" . scribble-mode))
 
 (use-package pollen-mode
+  :disabled
   :ensure t)
 
 
@@ -957,12 +961,6 @@
       (flycheck-add-mode 'javascript-eslint 'web-mode)
       (flycheck-select-checker 'javascript-eslint)
       (flycheck-mode)))
-
-  (defun bp-ts-comint ()
-    (interactive)
-    (let ((comint-terminfo-terminal "xterm-256color")
-          (js-comint-program-command "tsun"))
-      (call-interactively #'run-js)))
   :init
   (progn
     (use-package nvm
@@ -971,17 +969,15 @@
       (setq nvm-dir (expand-file-name "~/.config/nvm")
             nvm-version-re "[0-9]+\.[0-9]+\.[0-9]+"))
 
-    (use-package js-comint :ensure t)
     (use-package prettier-js :ensure t)
 
     (use-package tide
       :ensure t
       :config
       (bind-keys :map tide-mode-map
-                 ("C-C C-k" . bp-ts-comint)
-                 ("C-M-x"   . js-send-region)
-                 ("C-c ."   . tide-jump-to-definition)
-                 ("C-c ,"   . tide-jump-back)))
+                 ("C-M-x" . js-send-region)
+                 ("C-c ." . tide-jump-to-definition)
+                 ("C-c ," . tide-jump-back)))
 
     (setq web-mode-code-indent-offset 2
           web-mode-css-indent-offset 2
