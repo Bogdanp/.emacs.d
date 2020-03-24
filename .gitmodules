@@ -172,3 +172,21 @@
 [submodule "vendor/dash"]
 	path = vendor/dash
 	url = https://github.com/magnars/dash.el
+[submodule "vendor/pos-tip"]
+	path = vendor/pos-tip
+	url = https://github.com/pitkali/pos-tip
+[submodule "vendor/parseedn"]
+	path = vendor/parseedn
+	url = https://github.com/clojure-emacs/parseedn
+[submodule "vendor/a"]
+	path = vendor/a
+	url = https://github.com/plexus/a.el
+[submodule "vendor/parseclj"]
+	path = vendor/parseclj
+	url = https://github.com/clojure-emacs/parseclj
+[submodule "vendor/spinner"]
+	path = vendor/spinner
+	url = https://github.com/Malabarba/spinner.el
+[submodule "vendor/sesman"]
+	path = vendor/sesman
+	url = https://github.com/vspinu/sesman

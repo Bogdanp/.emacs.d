@@ -3,71 +3,78 @@
 ;;; Code:
 ;;; Misc. builtin options
 (setq
- ;;; Me
+ ;; Me
  user-full-name "Bogdan Popa"
  user-mail-address "bogdan@defn.io"
 
- ;;; GC
- ;; EMACS' default GC threshold is <1MB. Give it 128MB instead.
- gc-cons-threshold (* 128 1024 1024)
+ ;; Don't attempt to load packages.
+ package-enable-at-startup nil
+
+ ;; Ensure custom values are saved to an ignored file.
+ custom-file (locate-user-emacs-file "custom.el")
+
+ ;; EMACS' default GC threshold is <1MB. Give it 512MB instead.
+ gc-cons-threshold (* 512 1024 1024)
+ gc-cons-percentage 0.7
  garbage-collection-messages nil
 
- ;;; auto-compile
+ ;; Prefer source over bytecode if bytecode is outdated.
  load-prefer-newer t
 
- ;;; Don't warn on redefinition
+ ;; Don't warn on redefinition
  ad-redefinition-action 'accept
 
- ;;; Don't attempt to load `default.el'
+ ;; Don't attempt to load `default.el'
  inhibit-default-init t
 
  ;; Disable welcome screen.
  inhibit-startup-message t
 
- ;;; Mac port
+ ;; Mac port
  mac-option-modifier 'meta
  mac-command-modifier 'hyper
  mac-mouse-wheel-smooth-scroll t)
 
-(set-language-environment "utf-8")
-
 (setq-default
- ;;; Custom
- ;; Ensure custom values are saved to an ignored file.
- custom-file (locate-user-emacs-file "custom.el")
-
- ;;; Editing
  ;; Never use tabs.
  indent-tabs-mode nil
 
  ;; When using tabs (Go), they should be 2 spaces long.
  tab-width 2
 
- ;; Don't wrap long lines
+ ;; Don't wrap long lines.
  truncate-lines t)
 
-;;; Enable narrow to region functionality
+;; Enable narrow to region functionality
 (put 'narrow-to-region 'disabled nil)
 
-;;; use-package
+;; Set up use-package.
 (eval-when-compile
   (add-to-list 'load-path (locate-user-emacs-file "vendor/use-package"))
   (require 'cl)
   (require 'use-package))
 
+;; Load packages that everything else depends on.
+(use-package a        :load-path "vendor/a"        :defer t)
+(use-package alert    :load-path "vendor/alert"    :defer t)
+(use-package dash     :load-path "vendor/dash"     :defer t)
+(use-package diminish :load-path "vendor/diminish"                    :commands (diminish))
+(use-package f        :load-path "vendor/f"        :defer t :after s)
+(use-package ht       :load-path "vendor/ht"       :defer t)
+(use-package popup    :load-path "vendor/popup"    :defer t)
+(use-package s        :load-path "vendor/s"        :defer t)
+(use-package smtpmail                              :defer t)
+(use-package subr-x                                :defer t)
 
-;;; UI
+
+;; UI ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Position and resize frame.
-(when (window-system)
-  (add-to-list 'default-frame-alist '(font . "Dank Mono-14"))
-  (add-to-list 'default-frame-alist '(top . 32))
-  (add-to-list 'default-frame-alist '(left . 10))
-  (add-to-list 'default-frame-alist '(width . 199))
-  (add-to-list 'default-frame-alist '(height . 59)))
+(add-to-list 'default-frame-alist '(font . "Dank Mono-14"))
 
-;; Remove GUI elements.
+;; Remove GUI elements.  Menu bar not removed because it makes the
+;; emacs-mac port ignore Spaces.  Not a problem on macOS, but
+;; potentially an issue on other platforms.
 (dolist (mode '(blink-cursor-mode
-                menu-bar-mode
                 tool-bar-mode
                 tooltip-mode
                 scroll-bar-mode))
@@ -88,6 +95,21 @@
  ;; Improved scrolling when using the trackpad.
  mouse-wheel-follow-mouse 't
  mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+
+(defvar bp-presentation-mode nil
+  "Keeps track of whether or not we're in presentation mode.")
+
+(defun bp-toggle-presentation-mode ()
+  "Toggle the frame font between presentation and non-presentation mode."
+  (interactive)
+  (cond
+   (bp-presentation-mode
+    (set-frame-font "Dank Mono-14")
+    (setq bp-presentation-mode nil))
+
+   (t
+    (set-frame-font "Dank Mono-18")
+    (setq bp-presentation-mode t))))
 
 (defun bp-toggle-fullscreen ()
   "Toggle the current frame between fullscreen and not."
@@ -110,13 +132,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 
-;;; Modeline
-;; Show current (row, col) in modeline.
-(column-number-mode +1)
-(line-number-mode +1)
-
-
-;;; Paths
+;; Paths ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Home sweet home.
 (setq default-directory (expand-file-name "~/"))
 
@@ -124,16 +140,24 @@
   "The folder in which temp files should be stored.")
 
 
-;;; Set up PATH from shell on macOS.
+;; Environment ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package exec-path-from-shell
-  :load-path "vendor/exec-path-from-shell"
   :when (eq system-type 'darwin)
+  :load-path "vendor/exec-path-from-shell"
   :config
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-envs '("LC_ALL" "LANG" "MANPATH" "GOPATH" "WORKON_HOME")))
 
 
-;;; Themes
+;; Server ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package server
+  :when (display-graphic-p)
+  :defer 30
+  :config
+  (server-start))
+
+
+;; Themes ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun bp-remove-themes ()
   "Remove all of the themes that are currently enabled."
   (interactive)
@@ -148,18 +172,13 @@
 (unless (display-graphic-p)
   (load-theme 'wombat t))
 
-(use-package server
-  :when (display-graphic-p)
-  :config
-  (server-start))
-
 (use-package twilight-bright-theme
   :when (display-graphic-p)
   :load-path "vendor/twilight-bright-theme"
   :config (load-theme 'twilight-bright t))
 
 
-;;; EVIL
+;; EVIL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package goto-chg
   :load-path "vendor/goto-chg"
   :commands goto-last-change)
@@ -170,11 +189,10 @@
   :commands global-undo-tree-mode
   :hook ((after-init . global-undo-tree-mode))
   :config
-  (with-no-warnings
-    (setq undo-tree-visualizer-timestamps t
-          undo-tree-visualizer-diffs t
-          undo-tree-history-directory-alist `((".*" . ,local-temp-dir))
-          undo-tree-auto-save-history t)))
+  (setq undo-tree-visualizer-timestamps t
+        undo-tree-visualizer-diffs t
+        undo-tree-history-directory-alist `((".*" . ,local-temp-dir))
+        undo-tree-auto-save-history t))
 
 (use-package evil
   :load-path "vendor/evil"
@@ -187,6 +205,11 @@
                        typescript-mode web-mode yaml-mode)
     "The list of modes that should default to normal mode.  All modes
     derived from these will also default to evil normal mode.")
+
+  (defvar bp-emacs-state-hooks
+    '(git-commit-setup-hook
+      git-timemachine-mode-hook
+      magit-blame-mode-hook))
 
   (defun bp-apply-evil-mode-hook ()
     (if (apply #'derived-mode-p bp-evil-modes)
@@ -227,67 +250,65 @@
   (defun bp-open-safari ()
     (interactive)
     (bp--open-app "Safari"))
-  :init
+  :config
+  (dolist (hook bp-emacs-state-hooks)
+    (add-hook hook #'bp-toggle-emacs-state))
+
+  (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook)
+  (add-hook 'after-change-major-mode-hook #'bp-apply-evil-mode-hook)
+  (advice-add #'evil-generate-mode-line-tag :around #'bp-generate-mode-line-tag)
+  (evil-mode)
+
   (setq evil-search-module #'evil-search
         evil-magic 'very-magic)
-  :config
-  (progn
-    (dolist (hook '(git-commit-setup-hook
-                    git-timemachine-mode-hook
-                    magit-blame-mode-hook))
-      (add-hook hook #'bp-toggle-emacs-state))
 
-    (add-hook 'minibuffer-setup-hook #'bp-minibuffer-setup-hook)
-    (add-hook 'after-change-major-mode-hook #'bp-apply-evil-mode-hook)
-    (advice-add #'evil-generate-mode-line-tag :around #'bp-generate-mode-line-tag)
-    (evil-mode +1)
+  (bind-keys ("C-c C-\\" . evil-leader-prefix-map)
+             ("C-c M-a"  . bp-open-terminal)
+             ("C-c M-c"  . bp-open-firefox)
+             ("C-c M-s"  . bp-open-safari)
+             ("C-x C-k"  . kill-region)
+             ("C-j"      . newline-and-indent)
+             ("C-w"      . backward-kill-word)
+             ("C--"      . text-scale-decrease)
+             ("C-="      . text-scale-increase)
+             ("C-+"      . text-scale-increase)
+             ("H-f"      . bp-toggle-fullscreen))
 
-    (bind-keys ("C-c C-\\" . evil-leader-prefix-map)
-               ("C-c M-a"  . bp-open-terminal)
-               ("C-c M-c"  . bp-open-firefox)
-               ("C-c M-s"  . bp-open-safari)
-               ("C-x C-k"  . kill-region)
-               ("C-j"      . newline-and-indent)
-               ("C-w"      . backward-kill-word)
-               ("C--"      . text-scale-decrease)
-               ("C-="      . text-scale-increase)
-               ("C-+"      . text-scale-increase)
-               ("H-f"      . bp-toggle-fullscreen))
+  (bind-keys :map evil-insert-state-map
+             ("C-x C-p" . evil-complete-previous-line)
+             ("C-x C-n" . evil-complete-next-line))
 
-    (bind-keys :map evil-insert-state-map
-               ("C-x C-p" . evil-complete-previous-line)
-               ("C-x C-n" . evil-complete-next-line))
+  (bind-keys :map evil-visual-state-map
+             :prefix "SPC"
+             :prefix-map evil-leader-prefix-map
+             ("c" . org-capture))
 
-    (bind-keys :map evil-visual-state-map
-               :prefix "SPC"
-               :prefix-map evil-leader-prefix-map
-               ("c" . org-capture))
-
-    (bind-keys :map evil-normal-state-map
-               :prefix "SPC"
-               :prefix-map evil-leader-prefix-map
-               ("SPC" . recompile)
-               ("\\"  . evil-ex-nohighlight)
-               ("i"   . bp-open-terminal)
-               (",i"  . bp-find-init-file)
-               ("c"   . org-capture)
-               ("bu"  . browse-url)
-               ("s"   . magit-status)
-               ("m"   . mu4e)
-               ("p"   . projectile-command-map)
-               ("j"   . dumb-jump-go)
-               ("xf"  . xref-find-definitions))))
+  (bind-keys :map evil-normal-state-map
+             :prefix "SPC"
+             :prefix-map evil-leader-prefix-map
+             ("SPC" . recompile)
+             ("\\"  . evil-ex-nohighlight)
+             ("i"   . bp-open-terminal)
+             (",i"  . bp-find-init-file)
+             ("c"   . org-capture)
+             ("bu"  . browse-url)
+             ("s"   . magit-status)
+             ("m"   . mu4e)
+             ("p"   . projectile-command-map)
+             ("j"   . dumb-jump-go)
+             ("xf"  . xref-find-definitions)))
 
 (use-package evil-surround
   :load-path "vendor/evil-surround"
   :hook ((evil-mode-hook . global-evil-surround-mode)))
 
-;;; Builtins
-(use-package autorevert
-  :config
-  (global-auto-revert-mode))
 
-(use-package ansi-color)
+;; Builtins ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package autorevert
+  :hook ((after-init . global-auto-revert-mode)))
+
+(use-package ansi-color
+  :commands (ansi-color-apply-on-region))
 
 (use-package compile
   :preface
@@ -309,56 +330,49 @@
   (defun bp-make ()
     (interactive)
     (bp-make-at "Makefile"))
-  :init
-  (setq compilation-scroll-output t)
-  (add-hook 'compilation-filter-hook #'bp-colorize-compilation-buffer)
-  (add-hook 'compilation-mode-hook #'bp-compilation-mode-hook))
+
+  (defun bp-recompile ()
+    "Recompile all elisp sources."
+    (interactive)
+    (byte-recompile-directory (expand-file-name "~/.emacs.d/vendor") 0 t))
+  :hook ((compilation-filter . bp-colorize-compilation-buffer)
+	 (compilation-mode   . bp-compilation-mode-hook))
+  :config
+  (setq compilation-scroll-output t))
 
 (use-package dired
   :commands dired
-  :init
-  (setq insert-directory-program "/usr/local/bin/gls"
-        dired-listing-switches "--group-directories-first -alh")
   :config
-  (progn
-    (use-package dired+
-      :load-path "vendor")
+  (setq insert-directory-program "/usr/local/bin/gls"
+	dired-listing-switches "--group-directories-first -alh"
+	dired-omit-files-p t
+	dired-omit-files "^\\.?#\\|^__pycache__$"))
 
-    (setq-default dired-omit-files-p t)
-    (setq dired-omit-files "^\\.?#\\|^__pycache__$")))
+(use-package dired+
+  :load-path "vendor"
+  :after dired)
+
+(use-package eldoc
+  :diminish eldoc-mode
+  :hook ((prog-mode . eldoc-mode)))
 
 (use-package electric
-  :config
-  (electric-indent-mode +1))
+  :hook ((after-init . electric-indent-mode)))
 
 (use-package etags
-  :init
+  :defer 30
+  :config
   (setq tags-add-tables nil
         tags-revert-without-query t))
 
 (use-package files
-  :init
+  :config
   (setq auto-save-file-name-transforms `((".*" ,(concat local-temp-dir "/\\1") t))
         backup-directory-alist         `((".*" . ,local-temp-dir))
         backup-by-copying t))
 
-(use-package ag
-  :load-path "vendor/ag"
-  :commands (ag)
-  :config
-  (setq ag-highlight-search t
-        ag-ignore-list '("node_modules" "*.bundle.*" "dist" "tmp")
-        ag-reuse-buffers t))
-
-(use-package grep
-  :commands (grep rgrep)
-  :config
-  ;; Fish compatibility
-  (grep-apply-setting 'grep-find-command '("find . -type f -exec grep -nH -e  \\{\\} \\+" . 34))
-  (grep-apply-setting 'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+"))
-
 (use-package hl-line
-  :config (global-hl-line-mode))
+  :hook ((after-init . global-hl-line-mode)))
 
 (use-package ido
   :bind (("C-x C-i" . imenu))
@@ -379,17 +393,15 @@
 
 (use-package ido-completing-read+
   :load-path "vendor/ido-completing-read+"
-  :after (ido)
   :hook ((after-init . ido-ubiquitous-mode)))
 
 (use-package ido-vertical-mode
+  :disabled
   :load-path "vendor/ido-vertical-mode"
-  :after (ido)
   :hook ((after-init . ido-vertical-mode)))
 
 (use-package flx-ido
   :load-path "vendor/flx"
-  :after (ido)
   :hook ((after-init . flx-ido-mode)))
 
 (use-package smex
@@ -397,100 +409,92 @@
   :bind (("M-x" . smex)
          ("C-;" . smex)))
 
-(use-package smtpmail)
-(use-package subr-x)
-
 (use-package mule
-  :config
-  (progn
-    (set-terminal-coding-system 'utf-8)
+  :preface
+  (defun bp-mule-hook ()
+    (interactive)
+    (set-language-environment "utf-8")
     (set-keyboard-coding-system 'utf-8)
     (set-selection-coding-system 'utf-8)
-    (prefer-coding-system 'utf-8)))
+    (set-terminal-coding-system 'utf-8)
+    (prefer-coding-system 'utf-8))
+  :hook ((after-init . bp-mule-hook)))
 
 (use-package paren
-  :config
-  (show-paren-mode +1))
+  :hook ((after-init . show-paren-mode)))
 
 (use-package re-builder
   :commands re-builder
-  :init
+  :config
   (setq reb-re-syntax 'rx))
 
 (use-package recentf
-  :init
+  :preface
+  (defvar bp-recentf-excludes
+    '("/.virtualenvs/"
+      "COMMIT_EDITMSG\\'"
+      "MERGE_MSG\\'"
+      "TAGS\\'"
+      ".el.gz\\'"))
+  :hook ((after-init . recentf-mode))
+  :config
   (setq recentf-save-file (locate-user-emacs-file "recentf")
         recentf-max-saved-items 100
         recentf-max-menu-items 10
         recentf-auto-cleanup 60)
-  :config
-  (progn
-    (add-to-list 'recentf-exclude "/.virtualenvs/")
-    (add-to-list 'recentf-exclude "/elpa/")
-    (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
-    (add-to-list 'recentf-exclude "MERGE_MSG\\'")
-    (add-to-list 'recentf-exclude "TAGS\\'")
-    (add-to-list 'recentf-exclude ".el.gz")
-
-    (recentf-mode +1)))
+  (dolist (exclude bp-recentf-excludes)
+    (add-to-list 'recentf-exclude exclude)))
 
 (use-package savehist
-  :init
-  (setq savehist-file (locate-user-emacs-file "savehist")
-        savehist-additional-variables '(search ring regexp-search-ring))
+  :hook ((after-init . savehist-mode))
   :config
-  (savehist-mode +1))
+  (setq savehist-file (locate-user-emacs-file "savehist")
+        savehist-additional-variables '(search ring regexp-search-ring)))
 
 (use-package saveplace
-  :config
-  (save-place-mode +1))
+  :hook ((after-init . save-place-mode)))
 
 (use-package simple
-  :init
-  (add-hook 'before-save-hook #'delete-trailing-whitespace))
+  :hook ((after-init  . line-number-mode)
+	 (after-init  . column-number-mode)
+	 (before-save . delete-trailing-whitespace)))
 
 (use-package uniquify
   :init
   (setq uniquify-buffer-name-style 'forward))
 
 
-;;; Utilities
-(use-package alert
-  :load-path "vendor/alert")
+;; Search ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package ag
+  :load-path "vendor/ag"
+  :commands (ag)
+  :config
+  (setq ag-highlight-search t
+        ag-ignore-list '("node_modules" "*.bundle.*" "dist" "tmp")
+        ag-reuse-buffers t))
 
-(use-package dash
-  :load-path "vendor/dash")
-
-(use-package f
-  :load-path "vendor/f"
-  :after s)
-
-(use-package s
-  :load-path "vendor/s")
-
-(use-package diminish
-  :load-path "vendor/diminish"
-  :commands diminish)
-
-(use-package ht
-  :load-path "vendor/ht")
-
-(use-package popup
-  :load-path "vendor/popup")
+(use-package grep
+  :commands (grep rgrep)
+  :config
+  ;; Fish compatibility
+  (grep-apply-setting 'grep-find-command '("find . -type f -exec grep -nH -e  \\{\\} \\+" . 34))
+  (grep-apply-setting 'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+"))
 
 
-;;; Git
+;; Git ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package fullframe
-  :load-path "vendor/fullframe")
+  :load-path "vendor/fullframe"
+  :commands (fullframe))
 
 (use-package transient
-  :load-path "vendor/transient/lisp")
+  :load-path "vendor/transient/lisp"
+  :defer t)
 
 (use-package with-editor
-  :load-path "vendor/with-editor")
+  :load-path "vendor/with-editor"
+  :defer t)
 
 (use-package magit
-  :after (fullframe transient with-editor)
   :load-path "vendor/magit/lisp"
   :commands (magit-status git-commit-mode)
   :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
@@ -503,31 +507,32 @@
 
   (fullframe magit-status magit-mode-quit-window))
 
-;;; Code completion
+
+;; Code Completion ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package company
   :load-path "vendor/company-mode"
   :hook ((prog-mode . company-mode))
+  :diminish company-mode
   :config
   (setq company-idle-delay 0.3))
 
-;;; Linting
+
+;; Linting ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package flycheck
   :load-path "vendor/flycheck"
   :hook ((prog-mode . flycheck-mode))
   :config
-  (setq-default flycheck-emacs-lisp-load-path 'inherit)
-  (setq-default flycheck-disabled-checkers '(python-pycompile racket sass))
-  (setq-default flycheck-flake8rc "setup.cfg"))
+  (setq flycheck-emacs-lisp-load-path 'inherit
+	flycheck-disabled-checkers '(python-pycompile racket sass)
+	flycheck-flake8rc "setup.cfg"))
 
 
-;;; Code navigation
+;; Navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package dumb-jump
   :load-path "vendor/dumb-jump"
   :commands (dumb-jump-go dumb-jump-go-other-window)
   :hook ((prog-mode . dumb-jump-mode)))
 
-
-;;; File navigation
 (use-package projectile
   :load-path "vendor/projectile"
   :diminish projectile-mode
@@ -538,17 +543,15 @@
                  (-contains-p (pyvenv-virtualenv-list) name))
         (bp-workon name)
         (normal-mode))))
-  :init
-  (add-hook 'after-init-hook #'projectile-mode)
-  (add-hook 'projectile-find-file-hook #'bp-projectile-find-file-hook)
+  :hook ((after-init                . projectile-mode)
+	 (projectile-find-file-hook . bp-projectile-find-file-hook))
   :config
   (setq projectile-enable-caching t))
 
 
- ;;; C
+;; C ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package cc-mode
-  :disabled
-  :mode (("\\.c\\'" . c-mode)
+  :mode (("\\.c\\'"    . c-mode)
          ("\\.java\\'" . java-mode))
   :preface
   (defun bp-java-mode-hook ()
@@ -561,7 +564,13 @@
   (add-hook 'java-mode-hook #'bp-java-mode-hook))
 
 
-;;; Clojure
+;; Clojure ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package parseclj :load-path "vendor/parseclj" :defer t)
+(use-package parseedn :load-path "vendor/parseedn" :defer t)
+(use-package spinner  :load-path "vendor/spinner"  :defer t)
+(use-package queue    :load-path "vendor"          :defer t)
+(use-package sesman   :load-path "vendor/sesman"   :defer t)
+
 (use-package clojure-mode
   :load-path "vendor/clojure-mode"
   :mode (("\\.clj\\'"  . clojure-mode)
@@ -569,23 +578,19 @@
 
 (use-package cider
   :load-path "vendor/cider"
-  :hook clojure-mode
+  :hook ((clojure-mode . cider-mode))
   :config
   (setq cider-default-cljs-repl 'figwheel-main
         cider-figwheel-main-default-options ":dev"))
 
 
-;;; Docker
+;; Docker ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package dockerfile-mode
   :load-path "vendor/dockerfile-mode"
   :mode "\\Dockerfile\\'")
 
 
-;;; Emacs lisp
-(use-package eldoc
-  :diminish eldoc-mode
-  :hook ((emacs-lisp-mode . eldoc-mode)))
-
+;; ELISP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package paredit
   :load-path "vendor/paredit"
   :diminish paredit-mode
@@ -595,13 +600,14 @@
   :load-path "vendor/rainbow-delimiters"
   :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode lisp-mode racket-mode scheme-mode) . rainbow-delimiters-mode))
 
-;;; Fish
+
+;; Fish ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package fish-mode
   :load-path "vendor/fish-mode"
   :mode "\\.fish\\'")
 
 
-;;; Go
+;; Go ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package go-mode
   :load-path "vendor/go-mode"
   :mode "\\.go\\'"
@@ -611,40 +617,13 @@
 
 (use-package company-go
   :load-path "vendor/company-go"
-  :config
+  :commands (company-go)
+  :after company
+  :init
   (add-to-list 'company-backends #'company-go))
 
-;;; HCL
-(use-package hcl-mode
-  :disabled
-  :load-path "vendor/hcl-mode"
-  :mode (("\\.hcl\\'" . hcl-mode)
-         ("\\.nomad\\'" . hcl-mode)
-         ("\\.workflow\\'" . hcl-mode)))
 
-
-;;; Haskell
-(use-package intero
-  :disabled
-  :load-path "vendor/intero/elisp"
-  :mode "\\.hs\\'"
-  :hook haskell-mode)
-
-(use-package hindent
-  :disabled
-  :load-path "vendor/hindent"
-  :hook haskell-mode
-  :config
-  (setq hindent-reformat-buffer-on-save t))
-
-
-;;; TOML
-(use-package toml-mode
-  :load-path "vendor/toml-mode"
-  :mode "\\.toml\\'")
-
-
-;;; JSON
+;; JSON ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package json-mode
   :load-path "vendor/json-mode"
   :mode "\\.json\\'"
@@ -653,7 +632,13 @@
         js-indent-level 2))
 
 
-;;; SASS
+;; TOML ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package toml-mode
+  :load-path "vendor/toml-mode"
+  :mode "\\.toml\\'")
+
+
+;; SASS/SCSS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package sass-mode
   :load-path "vendor/sass-mode"
   :mode (("\\.sass\\'" . sass-mode)
@@ -662,7 +647,7 @@
   (setq css-indent-offset 2))
 
 
-;;; Lua
+;; Lua ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package lua-mode
   :load-path "vendor/lua-mode"
   :mode "\\.lua\\'"
@@ -670,23 +655,25 @@
   (setq lua-indent-level 4))
 
 
-;;; Markdown
+;; Markdown ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package markdown-mode
   :load-path "vendor/markdown-mode"
   :mode ("\\.md\\'" . gfm-mode))
 
 
-;;; Nginx
+;; Nginx ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package nginx-mode
-  :load-path "vendor/nginx-mode")
+  :load-path "vendor/nginx-mode"
+  :defer 30)
 
 
-;;; Python
+;; Python ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package pyvenv
-  :load-path "vendor/pyvenv")
+  :load-path "vendor/pyvenv"
+  :commands (pyvenv-virtualenv-list))
 
 (use-package python
-  :mode (("\\.py\\'"   . python-mode))
+  :mode "\\.py\\'"
   :interpreter ("python" . python-mode)
   :preface
   (defvar bp-current-python-env nil)
@@ -740,24 +727,71 @@
     "\\T" 'py-test-run-directory
     "\\t" 'py-test-run-file)
 
-  (setq py-test-*mode-line-face-shenanigans-on* t)
-  (setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec"))
+  (setq py-test-*mode-line-face-shenanigans-on* t
+	py-test-*mode-line-face-shenanigans-timer* "0.5 sec"))
 
 (use-package bp-py-test-projects
   :load-path "~/Documents/Org"
   :after py-test)
 
 
-;;; Racket, Scribble and Pollen
+
+;; Racket ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package pos-tip
+  :load-path "vendor/pos-tip"
+  :commands (pos-tip-show pos-tip-hide))
+
 (use-package racket-mode
   :load-path "vendor/racket-mode"
   :mode "\\.rkt\\'"
+  :after flycheck
   :preface
   (defun bp-insert-lisp-section (section)
     "Insert a LISP section header with SECTION at point."
     (interactive "sSection: ")
     (let ((suffix (s-repeat (- 72 (length section) 4) ";")))
       (insert (format ";; %s %s\n" section suffix))))
+
+  (defvar bp-racket-defun-likes
+    '(call-with-browser!
+      call-with-browser-script!
+      call-with-database-connection
+      call-with-database-transaction
+      call-with-element-screenshot!
+      call-with-input-bytes
+      call-with-input-string
+      call-with-marionette!
+      call-with-page!
+      call-with-page-screenshot!
+      call-with-persistent-database-connection
+      call-with-pk
+      call-with-postmark-connection
+      call-with-pubsub-events
+      call-with-redis
+      call-with-redis-client
+      call-with-redis-pool
+      call-with-redis-pubsub
+      call-with-screenshot
+      call-with-semaphore
+      call-with-test-client+server
+      call-with-transaction
+      call-with-twilio-connection
+      for/stream
+      form*
+      gen:let
+      let*
+      let-globals
+      place
+      property
+      section
+      serializable-struct
+      serializable-struct/versions
+      struct++
+      system-test-suite
+      test
+      test-commands
+      tpl:xexpr-when
+      xexpr-when))
   :config
   (flycheck-define-checker racket-review
     "check racket source code using racket-review"
@@ -772,53 +806,17 @@
   (setq racket-repl-buffer-name-function #'racket-repl-buffer-name-project
         racket-show-functions '(racket-show-echo-area))
 
-  (put 'call-with-browser! 'racket-indent-function #'defun)
-  (put 'call-with-browser-script! 'racket-indent-function #'defun)
-  (put 'call-with-database-connection 'racket-indent-function #'defun)
-  (put 'call-with-database-transaction 'racket-indent-function #'defun)
-  (put 'call-with-element-screenshot! 'racket-indent-function #'defun)
-  (put 'call-with-input-bytes 'racket-indent-function #'defun)
-  (put 'call-with-input-string 'racket-indent-function #'defun)
-  (put 'call-with-marionette! 'racket-indent-function #'defun)
-  (put 'call-with-page! 'racket-indent-function #'defun)
-  (put 'call-with-page-screenshot! 'racket-indent-function #'defun)
-  (put 'call-with-persistent-database-connection 'racket-indent-function #'defun)
-  (put 'call-with-pk 'racket-indent-function #'defun)
-  (put 'call-with-postmark-connection 'racket-indent-function #'defun)
-  (put 'call-with-pubsub-events 'racket-indent-function #'defun)
-  (put 'call-with-redis 'racket-indent-function #'defun)
-  (put 'call-with-redis-client 'racket-indent-function #'defun)
-  (put 'call-with-redis-pool 'racket-indent-function #'defun)
-  (put 'call-with-redis-pubsub 'racket-indent-function #'defun)
-  (put 'call-with-screenshot 'racket-indent-function #'defun)
-  (put 'call-with-semaphore 'racket-indent-function #'defun)
-  (put 'call-with-test-client+server 'racket-indent-function #'defun)
-  (put 'call-with-transaction 'racket-indent-function #'defun)
-  (put 'call-with-twilio-connection 'racket-indent-function #'defun)
-  (put 'for/stream 'racket-indent-function #'defun)
-  (put 'form* 'racket-indent-function #'defun)
-  (put 'gen:let 'racket-indent-function #'defun)
-  (put 'let* 'racket-indent-function #'defun)
-  (put 'let-globals 'racket-indent-function #'defun)
-  (put 'place 'racket-indent-function #'defun)
-  (put 'property 'racket-indent-function #'defun)
-  (put 'section 'racket-indent-function #'defun)
-  (put 'serializable-struct 'racket-indent-function #'defun)
-  (put 'serializable-struct/versions 'racket-indent-function #'defun)
-  (put 'struct++ 'racket-indent-function #'defun)
-  (put 'system-test-suite 'racket-indent-function #'defun)
-  (put 'test 'racket-indent-function #'defun)
-  (put 'test-commands 'racket-indent-function #'defun)
-  (put 'tpl:xexpr-when 'racket-indent-function #'defun)
-  (put 'xexpr-when 'racket-indent-function #'defun)
-  (bind-keys :map racket-mode-map
-             ("{"       . paredit-open-curly)
-             ("}"       . paredit-close-curly)
-             ("C-c C-d" . racket-xp-describe)
-             ("C-c C-r" . racket-xp-rename)
-             ("C-c C-s" . bp-insert-lisp-section)
-             ("C-c ."   . racket-xp-visit-definition)
-             ("C-c ,"   . racket-unvisit)))
+  (dolist (id bp-racket-defun-likes)
+    (put id 'racket-indent-function #'defun))
+
+  :bind (:map racket-mode-map
+	      ("{"       . paredit-open-curly)
+	      ("}"       . paredit-close-curly)
+	      ("C-c C-d" . racket-xp-describe)
+	      ("C-c C-r" . racket-xp-rename)
+	      ("C-c C-s" . bp-insert-lisp-section)
+	      ("C-c ."   . racket-xp-visit-definition)
+	      ("C-c ,"   . racket-unvisit)))
 
 (use-package racket-xp-mode
   :load-path "vendor/racket-mode"
@@ -828,28 +826,25 @@
   :load-path "vendor/scribble-mode"
   :mode "\\.scrbl\\'")
 
-(use-package pollen-mode
-  :disabled
-  :load-path "vendor/pollen-mode")
 
-
-;;; SQL
+;; SQL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package sql
+  :mode (("\\.sql\\'" . sql-mode))
   :preface
   (defun bp-sql-mode-hook ()
     (sql-highlight-postgres-keywords))
   :hook ((sql-mode . bp-sql-mode-hook)))
 
 
-;;; SSH
+;; SSH ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package ssh-config-mode
   :load-path "vendor/ssh-config-mode")
 
 
-;;; Web
+;; Web ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package web-mode
   :load-path "vendor/web-mode"
-  :after (f)
+  :after f
   :mode (("\\.html?\\'"        . web-mode)
          ("\\.mjml\\'"         . web-mode)
          ("\\.vue\\'"          . web-mode)
@@ -943,16 +938,16 @@
               ("C-c ," . tide-jump-back)))
 
 
-;;; Yaml
+;; Yaml ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package yaml-mode
   :load-path "vendor/yaml-mode"
   :mode "\\.yaml\\'")
 
 
-;;; beancount
+;; Beancount ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package beancount
   :load-path "vendor/beancount"
-  :mode "\\.beancount\\'"
+  :mode (("\\.beancount\\'" . beancount-mode))
   :preface
   (defun bp-beancount-format-before-save ()
     (interactive)
@@ -973,24 +968,7 @@
   (add-hook 'beancount-mode-hook #'bp-beancount-mode-hook))
 
 
-;;; hledger
-(use-package ledger-mode
-  :disabled
-  :load-path "vendor/ledger-mode"
-  :mode "\\.journal\\'"
-  :config
-  (setq ledger-default-date-format ledger-iso-date-format
-        ledger-mode-should-check-version nil
-        ledger-report-auto-width nil
-        ledger-report-links-in-register nil
-        ledger-report-use-native-highlighting nil
-        ledger-report-use-strict nil
-        ledger-reports '(("balances" "%(binary) -f %(ledger-file) bs -V")
-                         ("monthly expenses" "%(binary) -f %(ledger-file) b expenses --tree -MV -b2018-10"))
-        ledger-binary-path "hledger"))
-
-
-;;; email
+;; Mu4e ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package mu4e
   :load-path "/usr/local/opt/mu/share/emacs/site-lisp/mu/mu4e"
   :preface
@@ -1005,88 +983,86 @@
 
   (defun bp-capture-message (_)
     (call-interactively #'org-mu4e-store-and-capture))
+  :bind (:map mu4e-main-mode-map
+	      ("q" . bury-buffer))
   :config
-  (progn
-    (setq mu4e-mu-binary "/usr/local/bin/mu")
+  (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
 
-    (bind-keys :map mu4e-main-mode-map
-               ("q" . bury-buffer))
+  (setq
+   sendmail-program "msmtp"
+   message-send-mail-function #'message-send-mail-with-sendmail
+   message-sendmail-extra-arguments '("--read-envelope-from")
+   message-sendmail-f-is-evil t
 
-    (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
+   mu4e-mu-binary "/usr/local/bin/mu"
 
-    (setq
-     sendmail-program "msmtp"
-     message-send-mail-function #'message-send-mail-with-sendmail
-     message-sendmail-extra-arguments '("--read-envelope-from")
-     message-sendmail-f-is-evil t
+   mu4e-maildir "~/Mail"
+   mu4e-attachment-dir "~/Downloads"
 
-     mu4e-maildir "~/Mail"
-     mu4e-attachment-dir "~/Downloads"
+   mu4e-get-mail-command "mbsync -a"
+   mu4e-update-interval 300
+   mu4e-change-filenames-when-moving t ;; prevents mbsync from complaining about duplicate UIDs
+   mu4e-index-lazy-check t
+   mu4e-view-use-gnus nil
+   gnus-blocked-images ".*"
 
-     mu4e-get-mail-command "mbsync -a"
-     mu4e-update-interval 300
-     mu4e-change-filenames-when-moving t ;; prevents mbsync from complaining about duplicate UIDs
-     mu4e-index-lazy-check t
-     mu4e-view-use-gnus nil
-     gnus-blocked-images ".*"
+   mu4e-bookmarks '(((string-join '("maildir:/business/inbox"
+				    "maildir:/personal/inbox"
+				    "maildir:/personal-archive/inbox") " or ") "All Inboxes" ?i)
+		    ((string-join '("flag:unread"
+				    "flag:trashed"
+				    "maildir:/business/junk"
+				    "maildir:/personal/junk"
+				    "maildir:/personal-archive/junk") " AND NOT ") "Unread Messages" ?u)
+		    ("date:today..now" "Messages Today" ?t)
+		    ("date:7d..now" "Messages This Week" ?w)
+		    ("date:30d..now" "Messages This Month" ?m))
 
-     mu4e-bookmarks '(((string-join '("maildir:/business/inbox"
-                                      "maildir:/personal/inbox"
-                                      "maildir:/personal-archive/inbox") " or ") "All Inboxes" ?i)
-                      ((string-join '("flag:unread"
-                                      "flag:trashed"
-                                      "maildir:/business/junk"
-                                      "maildir:/personal/junk"
-                                      "maildir:/personal-archive/junk") " AND NOT ") "Unread Messages" ?u)
-                      ("date:today..now" "Messages Today" ?t)
-                      ("date:7d..now" "Messages This Week" ?w)
-                      ("date:30d..now" "Messages This Month" ?m))
+   mu4e-view-actions '(("Capture Message" . bp-capture-message)
+		       ("Thread" . mu4e-action-show-thread)
+		       ("View in Browser" . mu4e-action-view-in-browser))
 
-     mu4e-view-actions '(("Capture Message" . bp-capture-message)
-                         ("Thread" . mu4e-action-show-thread)
-                         ("View in Browser" . mu4e-action-view-in-browser))
+   mu4e-context-policy 'pick-first
+   mu4e-compose-context-policy 'ask-if-none
+   mu4e-contexts `(,(make-mu4e-context
+		     :name "personal"
+		     :match-func (bp-make-mu4e-matcher "personal" '("bogdan@defn.io"))
+		     :vars '((user-mail-address           . "bogdan@defn.io")
+			     (mu4e-refile-folder          . "/personal/archive")
+			     (mu4e-sent-folder            . "/personal/sent")
+			     (mu4e-drafts-folder          . "/personal/drafts")
+			     (mu4e-trash-folder           . "/personal/trash")
+			     (mu4e-sent-messages-behavior . sent)))
 
-     mu4e-context-policy 'pick-first
-     mu4e-compose-context-policy 'ask-if-none
-     mu4e-contexts `(,(make-mu4e-context
-                       :name "personal"
-                       :match-func (bp-make-mu4e-matcher "personal" '("bogdan@defn.io"))
-                       :vars '((user-mail-address           . "bogdan@defn.io")
-                               (mu4e-refile-folder          . "/personal/archive")
-                               (mu4e-sent-folder            . "/personal/sent")
-                               (mu4e-drafts-folder          . "/personal/drafts")
-                               (mu4e-trash-folder           . "/personal/trash")
-                               (mu4e-sent-messages-behavior . sent)))
+		   ,(make-mu4e-context
+		     :name "matchacha"
+		     :match-func (bp-make-mu4e-matcher "personal" '("bogdan@matchacha.ro" "hello@matchacha.ro"))
+		     :vars '((user-mail-address           . "bogdan@matchacha.ro")
+			     (mu4e-refile-folder          . "/personal/archive")
+			     (mu4e-sent-folder            . "/personal/sent")
+			     (mu4e-drafts-folder          . "/personal/drafts")
+			     (mu4e-trash-folder           . "/personal/trash")
+			     (mu4e-sent-messages-behavior . sent)))
 
-                     ,(make-mu4e-context
-                       :name "matchacha"
-                       :match-func (bp-make-mu4e-matcher "personal" '("bogdan@matchacha.ro" "hello@matchacha.ro"))
-                       :vars '((user-mail-address           . "bogdan@matchacha.ro")
-                               (mu4e-refile-folder          . "/personal/archive")
-                               (mu4e-sent-folder            . "/personal/sent")
-                               (mu4e-drafts-folder          . "/personal/drafts")
-                               (mu4e-trash-folder           . "/personal/trash")
-                               (mu4e-sent-messages-behavior . sent)))
+		   ,(make-mu4e-context
+		     :name "business"
+		     :match-func (bp-make-mu4e-matcher "business" '("bogdan@cleartype.io" "bogdan@cleartype.ro"))
+		     :vars '((user-mail-address           . "bogdan@cleartype.io")
+			     (mu4e-refile-folder          . "/business/archive")
+			     (mu4e-sent-folder            . "/business/sent")
+			     (mu4e-drafts-folder          . "/business/drafts")
+			     (mu4e-trash-folder           . "/business/trash")
+			     (mu4e-sent-messages-behavior . sent))))
 
-                     ,(make-mu4e-context
-                       :name "business"
-                       :match-func (bp-make-mu4e-matcher "business" '("bogdan@cleartype.io" "bogdan@cleartype.ro"))
-                       :vars '((user-mail-address           . "bogdan@cleartype.io")
-                               (mu4e-refile-folder          . "/business/archive")
-                               (mu4e-sent-folder            . "/business/sent")
-                               (mu4e-drafts-folder          . "/business/drafts")
-                               (mu4e-trash-folder           . "/business/trash")
-                               (mu4e-sent-messages-behavior . sent))))
-
-     mu4e-user-mail-address-list '("bogdan@cleartype.ro"
-                                   "bogdan@cleartype.io"
-                                   "bogdan@defn.io"
-                                   "bogdan@matchacha.ro"
-                                   "hello@matchacha.ro"))))
+   mu4e-user-mail-address-list '("bogdan@cleartype.ro"
+				 "bogdan@cleartype.io"
+				 "bogdan@defn.io"
+				 "bogdan@matchacha.ro"
+				 "hello@matchacha.ro")))
 
 (use-package mu4e-alert
   :load-path "vendor/mu4e-alert"
-  :after (ht)
+  :after ht
   :config
   (mu4e-alert-enable-mode-line-display)
   (mu4e-alert-enable-notifications)
@@ -1098,43 +1074,21 @@
                                                          "maildir:/personal-archive/junk")
                                                        " AND NOT ")))
 
-;;; org
+
+;; Org-mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :preface
   (setq bp-notes-file (expand-file-name "~/Documents/Org/notes.org"))
   :config
-  (progn
-    (use-package org-mu4e)
-
-    (setq org-default-notes-file bp-notes-file
-          org-refile-targets `((,bp-notes-file :maxlevel . 1))
-          org-capture-templates '(("n" "Note" entry (file+headline bp-notes-file "Notes") "** %? %^G\n   %U\n   %a\n\n   %i\n")))))
+  (setq org-default-notes-file bp-notes-file
+	org-refile-targets `((,bp-notes-file :maxlevel . 1))
+	org-capture-templates '(("n" "Note" entry (file+headline bp-notes-file "Notes") "** %? %^G\n   %U\n   %a\n\n   %i\n"))))
 
 (use-package org-mu4e
   :commands (org-mu4e-compose-org-mode org-mu4e-store-and-capture)
   :config
   (setq org-mu4e-convert-to-html t))
-
-;;; misc fns
-(defvar bp-presentation-mode nil)
-
-(defun bp-toggle-presentation-mode ()
-  "Toggle the frame font between presentation and non-presentation mode."
-  (interactive)
-  (cond
-   (bp-presentation-mode
-    (set-frame-font "Dank Mono-14")
-    (setq bp-presentation-mode nil))
-
-   (t
-    (set-frame-font "Dank Mono-18")
-    (setq bp-presentation-mode t))))
-
-(defun bp-recompile ()
-  "Recompile all elisp sources."
-  (interactive)
-  (byte-recompile-directory (expand-file-name "~/.emacs.d/vendor") 0 t))
 
 
 (provide 'init)
