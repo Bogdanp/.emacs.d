@@ -336,7 +336,7 @@
     (interactive)
     (byte-recompile-directory (expand-file-name "~/.emacs.d/vendor") 0 t))
   :hook ((compilation-filter . bp-colorize-compilation-buffer)
-	 (compilation-mode   . bp-compilation-mode-hook))
+         (compilation-mode   . bp-compilation-mode-hook))
   :config
   (setq compilation-scroll-output t))
 
@@ -344,9 +344,9 @@
   :commands dired
   :config
   (setq insert-directory-program "/usr/local/bin/gls"
-	dired-listing-switches "--group-directories-first -alh"
-	dired-omit-files-p t
-	dired-omit-files "^\\.?#\\|^__pycache__$"))
+        dired-listing-switches "--group-directories-first -alh"
+        dired-omit-files-p t
+        dired-omit-files "^\\.?#\\|^__pycache__$"))
 
 (use-package dired+
   :load-path "vendor"
@@ -456,8 +456,8 @@
 
 (use-package simple
   :hook ((after-init  . line-number-mode)
-	 (after-init  . column-number-mode)
-	 (before-save . delete-trailing-whitespace)))
+         (after-init  . column-number-mode)
+         (before-save . delete-trailing-whitespace)))
 
 (use-package uniquify
   :init
@@ -523,8 +523,8 @@
   :hook ((prog-mode . flycheck-mode))
   :config
   (setq flycheck-emacs-lisp-load-path 'inherit
-	flycheck-disabled-checkers '(python-pycompile racket sass)
-	flycheck-flake8rc "setup.cfg"))
+        flycheck-disabled-checkers '(python-pycompile racket sass)
+        flycheck-flake8rc "setup.cfg"))
 
 
 ;; Navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -544,7 +544,7 @@
         (bp-workon name)
         (normal-mode))))
   :hook ((after-init                . projectile-mode)
-	 (projectile-find-file-hook . bp-projectile-find-file-hook))
+         (projectile-find-file-hook . bp-projectile-find-file-hook))
   :config
   (setq projectile-enable-caching t))
 
@@ -673,8 +673,8 @@
   :commands (pyvenv-virtualenv-list))
 
 (use-package python
-  :mode "\\.py\\'"
   :interpreter ("python" . python-mode)
+  :mode (("\\.py\\'" . python-mode))
   :preface
   (defvar bp-current-python-env nil)
 
@@ -728,7 +728,7 @@
     "\\t" 'py-test-run-file)
 
   (setq py-test-*mode-line-face-shenanigans-on* t
-	py-test-*mode-line-face-shenanigans-timer* "0.5 sec"))
+        py-test-*mode-line-face-shenanigans-timer* "0.5 sec"))
 
 (use-package bp-py-test-projects
   :load-path "~/Documents/Org"
@@ -810,13 +810,13 @@
     (put id 'racket-indent-function #'defun))
 
   :bind (:map racket-mode-map
-	      ("{"       . paredit-open-curly)
-	      ("}"       . paredit-close-curly)
-	      ("C-c C-d" . racket-xp-describe)
-	      ("C-c C-r" . racket-xp-rename)
-	      ("C-c C-s" . bp-insert-lisp-section)
-	      ("C-c ."   . racket-xp-visit-definition)
-	      ("C-c ,"   . racket-unvisit)))
+              ("{"       . paredit-open-curly)
+              ("}"       . paredit-close-curly)
+              ("C-c C-d" . racket-xp-describe)
+              ("C-c C-r" . racket-xp-rename)
+              ("C-c C-s" . bp-insert-lisp-section)
+              ("C-c ."   . racket-xp-visit-definition)
+              ("C-c ,"   . racket-unvisit)))
 
 (use-package racket-xp-mode
   :load-path "vendor/racket-mode"
@@ -971,6 +971,7 @@
 ;; Mu4e ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package mu4e
   :load-path "/usr/local/opt/mu/share/emacs/site-lisp/mu/mu4e"
+  :commands (mu4e)
   :preface
   (defun bp-make-mu4e-matcher (mailbox-name addresses)
     (lexical-let ((addresses addresses)
@@ -984,7 +985,7 @@
   (defun bp-capture-message (_)
     (call-interactively #'org-mu4e-store-and-capture))
   :bind (:map mu4e-main-mode-map
-	      ("q" . bury-buffer))
+              ("q" . bury-buffer))
   :config
   (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
 
@@ -1007,58 +1008,58 @@
    gnus-blocked-images ".*"
 
    mu4e-bookmarks '(((string-join '("maildir:/business/inbox"
-				    "maildir:/personal/inbox"
-				    "maildir:/personal-archive/inbox") " or ") "All Inboxes" ?i)
-		    ((string-join '("flag:unread"
-				    "flag:trashed"
-				    "maildir:/business/junk"
-				    "maildir:/personal/junk"
-				    "maildir:/personal-archive/junk") " AND NOT ") "Unread Messages" ?u)
-		    ("date:today..now" "Messages Today" ?t)
-		    ("date:7d..now" "Messages This Week" ?w)
-		    ("date:30d..now" "Messages This Month" ?m))
+                                    "maildir:/personal/inbox"
+                                    "maildir:/personal-archive/inbox") " or ") "All Inboxes" ?i)
+                    ((string-join '("flag:unread"
+                                    "flag:trashed"
+                                    "maildir:/business/junk"
+                                    "maildir:/personal/junk"
+                                    "maildir:/personal-archive/junk") " AND NOT ") "Unread Messages" ?u)
+                    ("date:today..now" "Messages Today" ?t)
+                    ("date:7d..now" "Messages This Week" ?w)
+                    ("date:30d..now" "Messages This Month" ?m))
 
    mu4e-view-actions '(("Capture Message" . bp-capture-message)
-		       ("Thread" . mu4e-action-show-thread)
-		       ("View in Browser" . mu4e-action-view-in-browser))
+                       ("Thread" . mu4e-action-show-thread)
+                       ("View in Browser" . mu4e-action-view-in-browser))
 
    mu4e-context-policy 'pick-first
    mu4e-compose-context-policy 'ask-if-none
    mu4e-contexts `(,(make-mu4e-context
-		     :name "personal"
-		     :match-func (bp-make-mu4e-matcher "personal" '("bogdan@defn.io"))
-		     :vars '((user-mail-address           . "bogdan@defn.io")
-			     (mu4e-refile-folder          . "/personal/archive")
-			     (mu4e-sent-folder            . "/personal/sent")
-			     (mu4e-drafts-folder          . "/personal/drafts")
-			     (mu4e-trash-folder           . "/personal/trash")
-			     (mu4e-sent-messages-behavior . sent)))
+                     :name "personal"
+                     :match-func (bp-make-mu4e-matcher "personal" '("bogdan@defn.io"))
+                     :vars '((user-mail-address           . "bogdan@defn.io")
+                             (mu4e-refile-folder          . "/personal/archive")
+                             (mu4e-sent-folder            . "/personal/sent")
+                             (mu4e-drafts-folder          . "/personal/drafts")
+                             (mu4e-trash-folder           . "/personal/trash")
+                             (mu4e-sent-messages-behavior . sent)))
 
-		   ,(make-mu4e-context
-		     :name "matchacha"
-		     :match-func (bp-make-mu4e-matcher "personal" '("bogdan@matchacha.ro" "hello@matchacha.ro"))
-		     :vars '((user-mail-address           . "bogdan@matchacha.ro")
-			     (mu4e-refile-folder          . "/personal/archive")
-			     (mu4e-sent-folder            . "/personal/sent")
-			     (mu4e-drafts-folder          . "/personal/drafts")
-			     (mu4e-trash-folder           . "/personal/trash")
-			     (mu4e-sent-messages-behavior . sent)))
+                   ,(make-mu4e-context
+                     :name "matchacha"
+                     :match-func (bp-make-mu4e-matcher "personal" '("bogdan@matchacha.ro" "hello@matchacha.ro"))
+                     :vars '((user-mail-address           . "bogdan@matchacha.ro")
+                             (mu4e-refile-folder          . "/personal/archive")
+                             (mu4e-sent-folder            . "/personal/sent")
+                             (mu4e-drafts-folder          . "/personal/drafts")
+                             (mu4e-trash-folder           . "/personal/trash")
+                             (mu4e-sent-messages-behavior . sent)))
 
-		   ,(make-mu4e-context
-		     :name "business"
-		     :match-func (bp-make-mu4e-matcher "business" '("bogdan@cleartype.io" "bogdan@cleartype.ro"))
-		     :vars '((user-mail-address           . "bogdan@cleartype.io")
-			     (mu4e-refile-folder          . "/business/archive")
-			     (mu4e-sent-folder            . "/business/sent")
-			     (mu4e-drafts-folder          . "/business/drafts")
-			     (mu4e-trash-folder           . "/business/trash")
-			     (mu4e-sent-messages-behavior . sent))))
+                   ,(make-mu4e-context
+                     :name "business"
+                     :match-func (bp-make-mu4e-matcher "business" '("bogdan@cleartype.io" "bogdan@cleartype.ro"))
+                     :vars '((user-mail-address           . "bogdan@cleartype.io")
+                             (mu4e-refile-folder          . "/business/archive")
+                             (mu4e-sent-folder            . "/business/sent")
+                             (mu4e-drafts-folder          . "/business/drafts")
+                             (mu4e-trash-folder           . "/business/trash")
+                             (mu4e-sent-messages-behavior . sent))))
 
    mu4e-user-mail-address-list '("bogdan@cleartype.ro"
-				 "bogdan@cleartype.io"
-				 "bogdan@defn.io"
-				 "bogdan@matchacha.ro"
-				 "hello@matchacha.ro")))
+                                 "bogdan@cleartype.io"
+                                 "bogdan@defn.io"
+                                 "bogdan@matchacha.ro"
+                                 "hello@matchacha.ro")))
 
 (use-package mu4e-alert
   :load-path "vendor/mu4e-alert"
@@ -1082,8 +1083,8 @@
   (setq bp-notes-file (expand-file-name "~/Documents/Org/notes.org"))
   :config
   (setq org-default-notes-file bp-notes-file
-	org-refile-targets `((,bp-notes-file :maxlevel . 1))
-	org-capture-templates '(("n" "Note" entry (file+headline bp-notes-file "Notes") "** %? %^G\n   %U\n   %a\n\n   %i\n"))))
+        org-refile-targets `((,bp-notes-file :maxlevel . 1))
+        org-capture-templates '(("n" "Note" entry (file+headline bp-notes-file "Notes") "** %? %^G\n   %U\n   %a\n\n   %i\n"))))
 
 (use-package org-mu4e
   :commands (org-mu4e-compose-org-mode org-mu4e-store-and-capture)
