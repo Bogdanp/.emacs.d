@@ -51,20 +51,13 @@
 
 ;;; Vendored libs
 (add-to-list 'load-path (locate-user-emacs-file "vendor/dash"))
-(add-to-list 'load-path (locate-user-emacs-file "vendor/packed"))
-(add-to-list 'load-path (locate-user-emacs-file "vendor/auto-compile"))
-(add-to-list 'load-path (locate-user-emacs-file "vendor/use-package"))
 (add-to-list 'load-path (expand-file-name "~/Documents/Org"))
 
 
-;;; auto-compile
-(require 'auto-compile)
-(auto-compile-on-load-mode 1)
-(auto-compile-on-save-mode 1)
-
-
 ;;; use-package
-(require 'use-package)
+(eval-when-compile
+  (add-to-list 'load-path (locate-user-emacs-file "vendor/use-package"))
+  (require 'use-package))
 
 
 ;;; UI
@@ -153,8 +146,9 @@
   (package-refresh-contents))
 
 
-;;; Set up PATH from shell
+;;; Set up PATH from shell on macOS.
 (use-package exec-path-from-shell
+  :when (eq system-type 'darwin)
   :ensure t
   :init
   (exec-path-from-shell-initialize)
