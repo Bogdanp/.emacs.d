@@ -965,8 +965,13 @@
       (call-interactively #'run-js)))
   :init
   (progn
+    (use-package nvm
+      :ensure t
+      :config
+      (setq nvm-dir (expand-file-name "~/.config/nvm")
+            nvm-version-re "[0-9]+\.[0-9]+\.[0-9]+"))
+
     (use-package js-comint :ensure t)
-    (use-package nvm :ensure t)
     (use-package prettier-js :ensure t)
 
     (use-package tide
