@@ -49,14 +49,10 @@
 ;;; Enable narrow to region functionality
 (put 'narrow-to-region 'disabled nil)
 
-;;; Vendored libs
-(add-to-list 'load-path (locate-user-emacs-file "vendor/dash"))
-(add-to-list 'load-path (expand-file-name "~/Documents/Org"))
-
-
 ;;; use-package
 (eval-when-compile
   (add-to-list 'load-path (locate-user-emacs-file "vendor/use-package"))
+  (require 'cl)
   (require 'use-package))
 
 
@@ -128,29 +124,11 @@
   "The folder in which temp files should be stored.")
 
 
-;;; Packages
-(with-no-warnings
-  (require 'cl)
-  (require 'package))
-
-;; https://debbugs.gnu.org/34341
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-(add-to-list 'package-archives '("elpy" . "http://jorgenschaefer.github.io/packages/") t)
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
-(package-initialize nil)
-
-(unless package-archive-contents
-  (package-refresh-contents))
-
-
 ;;; Set up PATH from shell on macOS.
 (use-package exec-path-from-shell
+  :load-path "vendor/exec-path-from-shell"
   :when (eq system-type 'darwin)
-  :ensure t
-  :init
+  :config
   (exec-path-from-shell-initialize)
   (exec-path-from-shell-copy-envs '("LC_ALL" "LANG" "MANPATH" "GOPATH" "WORKON_HOME")))
 
@@ -167,22 +145,39 @@
   (bp-remove-themes)
   (call-interactively #'load-theme))
 
-(if (not (display-graphic-p))
-    (load-theme 'wombat t)
+(unless (display-graphic-p)
+  (load-theme 'wombat t))
 
-  (require 'server)
-  (unless (server-running-p)
-    (server-start))
+(use-package server
+  :when (display-graphic-p)
+  :config
+  (server-start))
 
-  (use-package twilight-bright-theme
-    :load-path "vendor/twilight-bright-theme"
-    :config (load-theme 'twilight-bright t)))
+(use-package twilight-bright-theme
+  :when (display-graphic-p)
+  :load-path "vendor/twilight-bright-theme"
+  :config (load-theme 'twilight-bright t))
 
 
 ;;; EVIL
+(use-package goto-chg
+  :load-path "vendor/goto-chg"
+  :commands goto-last-change)
+
+(use-package undo-tree
+  :load-path "vendor/undo-tree"
+  :diminish undo-tree-mode
+  :commands global-undo-tree-mode
+  :hook ((after-init . global-undo-tree-mode))
+  :config
+  (with-no-warnings
+    (setq undo-tree-visualizer-timestamps t
+          undo-tree-visualizer-diffs t
+          undo-tree-history-directory-alist `((".*" . ,local-temp-dir))
+          undo-tree-auto-save-history t)))
+
 (use-package evil
   :load-path "vendor/evil"
-  :pin manual
   :preface
   (defvar bp-evil-modes
     '(fundamental-mode beancount-mode conf-mode css-mode
@@ -228,36 +223,15 @@
   (defun bp-open-firefox ()
     (interactive)
     (bp--open-app "Firefox"))
+
+  (defun bp-open-safari ()
+    (interactive)
+    (bp--open-app "Safari"))
   :init
   (setq evil-search-module #'evil-search
         evil-magic 'very-magic)
   :config
   (progn
-    ;;; Dependencies
-    (use-package goto-chg
-      :ensure t
-      :commands goto-last-change)
-
-    (use-package undo-tree
-      :load-path "vendor/undo-tree"
-      :diminish undo-tree-mode
-      :commands global-undo-tree-mode
-      :init
-      (add-hook 'after-init-hook #'global-undo-tree-mode)
-      :config
-      (with-no-warnings
-        (setq undo-tree-visualizer-timestamps t
-              undo-tree-visualizer-diffs t
-              undo-tree-history-directory-alist `((".*" . ,local-temp-dir))
-              undo-tree-auto-save-history t)))
-
-
-    ;;; Plugins
-    (use-package evil-surround
-      :load-path "vendor/evil-surround"
-      :config
-      (add-hook 'evil-mode-hook #'global-evil-surround-mode))
-
     (dolist (hook '(git-commit-setup-hook
                     git-timemachine-mode-hook
                     magit-blame-mode-hook))
@@ -271,6 +245,7 @@
     (bind-keys ("C-c C-\\" . evil-leader-prefix-map)
                ("C-c M-a"  . bp-open-terminal)
                ("C-c M-c"  . bp-open-firefox)
+               ("C-c M-s"  . bp-open-safari)
                ("C-x C-k"  . kill-region)
                ("C-j"      . newline-and-indent)
                ("C-w"      . backward-kill-word)
@@ -303,6 +278,9 @@
                ("j"   . dumb-jump-go)
                ("xf"  . xref-find-definitions))))
 
+(use-package evil-surround
+  :load-path "vendor/evil-surround"
+  :hook ((evil-mode-hook . global-evil-surround-mode)))
 
 ;;; Builtins
 (use-package autorevert
@@ -365,9 +343,9 @@
         backup-by-copying t))
 
 (use-package ag
+  :load-path "vendor/ag"
   :commands (ag)
-  :ensure t
-  :init
+  :config
   (setq ag-highlight-search t
         ag-ignore-list '("node_modules" "*.bundle.*" "dist" "tmp")
         ag-reuse-buffers t))
@@ -375,49 +353,52 @@
 (use-package grep
   :commands (grep rgrep)
   :config
-  (progn
-    ;; Fish compatibility
-    (grep-apply-setting
-     'grep-find-command '("find . -type f -exec grep -nH -e  \\{\\} \\+" . 34))
-    (grep-apply-setting
-     'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+")))
+  ;; Fish compatibility
+  (grep-apply-setting 'grep-find-command '("find . -type f -exec grep -nH -e  \\{\\} \\+" . 34))
+  (grep-apply-setting 'grep-find-template "find . <X> -type f <F> -exec grep <C> -inH -e <R> \\{\\} \\+"))
 
 (use-package hl-line
   :config (global-hl-line-mode))
 
 (use-package ido
   :bind (("C-x C-i" . imenu))
-  :init
-  (progn
-    (setq ido-create-new-buffer 'always
-          ido-use-filename-at-point 'guess
-          ido-use-virtual-buffers t
-          ido-handle-duplicate-virtual-buffers 2
-          ido-max-prospects 10
-          ido-ignore-extensions t
-          ido-auto-merge-work-directories-length -1)
-
-    (add-hook 'after-init-hook #'ido-mode))
+  :hook ((after-init . ido-mode)
+         (after-init . ido-everywhere))
   :config
-  (progn
-    (use-package ido-completing-read+ :ensure t)
-    (use-package ido-vertical-mode :ensure t)
-    (use-package flx-ido :ensure t)
+  (setq ido-create-new-buffer 'always
+        ido-use-filename-at-point 'guess
+        ido-use-virtual-buffers t
+        ido-handle-duplicate-virtual-buffers 2
+        ido-max-prospects 10
+        ido-ignore-extensions t
+        ido-auto-merge-work-directories-length -1)
 
-    (flx-ido-mode)
-    (ido-everywhere)
-    (ido-ubiquitous-mode +1)
-    (ido-vertical-mode +1)
+  (add-to-list 'ido-ignore-files "\\`compiled/")
+  (add-to-list 'ido-ignore-files "\\`node_modules/")
+  (add-to-list 'ido-ignore-files "\\`__pycache__/"))
 
-    (add-to-list 'ido-ignore-files "\\`compiled/")
-    (add-to-list 'ido-ignore-files "\\`node_modules/")
-    (add-to-list 'ido-ignore-files "\\`__pycache__/")))
+(use-package ido-completing-read+
+  :load-path "vendor/ido-completing-read+"
+  :after (ido)
+  :hook ((after-init . ido-ubiquitous-mode)))
+
+(use-package ido-vertical-mode
+  :load-path "vendor/ido-vertical-mode"
+  :after (ido)
+  :hook ((after-init . ido-vertical-mode)))
+
+(use-package flx-ido
+  :load-path "vendor/flx"
+  :after (ido)
+  :hook ((after-init . flx-ido-mode)))
 
 (use-package smex
-  :ensure t
+  :load-path "vendor/smex"
   :bind (("M-x" . smex)
-         ("M-X" . smex-major-mode-commands)
          ("C-;" . smex)))
+
+(use-package smtpmail)
+(use-package subr-x)
 
 (use-package mule
   :config
@@ -473,63 +454,67 @@
   (setq uniquify-buffer-name-style 'forward))
 
 
-;;; Buffers and buffer navigation
-(use-package ibuffer
-  :disabled
-  :bind ("C-x C-b" . ibuffer)
-  :preface
-  (eval-when-compile
-    (declare-function ibuffer-do-sort-by-alphabetic "ibuf-ext"))
+;;; Utilities
+(use-package alert
+  :load-path "vendor/alert")
 
-  (defun bp-ibuffer-hook ()
-    (ibuffer-vc-set-filter-groups-by-vc-root)
-    (unless (eq ibuffer-sorting-mode 'alphabetic)
-      (ibuffer-do-sort-by-alphabetic)))
-  :config
-  (progn
-    (use-package ibuffer-vc
-      :commands ibuffer-vc-set-filter-groups-by-vc-root
-      :ensure t)
+(use-package dash
+  :load-path "vendor/dash")
 
-    (add-hook 'ibuffer-hook #'bp-ibuffer-hook)))
+(use-package f
+  :load-path "vendor/f"
+  :after s)
+
+(use-package s
+  :load-path "vendor/s")
+
+(use-package diminish
+  :load-path "vendor/diminish"
+  :commands diminish)
+
+(use-package ht
+  :load-path "vendor/ht")
+
+(use-package popup
+  :load-path "vendor/popup")
 
 
 ;;; Git
-(use-package git-timemachine
-  :commands git-timemachine
-  :ensure t)
+(use-package fullframe
+  :load-path "vendor/fullframe")
+
+(use-package transient
+  :load-path "vendor/transient/lisp")
+
+(use-package with-editor
+  :load-path "vendor/with-editor")
 
 (use-package magit
-  :ensure t
+  :after (fullframe transient with-editor)
+  :load-path "vendor/magit/lisp"
   :commands (magit-status git-commit-mode)
   :mode (("COMMIT_EDITMSG\\'" . git-commit-mode)
          ("MERGE_MSG\\'"      . git-commit-mode))
-  :init
+
+  :config
   (setq magit-completing-read-function #'magit-ido-completing-read
         magit-repository-directories '(("~/sandbox" . 1)
                                        ("~/work"    . 1)))
-  :config
-  (use-package fullframe
-    :ensure t
-    :config
-    (fullframe magit-status magit-mode-quit-window)))
+
+  (fullframe magit-status magit-mode-quit-window))
 
 ;;; Code completion
 (use-package company
-  :diminish company-mode
-  :ensure t
-  :init
-  (progn
-    (setq company-idle-delay 0.30)
-
-    (add-hook 'after-init-hook #'global-company-mode)))
+  :load-path "vendor/company-mode"
+  :hook ((prog-mode . company-mode))
+  :config
+  (setq company-idle-delay 0.3))
 
 ;;; Linting
 (use-package flycheck
-  :commands flycheck-mode
-  :ensure t
-  :init
-  (add-hook 'prog-mode-hook #'flycheck-mode)
+  :load-path "vendor/flycheck"
+  :hook ((prog-mode . flycheck-mode))
+  :config
   (setq-default flycheck-emacs-lisp-load-path 'inherit)
   (setq-default flycheck-disabled-checkers '(python-pycompile racket sass))
   (setq-default flycheck-flake8rc "setup.cfg"))
@@ -537,16 +522,15 @@
 
 ;;; Code navigation
 (use-package dumb-jump
-  :ensure t
+  :load-path "vendor/dumb-jump"
   :commands (dumb-jump-go dumb-jump-go-other-window)
-  :config
-  (add-hook 'prog-mode-hook #'dumb-jump-mode))
+  :hook ((prog-mode . dumb-jump-mode)))
 
 
 ;;; File navigation
 (use-package projectile
+  :load-path "vendor/projectile"
   :diminish projectile-mode
-  :ensure t
   :preface
   (defun bp-projectile-find-file-hook ()
     (let ((name (projectile-project-name)))
@@ -555,21 +539,15 @@
         (bp-workon name)
         (normal-mode))))
   :init
-  (setq projectile-enable-caching t)
   (add-hook 'after-init-hook #'projectile-mode)
-  (add-hook 'projectile-find-file-hook #'bp-projectile-find-file-hook))
+  (add-hook 'projectile-find-file-hook #'bp-projectile-find-file-hook)
+  :config
+  (setq projectile-enable-caching t))
 
-
-;;; Miscellaneous
-(use-package s
-  :ensure t)
-
-(use-package diminish
-  :commands diminish
-  :ensure t)
 
  ;;; C
 (use-package cc-mode
+  :disabled
   :mode (("\\.c\\'" . c-mode)
          ("\\.java\\'" . java-mode))
   :preface
@@ -577,85 +555,69 @@
     (setq-local c-basic-offset 4)
     (setq-local c-default-style "java"))
   :config
-  (progn
-    (setq c-basic-offset 4
-          c-default-style "bsd")
+  (setq c-basic-offset 4
+        c-default-style "bsd")
 
-    (add-hook 'java-mode-hook #'bp-java-mode-hook)))
+  (add-hook 'java-mode-hook #'bp-java-mode-hook))
 
 
 ;;; Clojure
 (use-package clojure-mode
-  :ensure t
+  :load-path "vendor/clojure-mode"
   :mode (("\\.clj\\'"  . clojure-mode)
-         ("\\.cljs\\'" . clojurescript-mode))
+         ("\\.cljs\\'" . clojurescript-mode)))
+
+(use-package cider
+  :load-path "vendor/cider"
+  :hook clojure-mode
   :config
-  (use-package cider
-    :ensure t
-    :config
-    (setq cider-default-cljs-repl 'figwheel-main
-          cider-figwheel-main-default-options ":dev")))
+  (setq cider-default-cljs-repl 'figwheel-main
+        cider-figwheel-main-default-options ":dev"))
 
 
 ;;; Docker
 (use-package dockerfile-mode
-  :mode "\\Dockerfile\\'"
-  :ensure t)
+  :load-path "vendor/dockerfile-mode"
+  :mode "\\Dockerfile\\'")
 
 
 ;;; Emacs lisp
 (use-package eldoc
   :diminish eldoc-mode
-  :init
-  (add-hook 'emacs-lisp-mode-hook #'eldoc-mode))
+  :hook ((emacs-lisp-mode . eldoc-mode)))
 
 (use-package paredit
+  :load-path "vendor/paredit"
   :diminish paredit-mode
-  :ensure t
-  :init
-  (add-hook 'cider-repl-mode-hook #'paredit-mode)
-  (add-hook 'clojure-mode-hook #'paredit-mode)
-  (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
-  (add-hook 'lisp-mode-hook #'paredit-mode)
-  (add-hook 'racket-mode-hook #'paredit-mode)
-  (add-hook 'scheme-mode-hook #'paredit-mode))
+  :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode lisp-mode racket-mode scheme-mode) . paredit-mode))
 
 (use-package rainbow-delimiters
-  :ensure t
-  :init
-  (add-hook 'cider-repl-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'clojurescript-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'racket-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'scheme-mode-hook #'rainbow-delimiters-mode))
-
+  :load-path "vendor/rainbow-delimiters"
+  :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode lisp-mode racket-mode scheme-mode) . rainbow-delimiters-mode))
 
 ;;; Fish
 (use-package fish-mode
-  :ensure t
+  :load-path "vendor/fish-mode"
   :mode "\\.fish\\'")
 
 
 ;;; Go
 (use-package go-mode
-  :ensure t
+  :load-path "vendor/go-mode"
   :mode "\\.go\\'"
   :config
-  (use-package company-go
-    :ensure t
-    :config
-    (add-to-list 'company-backends #'company-go))
-
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook #'gofmt-before-save))
 
+(use-package company-go
+  :load-path "vendor/company-go"
+  :config
+  (add-to-list 'company-backends #'company-go))
 
 ;;; HCL
 (use-package hcl-mode
   :disabled
-  :ensure t
+  :load-path "vendor/hcl-mode"
   :mode (("\\.hcl\\'" . hcl-mode)
          ("\\.nomad\\'" . hcl-mode)
          ("\\.workflow\\'" . hcl-mode)))
@@ -666,29 +628,25 @@
   :disabled
   :load-path "vendor/intero/elisp"
   :mode "\\.hs\\'"
+  :hook haskell-mode)
+
+(use-package hindent
+  :disabled
+  :load-path "vendor/hindent"
+  :hook haskell-mode
   :config
-  (progn
-    (use-package hindent
-      :ensure t
-      :config
-      (progn
-        (setq hindent-reformat-buffer-on-save t)
-
-        (add-hook 'haskell-mode-hook #'hindent-mode)))
-
-    (add-hook 'haskell-mode-hook #'intero-mode)))
+  (setq hindent-reformat-buffer-on-save t))
 
 
 ;;; TOML
 (use-package toml-mode
-  :ensure t
-  :mode (("\\.toml\\'". toml-mode)
-         ("Pipfile" . toml-mode)))
+  :load-path "vendor/toml-mode"
+  :mode "\\.toml\\'")
 
 
 ;;; JSON
 (use-package json-mode
-  :ensure t
+  :load-path "vendor/json-mode"
   :mode "\\.json\\'"
   :config
   (setq json-reformat:indent-width 2
@@ -697,43 +655,36 @@
 
 ;;; SASS
 (use-package sass-mode
-  :ensure t
+  :load-path "vendor/sass-mode"
   :mode (("\\.sass\\'" . sass-mode)
          ("\\.scss\\'" . scss-mode))
-  :init
+  :config
   (setq css-indent-offset 2))
 
 
 ;;; Lua
 (use-package lua-mode
-  :ensure t
-  :mode ("\\.lua\\'" . lua-mode)
+  :load-path "vendor/lua-mode"
+  :mode "\\.lua\\'"
   :config
   (setq lua-indent-level 4))
 
 
 ;;; Markdown
 (use-package markdown-mode
-  :ensure t
+  :load-path "vendor/markdown-mode"
   :mode ("\\.md\\'" . gfm-mode))
-
-
-;;; Nim
-(use-package nim-mode
-  :disabled
-  :ensure t
-  :mode ("\\.nim\\'" . nim-mode)
-  :config
-  (add-hook 'nim-mode-hook #'nimsuggest-mode))
 
 
 ;;; Nginx
 (use-package nginx-mode
-  :ensure t)
+  :load-path "vendor/nginx-mode")
 
 
 ;;; Python
-(use-package pyvenv :ensure t)
+(use-package pyvenv
+  :load-path "vendor/pyvenv")
+
 (use-package python
   :mode (("\\.py\\'"   . python-mode))
   :interpreter ("python" . python-mode)
@@ -775,35 +726,32 @@
       (bp-export-python-env name env-buffer err-buffer)
       (bp-load-buffer-env env-buffer)
       (setq bp-current-python-env name)
-      (message (concat "Activated virtualenv " name))))
+      (message (concat "Activated virtualenv " name)))))
+
+(use-package py-isort
+  :load-path "vendor/py-isort"
+  :hook ((before-save . py-isort-before-save)))
+
+(use-package py-test
+  :load-path "vendor/py-test"
   :config
-  (progn
-    (use-package py-isort
-      :ensure t)
+  (evil-define-key 'normal python-mode-map
+    "\\r" 'py-test-run-test-at-point
+    "\\T" 'py-test-run-directory
+    "\\t" 'py-test-run-file)
 
-    (use-package py-test
-      :ensure t
-      :config
-      (progn
-        (evil-define-key 'normal python-mode-map
-          "\\r" 'py-test-run-test-at-point
-          "\\T" 'py-test-run-directory
-          "\\t" 'py-test-run-file)
+  (setq py-test-*mode-line-face-shenanigans-on* t)
+  (setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec"))
 
-        ;; Purty mode-line.
-        (setq py-test-*mode-line-face-shenanigans-on* t)
-        (setq py-test-*mode-line-face-shenanigans-timer* "0.5 sec")
-
-        (use-package bp-py-test-projects)))
-
-    (add-hook 'before-save-hook #'py-isort-before-save)))
+(use-package bp-py-test-projects
+  :load-path "~/Documents/Org"
+  :after py-test)
 
 
 ;;; Racket, Scribble and Pollen
-(use-package pos-tip :ensure t)  ;; required by racket-mode
 (use-package racket-mode
-  :mode ("\\.rkt\\'" . racket-mode)
   :load-path "vendor/racket-mode"
+  :mode "\\.rkt\\'"
   :preface
   (defun bp-insert-lisp-section (section)
     "Insert a LISP section header with SECTION at point."
@@ -811,9 +759,6 @@
     (let ((suffix (s-repeat (- 72 (length section) 4) ";")))
       (insert (format ";; %s %s\n" section suffix))))
   :config
-  (require 'racket-xp)
-  (add-hook 'racket-mode-hook #'racket-xp-mode)
-
   (flycheck-define-checker racket-review
     "check racket source code using racket-review"
     :command ("raco" "review" source)
@@ -875,13 +820,17 @@
              ("C-c ."   . racket-xp-visit-definition)
              ("C-c ,"   . racket-unvisit)))
 
+(use-package racket-xp-mode
+  :load-path "vendor/racket-mode"
+  :hook racket-mode)
+
 (use-package scribble-mode
-  :ensure t
-  :mode ("\\.scrbl\\'" . scribble-mode))
+  :load-path "vendor/scribble-mode"
+  :mode "\\.scrbl\\'")
 
 (use-package pollen-mode
   :disabled
-  :ensure t)
+  :load-path "vendor/pollen-mode")
 
 
 ;;; SQL
@@ -889,18 +838,18 @@
   :preface
   (defun bp-sql-mode-hook ()
     (sql-highlight-postgres-keywords))
-  :config
-  (add-hook 'sql-mode-hook #'bp-sql-mode-hook))
+  :hook ((sql-mode . bp-sql-mode-hook)))
 
 
 ;;; SSH
 (use-package ssh-config-mode
-  :ensure t)
+  :load-path "vendor/ssh-config-mode")
 
 
 ;;; Web
 (use-package web-mode
-  :ensure t
+  :load-path "vendor/web-mode"
+  :after (f)
   :mode (("\\.html?\\'"        . web-mode)
          ("\\.mjml\\'"         . web-mode)
          ("\\.vue\\'"          . web-mode)
@@ -917,7 +866,6 @@
      (locate-dominating-file (buffer-file-name) "node_modules")))
 
   (defun bp-find-node-executable (name)
-    (require 'f)
     (let* ((root (bp-find-node-modules-root))
            (bin-path (f-expand "node_modules/.bin" root))
            (exec-path (f-expand name bin-path)))
@@ -955,55 +903,56 @@
       (flycheck-add-mode 'javascript-eslint 'web-mode)
       (flycheck-select-checker 'javascript-eslint)
       (flycheck-mode)))
-  :init
-  (progn
-    (use-package nvm
-      :ensure t
-      :config
-      (setq nvm-dir (expand-file-name "~/.config/nvm")
-            nvm-version-re "[0-9]+\.[0-9]+\.[0-9]+"))
+  :config
+  (setq web-mode-code-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-style-indent-offset 2
+        web-mode-script-indent-offset 2
+        web-mode-markup-indent-offset 2
 
-    (use-package prettier-js :ensure t)
+        web-mode-style-padding 2
+        web-mode-script-padding 2
 
-    (use-package tide
-      :ensure t
-      :config
-      (bind-keys :map tide-mode-map
-                 ("C-M-x" . js-send-region)
-                 ("C-c ." . tide-jump-to-definition)
-                 ("C-c ," . tide-jump-back)))
+        web-mode-enable-auto-closing t
+        web-mode-enable-auto-expanding t
+        web-mode-enable-auto-pairing t
+        web-mode-enable-current-element-highlight t
 
-    (setq web-mode-code-indent-offset 2
-          web-mode-css-indent-offset 2
-          web-mode-style-indent-offset 2
-          web-mode-script-indent-offset 2
-          web-mode-markup-indent-offset 2
+        web-mode-content-types-alist '(("jsx" . "\\.mjs\\'"))
+        web-mode-engines-alist '(("django" . "\\.html\\'")))
 
-          web-mode-style-padding 2
-          web-mode-script-padding 2
+  (add-hook 'web-mode-hook #'bp-ts-web-mode-hook)
+  (add-hook 'web-mode-hook #'bp-js-web-mode-hook))
 
-          web-mode-enable-auto-closing t
-          web-mode-enable-auto-expanding t
-          web-mode-enable-auto-pairing t
-          web-mode-enable-current-element-highlight t
+(use-package nvm
+  :load-path "vendor/nvm"
+  :commands (nvm-use)
+  :config
+  (setq nvm-dir (expand-file-name "~/.config/nvm")
+        nvm-version-re "[0-9]+\.[0-9]+\.[0-9]+"))
 
-          web-mode-content-types-alist '(("jsx" . "\\.mjs\\'"))
-          web-mode-engines-alist '(("django" . "\\.html\\'")))
+(use-package prettier-js
+  :load-path "vendor/prettier-js"
+  :commands (prettier-js-mode))
 
-    (add-hook 'web-mode-hook #'bp-ts-web-mode-hook)
-    (add-hook 'web-mode-hook #'bp-js-web-mode-hook)))
+(use-package tide
+  :load-path "vendor/tide"
+  :bind (:map tide-mode-map
+              ("C-M-x" . js-send-region)
+              ("C-c ." . tide-jump-to-definition)
+              ("C-c ," . tide-jump-back)))
 
 
 ;;; Yaml
 (use-package yaml-mode
-  :ensure t
+  :load-path "vendor/yaml-mode"
   :mode "\\.yaml\\'")
 
 
 ;;; beancount
 (use-package beancount
-  :mode ("\\.beancount\\'" . beancount-mode)
   :load-path "vendor/beancount"
+  :mode "\\.beancount\\'"
   :preface
   (defun bp-beancount-format-before-save ()
     (interactive)
@@ -1026,7 +975,8 @@
 
 ;;; hledger
 (use-package ledger-mode
-  :ensure t
+  :disabled
+  :load-path "vendor/ledger-mode"
   :mode "\\.journal\\'"
   :config
   (setq ledger-default-date-format ledger-iso-date-format
@@ -1058,21 +1008,6 @@
   :config
   (progn
     (setq mu4e-mu-binary "/usr/local/bin/mu")
-
-    (use-package smtpmail)
-    (use-package subr-x)
-    (use-package mu4e-alert
-      :ensure t
-      :config
-      (mu4e-alert-enable-mode-line-display)
-      (mu4e-alert-enable-notifications)
-      (mu4e-alert-set-default-style 'notifier)
-      (setq mu4e-alert-interesting-mail-query (string-join '("flag:unread"
-                                                             "flag:trashed"
-                                                             "maildir:/business/junk"
-                                                             "maildir:/personal/junk"
-                                                             "maildir:/personal-archive/junk")
-                                                           " AND NOT ")))
 
     (bind-keys :map mu4e-main-mode-map
                ("q" . bury-buffer))
@@ -1149,6 +1084,20 @@
                                    "bogdan@matchacha.ro"
                                    "hello@matchacha.ro"))))
 
+(use-package mu4e-alert
+  :load-path "vendor/mu4e-alert"
+  :after (ht)
+  :config
+  (mu4e-alert-enable-mode-line-display)
+  (mu4e-alert-enable-notifications)
+  (mu4e-alert-set-default-style 'notifier)
+  (setq mu4e-alert-interesting-mail-query (string-join '("flag:unread"
+                                                         "flag:trashed"
+                                                         "maildir:/business/junk"
+                                                         "maildir:/personal/junk"
+                                                         "maildir:/personal-archive/junk")
+                                                       " AND NOT ")))
+
 ;;; org
 (use-package org
   :mode ("\\.org\\'" . org-mode)
@@ -1185,7 +1134,6 @@
 (defun bp-recompile ()
   "Recompile all elisp sources."
   (interactive)
-  (byte-recompile-directory (expand-file-name "~/.emacs.d/elpa") 0 t)
   (byte-recompile-directory (expand-file-name "~/.emacs.d/vendor") 0 t))
 
 

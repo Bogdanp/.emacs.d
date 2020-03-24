@@ -4,15 +4,6 @@
 [submodule "packed"]
 	path = vendor/packed
 	url = https://github.com/tarsius/packed
-[submodule "use-package"]
-	path = vendor/use-package
-	url = https://github.com/jwiegley/use-package
-[submodule "dash"]
-	path = vendor/dash
-	url = https://github.com/magnars/dash.el
-[submodule "evil"]
-	path = vendor/evil
-	url = https://github.com/Bogdanp/evil.git
 [submodule "vendor/evil-surround"]
 	path = vendor/evil-surround
 	url = https://github.com/timcharper/evil-surround
@@ -25,3 +16,159 @@
 [submodule "vendor/racket-mode"]
 	path = vendor/racket-mode
 	url = https://github.com/greghendershott/racket-mode
+[submodule "vendor/magit"]
+	path = vendor/magit
+	url = https://github.com/magit/magit.git
+[submodule "vendor/fullframe"]
+	path = vendor/fullframe
+	url = https://github.com/tomterl/fullframe
+[submodule "vendor/company-mode"]
+	path = vendor/company-mode
+	url = https://github.com/company-mode/company-mode
+[submodule "vendor/flycheck"]
+	path = vendor/flycheck
+	url = https://github.com/flycheck/flycheck
+[submodule "vendor/dumb-jump"]
+	path = vendor/dumb-jump
+	url = https://github.com/jacktasia/dumb-jump
+[submodule "vendor/projectile"]
+	path = vendor/projectile
+	url = https://github.com/bbatsov/projectile
+[submodule "vendor/s"]
+	path = vendor/s
+	url = https://github.com/magnars/s.el
+[submodule "vendor/diminish"]
+	path = vendor/diminish
+	url = https://github.com/myrjola/diminish.el
+[submodule "vendor/clojure-mode"]
+	path = vendor/clojure-mode
+	url = https://github.com/clojure-emacs/clojure-mode/
+[submodule "vendor/cider"]
+	path = vendor/cider
+	url = https://github.com/clojure-emacs/cider
+[submodule "vendor/dockerfile-mode"]
+	path = vendor/dockerfile-mode
+	url = https://github.com/spotify/dockerfile-mode
+[submodule "vendor/rainbow-delimiters"]
+	path = vendor/rainbow-delimiters
+	url = https://github.com/Fanael/rainbow-delimiters
+[submodule "vendor/fish-mode"]
+	path = vendor/fish-mode
+	url = https://github.com/wwwjfy/emacs-fish
+[submodule "vendor/go-mode"]
+	path = vendor/go-mode
+	url = https://github.com/dominikh/go-mode.el
+[submodule "vendor/company-go"]
+	path = vendor/company-go
+	url = https://github.com/emacsmirror/company-go
+[submodule "vendor/hcl-mode"]
+	path = vendor/hcl-mode
+	url = https://github.com/syohex/emacs-hcl-mode
+[submodule "vendor/toml-mode"]
+	path = vendor/toml-mode
+	url = https://github.com/dryman/toml-mode.el
+[submodule "vendor/json-mode"]
+	path = vendor/json-mode
+	url = https://github.com/joshwnj/json-mode
+[submodule "vendor/scss-mode"]
+	path = vendor/scss-mode
+	url = https://github.com/antonj/scss-mode/
+[submodule "vendor/sass-mode"]
+	path = vendor/sass-mode
+	url = https://github.com/nex3/sass-mode
+[submodule "vendor/lua-mode"]
+	path = vendor/lua-mode
+	url = https://github.com/immerrr/lua-mode
+[submodule "vendor/markdown-mode"]
+	path = vendor/markdown-mode
+	url = https://github.com/jrblevin/markdown-mode
+[submodule "vendor/nginx-mode"]
+	path = vendor/nginx-mode
+	url = https://github.com/ajc/nginx-mode
+[submodule "vendor/exec-path-from-shell"]
+	path = vendor/exec-path-from-shell
+	url = https://github.com/purcell/exec-path-from-shell
+[submodule "vendor/goto-chg"]
+	path = vendor/goto-chg
+	url = https://github.com/emacs-evil/goto-chg
+[submodule "vendor/scribble-mode"]
+	path = vendor/scribble-mode
+	url = https://github.com/emacs-pe/scribble-mode
+[submodule "vendor/ssh-config-mode"]
+	path = vendor/ssh-config-mode
+	url = https://github.com/jhgorrell/ssh-config-mode-el
+[submodule "vendor/mu4e-alert"]
+	path = vendor/mu4e-alert
+	url = https://github.com/iqbalansari/mu4e-alert
+[submodule "vendor/smex"]
+	path = vendor/smex
+	url = https://github.com/nonsequitur/smex
+[submodule "vendor/paredit"]
+	path = vendor/paredit
+	url = https://mumble.net/~campbell/git/paredit.git
+[submodule "vendor/yaml-mode"]
+	path = vendor/yaml-mode
+	url = https://github.com/yoshiki/yaml-mode
+[submodule "vendor/ag"]
+	path = vendor/ag
+	url = https://github.com/Wilfred/ag.el
+[submodule "vendor/web-mode"]
+	path = vendor/web-mode
+	url = https://github.com/fxbois/web-mode
+[submodule "vendor/flx-ido"]
+	path = vendor/flx-ido
+	url = https://github.com/lewang/flx
+[submodule "vendor/flx"]
+	path = vendor/flx
+	url = https://github.com/lewang/flx
+[submodule "vendor/ido-completing-read+"]
+	path = vendor/ido-completing-read+
+	url = https://github.com/DarwinAwardWinner/ido-completing-read-plus
+[submodule "vendor/ido-vertical-mode"]
+	path = vendor/ido-vertical-mode
+	url = https://github.com/creichert/ido-vertical-mode.el
+[submodule "vendor/pyvenv"]
+	path = vendor/pyvenv
+	url = https://github.com/jorgenschaefer/pyvenv
+[submodule "vendor/py-isort"]
+	path = vendor/py-isort
+	url = https://github.com/paetzke/py-isort.el
+[submodule "vendor/py-test"]
+	path = vendor/py-test
+	url = https://github.com/Bogdanp/py-test.el
+[submodule "vendor/tide"]
+	path = vendor/tide
+	url = https://github.com/ananthakumaran/tide
+[submodule "vendor/nvm"]
+	path = vendor/nvm
+	url = https://github.com/rejeep/nvm.el
+[submodule "vendor/prettier-js"]
+	path = vendor/prettier-js
+	url = https://github.com/prettier/prettier-emacs
+[submodule "vendor/f"]
+	path = vendor/f
+	url = https://github.com/rejeep/f.el
+[submodule "vendor/alert"]
+	path = vendor/alert
+	url = https://github.com/jwiegley/alert
+[submodule "vendor/ht"]
+	path = vendor/ht
+	url = https://github.com/Wilfred/ht.el
+[submodule "vendor/popup"]
+	path = vendor/popup
+	url = https://github.com/auto-complete/popup-el
+[submodule "vendor/with-editor"]
+	path = vendor/with-editor
+	url = https://github.com/magit/with-editor
+[submodule "vendor/transient"]
+	path = vendor/transient
+	url = https://github.com/magit/transient
+[submodule "vendor/evil"]
+	path = vendor/evil
+	url = https://github.com/Bogdanp/evil
+[submodule "vendor/use-package"]
+	path = vendor/use-package
+	url = https://github.com/jwiegley/use-package
+[submodule "vendor/dash"]
+	path = vendor/dash
+	url = https://github.com/magnars/dash.el
