@@ -1177,5 +1177,21 @@
   :config
   (setq org-mu4e-convert-to-html t))
 
+;;; misc fns
+(defvar bp-presentation-mode nil)
+
+(defun bp-toggle-presentation-mode ()
+  "Toggle the frame font between presentation and non-presentation mode."
+  (interactive)
+  (cond
+   (bp-presentation-mode
+    (set-frame-font "Dank Mono-14")
+    (setq bp-presentation-mode nil))
+
+   (t
+    (set-frame-font "Dank Mono-18")
+    (setq bp-presentation-mode t))))
+
+
 (provide 'init)
 ;;; init.el ends here
