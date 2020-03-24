@@ -1042,7 +1042,7 @@
 
 ;;; email
 (use-package mu4e
-  :load-path "/usr/local/Cellar/mu/HEAD-b2014fe_1/share/emacs/site-lisp/mu/mu4e"
+  :load-path "/usr/local/opt/mu/share/emacs/site-lisp/mu/mu4e"
   :preface
   (defun bp-make-mu4e-matcher (mailbox-name addresses)
     (lexical-let ((addresses addresses)
