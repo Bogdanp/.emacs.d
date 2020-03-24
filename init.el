@@ -357,7 +357,7 @@
   :hook ((prog-mode . eldoc-mode)))
 
 (use-package electric
-  :hook ((after-init . electric-indent-mode)))
+  :hook ((prog-mode . electric-indent-mode)))
 
 (use-package etags
   :defer 30
@@ -396,7 +396,6 @@
   :hook ((after-init . ido-ubiquitous-mode)))
 
 (use-package ido-vertical-mode
-  :disabled
   :load-path "vendor/ido-vertical-mode"
   :hook ((after-init . ido-vertical-mode)))
 
@@ -421,7 +420,7 @@
   :hook ((after-init . bp-mule-hook)))
 
 (use-package paren
-  :hook ((after-init . show-paren-mode)))
+  :hook ((prog-mode . show-paren-mode)))
 
 (use-package re-builder
   :commands re-builder
