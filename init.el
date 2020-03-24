@@ -1192,6 +1192,12 @@
     (set-frame-font "Dank Mono-18")
     (setq bp-presentation-mode t))))
 
+(defun bp-recompile ()
+  "Recompile all elisp sources."
+  (interactive)
+  (byte-recompile-directory (expand-file-name "~/.emacs.d/elpa") 0 t)
+  (byte-recompile-directory (expand-file-name "~/.emacs.d/vendor") 0 t))
+
 
 (provide 'init)
 ;;; init.el ends here
