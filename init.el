@@ -8,8 +8,8 @@
  user-mail-address "bogdan@defn.io"
 
  ;;; GC
- ;; EMACS' default GC threshold is <1MB. Give it 16MB instead.
- gc-cons-threshold 16777216
+ ;; EMACS' default GC threshold is <1MB. Give it 128MB instead.
+ gc-cons-threshold (* 128 1024 1024)
  garbage-collection-messages nil
 
  ;;; auto-compile
