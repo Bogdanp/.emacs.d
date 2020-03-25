@@ -642,10 +642,36 @@
   (interactive)
   (setq-local flycheck-javascript-eslint-executable (bp-find-node-executable "eslint")))
 
+(defun bp-nvm-use (ver)
+  "Set up PATH for node VER from NVM."
+  (interactive "sVersion: ")
+  (let* ((sorted-versions (sort (mapcar #'car (nvm--installed-versions)) #'string<))
+         (found-ver (-first (lambda (v)
+                              (and (s-contains? "versions-" v)
+                                   (s-contains? ver v)))
+                            sorted-versions)))
+    (if found-ver
+        (progn
+          (nvm-use found-ver)
+          (message (format "Node version %s activated." ver)))
+      (error (format "Version %s not found." ver)))))
+
+(defun bp-nvm-hook ()
+  "Set up PATH for node VER on a project basis."
+  (interactive)
+  (let* ((rc-path (locate-dominating-file (buffer-file-name) ".nvmrc"))
+         (ver (when rc-path
+                (with-temp-buffer
+                  (insert-file-contents (format "%s/.nvmrc" rc-path))
+                  (string-trim (buffer-string))))))
+    (when ver
+      (bp-nvm-use ver))))
+
 (use-package js2-mode
   :load-path "vendor/js2-mode"
   :mode "\\.m?js\\'"
-  :hook ((js2-mode . bp-eslint-setup)
+  :hook ((js2-mode . bp-nvm-hook)
+         (js2-mode . bp-eslint-setup)
          (js2-mode . eldoc-mode))
   :config
   (setq js2-basic-offset 2
@@ -665,7 +691,8 @@
 (use-package rjsx-mode
   :load-path "vendor/rjsx-mode"
   :mode "\\.m?jsx\\'"
-  :hook ((rjsx-mode . bp-eslint-setup)
+  :hook ((rjsx-mode . bp-nvm-hook)
+         (rjsx-mode . bp-eslint-setup)
          (rjsx-mode . eldoc-mode))
   :config
   (setq js2-basic-offset 2))
@@ -673,7 +700,8 @@
 (use-package typescript-mode
   :load-path "vendor/typescript-mode"
   :mode "\\.tsx?\\'"
-  :hook ((typescript-mode . bp-eslint-setup)
+  :hook ((typescript-mode . bp-nvm-hook)
+         (typescript-mode . bp-eslint-setup)
          (typescript-mode . eldoc-mode))
   :config
   (setq typescript-indent-level 2))
@@ -699,14 +727,7 @@
              nvm--installed-versions)
   :after (dash s)
   :preface
-  (defun bp-nvm-use (ver)
-    (interactive "sVersion: ")
-    (nvm-use
-     (let ((sorted-versions (sort (mapcar #'car (nvm--installed-versions)) #'string<)))
-       (-first (lambda (v)
-                 (and (s-contains? "versions-" v)
-                      (s-contains? ver v)))
-               sorted-versions))))
+
   :config
   (setq nvm-dir (expand-file-name "~/.config/nvm")
         nvm-version-re "[0-9]+\.[0-9]+\.[0-9]+"))
@@ -714,6 +735,7 @@
 (use-package prettier-js
   :load-path "vendor/prettier-js"
   :commands (prettier-js-mode)
+  :diminish prettier-js-mode
   :preface
   (defun bp-prettier-js-mode ()
     (interactive)
