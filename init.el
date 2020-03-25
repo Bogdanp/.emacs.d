@@ -1054,9 +1054,6 @@
           (-any-p (lambda (addr)
                     (mu4e-message-contact-field-matches msg '(:from :to :cc) addr))
                   addresses)))))
-
-  (defun bp-capture-message (_)
-    (call-interactively #'org-mu4e-store-and-capture))
   :bind (:map mu4e-main-mode-map
               ("q" . bury-buffer))
   :config
@@ -1092,8 +1089,7 @@
                     ("date:7d..now" "Messages This Week" ?w)
                     ("date:30d..now" "Messages This Month" ?m))
 
-   mu4e-view-actions '(("Capture Message" . bp-capture-message)
-                       ("Thread" . mu4e-action-show-thread)
+   mu4e-view-actions '(("Thread" . mu4e-action-show-thread)
                        ("View in Browser" . mu4e-action-view-in-browser))
 
    mu4e-context-policy 'pick-first
@@ -1158,11 +1154,6 @@
   (setq org-default-notes-file bp-notes-file
         org-refile-targets `((,bp-notes-file :maxlevel . 1))
         org-capture-templates '(("n" "Note" entry (file+headline bp-notes-file "Notes") "** %? %^G\n   %U\n   %a\n\n   %i\n"))))
-
-(use-package org-mu4e
-  :commands (org-mu4e-compose-org-mode org-mu4e-store-and-capture)
-  :config
-  (setq org-mu4e-convert-to-html t))
 
 
 (provide 'init)
