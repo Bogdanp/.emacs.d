@@ -67,6 +67,16 @@
 (use-package subr-x                                :defer t)
 
 
+;; GC ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun bp-gc-after-init-hook ()
+  "Lower GC params to avoid freezes."
+  (interactive)
+  (setq gc-cons-threshold (* 16 1024 1024)
+        gc-cons-percentage 0.1))
+
+(add-hook 'after-init-hook #'bp-gc-after-init-hook)
+
+
 ;; UI ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Position and resize frame.
 (add-to-list 'default-frame-alist '(font . "Dank Mono-14"))
