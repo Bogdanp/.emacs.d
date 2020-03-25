@@ -521,9 +521,10 @@
   :load-path "vendor/flycheck"
   :hook ((prog-mode . flycheck-mode))
   :config
-  (setq flycheck-emacs-lisp-load-path 'inherit
-        flycheck-disabled-checkers '(python-pycompile racket sass)
-        flycheck-flake8rc "setup.cfg"))
+  (setq-default
+   flycheck-disabled-checkers '(python-pycompile racket sass)
+   flycheck-emacs-lisp-load-path 'inherit
+   flycheck-flake8rc "setup.cfg"))
 
 
 ;; Navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -542,8 +543,8 @@
                  (-contains-p (pyvenv-virtualenv-list) name))
         (bp-workon name)
         (normal-mode))))
-  :hook ((after-init                . projectile-mode)
-         (projectile-find-file-hook . bp-projectile-find-file-hook))
+  :hook ((after-init           . projectile-mode)
+         (projectile-find-file . bp-projectile-find-file-hook))
   :config
   (setq projectile-enable-caching t))
 
@@ -566,9 +567,9 @@
 ;; Clojure ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package parseclj :load-path "vendor/parseclj" :defer t)
 (use-package parseedn :load-path "vendor/parseedn" :defer t)
-(use-package spinner  :load-path "vendor/spinner"  :defer t)
 (use-package queue    :load-path "vendor"          :defer t)
 (use-package sesman   :load-path "vendor/sesman"   :defer t)
+(use-package spinner  :load-path "vendor/spinner"  :defer t)
 
 (use-package clojure-mode
   :load-path "vendor/clojure-mode"
@@ -622,28 +623,106 @@
   (add-to-list 'company-backends #'company-go))
 
 
+;; JS/TS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun bp-find-node-modules-root ()
+  "Find the absolute path to the node_modules dir in the current project."
+  (expand-file-name
+   (locate-dominating-file (buffer-file-name) "node_modules")))
+
+(defun bp-find-node-executable (name)
+  "Find the executable named NAME in the current project's node_modules dir."
+  (let* ((root (bp-find-node-modules-root))
+         (bin-path (f-expand "node_modules/.bin" root))
+         (exec-path (f-expand name bin-path)))
+    (when (f-exists? exec-path)
+      exec-path)))
+
+(defun bp-eslint-setup ()
+  "Set up paths and configuration for eslint."
+  (interactive)
+  (setq-local flycheck-javascript-eslint-executable (bp-find-node-executable "eslint")))
+
+(use-package js2-mode
+  :load-path "vendor/js2-mode"
+  :mode "\\.m?js\\'"
+  :hook ((js2-mode . bp-eslint-setup)
+         (js2-mode . eldoc-mode))
+  :config
+  (setq js2-basic-offset 2))
+
+(use-package rjsx-mode
+  :load-path "vendor/rjsx-mode"
+  :mode "\\.m?jsx\\'"
+  :hook ((rjsx-mode . bp-eslint-setup)
+         (rjsx-mode . eldoc-mode))
+  :config
+  (setq js2-basic-offset 2))
+
+(use-package typescript-mode
+  :load-path "vendor/typescript-mode"
+  :mode "\\.tsx?\\'"
+  :hook ((typescript-mode . bp-eslint-setup)
+         (typescript-mode . eldoc-mode))
+  :config
+  (setq typescript-indent-level 2))
+
+(use-package tide
+  :load-path "vendor/tide"
+  :preface
+  (defun bp-tide-hook ()
+    (interactive)
+    (tide-mode)
+    (tide-setup))
+  :commands (tide-mode tide-setup)
+  :hook ((typescript-mode . bp-tide-hook))
+  :bind (:map tide-mode-map
+              ("C-M-x" . js-send-region)
+              ("C-c ." . tide-jump-to-definition)
+              ("C-c ," . tide-jump-back)))
+
+(use-package nvm
+  :load-path "vendor/nvm"
+  :commands (nvm-use)
+  :config
+  (setq nvm-dir (expand-file-name "~/.config/nvm")
+        nvm-version-re "[0-9]+\.[0-9]+\.[0-9]+"))
+
+(use-package prettier-js
+  :load-path "vendor/prettier-js"
+  :commands (prettier-js-mode)
+  :preface
+  (defun bp-prettier-js-mode ()
+    (interactive)
+    (setq-local prettier-js-command (or (bp-find-node-executable "prettier") "prettier"))
+    (prettier-js-mode))
+  :hook ((js2-mode rjsx-mode typescript-mode) . bp-prettier-js-mode))
+
+(use-package nodejs-repl
+  :load-path "vendor/nodejs-repl"
+  :commands (nodejs-repl
+             nodejs-repl-send-last-expression
+             nodejs-repl-send-line
+             nodejs-repl-send-region
+             nodejs-repl-load-file
+             nodejs-repl-switch-to-repl)
+  :bind (:map js-mode-map
+              ("C-x C-e" . nodejs-repl-send-last-expression)
+              ("C-c C-j" . nodejs-repl-send-line)
+              ("C-c C-r" . nodejs-repl-send-region)
+              ("C-c C-l" . nodejs-repl-load-file)
+              ("C-c C-z" . nodejs-repl-switch-to-repl)))
+
+
 ;; JSON ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package json-snatcher :load-path "vendor/json-snatcher" :defer t)
+(use-package json-reformat :load-path "vendor/json-reformat" :defer t)
+
 (use-package json-mode
   :load-path "vendor/json-mode"
   :mode "\\.json\\'"
   :config
   (setq json-reformat:indent-width 2
         js-indent-level 2))
-
-
-;; TOML ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package toml-mode
-  :load-path "vendor/toml-mode"
-  :mode "\\.toml\\'")
-
-
-;; SASS/SCSS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package sass-mode
-  :load-path "vendor/sass-mode"
-  :mode (("\\.sass\\'" . sass-mode)
-         ("\\.scss\\'" . scss-mode))
-  :config
-  (setq css-indent-offset 2))
 
 
 ;; Lua ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -826,11 +905,21 @@
   :mode "\\.scrbl\\'")
 
 
+;; SASS/SCSS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package sass-mode
+  :load-path "vendor/sass-mode"
+  :mode (("\\.sass\\'" . sass-mode)
+         ("\\.scss\\'" . scss-mode))
+  :config
+  (setq css-indent-offset 2))
+
+
 ;; SQL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package sql
   :mode (("\\.sql\\'" . sql-mode))
   :preface
   (defun bp-sql-mode-hook ()
+    (interactive)
     (sql-highlight-postgres-keywords))
   :hook ((sql-mode . bp-sql-mode-hook)))
 
@@ -838,6 +927,12 @@
 ;; SSH ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package ssh-config-mode
   :load-path "vendor/ssh-config-mode")
+
+
+;; TOML ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package toml-mode
+  :load-path "vendor/toml-mode"
+  :mode "\\.toml\\'")
 
 
 ;; Web ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -850,53 +945,7 @@
          ("\\.hbs\\'"          . web-mode)
          ("\\.eex\\'"          . web-mode)
          ("\\.tm?pl\\'"        . web-mode)
-         ("\\.blade\\.php\\'"  . web-mode)
-         ("\\.m?jsx?\\'"       . web-mode)
-         ("\\.ts\\'"           . web-mode)
-         ("\\.tsx\\'"          . web-mode))
-  :preface
-  (defun bp-find-node-modules-root ()
-    (expand-file-name
-     (locate-dominating-file (buffer-file-name) "node_modules")))
-
-  (defun bp-find-node-executable (name)
-    (let* ((root (bp-find-node-modules-root))
-           (bin-path (f-expand "node_modules/.bin" root))
-           (exec-path (f-expand name bin-path)))
-      (when (f-exists? exec-path)
-        exec-path)))
-
-  (defun bp-setup-eslint ()
-    (setq-local flycheck-javascript-eslint-executable (bp-find-node-executable "eslint")))
-
-  (defun bp-setup-prettier ()
-    (let ((preferred-path (bp-find-node-executable "prettier")))
-      (setq-local prettier-js-command
-                  (if preferred-path
-                      preferred-path
-                    "prettier"))))
-
-  (defun bp-ts-web-mode-hook ()
-    (when (string-match "tsx?" (file-name-extension buffer-file-name))
-      (setq-local company-tooltip-align-annotations t)
-      (bp-setup-prettier)
-      (prettier-js-mode)
-      (eldoc-mode)
-      (tide-setup)
-      (tide-mode)
-      (flycheck-add-mode 'typescript-tide 'web-mode)
-      (flycheck-select-checker 'typescript-tide)
-      (flycheck-mode)))
-
-  (defun bp-js-web-mode-hook ()
-    (when (or (string-equal "js" (file-name-extension buffer-file-name))
-              (string-equal "mjs" (file-name-extension buffer-file-name)))
-      (bp-setup-eslint)
-      (bp-setup-prettier)
-      (prettier-js-mode)
-      (flycheck-add-mode 'javascript-eslint 'web-mode)
-      (flycheck-select-checker 'javascript-eslint)
-      (flycheck-mode)))
+         ("\\.blade\\.php\\'"  . web-mode))
   :config
   (setq web-mode-code-indent-offset 2
         web-mode-css-indent-offset 2
@@ -913,28 +962,7 @@
         web-mode-enable-current-element-highlight t
 
         web-mode-content-types-alist '(("jsx" . "\\.mjs\\'"))
-        web-mode-engines-alist '(("django" . "\\.html\\'")))
-
-  (add-hook 'web-mode-hook #'bp-ts-web-mode-hook)
-  (add-hook 'web-mode-hook #'bp-js-web-mode-hook))
-
-(use-package nvm
-  :load-path "vendor/nvm"
-  :commands (nvm-use)
-  :config
-  (setq nvm-dir (expand-file-name "~/.config/nvm")
-        nvm-version-re "[0-9]+\.[0-9]+\.[0-9]+"))
-
-(use-package prettier-js
-  :load-path "vendor/prettier-js"
-  :commands (prettier-js-mode))
-
-(use-package tide
-  :load-path "vendor/tide"
-  :bind (:map tide-mode-map
-              ("C-M-x" . js-send-region)
-              ("C-c ." . tide-jump-to-definition)
-              ("C-c ," . tide-jump-back)))
+        web-mode-engines-alist '(("django" . "\\.html\\'"))))
 
 
 ;; Yaml ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
