@@ -208,3 +208,6 @@
 [submodule "vendor/macrostep"]
 	path = vendor/macrostep
 	url = https://github.com/joddie/macrostep
+[submodule "vendor/twilight-anti-bright-theme"]
+	path = vendor/twilight-anti-bright-theme
+	url = https://github.com/Bogdanp/twilight-anti-bright-theme
