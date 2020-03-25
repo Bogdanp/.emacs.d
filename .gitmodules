@@ -58,9 +58,6 @@
 [submodule "vendor/go-mode"]
 	path = vendor/go-mode
 	url = https://github.com/dominikh/go-mode.el
-[submodule "vendor/company-go"]
-	path = vendor/company-go
-	url = https://github.com/emacsmirror/company-go
 [submodule "vendor/hcl-mode"]
 	path = vendor/hcl-mode
 	url = https://github.com/syohex/emacs-hcl-mode

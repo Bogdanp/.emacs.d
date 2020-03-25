@@ -59,7 +59,7 @@
 (use-package alert    :load-path "vendor/alert"    :defer t)
 (use-package dash     :load-path "vendor/dash"     :defer t)
 (use-package diminish :load-path "vendor/diminish"                    :commands (diminish))
-(use-package f        :load-path "vendor/f"        :defer t :after s)
+(use-package f        :load-path "vendor/f"        :defer t :after (dash s))
 (use-package ht       :load-path "vendor/ht"       :defer t)
 (use-package popup    :load-path "vendor/popup"    :defer t)
 (use-package s        :load-path "vendor/s"        :defer t)
@@ -604,13 +604,6 @@
   :config
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook #'gofmt-before-save))
-
-(use-package company-go
-  :load-path "vendor/company-go"
-  :commands (company-go)
-  :after company
-  :init
-  (add-to-list 'company-backends #'company-go))
 
 
 ;; JS/TS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
