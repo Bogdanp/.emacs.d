@@ -152,7 +152,7 @@
 ;; Server ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package server
   :when (display-graphic-p)
-  :defer 30
+  :defer 5
   :config
   (server-start))
 
@@ -648,7 +648,19 @@
   :hook ((js2-mode . bp-eslint-setup)
          (js2-mode . eldoc-mode))
   :config
-  (setq js2-basic-offset 2))
+  (setq js2-basic-offset 2
+        js2-skip-preprocessor-directives t
+
+        ;; Disable these because they clash w/ Flycheck.
+        js2-mode-show-parse-errors nil
+        js2-mode-show-strict-warnings nil
+        js2-strict-trailing-comma-warning nil
+        js2-strict-missing-semi-warning nil
+
+        ;; Enable maximum fontification.
+        js2-highlight-level 3
+        js2-highlight-external-variables t
+        js2-idle-timer-delay 0.1))
 
 (use-package rjsx-mode
   :load-path "vendor/rjsx-mode"
@@ -668,6 +680,7 @@
 
 (use-package tide
   :load-path "vendor/tide"
+  :after company
   :preface
   (defun bp-tide-hook ()
     (interactive)
@@ -682,7 +695,18 @@
 
 (use-package nvm
   :load-path "vendor/nvm"
-  :commands (nvm-use)
+  :commands (nvm-use
+             nvm--installed-versions)
+  :after (dash s)
+  :preface
+  (defun bp-nvm-use (ver)
+    (interactive "sVersion: ")
+    (nvm-use
+     (let ((sorted-versions (sort (mapcar #'car (nvm--installed-versions)) #'string<)))
+       (-first (lambda (v)
+                 (and (s-contains? "versions-" v)
+                      (s-contains? ver v)))
+               sorted-versions))))
   :config
   (setq nvm-dir (expand-file-name "~/.config/nvm")
         nvm-version-re "[0-9]+\.[0-9]+\.[0-9]+"))
