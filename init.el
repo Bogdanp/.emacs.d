@@ -926,7 +926,8 @@
 
 ;; SSH ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package ssh-config-mode
-  :load-path "vendor/ssh-config-mode")
+  :load-path "vendor/ssh-config-mode"
+  :mode "/.ssh/config\\'")
 
 
 ;; TOML ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
