@@ -209,6 +209,7 @@
   (defvar bp-emacs-state-hooks
     '(git-commit-setup-hook
       git-timemachine-mode-hook
+      macrostep-mode-hook
       magit-blame-mode-hook))
 
   (defun bp-apply-evil-mode-hook ()
@@ -590,17 +591,6 @@
   :mode "\\Dockerfile\\'")
 
 
-;; ELISP ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package paredit
-  :load-path "vendor/paredit"
-  :diminish paredit-mode
-  :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode lisp-mode racket-mode scheme-mode) . paredit-mode))
-
-(use-package rainbow-delimiters
-  :load-path "vendor/rainbow-delimiters"
-  :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode lisp-mode racket-mode scheme-mode) . rainbow-delimiters-mode))
-
-
 ;; Fish ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package fish-mode
   :load-path "vendor/fish-mode"
@@ -715,7 +705,8 @@
     (tide-mode)
     (tide-setup))
   :commands (tide-mode tide-setup)
-  :hook ((typescript-mode . bp-tide-hook))
+  :hook ((typescript-mode . bp-tide-hook)
+         (typescript-mode . eldoc-mode))
   :bind (:map tide-mode-map
               ("C-M-x" . js-send-region)
               ("C-c ." . tide-jump-to-definition)
@@ -769,6 +760,21 @@
   :config
   (setq json-reformat:indent-width 2
         js-indent-level 2))
+
+
+;; Lisp ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package macrostep
+  :load-path "vendor/macrostep"
+  :commands (macrostep-expand))
+
+(use-package paredit
+  :load-path "vendor/paredit"
+  :diminish paredit-mode
+  :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode lisp-mode racket-mode scheme-mode) . paredit-mode))
+
+(use-package rainbow-delimiters
+  :load-path "vendor/rainbow-delimiters"
+  :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode lisp-mode racket-mode scheme-mode) . rainbow-delimiters-mode))
 
 
 ;; Lua ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
