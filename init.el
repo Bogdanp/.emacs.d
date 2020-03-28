@@ -1141,18 +1141,24 @@
                                  "hello@matchacha.ro")))
 
 (use-package mu4e-alert
+  :disabled
   :load-path "vendor/mu4e-alert"
-  :after ht
-  :config
-  (mu4e-alert-enable-mode-line-display)
-  (mu4e-alert-enable-notifications)
-  (mu4e-alert-set-default-style 'notifier)
-  (setq mu4e-alert-interesting-mail-query (string-join '("flag:unread"
-                                                         "flag:trashed"
-                                                         "maildir:/business/junk"
-                                                         "maildir:/personal/junk"
-                                                         "maildir:/personal-archive/junk")
-                                                       " AND NOT ")))
+  :commands (mu4e-alert-enable-mode-line-display
+             mu4e-alert-enable-notifications
+             mu4e-alert-set-default-style)
+  :preface
+  (defun bp-mu4e-alert-setup ()
+    (interactive)
+    (mu4e-alert-enable-mode-line-display)
+    (mu4e-alert-enable-notifications)
+    (mu4e-alert-set-default-style 'notifier)
+    (setq mu4e-alert-interesting-mail-query (string-join '("flag:unread"
+                                                           "flag:trashed"
+                                                           "maildir:/business/junk"
+                                                           "maildir:/personal/junk"
+                                                           "maildir:/personal-archive/junk")
+                                                         " AND NOT ")))
+  :hook ((after-init . bp-mu4e-alert-setup)))
 
 
 ;; Org-mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
