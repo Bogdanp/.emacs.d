@@ -925,7 +925,13 @@
       test-commands
       tpl:xexpr-when
       xexpr-when))
+
+  (defun bp-racket-mode-hook ()
+    (interactive)
+    (setq adaptive-fill-mode t))
   :config
+  (add-hook 'racket-mode-hook #'bp-racket-mode-hook)
+
   (flycheck-define-checker racket-review
     "check racket source code using racket-review"
     :command ("raco" "review" source)
