@@ -311,7 +311,7 @@
 
 (use-package evil-surround
   :load-path "vendor/evil-surround"
-  :hook ((evil-mode-hook . global-evil-surround-mode)))
+  :hook ((after-init . global-evil-surround-mode)))
 
 
 ;; Builtins ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
