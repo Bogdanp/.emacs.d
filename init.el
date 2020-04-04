@@ -521,7 +521,7 @@
 ;; Code Completion ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package company
   :load-path "vendor/company-mode"
-  :hook ((prog-mode . company-mode))
+  :hook ((after-init . company-mode))
   :diminish company-mode
   :config
   (setq company-idle-delay 0.3))
