@@ -261,6 +261,10 @@
   (defun bp-open-safari ()
     (interactive)
     (bp--open-app "Safari"))
+  :init
+  (setq evil-search-module #'evil-search
+        evil-magic 'very-magic)
+
   :config
   (dolist (hook bp-emacs-state-hooks)
     (add-hook hook #'bp-toggle-emacs-state))
@@ -269,9 +273,6 @@
   (add-hook 'after-change-major-mode-hook #'bp-apply-evil-mode-hook)
   (advice-add #'evil-generate-mode-line-tag :around #'bp-generate-mode-line-tag)
   (evil-mode)
-
-  (setq evil-search-module #'evil-search
-        evil-magic 'very-magic)
 
   (bind-keys ("C-c C-\\" . evil-leader-prefix-map)
              ("C-c M-a"  . bp-open-terminal)
