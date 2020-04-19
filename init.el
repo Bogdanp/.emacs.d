@@ -1090,15 +1090,13 @@
    message-sendmail-f-is-evil t
 
    mu4e-mu-binary "/usr/local/bin/mu"
-
-   mu4e-maildir "~/Mail"
    mu4e-attachment-dir "~/Downloads"
 
    mu4e-get-mail-command "mbsync -a"
    mu4e-update-interval 300
    mu4e-change-filenames-when-moving t ;; prevents mbsync from complaining about duplicate UIDs
    mu4e-index-lazy-check t
-   mu4e-view-use-gnus nil
+   mu4e-view-use-gnus t
    gnus-blocked-images ".*"
 
    mu4e-bookmarks '(((string-join '("maildir:/business/inbox"
@@ -1146,13 +1144,7 @@
                              (mu4e-sent-folder            . "/business/sent")
                              (mu4e-drafts-folder          . "/business/drafts")
                              (mu4e-trash-folder           . "/business/trash")
-                             (mu4e-sent-messages-behavior . sent))))
-
-   mu4e-user-mail-address-list '("bogdan@cleartype.ro"
-                                 "bogdan@cleartype.io"
-                                 "bogdan@defn.io"
-                                 "bogdan@matchacha.ro"
-                                 "hello@matchacha.ro")))
+                             (mu4e-sent-messages-behavior . sent))))))
 
 (use-package mu4e-alert
   :disabled
