@@ -1060,7 +1060,8 @@
     (add-hook 'before-save-hook #'bp-beancount-format-before-save nil 'local))
   :config
   (setq beancount-number-alignment-column 54)
-  (add-hook 'beancount-mode-hook #'bp-beancount-mode-hook))
+  (add-hook 'beancount-mode-hook #'bp-beancount-mode-hook)
+  (add-hook 'beancount-mode-hook #'company-mode))
 
 
 ;; Mu4e ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1080,6 +1081,7 @@
               ("q" . bury-buffer))
   :config
   (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
+  (add-hook 'mu4e-compose-mode-hook #'company-mode)
 
   (setq
    sendmail-program "msmtp"
