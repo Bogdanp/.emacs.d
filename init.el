@@ -1099,52 +1099,62 @@
    mu4e-view-use-gnus t
    gnus-blocked-images ".*"
 
-   mu4e-bookmarks '(((string-join '("maildir:/business/inbox"
-                                    "maildir:/personal/inbox"
-                                    "maildir:/personal-archive/inbox") " or ") "All Inboxes" ?i)
-                    ((string-join '("flag:unread"
-                                    "flag:trashed"
-                                    "maildir:/business/junk"
-                                    "maildir:/personal/junk"
-                                    "maildir:/personal-archive/junk") " AND NOT ") "Unread Messages" ?u)
-                    ("date:today..now" "Messages Today" ?t)
-                    ("date:7d..now" "Messages This Week" ?w)
-                    ("date:30d..now" "Messages This Month" ?m))
+   mu4e-bookmarks `((:name "All Inboxes"
+                           :key ?i
+                           :query ,(string-join '("maildir:/business/inbox"
+                                                  "maildir:/personal/inbox"
+                                                  "maildir:/personal-archive/inbox") " or "))
+                    (:name "Unread Messages"
+                           :key ?u
+                           :query ,(string-join '("flag:unread"
+                                                  "flag:trashed"
+                                                  "maildir:/business/junk"
+                                                  "maildir:/personal/junk"
+                                                  "maildir:/personal-archive/junk") " AND NOT "))
+                    (:name "Messages Today"
+                           :key ?t
+                           :query "date:today..now")
+                    (:name "Messages This Week"
+                           :key ?w
+                           :query "date:7d..now")
+                    (:name "Messages This Month"
+                           :key ?m
+                           :query "date:30d..now"))
 
-   mu4e-view-actions '(("Thread" . mu4e-action-show-thread)
+   mu4e-view-actions '(("Thread"          . mu4e-action-show-thread)
                        ("View in Browser" . mu4e-action-view-in-browser))
 
    mu4e-context-policy 'pick-first
    mu4e-compose-context-policy 'ask-if-none
-   mu4e-contexts `(,(make-mu4e-context
-                     :name "personal"
-                     :match-func (bp-make-mu4e-matcher "personal" '("bogdan@defn.io"))
-                     :vars '((user-mail-address           . "bogdan@defn.io")
-                             (mu4e-refile-folder          . "/personal/archive")
-                             (mu4e-sent-folder            . "/personal/sent")
-                             (mu4e-drafts-folder          . "/personal/drafts")
-                             (mu4e-trash-folder           . "/personal/trash")
-                             (mu4e-sent-messages-behavior . sent)))
+   mu4e-contexts (list (make-mu4e-context
+                        :name "personal"
+                        :match-func (bp-make-mu4e-matcher "personal" '("bogdan@defn.io"))
+                        :vars '((user-mail-address           . "bogdan@defn.io")
+                                (mu4e-refile-folder          . "/personal/archive")
+                                (mu4e-sent-folder            . "/personal/sent")
+                                (mu4e-drafts-folder          . "/personal/drafts")
+                                (mu4e-trash-folder           . "/personal/trash")
+                                (mu4e-sent-messages-behavior . sent)))
 
-                   ,(make-mu4e-context
-                     :name "matchacha"
-                     :match-func (bp-make-mu4e-matcher "personal" '("bogdan@matchacha.ro" "hello@matchacha.ro"))
-                     :vars '((user-mail-address           . "bogdan@matchacha.ro")
-                             (mu4e-refile-folder          . "/personal/archive")
-                             (mu4e-sent-folder            . "/personal/sent")
-                             (mu4e-drafts-folder          . "/personal/drafts")
-                             (mu4e-trash-folder           . "/personal/trash")
-                             (mu4e-sent-messages-behavior . sent)))
+                       (make-mu4e-context
+                        :name "matchacha"
+                        :match-func (bp-make-mu4e-matcher "personal" '("bogdan@matchacha.ro" "hello@matchacha.ro"))
+                        :vars '((user-mail-address           . "bogdan@matchacha.ro")
+                                (mu4e-refile-folder          . "/personal/archive")
+                                (mu4e-sent-folder            . "/personal/sent")
+                                (mu4e-drafts-folder          . "/personal/drafts")
+                                (mu4e-trash-folder           . "/personal/trash")
+                                (mu4e-sent-messages-behavior . sent)))
 
-                   ,(make-mu4e-context
-                     :name "business"
-                     :match-func (bp-make-mu4e-matcher "business" '("bogdan@cleartype.io" "bogdan@cleartype.ro"))
-                     :vars '((user-mail-address           . "bogdan@cleartype.io")
-                             (mu4e-refile-folder          . "/business/archive")
-                             (mu4e-sent-folder            . "/business/sent")
-                             (mu4e-drafts-folder          . "/business/drafts")
-                             (mu4e-trash-folder           . "/business/trash")
-                             (mu4e-sent-messages-behavior . sent))))))
+                       (make-mu4e-context
+                        :name "business"
+                        :match-func (bp-make-mu4e-matcher "business" '("bogdan@cleartype.io" "bogdan@cleartype.ro"))
+                        :vars '((user-mail-address           . "bogdan@cleartype.io")
+                                (mu4e-refile-folder          . "/business/archive")
+                                (mu4e-sent-folder            . "/business/sent")
+                                (mu4e-drafts-folder          . "/business/drafts")
+                                (mu4e-trash-folder           . "/business/trash")
+                                (mu4e-sent-messages-behavior . sent))))))
 
 (use-package mu4e-alert
   :disabled
