@@ -561,6 +561,13 @@
   (setq projectile-enable-caching t))
 
 
+;; BM ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package bm-mode
+  :load-path "~/work/blackmagic/blackmagic/lang/elisp"
+  :mode (("\\.bm\\'" . bm-mode)))
+
+
 ;; C ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package cc-mode
   :mode (("\\.c\\'"    . c-mode)
