@@ -910,6 +910,7 @@
       call-with-test-client+server
       call-with-transaction
       call-with-twilio-connection
+      call-with-unzip
       for/stream
       form*
       gen:let
