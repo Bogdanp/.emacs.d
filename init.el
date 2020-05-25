@@ -71,8 +71,8 @@
 (defun bp-gc-after-init-hook ()
   "Lower GC params to avoid freezes."
   (interactive)
-  (setq gc-cons-threshold (* 16 1024 1024)
-        gc-cons-percentage 0.1))
+  (setq gc-cons-threshold (* 256 1024 1024)
+        gc-cons-percentage 0.3))
 
 (add-hook 'after-init-hook #'bp-gc-after-init-hook)
 
@@ -394,7 +394,6 @@
   (setq ido-create-new-buffer 'always
         ido-use-filename-at-point 'guess
         ido-use-virtual-buffers t
-        ido-handle-duplicate-virtual-buffers 2
         ido-max-prospects 10
         ido-ignore-extensions t
         ido-auto-merge-work-directories-length -1)
@@ -405,7 +404,10 @@
 
 (use-package ido-completing-read+
   :load-path "vendor/ido-completing-read+"
-  :hook ((after-init . ido-ubiquitous-mode)))
+  :hook ((after-init . ido-ubiquitous-mode))
+  :config
+  (add-to-list 'ido-cr+-function-blacklist #'describe-function)
+  (add-to-list 'ido-cr+-function-blacklist #'describe-variable))
 
 (use-package ido-vertical-mode
   :load-path "vendor/ido-vertical-mode"
