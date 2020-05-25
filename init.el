@@ -797,6 +797,9 @@
 
 
 ;; Markdown ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package edit-indirect
+  :load-path "vendor/edit-indirect")
+
 (use-package markdown-mode
   :load-path "vendor/markdown-mode"
   :mode ("\\.md\\'" . gfm-mode))
@@ -881,6 +884,9 @@
 (use-package pos-tip
   :load-path "vendor/pos-tip"
   :commands (pos-tip-show pos-tip-hide))
+
+(use-package scheme-mode
+  :mode ("\\.ss\\'" "\\.sls\\'" "\\.sps\\'"))
 
 (use-package racket-mode
   :load-path "vendor/racket-mode"

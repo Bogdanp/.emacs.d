@@ -211,3 +211,6 @@
 [submodule "vendor/twilight-anti-bright-theme"]
 	path = vendor/twilight-anti-bright-theme
 	url = https://github.com/Bogdanp/twilight-anti-bright-theme
+[submodule "vendor/edit-indirect"]
+	path = vendor/edit-indirect
+	url = https://github.com/Fanael/edit-indirect
