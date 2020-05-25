@@ -912,6 +912,7 @@
       call-with-page-screenshot!
       call-with-persistent-database-connection
       call-with-pk
+      call-with-pool-connection
       call-with-postmark-connection
       call-with-pubsub-events
       call-with-redis
