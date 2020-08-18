@@ -615,6 +615,18 @@
   :mode "\\Dockerfile\\'")
 
 
+;; Factor ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package factor-mode
+  :load-path "~/sandbox/factor/misc/fuel"
+  :mode "\\.factor\\'")
+
+(use-package fuel-mode
+  :load-path "~/sandbox/factor/misc/fuel"
+  :hook ((factor-mode . fuel-mode-hook))
+  :config
+  (setq fuel-factor-root-dir "~/sandbox/factor"))
+
+
 ;; Fish ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package fish-mode
   :load-path "vendor/fish-mode"
