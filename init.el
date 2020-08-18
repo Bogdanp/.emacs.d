@@ -575,13 +575,17 @@
   :mode (("\\.c\\'"    . c-mode)
          ("\\.java\\'" . java-mode))
   :preface
+  (defun bp-c-mode-hook ()
+    (setq-local c-basic-offset 2)
+    (setq-local c-default-style "bsd"))
   (defun bp-java-mode-hook ()
     (setq-local c-basic-offset 4)
     (setq-local c-default-style "java"))
   :config
-  (setq c-basic-offset 4
+  (setq c-basic-offset 2
         c-default-style "bsd")
 
+  (add-hook 'c-mode-hook #'bp-c-mode-hook)
   (add-hook 'java-mode-hook #'bp-java-mode-hook))
 
 
