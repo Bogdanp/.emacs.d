@@ -946,6 +946,7 @@
       test
       test-commands
       tpl:xexpr-when
+      xexpr-unless
       xexpr-when))
 
   (defun bp-racket-mode-hook ()
