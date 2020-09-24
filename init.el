@@ -536,7 +536,7 @@
   :hook ((prog-mode . flycheck-mode))
   :config
   (setq-default
-   flycheck-disabled-checkers '(python-pycompile racket sass)
+   flycheck-disabled-checkers '(python-pycompile racket sass scheme-chicken)
    flycheck-emacs-lisp-load-path 'inherit
    flycheck-flake8rc "setup.cfg"))
 
@@ -903,8 +903,17 @@
   :load-path "vendor/pos-tip"
   :commands (pos-tip-show pos-tip-hide))
 
+(use-package geiser-install
+  :config
+  (setq geiser-scheme-implementation 'chicken)
+  (setq geiser-active-implementations '(chicken))
+  (setq geiser-default-implementation 'chicken))
+
 (use-package scheme-mode
-  :mode ("\\.ss\\'" "\\.sls\\'" "\\.sps\\'"))
+  :mode ("\\.scm" "\\.ss\\'" "\\.sls\\'" "\\.sps\\'")
+  :config
+  (put 'module 'scheme-indent-function #'defun)
+  (put 'with-syntax 'scheme-indent-function #'defun))
 
 (use-package racket-mode
   :load-path "vendor/racket-mode"
