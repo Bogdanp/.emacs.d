@@ -214,3 +214,12 @@
 [submodule "vendor/edit-indirect"]
 	path = vendor/edit-indirect
 	url = https://github.com/Fanael/edit-indirect
+[submodule "vendor/geiser"]
+	path = vendor/geiser
+	url = git://git.sv.gnu.org/geiser.git
+[submodule "vendor/slime"]
+	path = vendor/slime
+	url = https://github.com/slime/slime
+[submodule "vendor/slime-company"]
+	path = vendor/slime-company
+	url = https://github.com/emacsmirror/slime-company
