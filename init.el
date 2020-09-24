@@ -792,6 +792,10 @@
 
 
 ;; Lisp ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package lisp-mode
+  :config
+  (add-hook 'lisp-mode-hook #'slime-mode))
+
 (use-package macrostep
   :load-path "vendor/macrostep"
   :commands (macrostep-expand))
@@ -804,6 +808,20 @@
 (use-package rainbow-delimiters
   :load-path "vendor/rainbow-delimiters"
   :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode lisp-mode racket-mode scheme-mode) . rainbow-delimiters-mode))
+
+(use-package slime
+  :load-path "vendor/slime"
+  :commands (slime slime-mode)
+  :init
+  (load (expand-file-name "~/quicklisp/slime-helper.el"))
+  :config
+  (setq inferior-lisp-program "ccl"))
+
+(use-package slime-company
+  :load-path "vendor/slime-company"
+  :config
+  (add-to-list 'company-backends #'company-slime)
+  (setq slime-company-completion 'fuzzy))
 
 
 ;; Lua ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
