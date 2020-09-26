@@ -1138,6 +1138,13 @@
           (-any-p (lambda (addr)
                     (mu4e-message-contact-field-matches msg '(:from :to :cc) addr))
                   addresses)))))
+  (defun bp-mu4e-filter-junk (q)
+    (string-join `(,q
+                   "flag:trashed"
+                   "maildir:/business/junk"
+                   "maildir:/personal/junk"
+                   "maildir:/personal-archive/junk")
+                 " AND NOT "))
   :bind (:map mu4e-main-mode-map
               ("q" . bury-buffer))
   :config
@@ -1167,20 +1174,16 @@
                                                   "maildir:/personal-archive/inbox") " or "))
                     (:name "Unread Messages"
                            :key ?u
-                           :query ,(string-join '("flag:unread"
-                                                  "flag:trashed"
-                                                  "maildir:/business/junk"
-                                                  "maildir:/personal/junk"
-                                                  "maildir:/personal-archive/junk") " AND NOT "))
+                           :query ,(bp-mu4e-filter-junk "flag:unread"))
                     (:name "Messages Today"
                            :key ?t
-                           :query "date:today..now")
+                           :query ,(bp-mu4e-filter-junk "date:today..now"))
                     (:name "Messages This Week"
                            :key ?w
-                           :query "date:7d..now")
+                           :query ,(bp-mu4e-filter-junk "date:7d..now"))
                     (:name "Messages This Month"
                            :key ?m
-                           :query "date:30d..now"))
+                           :query ,(bp-mu4e-filter-junk "date:30d..now")))
 
    mu4e-view-actions '(("Thread"          . mu4e-action-show-thread)
                        ("View in Browser" . mu4e-action-view-in-browser))
