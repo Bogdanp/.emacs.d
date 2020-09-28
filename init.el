@@ -614,6 +614,9 @@
   :load-path "vendor/dockerfile-mode"
   :mode "\\Dockerfile\\'")
 
+(use-package docker-tramp
+  :load-path "vendor/docker-tramp")
+
 
 ;; Factor ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package factor-mode

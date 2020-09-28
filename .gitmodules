@@ -223,3 +223,6 @@
 [submodule "vendor/slime-company"]
 	path = vendor/slime-company
 	url = https://github.com/emacsmirror/slime-company
+[submodule "vendor/docker-tramp"]
+	path = vendor/docker-tramp
+	url = https://github.com/emacs-pe/docker-tramp.el
