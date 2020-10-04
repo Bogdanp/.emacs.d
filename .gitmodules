@@ -226,3 +226,6 @@
 [submodule "vendor/docker-tramp"]
 	path = vendor/docker-tramp
 	url = https://github.com/emacs-pe/docker-tramp.el
+[submodule "vendor/sly"]
+	path = vendor/sly
+	url = https://github.com/joaotavora/sly
