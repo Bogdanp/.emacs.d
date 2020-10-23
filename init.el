@@ -1027,6 +1027,7 @@
               ("C-c C-d" . racket-xp-describe)
               ("C-c C-r" . racket-xp-rename)
               ("C-c C-s" . bp-insert-lisp-section)
+              ("C-c i"   . racket-add-require-for-identifier)
               ("C-c ."   . racket-xp-visit-definition)
               ("C-c ,"   . racket-unvisit)))
 
