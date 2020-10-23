@@ -798,7 +798,7 @@
 ;; Lisp ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package lisp-mode
   :config
-  (add-hook 'lisp-mode-hook #'sly-mode))
+  (add-hook 'lisp-mode-hook #'slime-mode))
 
 (use-package macrostep
   :load-path "vendor/macrostep"
@@ -814,13 +814,13 @@
   :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode lisp-mode racket-mode scheme-mode) . rainbow-delimiters-mode))
 
 (use-package sly
+  :disabled t
   :load-path "vendor/sly"
   :commands (sly sly-mode)
   :config
   (setq inferior-lisp-program "ccl"))
 
 (use-package slime
-  :disabled t
   :load-path "vendor/slime"
   :commands (slime slime-mode)
   :init
@@ -829,7 +829,6 @@
   (setq inferior-lisp-program "ccl"))
 
 (use-package slime-company
-  :disabled t
   :load-path "vendor/slime-company"
   :config
   (add-to-list 'company-backends #'company-slime)
