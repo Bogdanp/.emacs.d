@@ -216,7 +216,7 @@
 	url = https://github.com/Fanael/edit-indirect
 [submodule "vendor/geiser"]
 	path = vendor/geiser
-	url = git://git.sv.gnu.org/geiser.git
+	url = https://gitlab.com/jaor/geiser
 [submodule "vendor/slime"]
 	path = vendor/slime
 	url = https://github.com/slime/slime
