@@ -196,9 +196,6 @@
 [submodule "vendor/typescript-mode"]
 	path = vendor/typescript-mode
 	url = https://github.com/emacs-typescript/typescript.el
-[submodule "vendor/nodejs-repl"]
-	path = vendor/nodejs-repl
-	url = https://github.com/abicky/nodejs-repl.el
 [submodule "vendor/json-snatcher"]
 	path = vendor/json-snatcher
 	url = https://github.com/Sterlingg/json-snatcher

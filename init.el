@@ -767,21 +767,6 @@
     (prettier-js-mode))
   :hook ((js2-mode rjsx-mode typescript-mode) . bp-prettier-js-mode))
 
-(use-package nodejs-repl
-  :load-path "vendor/nodejs-repl"
-  :commands (nodejs-repl
-             nodejs-repl-send-last-expression
-             nodejs-repl-send-line
-             nodejs-repl-send-region
-             nodejs-repl-load-file
-             nodejs-repl-switch-to-repl)
-  :bind (:map js-mode-map
-              ("C-x C-e" . nodejs-repl-send-last-expression)
-              ("C-c C-j" . nodejs-repl-send-line)
-              ("C-c C-r" . nodejs-repl-send-region)
-              ("C-c C-l" . nodejs-repl-load-file)
-              ("C-c C-z" . nodejs-repl-switch-to-repl)))
-
 
 ;; JSON ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package json-snatcher :load-path "vendor/json-snatcher" :defer t)
