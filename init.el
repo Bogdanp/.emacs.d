@@ -932,18 +932,6 @@
   :load-path "vendor/pos-tip"
   :commands (pos-tip-show pos-tip-hide))
 
-(use-package geiser-install
-  :config
-  (setq geiser-scheme-implementation 'chicken)
-  (setq geiser-active-implementations '(chicken))
-  (setq geiser-default-implementation 'chicken))
-
-(use-package scheme-mode
-  :mode ("\\.scm" "\\.ss\\'" "\\.sls\\'" "\\.sps\\'")
-  :config
-  (put 'module 'scheme-indent-function #'defun)
-  (put 'with-syntax 'scheme-indent-function #'defun))
-
 (use-package racket-mode
   :load-path "vendor/racket-mode"
   :mode "\\.rkt\\'"
@@ -1027,7 +1015,8 @@
               ("C-c C-d" . racket-xp-describe)
               ("C-c C-r" . racket-xp-rename)
               ("C-c C-s" . bp-insert-lisp-section)
-              ("C-c i"   . racket-add-require-for-identifier)
+              ("C-c r t" . racket-tidy-requires)
+              ("C-c r i" . racket-add-require-for-identifier)
               ("C-c ."   . racket-xp-visit-definition)
               ("C-c ,"   . racket-unvisit)))
 
@@ -1038,6 +1027,20 @@
 (use-package scribble-mode
   :load-path "vendor/scribble-mode"
   :mode "\\.scrbl\\'")
+
+
+;; Scheme ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package geiser-install
+  :config
+  (setq geiser-scheme-implementation 'chicken)
+  (setq geiser-active-implementations '(chicken))
+  (setq geiser-default-implementation 'chicken))
+
+(use-package scheme-mode
+  :mode ("\\.scm" "\\.ss\\'" "\\.sls\\'" "\\.sps\\'")
+  :config
+  (put 'module 'scheme-indent-function #'defun)
+  (put 'with-syntax 'scheme-indent-function #'defun))
 
 
 ;; SASS/SCSS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
