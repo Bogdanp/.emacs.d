@@ -915,6 +915,7 @@
 
 ;; Scheme ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package geiser-install
+  :disabled t
   :config
   (setq geiser-scheme-implementation 'chicken)
   (setq geiser-active-implementations '(chicken))
