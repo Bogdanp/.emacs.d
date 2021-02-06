@@ -483,7 +483,7 @@
   :commands (ag)
   :config
   (setq ag-highlight-search t
-        ag-ignore-list '("node_modules" "*.bundle.*" "dist" "tmp")
+        ag-ignore-list '("node_modules" "*.bundle.*" "dist" "tmp" ".html" ".rktd")
         ag-reuse-buffers t))
 
 (use-package grep
