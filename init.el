@@ -1117,7 +1117,7 @@
       (call-process-region
        (point-min)
        (point-max)
-       "bean-format"
+       "bean-format-3.8"
        nil target nil
        "-c" (number-to-string (+ beancount-number-alignment-column 2)))
       (replace-buffer-contents target)
