@@ -12,7 +12,7 @@
 	url = https://github.com/Bogdanp/twilight-bright-theme.el.git
 [submodule "vendor/undo-tree"]
 	path = vendor/undo-tree
-	url = http://www.dr-qubit.org/git/undo-tree.git
+	url = https://gitlab.com/tsc25/undo-tree.git
 [submodule "vendor/racket-mode"]
 	path = vendor/racket-mode
 	url = https://github.com/greghendershott/racket-mode
