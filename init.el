@@ -211,7 +211,7 @@
     '(fundamental-mode beancount-mode conf-mode css-mode
                        evil-command-window-mode haskell-mode
                        haskell-cabal-mode hledger-mode json-mode
-                       prog-mode text-mode sass-mode
+                       pollen-mode prog-mode text-mode sass-mode
                        typescript-mode web-mode yaml-mode)
     "The list of modes that should default to normal mode.  All modes
     derived from these will also default to evil normal mode.")
