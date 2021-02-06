@@ -189,6 +189,8 @@
 
 
 ;; EVIL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package queue :load-path "vendor" :defer t)
+
 (use-package goto-chg
   :load-path "vendor/goto-chg"
   :commands goto-last-change)
@@ -593,7 +595,6 @@
 ;; Clojure ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package parseclj :load-path "vendor/parseclj" :defer t)
 (use-package parseedn :load-path "vendor/parseedn" :defer t)
-(use-package queue    :load-path "vendor"          :defer t)
 (use-package sesman   :load-path "vendor/sesman"   :defer t)
 (use-package spinner  :load-path "vendor/spinner"  :defer t)
 
