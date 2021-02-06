@@ -357,7 +357,7 @@
 (use-package dired
   :commands dired
   :config
-  (setq insert-directory-program "/usr/local/bin/gls"
+  (setq insert-directory-program "/opt/local/bin/gls"
         dired-listing-switches "--group-directories-first -alh"
         dired-omit-files-p t
         dired-omit-files "^\\.?#\\|^__pycache__$"))
