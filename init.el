@@ -912,6 +912,20 @@
 
 
 
+;; Scheme ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package geiser-install
+  :config
+  (setq geiser-scheme-implementation 'chicken)
+  (setq geiser-active-implementations '(chicken))
+  (setq geiser-default-implementation 'chicken))
+
+(use-package scheme-mode
+  :mode ("\\.scm" "\\.ss\\'" "\\.sls\\'" "\\.sps\\'")
+  :config
+  (put 'module 'scheme-indent-function #'defun)
+  (put 'with-syntax 'scheme-indent-function #'defun))
+
+
 ;; Racket ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package pos-tip
   :load-path "vendor/pos-tip"
@@ -1013,19 +1027,9 @@
   :load-path "vendor/scribble-mode"
   :mode "\\.scrbl\\'")
 
-
-;; Scheme ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package geiser-install
-  :config
-  (setq geiser-scheme-implementation 'chicken)
-  (setq geiser-active-implementations '(chicken))
-  (setq geiser-default-implementation 'chicken))
-
-(use-package scheme-mode
-  :mode ("\\.scm" "\\.ss\\'" "\\.sls\\'" "\\.sps\\'")
-  :config
-  (put 'module 'scheme-indent-function #'defun)
-  (put 'with-syntax 'scheme-indent-function #'defun))
+(use-package pollen-mode
+  :load-path "vendor/pollen-mode"
+  :mode "\\.p[mp]?\\'")
 
 
 ;; SASS/SCSS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
