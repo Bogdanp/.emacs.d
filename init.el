@@ -643,7 +643,8 @@
   :load-path "vendor/go-mode"
   :mode "\\.go\\'"
   :config
-  (setq gofmt-command "goimports")
+  (setq gofmt-command "/Users/bogdan/go/bin/goimports")
+  (setq flycheck-go-golint-executable "/Users/bogdan/go/bin/golint")
   (add-hook 'before-save-hook #'gofmt-before-save))
 
 
