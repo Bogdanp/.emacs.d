@@ -956,6 +956,7 @@
       call-with-marionette!
       call-with-page!
       call-with-page-screenshot!
+      call-with-pdf-from-uri
       call-with-persistent-database-connection
       call-with-pk
       call-with-pool-connection
@@ -971,6 +972,7 @@
       call-with-transaction
       call-with-twilio-connection
       call-with-unzip
+      case/enum
       for/stream
       form*
       gen:let
