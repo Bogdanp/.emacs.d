@@ -538,7 +538,7 @@
   :hook ((prog-mode . flycheck-mode))
   :config
   (setq-default
-   flycheck-standard-error-navigation nil  ;; prevent flycheck from rebinding next-error (M-g n)
+   flycheck-standard-error-navigation nil ;; prevent flycheck from rebinding next-error (M-g n)
    flycheck-disabled-checkers '(python-pycompile racket sass scheme-chicken)
    flycheck-emacs-lisp-load-path 'inherit
    flycheck-flake8rc "setup.cfg"))
@@ -913,7 +913,6 @@
   :after py-test)
 
 
-
 ;; Scheme ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package geiser-install
   :disabled t
@@ -963,6 +962,7 @@
       call-with-persistent-database-connection
       call-with-pk
       call-with-pool-connection
+      call-with-pool-resource
       call-with-postmark-connection
       call-with-pubsub-events
       call-with-redis
