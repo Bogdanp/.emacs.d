@@ -956,7 +956,9 @@
       call-with-input-bytes
       call-with-input-string
       call-with-marionette!
+      call-with-page
       call-with-page!
+      call-with-page-pdf!
       call-with-page-screenshot!
       call-with-pdf-from-uri
       call-with-persistent-database-connection
@@ -975,6 +977,8 @@
       call-with-transaction
       call-with-twilio-connection
       call-with-unzip
+      call-with-waiter
+      case/dep
       case/enum
       for/stream
       form*
