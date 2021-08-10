@@ -1179,8 +1179,7 @@
    mu4e-get-mail-command "mbsync -a"
    mu4e-update-interval 3600
    mu4e-change-filenames-when-moving t ;; prevents mbsync from complaining about duplicate UIDs
-   mu4e-index-lazy-check t
-   mu4e-view-use-gnus nil
+   mu4e-index-lazy-check nil
    gnus-blocked-images ".*"
 
    mu4e-bookmarks `((:name "All Inboxes"
