@@ -484,8 +484,8 @@
   :load-path "vendor/ag"
   :commands (ag)
   :config
+  (setq-default ag-ignore-list '("node_modules" "*.bundle.*" "*.min.js" "dist" "tmp" "vendor" ".html" ".rktd"))
   (setq ag-highlight-search t
-        ag-ignore-list '("node_modules" "*.bundle.*" "dist" "tmp" ".html" ".rktd")
         ag-reuse-buffers t))
 
 (use-package grep
