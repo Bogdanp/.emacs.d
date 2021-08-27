@@ -953,6 +953,8 @@
       call-with-database-connection
       call-with-database-transaction
       call-with-element-screenshot!
+      call-with-encrypted-output
+      call-with-hmac-output
       call-with-input-bytes
       call-with-input-string
       call-with-marionette!
