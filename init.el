@@ -567,7 +567,6 @@
 
 
 ;; BM ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (use-package bm-mode
   :load-path "~/work/blackmagic/blackmagic/lang/elisp"
   :mode (("\\.bm\\'" . bm-mode)))
@@ -593,17 +592,19 @@
 
 
 ;; Clojure ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package parseclj :load-path "vendor/parseclj" :defer t)
-(use-package parseedn :load-path "vendor/parseedn" :defer t)
-(use-package sesman   :load-path "vendor/sesman"   :defer t)
-(use-package spinner  :load-path "vendor/spinner"  :defer t)
+(use-package parseclj :disabled t :load-path "vendor/parseclj" :defer t)
+(use-package parseedn :disabled t :load-path "vendor/parseedn" :defer t)
+(use-package sesman   :disabled t :load-path "vendor/sesman"   :defer t)
+(use-package spinner  :disabled t :load-path "vendor/spinner"  :defer t)
 
 (use-package clojure-mode
+  :disabled t
   :load-path "vendor/clojure-mode"
   :mode (("\\.clj\\'"  . clojure-mode)
          ("\\.cljs\\'" . clojurescript-mode)))
 
 (use-package cider
+  :disabled t
   :load-path "vendor/cider"
   :hook ((clojure-mode . cider-mode))
   :config
@@ -617,15 +618,18 @@
   :mode "\\Dockerfile\\'")
 
 (use-package docker-tramp
+  :disabled t
   :load-path "vendor/docker-tramp")
 
 
 ;; Factor ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package factor-mode
+  :disabled t
   :load-path "~/sandbox/factor/misc/fuel"
   :mode "\\.factor\\'")
 
 (use-package fuel-mode
+  :disabled t
   :load-path "~/sandbox/factor/misc/fuel"
   :hook ((factor-mode . fuel-mode-hook))
   :config
@@ -714,6 +718,7 @@
         js2-idle-timer-delay 0.1))
 
 (use-package rjsx-mode
+  :disabled t
   :load-path "vendor/rjsx-mode"
   :mode "\\.m?jsx\\'"
   :hook ((rjsx-mode . bp-nvm-hook)
@@ -1042,6 +1047,7 @@
   :mode "\\.scrbl\\'")
 
 (use-package pollen-mode
+  :disabled t
   :load-path "vendor/pollen-mode"
   :mode "\\.p[mp]?\\'")
 
@@ -1260,6 +1266,7 @@
 
 ;; Org-mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package org
+  :disabled t
   :mode ("\\.org\\'" . org-mode)
   :preface
   (setq bp-notes-file (expand-file-name "~/Documents/Org/notes.org"))
