@@ -13,9 +13,9 @@
  ;; Ensure custom values are saved to an ignored file.
  custom-file (locate-user-emacs-file "custom.el")
 
- ;; EMACS' default GC threshold is <1MB. Give it 512MB instead.
- gc-cons-threshold (* 512 1024 1024)
- gc-cons-percentage 0.7
+ ;; EMACS' default GC threshold is <1MB. Give it 32MB instead.
+ gc-cons-threshold (* 32 1024 1024)
+ gc-cons-percentage 0.9
  garbage-collection-messages nil
 
  ;; Prefer source over bytecode if bytecode is outdated.
@@ -58,7 +58,7 @@
 (use-package a        :load-path "vendor/a"        :defer t)
 (use-package alert    :load-path "vendor/alert"    :defer t)
 (use-package dash     :load-path "vendor/dash"     :defer t)
-(use-package diminish :load-path "vendor/diminish"                    :commands (diminish))
+(use-package diminish :load-path "vendor/diminish" :commands (diminish))
 (use-package f        :load-path "vendor/f"        :defer t :after (dash s))
 (use-package ht       :load-path "vendor/ht"       :defer t)
 (use-package popup    :load-path "vendor/popup"    :defer t)
@@ -71,8 +71,8 @@
 (defun bp-gc-after-init-hook ()
   "Lower GC params to avoid freezes."
   (interactive)
-  (setq gc-cons-threshold (* 256 1024 1024)
-        gc-cons-percentage 0.3))
+  (setq gc-cons-threshold (* 16 1024 1024)
+        gc-cons-percentage 0.2))
 
 (add-hook 'after-init-hook #'bp-gc-after-init-hook)
 
@@ -152,7 +152,8 @@
 
 ;; Environment ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package exec-path-from-shell
-  :when (eq system-type 'darwin)
+  :when (and (eq system-type 'darwin)
+             (display-graphic-p))
   :load-path "vendor/exec-path-from-shell"
   :config
   (exec-path-from-shell-initialize)
