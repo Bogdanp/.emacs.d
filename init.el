@@ -938,10 +938,6 @@
 
 
 ;; Racket ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package pos-tip
-  :load-path "vendor/pos-tip"
-  :commands (pos-tip-show pos-tip-hide))
-
 (use-package racket-mode
   :load-path "vendor/racket-mode"
   :mode "\\.rkt\\'"

@@ -169,9 +169,6 @@
 [submodule "vendor/dash"]
 	path = vendor/dash
 	url = https://github.com/magnars/dash.el
-[submodule "vendor/pos-tip"]
-	path = vendor/pos-tip
-	url = https://github.com/pitkali/pos-tip
 [submodule "vendor/parseedn"]
 	path = vendor/parseedn
 	url = https://github.com/clojure-emacs/parseedn
