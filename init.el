@@ -988,6 +988,7 @@
       call-with-waiter
       case/dep
       case/enum
+      case-view
       for/stream
       form*
       gen:let
