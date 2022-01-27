@@ -473,9 +473,16 @@
   :hook ((after-init . save-place-mode)))
 
 (use-package simple
+  :preface
+  (setq bp-delete-trailing-whitespace-on t)
+  (defun bp-delete-trailing-whitespace ()
+    (interactive "")
+    (message (format "delete-on: %s" bp-delete-trailing-whitespace-on))
+    (when bp-delete-trailing-whitespace-on
+      (call-interactively #'delete-trailing-whitespace)))
   :hook ((after-init  . line-number-mode)
          (after-init  . column-number-mode)
-         (before-save . delete-trailing-whitespace)))
+         (before-save . bp-delete-trailing-whitespace)))
 
 (use-package uniquify
   :init
