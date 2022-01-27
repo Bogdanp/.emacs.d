@@ -303,6 +303,8 @@
              :prefix-map evil-leader-prefix-map
              ("SPC" . recompile)
              ("\\"  . evil-ex-nohighlight)
+             ("a"   . org-agenda)
+             ("t"   . org-capture)
              ("i"   . bp-open-terminal)
              (",i"  . bp-find-init-file)
              ("c"   . org-capture)
@@ -1271,14 +1273,20 @@
 
 ;; Org-mode ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package org
-  :disabled t
+  :commands (org-agenda org-capture org-mode)
   :mode ("\\.org\\'" . org-mode)
   :preface
   (setq bp-notes-file (expand-file-name "~/Documents/Org/notes.org"))
   :config
+  (defadvice org-goto (around ensure-emacs-state activate)
+    (let ((prev-state evil-state))
+      (evil-emacs-state)
+      ad-do-it
+      (evil-change-state prev-state)))
+  (add-to-list 'org-agenda-files bp-notes-file)
   (setq org-default-notes-file bp-notes-file
-        org-refile-targets `((,bp-notes-file :maxlevel . 1))
-        org-capture-templates '(("n" "Note" entry (file+headline bp-notes-file "Notes") "** %? %^G\n   %U\n   %a\n\n   %i\n"))))
+        org-refile-targets `((,bp-notes-file :maxlevel . 2))
+        org-capture-templates '(("j" "Journal Entry" entry (file+headline bp-notes-file "Journal") "** %<%Y-%m-%d> %^G\n   %t\n   %?\n"))))
 
 
 (provide 'init)
