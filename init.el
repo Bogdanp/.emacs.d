@@ -945,12 +945,13 @@
 
 (use-package scheme-mode
   :mode ("\\.scm" "\\.ss\\'" "\\.sls\\'" "\\.sps\\'")
-  :config
+  :init
   (put 'Trivit 'scheme-indent-function #'defun)
+  (put 'constant-case 'scheme-indent-function #'defun)
   (put 'module 'scheme-indent-function #'defun)
-  (put 'with-syntax 'scheme-indent-function #'defun)
+  (put 'nanopass-case 'scheme-indent-function #'defun)
   (put 'with-output-language 'scheme-indent-function #'defun)
-  (put 'nanopass-case 'scheme-indent-function #'defun))
+  (put 'with-syntax 'scheme-indent-function #'defun))
 
 
 ;; Racket ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
