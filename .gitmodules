@@ -226,3 +226,6 @@
 [submodule "vendor/pollen-mode"]
 	path = vendor/pollen-mode
 	url = https://github.com/lijunsong/pollen-mode
+[submodule "vendor/emacs-hcl-mode"]
+	path = vendor/emacs-hcl-mode
+	url = https://github.com/purcell/emacs-hcl-mode

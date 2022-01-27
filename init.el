@@ -653,6 +653,13 @@
   (add-hook 'before-save-hook #'gofmt-before-save))
 
 
+;; HCL ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package hcl-mode
+  :load-path "vendor/emacs-hcl-mode"
+  :mode ("\\.hcl\\'" "\\.nomad\\'" "\\.tf\\'"))
+
+
 ;; JS/TS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun bp-find-node-modules-root ()
   "Find the absolute path to the node_modules dir in the current project."
