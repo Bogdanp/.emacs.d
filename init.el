@@ -664,7 +664,8 @@
   :mode "\\.go\\'"
   :config
   (setq gofmt-command "/Users/bogdan/go/bin/goimports")
-  (setq flycheck-go-golint-executable "/Users/bogdan/go/bin/golint")
+  (setq flycheck-go-vet-executable "go")
+  (setq flycheck-go-staticcheck-executable "/Users/bogdan/go/bin/staticcheck")
   (add-hook 'before-save-hook #'gofmt-before-save))
 
 
