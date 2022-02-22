@@ -673,7 +673,7 @@
 
 (use-package hcl-mode
   :load-path "vendor/emacs-hcl-mode"
-  :mode ("\\.hcl\\'" "\\.nomad\\'" "\\.tf\\'"))
+  :mode ("\\.hcl\\'" "\\.nomad\\'" "\\.nomad.tpl\\'" "\\.tf\\'"))
 
 
 ;; JS/TS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
