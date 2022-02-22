@@ -1259,10 +1259,10 @@
                         :name "business"
                         :match-func (bp-make-mu4e-matcher "business" '("bogdan@cleartype.io" "bogdan@cleartype.ro"))
                         :vars '((user-mail-address           . "bogdan@cleartype.io")
-                                (mu4e-refile-folder          . "/business/archive")
-                                (mu4e-sent-folder            . "/business/sent")
-                                (mu4e-drafts-folder          . "/business/drafts")
-                                (mu4e-trash-folder           . "/business/trash")
+                                (mu4e-refile-folder          . "/personal/archive")
+                                (mu4e-sent-folder            . "/personal/sent")
+                                (mu4e-drafts-folder          . "/personal/drafts")
+                                (mu4e-trash-folder           . "/personal/trash")
                                 (mu4e-sent-messages-behavior . sent))))))
 
 (use-package mu4e-alert
