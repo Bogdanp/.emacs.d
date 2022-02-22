@@ -582,6 +582,12 @@
   :mode (("\\.bm\\'" . bm-mode)))
 
 
+;; binfmt ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package binfmt-mode
+  :load-path "~/sandbox/racket-binfmt/share"
+  :mode (("\\.bnf\\'" . binfmt-mode)))
+
+
 ;; C ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package cc-mode
   :mode (("\\.c\\'"    . c-mode)
