@@ -229,3 +229,6 @@
 [submodule "vendor/emacs-hcl-mode"]
 	path = vendor/emacs-hcl-mode
 	url = https://github.com/purcell/emacs-hcl-mode
+[submodule "vendor/extempore-emacs-mode"]
+	path = vendor/extempore-emacs-mode
+	url = https://github.com/extemporelang/extempore-emacs-mode
