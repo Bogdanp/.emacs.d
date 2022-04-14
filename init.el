@@ -638,6 +638,15 @@
   :load-path "vendor/docker-tramp")
 
 
+;; Extempore ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package extempore-mode
+  :disabled t
+  :load-path "vendor/extempore-emacs-mode"
+  :mode "\\.xtm\\'"
+  :config
+  (setq extempore-path (expand-file-name "~/sandbox/extempore")))
+
+
 ;; Factor ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package factor-mode
   :disabled t
@@ -823,11 +832,11 @@
 (use-package paredit
   :load-path "vendor/paredit"
   :diminish paredit-mode
-  :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode lisp-mode racket-mode scheme-mode) . paredit-mode))
+  :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode extempore-mode lisp-mode racket-mode scheme-mode) . paredit-mode))
 
 (use-package rainbow-delimiters
   :load-path "vendor/rainbow-delimiters"
-  :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode lisp-mode racket-mode scheme-mode) . rainbow-delimiters-mode))
+  :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode extempore-mode lisp-mode racket-mode scheme-mode) . rainbow-delimiters-mode))
 
 (use-package sly
   :disabled t
