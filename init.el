@@ -516,7 +516,7 @@
   :defer t)
 
 (use-package with-editor
-  :load-path "vendor/with-editor"
+  :load-path "vendor/with-editor/lisp"
   :defer t)
 
 (use-package magit
