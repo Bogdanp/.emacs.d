@@ -846,6 +846,7 @@
   (setq inferior-lisp-program "ccl"))
 
 (use-package slime
+  :disabled t
   :load-path "vendor/slime"
   :commands (slime slime-mode)
   :init
@@ -854,6 +855,7 @@
   (setq inferior-lisp-program "ccl"))
 
 (use-package slime-company
+  :disabled t
   :load-path "vendor/slime-company"
   :config
   (add-to-list 'company-backends #'company-slime)
@@ -1125,6 +1127,7 @@
 
 ;; Web ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package web-mode
+  :disabled t
   :load-path "vendor/web-mode"
   :after f
   :mode (("\\.html?\\'"        . web-mode)
