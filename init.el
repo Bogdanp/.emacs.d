@@ -1058,6 +1058,10 @@
   (dolist (id bp-racket-defun-likes)
     (put id 'racket-indent-function #'defun))
 
+  (racket-add-back-end
+   "/" ; the default back end for all local files
+   :restart-watch-directories '("/Users/bogdan/sandbox/racket-gui-extra/gui-extra-lib/"))
+
   :bind (:map racket-mode-map
               ("{"       . paredit-open-curly)
               ("}"       . paredit-close-curly)
