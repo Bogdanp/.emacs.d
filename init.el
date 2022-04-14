@@ -674,7 +674,7 @@
   :config
   (setq gofmt-command "/Users/bogdan/go/bin/goimports")
   (setq flycheck-go-vet-executable "go")
-  (setq flycheck-go-staticcheck-executable "/Users/bogdan/go/bin/staticcheck")
+  (setq flycheck-go-staticcheck-executable "/Users/bogdan/bin/staticcheck")
   (add-hook 'before-save-hook #'gofmt-before-save))
 
 
