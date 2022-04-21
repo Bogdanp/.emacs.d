@@ -483,7 +483,10 @@
       (call-interactively #'delete-trailing-whitespace)))
   :hook ((after-init  . line-number-mode)
          (after-init  . column-number-mode)
-         (before-save . bp-delete-trailing-whitespace)))
+         (before-save . bp-delete-trailing-whitespace))
+  :config
+  (setq interprogram-cut-function nil)
+  (setq interprogram-paste-function nil))
 
 (use-package uniquify
   :init
