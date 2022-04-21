@@ -17,6 +17,7 @@
 /custom.el
 /eclipse.jdt.ls
 /el-get
+/eln-cache
 /elpa
 /eshell
 /eww-bookmarks
