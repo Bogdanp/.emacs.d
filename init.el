@@ -393,8 +393,9 @@
 
 (use-package ido
   :bind (("C-x C-i" . imenu))
-  :hook ((after-init . ido-mode)
-         (after-init . ido-everywhere))
+  :hook ((after-init . ido-mode))
+  :custom
+  (ido-everywhere t)
   :config
   (setq ido-create-new-buffer 'always
         ido-use-filename-at-point 'guess
