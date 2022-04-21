@@ -266,9 +266,10 @@
     (interactive)
     (bp--open-app "Safari"))
   :init
-  (setq evil-search-module #'evil-search
-        evil-magic 'very-magic)
-
+  (setq evil-search-module #'evil-search)
+  :custom
+  (evil-magic 'very-magic)
+  (evil-undo-system 'undo-redo)
   :config
   (dolist (hook bp-emacs-state-hooks)
     (add-hook hook #'bp-toggle-emacs-state))
