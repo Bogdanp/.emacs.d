@@ -269,6 +269,7 @@
   (setq evil-search-module #'evil-search)
   :custom
   (evil-magic 'very-magic)
+  (evil-vsplit-window-right t)
   (evil-undo-system 'undo-redo)
   :config
   (dolist (hook bp-emacs-state-hooks)
