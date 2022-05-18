@@ -232,3 +232,9 @@
 [submodule "vendor/extempore-emacs-mode"]
 	path = vendor/extempore-emacs-mode
 	url = https://github.com/extemporelang/extempore-emacs-mode
+[submodule "vendor/swift-mode"]
+	path = vendor/swift-mode
+	url = https://github.com/swift-emacs/swift-mode
+[submodule "vendor/flycheck-swift"]
+	path = vendor/flycheck-swift
+	url = https://github.com/swift-emacs/flycheck-swift

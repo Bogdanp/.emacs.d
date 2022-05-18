@@ -1131,6 +1131,20 @@
   :mode "/.ssh/config\\'")
 
 
+;; Swift ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package swift-mode
+  :load-path "vendor/swift-mode"
+  :mode "\\.swift\\'"
+  :preface
+  (defun bp-swift-mode-hook ()
+    (flycheck-swift-setup))
+  :hook ((swift-mode . bp-swift-mode-hook)))
+
+(use-package flycheck-swift
+  :load-path "vendor/flycheck-swift"
+  :commands (flycheck-swift-setup))
+
+
 ;; TOML ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package toml-mode
   :load-path "vendor/toml-mode"
