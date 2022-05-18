@@ -1048,6 +1048,10 @@
   (defun bp-racket-mode-hook ()
     (interactive)
     (setq adaptive-fill-mode t))
+
+  (defun bp-racket-run-main ()
+    (interactive)
+    (racket--repl-run (cons (racket--buffer-file-name) '(main))))
   :config
   (add-hook 'racket-mode-hook #'bp-racket-mode-hook)
 
@@ -1074,6 +1078,7 @@
   :bind (:map racket-mode-map
               ("{"       . paredit-open-curly)
               ("}"       . paredit-close-curly)
+              ("C-c C-m" . bp-racket-run-main)
               ("C-c C-d" . racket-xp-describe)
               ("C-c C-r" . racket-xp-rename)
               ("C-c C-s" . bp-insert-lisp-section)
