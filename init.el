@@ -1030,6 +1030,7 @@
       for/stream
       form*
       gen:let
+      generator
       let*
       let-globals
       place
