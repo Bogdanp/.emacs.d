@@ -1138,7 +1138,9 @@
   :preface
   (defun bp-swift-mode-hook ()
     (flycheck-swift-setup))
-  :hook ((swift-mode . bp-swift-mode-hook)))
+  :hook ((swift-mode . bp-swift-mode-hook))
+  :config
+  (setq swift-mode:basic-offset 2))
 
 (use-package flycheck-swift
   :load-path "vendor/flycheck-swift"
