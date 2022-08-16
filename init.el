@@ -57,6 +57,7 @@
 ;; Load packages that everything else depends on.
 (use-package a        :load-path "vendor/a"        :defer t)
 (use-package alert    :load-path "vendor/alert"    :defer t)
+(use-package compat   :load-path "vendor/compat"   :defer t)
 (use-package dash     :load-path "vendor/dash"     :defer t)
 (use-package diminish :load-path "vendor/diminish" :commands (diminish))
 (use-package f        :load-path "vendor/f"        :defer t :after (dash s))

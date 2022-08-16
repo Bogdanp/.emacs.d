@@ -241,3 +241,6 @@
 [submodule "vendor/evil-org-mode"]
 	path = vendor/evil-org-mode
 	url = https://github.com/Somelauw/evil-org-mode
+[submodule "vendor/compat"]
+	path = vendor/compat
+	url = https://git.sr.ht/~pkal/compat
