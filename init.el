@@ -1341,9 +1341,15 @@
       ad-do-it
       (evil-change-state prev-state)))
   (add-to-list 'org-agenda-files bp-notes-file)
-  (setq org-default-notes-file bp-notes-file
+  (setq org-adapt-indentation t
+        org-default-notes-file bp-notes-file
         org-refile-targets `((,bp-notes-file :maxlevel . 2))
         org-capture-templates '(("j" "Journal Entry" entry (file+headline bp-notes-file "Journal") "** %<%Y-%m-%d> %^G\n   %t\n   %?\n"))))
+
+(use-package evil-org
+  :load-path "vendor/evil-org-mode"
+  :after org
+  :hook ((org-mode . evil-org-mode)))
 
 
 (provide 'init)

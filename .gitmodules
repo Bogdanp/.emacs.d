@@ -238,3 +238,6 @@
 [submodule "vendor/flycheck-swift"]
 	path = vendor/flycheck-swift
 	url = https://github.com/swift-emacs/flycheck-swift
+[submodule "vendor/evil-org-mode"]
+	path = vendor/evil-org-mode
+	url = https://github.com/Somelauw/evil-org-mode
