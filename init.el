@@ -1140,9 +1140,26 @@
   :preface
   (defun bp-swift-mode-hook ()
     (flycheck-swift-setup))
+  (defun bp-xcode-run ()
+    (interactive)
+    (shell-command-to-string
+     (concat
+      "osascript"
+      " -e 'tell application \"Xcode\"'"
+      " -e 'set targetProject to active workspace document'"
+      " -e 'stop targetProject'"
+      " -e 'run targetProject'"
+      " -e 'end tell'")))
+  (defun bp-xcode-visit-file ()
+    (interactive)
+    (shell-command-to-string
+     (concat "open -a /Applications/Xcode.app " (buffer-file-name))))
   :hook ((swift-mode . bp-swift-mode-hook))
   :config
-  (setq swift-mode:basic-offset 2))
+  (setq swift-mode:basic-offset 2)
+  :bind (:map swift-mode-map
+              ("C-c C-r" . bp-xcode-run)
+              ("C-c C-v" . bp-xcode-visit-file)))
 
 (use-package flycheck-swift
   :load-path "vendor/flycheck-swift"
