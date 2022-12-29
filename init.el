@@ -893,6 +893,12 @@
   :mode "/nginx/.+")
 
 
+;; Protobuf ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package protobuf-mode
+  :load-path "vendor"
+  :mode "\\.proto\\'")
+
+
 ;; Python ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package pyvenv
   :load-path "vendor/pyvenv"
