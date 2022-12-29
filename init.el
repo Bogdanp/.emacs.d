@@ -1036,10 +1036,12 @@
       case-view
       for/stream
       form*
+      fresh
       gen:let
       generator
       let*
       let-globals
+      match-define-values
       place
       property
       section
