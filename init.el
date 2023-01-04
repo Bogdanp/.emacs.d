@@ -79,8 +79,9 @@
 
 
 ;; UI ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Position and resize frame.
-(add-to-list 'default-frame-alist '(font . "Dank Mono-14"))
+(add-to-list 'default-frame-alist '(font . "-*-JetBrains Mono NL-light-normal-normal-*-14-*-*-*-m-0-iso10646-1"))
 
 ;; Remove GUI elements.  Menu bar not removed because it makes the
 ;; emacs-mac port ignore Spaces.  Not a problem on macOS, but
@@ -115,11 +116,11 @@
   (interactive)
   (cond
    (bp-presentation-mode
-    (set-frame-font "Dank Mono-14")
+    (set-frame-font "-*-JetBrains Mono NL-light-normal-normal-*-14-*-*-*-m-0-iso10646-1")
     (setq bp-presentation-mode nil))
 
    (t
-    (set-frame-font "Dank Mono-16")
+    (set-frame-font "-*-JetBrains Mono NL-light-normal-normal-*-16-*-*-*-m-0-iso10646-1")
     (setq bp-presentation-mode t))))
 
 (defun bp-toggle-fullscreen ()
