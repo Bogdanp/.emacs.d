@@ -841,7 +841,10 @@
 (use-package paredit
   :load-path "vendor/paredit"
   :diminish paredit-mode
-  :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode extempore-mode lisp-mode racket-mode scheme-mode) . paredit-mode))
+  :hook ((cider-repl-mode clojure-mode clojurescript-mode emacs-lisp-mode extempore-mode lisp-mode racket-mode scheme-mode) . paredit-mode)
+  :bind (:map paredit-mode-map
+              ("RET" . nil)
+              ("C-j" . nil)))
 
 (use-package rainbow-delimiters
   :load-path "vendor/rainbow-delimiters"
