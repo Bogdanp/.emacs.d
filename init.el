@@ -911,8 +911,29 @@
 (use-package python
   :interpreter ("python" . python-mode)
   :mode (("\\.py\\'" . python-mode))
+  :hook ((python-mode . bp-python-mode-hook))
   :preface
   (defvar bp-current-python-env nil)
+  (defvar bp-black-python-envs '("ServiceBell"))
+
+  (defun bp-python-mode-hook ()
+    (interactive)
+    (add-hook 'before-save-hook #'bp-python-format-before-save nil 'local))
+
+  (defun bp-python-format-before-save ()
+    (interactive)
+    (unless (member bp-current-python-env bp-black-python-envs)
+      (py-isort-before-save))
+    (when (member bp-current-python-env bp-black-python-envs)
+      (let ((target "*black-format*"))
+        (when (zerop (call-process-region
+                      (point-min)
+                      (point-max)
+                      "black"
+                      nil target nil
+                      "-q" "-"))
+          (replace-buffer-contents target))
+        (kill-buffer target))))
 
   (defun bp-read-virtualenv (prompt)
     "PROMPT for a virtualenv based on the list of known envs."
@@ -952,8 +973,7 @@
       (message (concat "Activated virtualenv " name)))))
 
 (use-package py-isort
-  :load-path "vendor/py-isort"
-  :hook ((before-save . py-isort-before-save)))
+  :load-path "vendor/py-isort")
 
 (use-package py-test
   :load-path "vendor/py-test"
