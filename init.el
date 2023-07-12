@@ -1057,7 +1057,8 @@
       test-commands
       tpl:xexpr-when
       xexpr-unless
-      xexpr-when))
+      xexpr-when
+      λ2))
 
   (defun bp-racket-mode-hook ()
     (interactive)
