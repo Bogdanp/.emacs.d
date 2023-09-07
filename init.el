@@ -922,8 +922,7 @@
 
   (defun bp-python-format-before-save ()
     (interactive)
-    (unless (member bp-current-python-env bp-black-python-envs)
-      (py-isort-before-save))
+    (py-isort-before-save)
     (when (member bp-current-python-env bp-black-python-envs)
       (let ((target "*black-format*"))
         (when (zerop (call-process-region
