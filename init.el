@@ -676,6 +676,21 @@
   :mode "\\.fish\\'")
 
 
+;; GDScript ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package eglot
+  :bind (:map eglot-mode-map
+              ("C-c ." . xref-find-definitions)
+              ("C-c ," . xref-go-back)
+              ("C-c ?" . xref-find-references)))
+
+(use-package gdscript-mode
+  :load-path "vendor/gdscript-mode"
+  :mode "\\.gd\\'"
+  :hook (gdscript-mode . eglot-ensure)
+  :config
+  (setq gdscript-gdformat-save-and-format t))
+
+
 ;; Go ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package go-mode
   :load-path "vendor/go-mode"
