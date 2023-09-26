@@ -1140,6 +1140,9 @@
   :load-path "vendor/racket-mode"
   :hook racket-mode)
 
+(use-package racket-hash-lang
+  :load-path "vendor/racket-mode")
+
 (use-package scribble-mode
   :load-path "vendor/scribble-mode"
   :mode "\\.scrbl\\'")
