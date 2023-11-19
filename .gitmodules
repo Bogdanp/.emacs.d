@@ -243,7 +243,7 @@
 	url = https://github.com/Somelauw/evil-org-mode
 [submodule "vendor/compat"]
 	path = vendor/compat
-	url = https://git.sr.ht/~pkal/compat
+	url = https://github.com/emacs-compat/compat
 [submodule "vendor/gdscript-mode"]
 	path = vendor/gdscript-mode
 	url = https://github.com/godotengine/emacs-gdscript-mode
