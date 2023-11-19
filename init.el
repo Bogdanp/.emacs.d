@@ -39,6 +39,9 @@
  ;; Never use tabs.
  indent-tabs-mode nil
 
+ ;; Mark empty lines.
+ indicate-empty-lines t
+
  ;; When using tabs (Go), they should be 2 spaces long.
  tab-width 2
 
