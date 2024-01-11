@@ -123,7 +123,7 @@
     (setq bp-presentation-mode nil))
 
    (t
-    (set-frame-font "-*-Dank Mono-normal-normal-normal-*-16-*-*-*-m-0-iso10646-1")
+    (set-frame-font "-*-Dank Mono-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1")
     (setq bp-presentation-mode t))))
 
 (defun bp-toggle-fullscreen ()
