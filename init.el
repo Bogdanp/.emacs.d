@@ -553,6 +553,35 @@
   :config
   (setq company-idle-delay 0.3))
 
+(use-package frame-local
+  :disabled t
+  :load-path "vendor/frame-local"
+  :defer t)
+(use-package company-box
+  :disabled t
+  :load-path "vendor/company-box"
+  :hook ((company-mode . company-box-mode)))
+
+(use-package editorconfig
+  :load-path "vendor/editorconfig"
+  :defer t)
+(use-package copilot
+  :load-path "vendor/copilot.el"
+  :commands (copilot-mode)
+  :diminish copilot-mode
+  :preface
+  (defun bp-copilot-mode-hook ()
+    (company-mode -1))
+  :hook ((copilot-mode . bp-copilot-mode-hook))
+  :bind (:map copilot-completion-map
+              ("TAB"   . copilot-accept-completion)
+              ("M-TAB" . copilot-accept-completion-by-line)
+              ("C-M-n" . copilot-next-completion)
+              ("C-M-p" . copilot-previous-completion))
+  :config
+  (setq copilot-idle-delay 0.5
+        copilot-node-executable (expand-file-name "~/bin/node20/bin/node")))
+
 
 ;; Linting ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package flycheck

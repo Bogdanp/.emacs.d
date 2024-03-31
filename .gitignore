@@ -3,6 +3,7 @@
 /*.html
 /*.log
 /*.tex
+/.cache
 /.litable-lists.el
 /.org-id-locations
 /.projectile
