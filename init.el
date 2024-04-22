@@ -1083,6 +1083,7 @@
       call-with-page!
       call-with-page-pdf!
       call-with-page-screenshot!
+      call-with-parameterization
       call-with-pdf-from-uri
       call-with-persistent-database-connection
       call-with-pk
