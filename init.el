@@ -579,7 +579,7 @@
               ("C-M-n" . copilot-next-completion)
               ("C-M-p" . copilot-previous-completion))
   :config
-  (setq copilot-idle-delay 0.5
+  (setq copilot-idle-delay 0
         copilot-node-executable (expand-file-name "~/bin/node20/bin/node")))
 
 
