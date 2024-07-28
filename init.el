@@ -962,6 +962,7 @@
   :preface
   (defvar bp-current-python-env nil)
   (defvar bp-black-python-envs '("ServiceBell"))
+  (defvar bp-ruff-python-envs '("blackmagic-client-python"))
 
   (defun bp-python-mode-hook ()
     (interactive)
@@ -978,6 +979,16 @@
                       "black"
                       nil target nil
                       "-q" "-"))
+          (replace-buffer-contents target))
+        (kill-buffer target)))
+    (when (member bp-current-python-env bp-ruff-python-envs)
+      (let ((target "*ruff-format*"))
+        (when (zerop (call-process-region
+                      (point-min)
+                      (point-max)
+                      "ruff"
+                      nil target nil
+                      "format" "-"))
           (replace-buffer-contents target))
         (kill-buffer target))))
 
