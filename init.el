@@ -1416,8 +1416,8 @@
 
                        (make-mu4e-context
                         :name "business"
-                        :match-func (bp-make-mu4e-matcher "business" '("bogdan@cleartype.io" "bogdan@cleartype.ro"))
-                        :vars '((user-mail-address           . "bogdan@cleartype.io")
+                        :match-func (bp-make-mu4e-matcher "business" '("bogdan@cleartype.io" "bogdan@cleartype.ro" "bogdan@significantbit.io"))
+                        :vars '((user-mail-address           . "bogdan@significantbit.io")
                                 (mu4e-refile-folder          . "/personal/archive")
                                 (mu4e-sent-folder            . "/personal/sent")
                                 (mu4e-drafts-folder          . "/personal/drafts")
