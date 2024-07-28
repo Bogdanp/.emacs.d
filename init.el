@@ -592,7 +592,8 @@
    flycheck-standard-error-navigation nil ;; prevent flycheck from rebinding next-error (M-g n)
    flycheck-disabled-checkers '(python-pycompile racket sass scheme-chicken)
    flycheck-emacs-lisp-load-path 'inherit
-   flycheck-flake8rc "setup.cfg"))
+   flycheck-flake8rc "setup.cfg")
+  (flycheck-add-mode 'javascript-eslint 'typescript-mode))
 
 
 ;; Navigation ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -823,7 +824,8 @@
          (typescript-mode . bp-eslint-setup)
          (typescript-mode . eldoc-mode))
   :config
-  (setq typescript-indent-level 2))
+  (setq typescript-indent-level 2)
+  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint))
 
 (use-package tide
   :load-path "vendor/tide"
