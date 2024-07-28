@@ -719,9 +719,9 @@
 (use-package gdscript-mode
   :load-path "vendor/gdscript-mode"
   :mode "\\.gd\\'"
-  :hook (gdscript-mode . eglot-ensure)
   :config
-  (setq gdscript-gdformat-save-and-format t))
+  (setq gdscript-godot-executable "/Applications/Godot.app/Contents/MacOS/Godot"
+        gdscript-gdformat-save-and-format t))
 
 
 ;; Go ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
