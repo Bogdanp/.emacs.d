@@ -719,6 +719,11 @@
 (use-package gdscript-mode
   :load-path "vendor/gdscript-mode"
   :mode "\\.gd\\'"
+  :hook ((gdscript-mode . bp-gdscript-setup))
+  :preface
+  (defun bp-gdscript-setup ()
+    ;; https://github.com/godotengine/emacs-gdscript-mode/issues/128#issuecomment-1705685762
+    (setq-local eglot-events-buffer-size 0))
   :config
   (setq gdscript-godot-executable "/Applications/Godot.app/Contents/MacOS/Godot"
         gdscript-gdformat-save-and-format t))
