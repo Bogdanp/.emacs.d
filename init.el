@@ -770,6 +770,11 @@
   (interactive)
   (setq-local flycheck-javascript-eslint-executable (bp-find-node-executable "eslint")))
 
+(defun bp-typescript-setup ()
+  "Set up typescript linters."
+  (interactive)
+  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint))
+
 (defun bp-nvm-use (ver)
   "Set up PATH for node VER from NVM."
   (interactive "sVersion: ")
@@ -831,10 +836,10 @@
   :mode "\\.tsx?\\'"
   :hook ((typescript-mode . bp-nvm-hook)
          (typescript-mode . bp-eslint-setup)
+         (typescript-mode . bp-typescript-setup)
          (typescript-mode . eldoc-mode))
   :config
-  (setq typescript-indent-level 2)
-  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint))
+  (setq typescript-indent-level 2))
 
 (use-package tide
   :load-path "vendor/tide"
