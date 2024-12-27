@@ -977,8 +977,8 @@
   :hook ((python-mode . bp-python-mode-hook))
   :preface
   (defvar bp-current-python-env nil)
-  (defvar bp-black-python-envs '("ServiceBell"))
-  (defvar bp-ruff-python-envs '("blackmagic-client-python"))
+  (defvar bp-black-python-envs '())
+  (defvar bp-ruff-python-envs '("servicebell" "blackmagic-client-python"))
 
   (defun bp-python-mode-hook ()
     (interactive)
