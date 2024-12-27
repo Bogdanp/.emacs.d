@@ -1180,6 +1180,14 @@
   (dolist (id bp-racket-defun-likes)
     (put id 'racket-indent-function #'defun))
 
+  (setenv "PBRACKET_ROOT" (expand-file-name "~/sandbox/racket-pb"))
+  (racket-add-back-end
+   (expand-file-name "~/work/Podcatcher/podcatcher-core/")
+   :racket-program (expand-file-name "~/work/Podcatcher/bin/pbracket"))
+  (racket-add-back-end
+   (expand-file-name "~/work/Podcatcher/podcatcher-test/")
+   :racket-program (expand-file-name "~/work/Podcatcher/bin/pbracket"))
+
   (racket-add-back-end
    "/" ; the default back end for all local files
    :restart-watch-directories '("/Users/bogdan/sandbox/racket-gui-extra/gui-extra-lib/"))
