@@ -1193,8 +1193,8 @@
               ("C-c C-s" . bp-insert-lisp-section)
               ("C-c r t" . racket-tidy-requires)
               ("C-c r i" . racket-add-require-for-identifier)
-              ("C-c ."   . racket-xp-visit-definition)
-              ("C-c ,"   . racket-unvisit)))
+              ("C-c ."   . xref-find-definitions)
+              ("C-c ,"   . xref-go-back)))
 
 (use-package racket-xp-mode
   :load-path "vendor/racket-mode"
