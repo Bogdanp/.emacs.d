@@ -83,8 +83,12 @@
 
 ;; UI ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun bp-make-font (size)
+  "Make a font of the given SIZE."
+  (format "-*-Dank Mono-medium-normal-normal-*-%d-*-*-*-m-0-iso10646-1" size))
+
 ;; Position and resize frame.
-(add-to-list 'default-frame-alist '(font . "-*-Dank Mono-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1"))
+(add-to-list 'default-frame-alist `(font . ,(bp-make-font 14)))
 
 ;; Remove GUI elements.  Menu bar not removed because it makes the
 ;; emacs-mac port ignore Spaces.  Not a problem on macOS, but
@@ -119,11 +123,11 @@
   (interactive)
   (cond
    (bp-presentation-mode
-    (set-frame-font "-*-Dank Mono-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1")
+    (set-frame-font (bp-make-font 14))
     (setq bp-presentation-mode nil))
 
    (t
-    (set-frame-font "-*-Dank Mono-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1")
+    (set-frame-font (bp-make-font 18))
     (setq bp-presentation-mode t))))
 
 (defun bp-toggle-fullscreen ()
