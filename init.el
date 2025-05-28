@@ -1090,9 +1090,19 @@
 
 
 ;; Racket ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(use-package racket-hash-lang
+  :load-path "vendor/racket-mode"
+  :bind (:map racket-hash-lang-mode-map
+              ("C-c C-d" . racket-xp-describe)
+              ("C-c C-r" . racket-xp-rename)
+              ("C-c ."   . xref-find-definitions)
+              ("C-c ,"   . xref-go-back)))
+
 (use-package racket-mode
   :load-path "vendor/racket-mode"
-  :mode "\\.rkt\\'"
+  :mode (("\\.rkt\\'" . racket-mode)
+         ("\\.rhm\\'" . racket-hash-lang-mode)
+         ("\\.scrbl\\'" . racket-hash-lang-mode))
   :after flycheck
   :preface
   (defun bp-insert-lisp-section (section)
@@ -1158,6 +1168,7 @@
       tpl:xexpr-when
       xexpr-unless
       xexpr-when
+      when~>
       λ2))
 
   (defun bp-racket-mode-hook ()
@@ -1212,12 +1223,11 @@
 
 (use-package racket-xp-mode
   :load-path "vendor/racket-mode"
-  :hook racket-mode)
-
-(use-package racket-hash-lang
-  :load-path "vendor/racket-mode")
+  :hook ((racket-mode . racket-xp-mode)
+         (racket-hash-lang-mode . racket-xp-mode)))
 
 (use-package scribble-mode
+  :disabled t
   :load-path "vendor/scribble-mode"
   :mode "\\.scrbl\\'")
 
