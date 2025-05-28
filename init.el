@@ -527,6 +527,10 @@
   :load-path "vendor/fullframe"
   :commands (fullframe))
 
+(use-package llama
+  :load-path "vendor/llama"
+  :defer t)
+
 (use-package transient
   :load-path "vendor/transient/lisp"
   :defer t)
@@ -583,7 +587,7 @@
               ("C-M-n" . copilot-next-completion)
               ("C-M-p" . copilot-previous-completion))
   :config
-  (setq copilot-idle-delay 0
+  (setq copilot-idle-delay 0.1
         copilot-node-executable (expand-file-name "~/bin/node20/bin/node")))
 
 
