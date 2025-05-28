@@ -1354,7 +1354,7 @@
       (call-process-region
        (point-min)
        (point-max)
-       "bean-format-3.10"
+       (expand-file-name "~/Library/Python/3.12/bin/bean-format")
        nil target nil
        "-c" (number-to-string (+ beancount-number-alignment-column 2)))
       (replace-buffer-contents target)
