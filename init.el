@@ -719,12 +719,14 @@
 
 ;; GDScript ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package eglot
+  :disabled t
   :bind (:map eglot-mode-map
               ("C-c ." . xref-find-definitions)
               ("C-c ," . xref-go-back)
               ("C-c ?" . xref-find-references)))
 
 (use-package gdscript-mode
+  :disabled t
   :load-path "vendor/gdscript-mode"
   :mode "\\.gd\\'"
   :hook ((gdscript-mode . bp-gdscript-setup))
