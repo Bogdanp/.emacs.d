@@ -259,3 +259,6 @@
 [submodule "vendor/editorconfig"]
 	path = vendor/editorconfig
 	url = https://github.com/editorconfig/editorconfig-emacs
+[submodule "vendor/llama"]
+	path = vendor/llama
+	url = https://github.com/tarsius/llama.git
