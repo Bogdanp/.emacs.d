@@ -984,7 +984,7 @@
   :preface
   (defvar bp-current-python-env nil)
   (defvar bp-black-python-envs '())
-  (defvar bp-ruff-python-envs '("servicebell" "blackmagic-client-python"))
+  (defvar bp-ruff-python-envs '("audiences" "servicebell" "blackmagic-client-python" "roas-pcapi-experiments"))
 
   (defun bp-python-mode-hook ()
     (interactive)
