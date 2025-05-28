@@ -1499,7 +1499,10 @@
   (setq org-adapt-indentation t
         org-default-notes-file bp-notes-file
         org-refile-targets `((,bp-notes-file :maxlevel . 2))
-        org-capture-templates '(("j" "Journal Entry" entry (file+headline bp-notes-file "Journal") "** %<%Y-%m-%d> %^G\n   %t\n   %?\n"))))
+        org-capture-templates '(("t" "todo" entry
+                                 (file+headline bp-notes-file "Misc")
+                                 "** TODO %^{Title}%^G\n   %u\n   %a\n   %?"
+                                 :clock-in :clock-keep))))
 
 (use-package evil-org
   :load-path "vendor/evil-org-mode"
