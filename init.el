@@ -1370,7 +1370,7 @@
 
 ;; Mu4e ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package mu4e
-  :load-path "/opt/local/share/share/emacs/site-lisp/mu4e"
+  :load-path (expand-file-name "~/sandbox/mu/build/mu4e")
   :commands (mu4e)
   :preface
   (defun bp-make-mu4e-matcher (mailbox-name addresses)
@@ -1400,7 +1400,7 @@
    message-sendmail-extra-arguments '("--read-envelope-from")
    message-sendmail-f-is-evil t
 
-   mu4e-mu-binary "/opt/local/bin/mu"
+   mu4e-mu-binary (expand-file-name "~/sandbox/mu/build/mu/mu")
    mu4e-attachment-dir "~/Downloads"
 
    mu4e-get-mail-command "mbsync -a"
