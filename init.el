@@ -1374,7 +1374,7 @@
 
 ;; Mu4e ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package mu4e
-  :load-path (expand-file-name "~/sandbox/mu/build/mu4e")
+  :load-path "/Users/bogdan/sandbox/mu/build/mu4e"
   :commands (mu4e)
   :preface
   (defun bp-make-mu4e-matcher (mailbox-name addresses)
