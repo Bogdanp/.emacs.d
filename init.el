@@ -325,7 +325,11 @@
              ("m"   . mu4e)
              ("p"   . projectile-command-map)
              ("j"   . dumb-jump-go)
-             ("xf"  . xref-find-definitions)))
+             ("xf"  . xref-find-definitions)
+             ("ri"  . org-roam-node-insert)
+             ("rf"  . org-roam-node-find)
+             ("rc"  . org-roam-capture)
+             ("rt"  . org-roam-dailies-goto-today)))
 
 (use-package evil-surround
   :load-path "vendor/evil-surround"
@@ -1503,6 +1507,33 @@
                                  (file+headline bp-notes-file "Misc")
                                  "** TODO %^{Title}%^G\n   %u\n   %a\n   %?"
                                  :clock-in :clock-keep))))
+
+(use-package emacsql
+  :load-path "vendor/emacsql"
+  :defer t)
+
+(use-package org-roam
+  :load-path "vendor/org-roam"
+  :preface
+  (setq org-roam-directory (expand-file-name "~/Documents/Org/roam/"))
+  :config
+  (org-roam-db-autosync-mode))
+
+(use-package org-roam-dailies
+  :load-path "vendor/org-roam/extensions"
+  :commands (org-roam-dailies-capture-today org-roam-dailies-goto-today)
+  :preface
+  (setq org-roam-dailies-directory "dailies/"
+        org-roam-dailies-capture-templates
+        '(("d" "default" entry
+           "* %?"
+           :target (file+head
+                    "%<%Y-%m-%d>.org"
+                    "#+title: %<%Y-%m-%d>\n")))))
+
+(use-package org-roam-graph
+  :load-path "vendor/org-roam/extensions"
+  :commands (org-roam-graph))
 
 (use-package evil-org
   :load-path "vendor/evil-org-mode"

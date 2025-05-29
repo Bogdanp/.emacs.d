@@ -1,14 +1,14 @@
 *.elc
 *~undo-tree~
-/*.html
-/*.log
-/*.tex
 /.cache
 /.litable-lists.el
 /.org-id-locations
 /.projectile
 /.python-environments
 /.smex-items
+/*.html
+/*.log
+/*.tex
 /abbrev_defs
 /ac-comphist.dat
 /auto-save-list
@@ -25,6 +25,7 @@
 /helm-adaptive-history
 /ido.last
 /meghanada
+/org-roam.db
 /places
 /private
 /projectile-bookmarks.eld
