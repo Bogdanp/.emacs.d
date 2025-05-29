@@ -1492,7 +1492,7 @@
   :commands (org-agenda org-capture org-mode)
   :mode ("\\.org\\'" . org-mode)
   :preface
-  (setq bp-notes-file (expand-file-name "~/Documents/Org/notes.org"))
+  (setq bp-notes-file (expand-file-name "~/Documents/Org/agenda.org"))
   :config
   (defadvice org-goto (around ensure-emacs-state activate)
     (let ((prev-state evil-state))
@@ -1531,14 +1531,9 @@
                     "%<%Y-%m-%d>.org"
                     "#+title: %<%Y-%m-%d>\n")))))
 
-(use-package org-roam-graph
-  :load-path "vendor/org-roam/extensions"
-  :commands (org-roam-graph))
-
 (use-package evil-org
   :load-path "vendor/evil-org-mode"
-  :after org
-  :hook ((org-mode . evil-org-mode)))
+  :after org)
 
 
 (provide 'init)
