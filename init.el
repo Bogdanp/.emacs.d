@@ -1533,7 +1533,7 @@
 
 (use-package evil-org
   :load-path "vendor/evil-org-mode"
-  :after org)
+  :hook ((org-mode . evil-org-mode)))
 
 
 (provide 'init)
