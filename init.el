@@ -390,7 +390,8 @@
   :hook ((prog-mode . eldoc-mode)))
 
 (use-package electric
-  :hook ((prog-mode . electric-indent-mode)))
+  :hook ((org-mode  . electric-pair-local-mode)
+         (prog-mode . electric-indent-mode)))
 
 (use-package etags
   :defer 30
