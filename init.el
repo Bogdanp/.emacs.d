@@ -328,8 +328,9 @@
              ("xf"  . xref-find-definitions)
              ("ri"  . org-roam-node-insert)
              ("rf"  . org-roam-node-find)
-             ("rc"  . org-roam-capture)
-             ("rt"  . org-roam-dailies-goto-today)))
+             ("rc"  . bp-capture-roam-project-task)
+             ("rt"  . org-roam-dailies-goto-today)
+             ("ry"  . org-roam-dailies-goto-yesterday)))
 
 (use-package evil-surround
   :load-path "vendor/evil-surround"
@@ -561,7 +562,8 @@
 ;; Code Completion ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package company
   :load-path "vendor/company-mode"
-  :hook ((prog-mode . company-mode))
+  :hook ((org-mode  . company-mode)
+         (prog-mode . company-mode))
   :diminish company-mode
   :config
   (setq company-idle-delay 0.3))
@@ -1493,21 +1495,22 @@
   :commands (org-agenda org-capture org-mode)
   :mode ("\\.org\\'" . org-mode)
   :preface
-  (setq bp-notes-file (expand-file-name "~/Documents/Org/agenda.org"))
+  (setq bp-scratch-file (expand-file-name "~/Documents/Org/scratch.org"))
   :config
   (defadvice org-goto (around ensure-emacs-state activate)
     (let ((prev-state evil-state))
       (evil-emacs-state)
       ad-do-it
       (evil-change-state prev-state)))
-  (add-to-list 'org-agenda-files bp-notes-file)
+  (add-to-list 'org-agenda-files bp-scratch-file)
   (setq org-adapt-indentation t
-        org-default-notes-file bp-notes-file
-        org-refile-targets `((,bp-notes-file :maxlevel . 2))
+        org-default-notes-file bp-scratch-file
+        org-refile-targets `((,bp-scratch-file :maxlevel . 2))
         org-capture-templates '(("t" "todo" entry
-                                 (file+headline bp-notes-file "Misc")
-                                 "** TODO %^{Title}%^G\n   %u\n   %a\n   %?"
-                                 :clock-in :clock-keep))))
+                                 (file+headline bp-scratch-file "Tasks")
+                                 "** TODO %^{Title}\n   %u\n   %a\n   %?"
+                                 :clock-in :clock-keep :clock-resume))
+        org-startup-folded 'overview))
 
 (use-package emacsql
   :load-path "vendor/emacsql"
@@ -1515,14 +1518,51 @@
 
 (use-package org-roam
   :load-path "vendor/org-roam"
+  :commands (org-roam-capture- org-roam-node-find)
   :preface
   (setq org-roam-directory (expand-file-name "~/Documents/Org/roam/"))
+
+  (defun bp-make-roam-node-tag-predicate (tag)
+    (lexical-let ((tag tag))
+      #'(lambda (node)
+          (member tag (org-roam-node-tags node)))))
+
+  (defun bp-filter-roam-nodes-by-tag (tag)
+    (seq-filter
+     (bp-make-roam-node-tag-predicate tag)
+     (org-roam-node-list)))
+
+  (defun bp-build-agenda-files-list ()
+    (interactive)
+    (let ((nodes (bp-filter-roam-nodes-by-tag "project")))
+      (let ((files (seq-uniq (mapcar #'org-roam-node-file nodes))))
+        (setq org-agenda-files (cons bp-scratch-file files))
+        (setq org-refile-targets (mapcar
+                                  #'(lambda (file)
+                                      `(,file :maxlevel . 2))
+                                  org-agenda-files)))))
+
+  (defun bp-capture-roam-project-task ()
+    (interactive)
+    (org-roam-capture-
+     :node (org-roam-node-read nil (bp-make-roam-node-tag-predicate "project"))
+     :templates '(("p" "a task for a project" entry
+                   "** TODO %^{Title}\n   %u\n   %a\n   %?"
+                   :target (file+head+olp "%<%Y%m%d%H%M%S>-${slug}.org" "* Tasks" ("Tasks"))
+                   :clock-in :clock-keep :clock-resume))))
+
   :config
-  (org-roam-db-autosync-mode))
+  (org-roam-db-autosync-mode)
+  (bp-build-agenda-files-list)
+  :hook
+  ((org-capture-after-finalize-hook . bp-build-agenda-files-list)))
 
 (use-package org-roam-dailies
   :load-path "vendor/org-roam/extensions"
-  :commands (org-roam-dailies-capture-today org-roam-dailies-goto-today)
+  :commands (org-roam-dailies-capture-today
+             org-roam-dailies-capture-yesterday
+             org-roam-dailies-goto-today
+             org-roam-dailies-goto-yesterday)
   :preface
   (setq org-roam-dailies-directory "dailies/"
         org-roam-dailies-capture-templates
