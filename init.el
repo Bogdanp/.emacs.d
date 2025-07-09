@@ -1099,6 +1099,8 @@
 ;; Racket ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package racket-hash-lang
   :load-path "vendor/racket-mode"
+  :mode (("\\.rhm\\'" . racket-hash-lang-mode)
+         ("\\.scrbl\\'" . racket-hash-lang-mode))
   :bind (:map racket-hash-lang-mode-map
               ("C-c C-d" . racket-xp-describe)
               ("C-c C-r" . racket-xp-rename)
@@ -1107,9 +1109,7 @@
 
 (use-package racket-mode
   :load-path "vendor/racket-mode"
-  :mode (("\\.rkt\\'" . racket-mode)
-         ("\\.rhm\\'" . racket-hash-lang-mode)
-         ("\\.scrbl\\'" . racket-hash-lang-mode))
+  :mode (("\\.rkt\\'" . racket-mode))
   :after flycheck
   :preface
   (defun bp-insert-lisp-section (section)
