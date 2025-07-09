@@ -1173,6 +1173,7 @@
       test
       test-commands
       tpl:xexpr-when
+      unless~>
       xexpr-unless
       xexpr-when
       when~>
